@@ -1,0 +1,16 @@
+[project]
+name = "schema-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "einops>=0.8.1",
+    "faiss-cpu>=1.11.0",
+    "gql>=3.5.3",
+    "llama-cpp-python>=0.3.13",
+    "ollama>=0.5.1",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+    "sentence-transformers>=5.0.0",
+]
