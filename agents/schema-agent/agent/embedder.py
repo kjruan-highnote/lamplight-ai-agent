@@ -32,7 +32,7 @@ class Embedder:
         faiss.write_index(self.index, index_path)
         metadata = {"paths": self.paths}
         Path(metadata_path).write_text(json.dumps(metadata, indent=2))
-        print(f"💾 Saved index to '{index_path}' and metadata to '{metadata_path}'.")
+        print(f"Saved index to '{index_path}' and metadata to '{metadata_path}'.")
 
     def load(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json"):
         self.index = faiss.read_index(index_path)

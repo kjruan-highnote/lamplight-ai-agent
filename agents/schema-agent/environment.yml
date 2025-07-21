@@ -1,0 +1,11 @@
+name: schema-agent
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - faiss-cpu
+  - einops
+  - pip
+  - pip:
+      - sentence-transformers
+      - ollama
