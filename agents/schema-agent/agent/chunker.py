@@ -60,7 +60,7 @@ def chunk_schema(schema_path: str, output_dir: str):
     chunk_block('union', 'union')
     chunk_block('scalar', 'scalar')
 
-    print(f"✅ Chunked {count} total blocks into '{output_dir}'.")
+    print(f"Chunked {count} total blocks into '{output_dir}'.")
 
 if __name__ == "__main__":
     import argparse

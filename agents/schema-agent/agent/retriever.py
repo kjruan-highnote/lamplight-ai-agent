@@ -30,5 +30,5 @@ if __name__ == "__main__":
     chunks = retriever.retrieve_chunks(args.query, top_k=args.top_k)
     context = retriever.format_context(chunks)
 
-    print("\n🔍 Retrieved Context:\n")
+    print("\nRetrieved Context:\n")
     print(context)

@@ -45,5 +45,5 @@ if __name__ == "__main__":
     qa_agent = LLMQA(model=args.model)
     answer = qa_agent.answer(args.question, top_k=args.top_k)
 
-    print("\n🤖 Answer:")
+    print("\nAnswer:")
     print(answer)
