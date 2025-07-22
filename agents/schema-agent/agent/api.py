@@ -189,32 +189,24 @@ async def stream_chat(
     chat_request: ChatRequest,
     _: bool = Depends(verify_api_key)
 ):
-    """Streaming chat endpoint (placeholder - requires streaming implementation)."""
+    """Streaming chat endpoint."""
+    def event_generator():
+        try:
+            if agent is None:
+                yield f"data: {{\"error\": \"Agent not available\"}}\n\n"
+                return
+                
+            for chunk in agent.stream_answer(chat_request.question):
+                yield f"data: {chunk}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            yield f"data: {{\"error\": \"{str(e)}\"}}\n\n"
     
-    # For now, return an error since streamAnswer doesn't exist
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Streaming not yet implemented. Use /chat endpoint instead."
+    return StreamingResponse(
+        event_generator(), 
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache"}
     )
-    
-    # TODO: Implement streaming when available
-    # def event_generator():
-    #     try:
-    #         if agent is None:
-    #             yield f"data: {{\"error\": \"Agent not available\"}}\n\n"
-    #             return
-    #             
-    #         for chunk in agent.streamAnswer(chat_request.question):
-    #             yield f"data: {chunk}\n\n"
-    #         yield "data: [DONE]\n\n"
-    #     except Exception as e:
-    #         yield f"data: {{\"error\": \"{str(e)}\"}}\n\n"
-    #
-    # return StreamingResponse(
-    #     event_generator(), 
-    #     media_type="text/event-stream",
-    #     headers={"Cache-Control": "no-cache"}
-    # )
 
 # Global exception handler
 @app.exception_handler(Exception)
