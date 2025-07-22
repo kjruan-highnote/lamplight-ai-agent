@@ -139,6 +139,20 @@ class Embedder:
         except Exception as e:
             print(f"[WARN] Search failed: {e}")
             return []
+    
+    def search_with_scores(self, query: str, top_k=5):
+        """Search with similarity scores returned."""
+        if self.index is None:
+            raise RuntimeError("FAISS index not loaded.")
+        try:
+            query_emb = self.model.encode([query])
+            D, I = self.index.search(query_emb, top_k) # type: ignore
+            # Convert L2 distances to similarity scores (closer to 0 = more similar)
+            # Use negative distance so higher = more similar
+            return [(self.paths[i], self.texts[i], -float(D[0][idx])) for idx, i in enumerate(I[0])]
+        except Exception as e:
+            print(f"[WARN] Search with scores failed: {e}")
+            return []
 
 if __name__ == "__main__":
     import argparse

@@ -5,3 +5,7 @@ llama-cpp-python
 ollama
 graphql-core
 tqdm
+fastapi
+uvicorn[standard]
+slowapi
+python-multipart
