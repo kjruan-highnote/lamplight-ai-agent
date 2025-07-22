@@ -32,6 +32,19 @@ Using the following GraphQL schema context, answer the user's question.
         return response['message']['content'].strip()
 
 
+    def streamAnswer(self, question: str, top_k: int = 5):
+        chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
+        context = self.retriever.format_context(chunks)
+        prompt = self.build_prompt(question, context)
+
+        for chunk in ollama.chat(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+            stream=True
+        ):
+            if "message" in chunk and "content" in chunk["message"]:
+                yield chunk["message"]["content"]
+
 if __name__ == "__main__":
     import argparse
 

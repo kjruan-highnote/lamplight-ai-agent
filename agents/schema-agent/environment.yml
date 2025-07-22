@@ -9,3 +9,6 @@ dependencies:
   - pip:
       - sentence-transformers
       - ollama
+      - fastapi
+      - uvicorn
+      - pydantic
