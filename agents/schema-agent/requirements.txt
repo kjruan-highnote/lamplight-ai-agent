@@ -4,3 +4,4 @@ einops
 llama-cpp-python
 ollama
 graphql-core
+tqdm

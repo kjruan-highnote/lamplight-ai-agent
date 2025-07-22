@@ -13,3 +13,4 @@ dependencies:
       - uvicorn
       - pydantic
       - graphql-core
+      - tqdm

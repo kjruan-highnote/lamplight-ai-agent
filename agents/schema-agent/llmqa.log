@@ -1,0 +1,117 @@
+==== LLMQA LOG 2025-07-22T16:07:14.056851 ====
+Question: How do I create a user?
+Retrieved Chunks: chunks/1675_inputs_UpdateUserInput.graphql, chunks/1672_inputs_InviteUserInput.graphql, chunks/1304_enums_UserRole.graphql, chunks/2443_unions_CustomFieldsPayload.graphql, chunks/2443_unions_CustomFieldsPayload.graphql
+
+--- Prompt ---
+You are a GraphQL schema expert.
+
+Using ONLY the following GraphQL schema context, answer the user's question as accurately as possible.
+- If the answer is not in the context, say 'I don't know based on the provided schema context.'
+- Cite the relevant schema chunk(s) by filename if possible.
+
+
+### Example 1
+Question: What is the type of the field `ping` in the Query type?
+Schema Context:
+type Query {
+  """Simple query that returns a static value of `pong`"""
+  ping: String!
+}
+Answer: The type of the field `ping` in the Query type is `String!`. (Source: queries_ping.graphql)
+
+### Example 2
+Question: How do I create a user?
+Schema Context:
+# Source: mutation_CreateUser.graphql
+mutation {
+  createUser(input: CreateUserInput!): User
+}
+Answer: You can create a user using the `createUser` mutation. (Source: mutation_CreateUser.graphql)
+
+### Question:
+How do I create a user?
+
+### Schema Context:
+# Source: 1675_inputs_UpdateUserInput.graphql
+
+"""Data needed to login a User."""
+input UpdateUserInput {
+  """The external ID of the User."""
+  externalId: ID
+  """The email address of the User."""
+  email: String!
+  """
+  The list of users' roles that determine a user's permissions within the organization. All roles must be present.
+  """
+  roles: [UserRole!]!
+}
+
+---
+
+# Source: 1672_inputs_InviteUserInput.graphql
+
+"""Data needed to invite a new User."""
+input InviteUserInput {
+  """E-mail of the user to invite."""
+  email: String!
+  """
+  The list of users' roles that determine a user's permissions within the organization.
+  """
+  roles: [UserRole!]!
+}
+
+---
+
+# Source: 1304_enums_UserRole.graphql
+
+"""
+Types of User Roles, full details can be found [here](https://highnote.com/docs/basics/core-concepts/team-members)
+"""
+enum UserRole {
+  """Unspecified role for users with no role"""
+  UNSPECIFIED
+  """Admin role. This role gives the user all permissions available"""
+  ADMIN
+  """
+  A role given to an individual who is a developer in your organization. Similar to admin without organization settings permission.
+  """
+  DEVELOPER
+  """
+  Support role. This role gives the user permissions for cards, transactions, applications, financial accounts, and account holders.
+  """
+  SUPPORT
+  """
+  Finance role. This role gives the user all permissions except developer settings and organization settings.
+  """
+  FINANCE
+  """User role. This is a generic role that should be applied to all users."""
+  USER
+}
+
+---
+
+# Source: 2443_unions_CustomFieldsPayload.graphql
+
+"""The return types for `CustomFields`."""
+union CustomFieldsPayload = CustomFieldsResult | UserError | AccessDeniedError
+
+---
+
+# Source: 2443_unions_CustomFieldsPayload.graphql
+
+"""The return types for `CustomFields`."""
+union CustomFieldsPayload = CustomFieldsResult | UserError | AccessDeniedError
+
+### Answer:
+
+
+--- LLM Response ---
+A new question!
+
+According to the schema context, you can create a user using the `createUser` mutation. However, there is no information provided about what data is required for creating a user.
+
+The `CreateUserInput` type is not used in the context of creating a user, but rather in updating or inviting users (as seen in `UpdateUserInput` and `InviteUserInput`). Unfortunately, this means we don't have enough information to determine how to create a user using GraphQL.
+
+**Answer:** I don't know based on the provided schema context.
+==== END LOG ====
+
