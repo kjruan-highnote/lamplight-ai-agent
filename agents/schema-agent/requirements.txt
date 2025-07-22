@@ -3,3 +3,4 @@ faiss-cpu
 einops
 llama-cpp-python
 ollama
+graphql-core
