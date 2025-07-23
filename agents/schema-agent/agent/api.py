@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Configure retriever activity logger
 retriever_logger = logging.getLogger('retriever_activities')
 retriever_logger.setLevel(logging.INFO)
-retriever_handler = logging.FileHandler('retriever_activities.log')
+retriever_handler = logging.FileHandler('logs/retriever_activities.log')
 retriever_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 retriever_logger.addHandler(retriever_handler)
 retriever_logger.propagate = False  # Don't send to root logger
