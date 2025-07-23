@@ -151,7 +151,7 @@ async def chat_endpoint(
         retriever_logger.info(f"CHAT - Retrieved {len(chunks)} chunks")
         
         # Log chunk details
-        for i, (path, content, score) in enumerate(chunks[:5], 1):  # Log first 5 chunks
+        for i, (path, content, score) in enumerate(chunks, 1):  # Log first 5 chunks
             filename = os.path.basename(path)
             retriever_logger.info(f"CHAT - Chunk #{i}: {filename} (score: {score:.3f}) - {content[:100].replace(chr(10), ' ')[:80]}...")
         
@@ -228,7 +228,7 @@ async def stream_chat(
             retriever_logger.info(f"STREAM - Retrieved {len(chunks)} chunks")
             
             # Log chunk details
-            for i, (path, content, score) in enumerate(chunks[:5], 1):  # Log first 5 chunks
+            for i, (path, content, score) in enumerate(chunks, 1):  # Log first 5 chunks
                 filename = os.path.basename(path)
                 retriever_logger.info(f"STREAM - Chunk #{i}: {filename} (score: {score:.3f}) - {content[:100].replace(chr(10), ' ')[:80]}...")
                 
