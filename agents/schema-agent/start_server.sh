@@ -115,9 +115,9 @@ fi
 
 echo "✅ API server started successfully"
 
-# Start ngrok tunnel
-echo "🌍 Starting ngrok tunnel..."
-ngrok http 8000 --log=stdout &
+# Start ngrok tunnel with static domain
+echo "🌍 Starting ngrok tunnel with static domain..."
+ngrok http --domain=labrador-precious-firmly.ngrok-free.app 8000 --log=stdout &
 NGROK_PID=$!
 
 # Wait a moment for ngrok to start
@@ -133,33 +133,18 @@ echo "Stats:      http://localhost:8000/stats"
 echo "Chat API:   POST http://localhost:8000/chat"
 echo "Chat Stream: POST http://localhost:8000/chat/stream"
 echo ""
-echo "📡 Getting ngrok public URL..."
+# Static domain URL
+NGROK_URL="https://labrador-precious-firmly.ngrok-free.app"
 
-# Try to get ngrok URL from API
-NGROK_URL=$(curl -s http://localhost:4040/api/tunnels 2>/dev/null | python3 -c "
-import sys, json
-try:
-    data = json.load(sys.stdin)
-    for tunnel in data.get('tunnels', []):
-        if tunnel.get('proto') == 'https':
-            print(tunnel['public_url'])
-            break
-except:
-    pass
-" 2>/dev/null)
-
-if [ ! -z "$NGROK_URL" ]; then
-    echo "🌍 Public URL: $NGROK_URL"
-    echo "🌍 Public API: $NGROK_URL/chat"
-    echo ""
-    echo "📋 Example curl command:"
-    echo "curl -X POST '$NGROK_URL/chat' \\"
-    echo "     -H 'Content-Type: application/json' \\"
-    echo "     -d '{\"question\": \"How do I create a user?\"}'"
-else
-    echo "⚠️  Could not retrieve ngrok URL automatically"
-    echo "   Check ngrok dashboard: http://localhost:4040"
-fi
+echo "🌍 Static Public URL: $NGROK_URL"
+echo "🌍 Public API: $NGROK_URL/chat"
+echo "🌍 Health Check: $NGROK_URL/health"
+echo "🌍 Stats: $NGROK_URL/stats"
+echo ""
+echo "📋 Example curl command:"
+echo "curl -X POST '$NGROK_URL/chat' \\"
+echo "     -H 'Content-Type: application/json' \\"
+echo "     -d '{\"question\": \"How do I create a user?\"}'"
 
 echo ""
 echo "🔄 Server is running... Press Ctrl+C to stop"

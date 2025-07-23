@@ -10,7 +10,6 @@ DEFAULT_SYSTEM_PROMPT = (
     "Using ONLY the following GraphQL schema context, answer the user's question as accurately as possible.\n"
     "- If the answer is not in the context, say 'I don't know based on the provided schema context.'\n"
     "- If the question is vague ask the user to be more specific.\n"
-    "- Cite the relevant schema chunk(s) by just name of the object if possible.\n"
     "- Provide mutation and query in the answer if the question is about them.\n"
 )
 

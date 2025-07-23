@@ -8,7 +8,7 @@ from tqdm import tqdm
 import re
 
 class Embedder:
-    def __init__(self, model_name="BAAI/bge-base-en-v1.5", batch_size=16, index_type="flat", nlist=100, docstring_weight=0.7, num_workers=1):
+    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2", batch_size=16, index_type="flat", nlist=100, docstring_weight=0.7, num_workers=1):
         try:
             self.model = SentenceTransformer(model_name, trust_remote_code=True)
         except Exception as e:
