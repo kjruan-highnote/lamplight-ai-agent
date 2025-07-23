@@ -7,7 +7,7 @@ from agent.embedder import Embedder
 
 class Retriever:
     def __init__(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json", 
-                 model_name="BAAI/bge-base-en-v1.5", min_similarity_score=0.0):
+                 model_name="BAAI/bge-base-en-v1.5", min_similarity_score=-10.0):
         """
         Initialize the retriever.
         
@@ -44,7 +44,6 @@ class Retriever:
             self.logger.error(f"Failed to initialize embedder: {e}")
             raise RuntimeError(f"Failed to initialize retriever: {e}")
 
-    @lru_cache(maxsize=128)
     def retrieve_chunks(self, question: str, top_k: int = 5) -> List[Tuple[str, str, float]]:
         """
         Retrieve top-k most relevant SDL chunks for the user's question.
@@ -68,17 +67,31 @@ class Retriever:
             # Preprocess the question
             processed_question = self._preprocess_query(question)
             
-            # Get results with similarity scores
-            results_with_scores = self.embedder.search_with_scores(processed_question, top_k=top_k)
-            
-            # Filter by minimum similarity score
-            filtered_results = [
-                (path, content, score) for path, content, score in results_with_scores 
-                if score >= self.min_similarity_score
-            ]
-            
-            self.logger.info(f"Retrieved {len(filtered_results)} chunks for query: {question[:50]}...")
-            return filtered_results
+            # Try to get results with similarity scores, fallback to regular search
+            try:
+                results_with_scores = self.embedder.search_with_scores(processed_question, top_k=top_k)
+                
+                # Filter by minimum similarity score
+                filtered_results = [
+                    (path, content, score) for path, content, score in results_with_scores 
+                    if score >= self.min_similarity_score
+                ]
+                
+                self.logger.info(f"Retrieved {len(filtered_results)} chunks with scores for query: {question[:50]}...")
+                return filtered_results
+                
+            except (AttributeError, TypeError) as e:
+                # Fallback to regular search without scores
+                self.logger.warning(f"search_with_scores failed, using fallback: {e}")
+                regular_results = self.embedder.search(processed_question, top_k=top_k)
+                
+                # Convert to expected format with dummy scores
+                fallback_results = [
+                    (path, content, 1.0) for path, content in regular_results
+                ]
+                
+                self.logger.info(f"Retrieved {len(fallback_results)} chunks (fallback) for query: {question[:50]}...")
+                return fallback_results
             
         except Exception as e:
             self.logger.error(f"Error retrieving chunks: {e}")

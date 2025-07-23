@@ -4,13 +4,20 @@ import time
 from typing import Optional, Dict, Any
 from fastapi import FastAPI, Request, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from agent.llm_agent import LLMQA as SchemaAgent
+
+# Load environment variables
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv is optional
 
 # Configure logging
 logging.basicConfig(
@@ -63,7 +70,7 @@ class ChatRequest(BaseModel):
     top_k: Optional[int] = Field(5, ge=1, le=20, description="Number of relevant chunks to retrieve")
     model: Optional[str] = Field(None, description="Override default model")
     
-    @validator('question')
+    @field_validator('question')
     def validate_question(cls, v):
         if not v.strip():
             raise ValueError('Question cannot be empty or only whitespace')

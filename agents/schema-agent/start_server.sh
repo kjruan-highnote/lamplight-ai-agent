@@ -34,6 +34,13 @@ export ALLOWED_ORIGINS="*"
 export HOST=0.0.0.0
 export PORT=8000
 
+# Check Python dependencies
+echo "🔍 Checking Python dependencies..."
+python -c "import fastapi, uvicorn, slowapi, ollama" 2>/dev/null || {
+    echo "❌ Missing Python dependencies. Installing..."
+    pip install -r requirements.txt
+}
+
 echo "✅ Environment configured (no authentication)"
 echo "✅ Host: $HOST:$PORT"
 
@@ -62,15 +69,46 @@ trap cleanup SIGINT SIGTERM
 
 # Start the API server in the background
 echo "🌐 Starting API server..."
-python -m agent.api &
+cd /Users/kevinruan/Downloads/lamplight-ai-agent/agents/schema-agent
+
+# Start API server and capture output
+echo "🔄 Starting API server process..."
+python run_api_simple.py > api_server.log 2>&1 &
 API_PID=$!
 
-# Wait for API server to start
-sleep 3
+# Wait longer for API server to fully load (embeddings take time)
+echo "⏳ Waiting for API server to load (this may take 30-60 seconds)..."
+sleep 5
 
-# Check if API server is running
-if ! curl -s http://localhost:8000/health >/dev/null 2>&1; then
-    echo "❌ API server failed to start"
+# Check if process is still running
+if ! ps -p $API_PID > /dev/null 2>&1; then
+    echo "❌ API server process died. Check logs:"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    tail -20 api_server.log
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    exit 1
+fi
+
+# Wait for HTTP endpoint to be ready with retries
+MAX_RETRIES=12
+RETRY_COUNT=0
+echo "🔍 Checking if API endpoint is ready..."
+
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+    if curl -s http://localhost:8000/health >/dev/null 2>&1; then
+        echo "✅ API server is ready!"
+        break
+    fi
+    
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+    echo "   Attempt $RETRY_COUNT/$MAX_RETRIES - waiting 5 seconds..."
+    sleep 5
+done
+
+if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+    echo "❌ API server failed to respond after $((MAX_RETRIES * 5)) seconds"
+    echo "📋 Last few log lines:"
+    tail -10 api_server.log
     kill $API_PID 2>/dev/null || true
     exit 1
 fi
@@ -93,6 +131,7 @@ echo "Local URL:  http://localhost:8000"
 echo "Health:     http://localhost:8000/health"
 echo "Stats:      http://localhost:8000/stats"
 echo "Chat API:   POST http://localhost:8000/chat"
+echo "Chat Stream: POST http://localhost:8000/chat/stream"
 echo ""
 echo "📡 Getting ngrok public URL..."
 
