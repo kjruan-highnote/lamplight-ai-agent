@@ -26,6 +26,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Configure retriever activity logger
+retriever_logger = logging.getLogger('retriever_activities')
+retriever_logger.setLevel(logging.INFO)
+retriever_handler = logging.FileHandler('retriever_activities.log')
+retriever_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+retriever_logger.addHandler(retriever_handler)
+retriever_logger.propagate = False  # Don't send to root logger
+
 # Rate limiting
 limiter = Limiter(key_func=get_remote_address)
 
@@ -137,6 +145,16 @@ async def chat_endpoint(
         
         logger.info(f"Processing question: {chat_request.question[:100]}...")
         
+        # Log retriever activity before getting answer
+        chunks = agent.retriever.retrieve_chunks(chat_request.question, top_k=chat_request.top_k)
+        retriever_logger.info(f"CHAT - Question: '{chat_request.question}'")
+        retriever_logger.info(f"CHAT - Retrieved {len(chunks)} chunks")
+        
+        # Log chunk details
+        for i, (path, content, score) in enumerate(chunks[:5], 1):  # Log first 5 chunks
+            filename = os.path.basename(path)
+            retriever_logger.info(f"CHAT - Chunk #{i}: {filename} (score: {score:.3f}) - {content[:100].replace(chr(10), ' ')[:80]}...")
+        
         # Get answer with optional parameters
         kwargs = {"top_k": chat_request.top_k}
         if chat_request.model:
@@ -202,11 +220,23 @@ async def stream_chat(
             if agent is None:
                 yield f"data: {{\"error\": \"Agent not available\"}}\n\n"
                 return
+            
+            # Log retriever activity before streaming
+            logger.info(f"Processing streaming question: {chat_request.question[:100]}...")
+            chunks = agent.retriever.retrieve_chunks(chat_request.question, top_k=chat_request.top_k)
+            retriever_logger.info(f"STREAM - Question: '{chat_request.question}'")
+            retriever_logger.info(f"STREAM - Retrieved {len(chunks)} chunks")
+            
+            # Log chunk details
+            for i, (path, content, score) in enumerate(chunks[:5], 1):  # Log first 5 chunks
+                filename = os.path.basename(path)
+                retriever_logger.info(f"STREAM - Chunk #{i}: {filename} (score: {score:.3f}) - {content[:100].replace(chr(10), ' ')[:80]}...")
                 
             for chunk in agent.stream_answer(chat_request.question):
                 yield f"data: {chunk}\n\n"
             yield "data: [DONE]\n\n"
         except Exception as e:
+            logger.error(f"Error in streaming: {e}")
             yield f"data: {{\"error\": \"{str(e)}\"}}\n\n"
     
     return StreamingResponse(

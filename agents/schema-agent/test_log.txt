@@ -1,0 +1,126 @@
+==== LLMQA LOG 2025-07-23T12:07:41.438515 ====
+Question: How do I create a user?
+Retrieved Chunks: chunks/2172_unions_InviteUserPayload.graphql, chunks/088_mutations_generateRiskClientToken.graphql, chunks/321_mutations_createPaymentOrder.graphql, chunks/087_mutations_generateRiskApplicationSDKSessionToken.graphql, chunks/1672_inputs_InviteUserInput.graphql, chunks/067_mutations_updateUser.graphql, chunks/068_mutations_inviteUser.graphql, chunks/023_mutations_tokenizeUSPersonAuthorizedUser.graphql
+
+--- Prompt ---
+You are a GraphQL schema expert.
+
+Using ONLY the following GraphQL schema context, answer the user's question as accurately as possible.
+- If the answer is not in the context, say 'I don't know based on the provided schema context.'
+- If the question is vague ask the user to be more specific.
+- Cite the relevant schema chunk(s) by just name of the object if possible.
+- Provide mutation and query in the answer if the question is about them.
+
+
+### Example 1
+Question: What is the type of the field `ping` in the Query type?
+Schema Context:
+type Query {
+  """Simple query that returns a static value of `pong`"""
+  ping: String!
+}
+Answer: The type of the field `ping` in the Query type is `String!`. (Source: queries_ping.graphql)
+
+### Example 2
+Question: How do I create a user?
+Schema Context:
+# Source: mutation_CreateUser.graphql
+mutation {
+  createUser(input: CreateUserInput!): User
+}
+Answer: You can create a user using the `createUser` mutation. (Source: mutation_CreateUser.graphql)
+
+### Question:
+How do I create a user?
+
+### Schema Context:
+# Source 1: 2172_unions_InviteUserPayload.graphql
+
+"""The possible return types of `inviteUser`."""
+union InviteUserPayload = User | UserError | AccessDeniedError
+
+---
+
+# Source 1: 088_mutations_generateRiskClientToken.graphql
+
+type Mutation {
+  """"""Generate risk client token""""""
+  """Generate risk client token"""
+generateRiskClientToken(input: GenerateRiskClientTokenInput!): GenerateRiskClientTokenPayload
+}
+
+---
+
+# Source 1: 321_mutations_createPaymentOrder.graphql
+
+type Mutation {
+  """"""Creates a new `PaymentOrder`.""""""
+  """Creates a new `PaymentOrder`."""
+createPaymentOrder(input: CreatePaymentOrderInput!): CreatePaymentOrderPayload
+}
+
+---
+
+# Source 1: 087_mutations_generateRiskApplicationSDKSessionToken.graphql
+
+type Mutation {
+  """"""Generate risk application sdk session token""""""
+  """Generate risk application sdk session token"""
+generateRiskApplicationSDKSessionToken: GenerateRiskApplicationSDKSessionTokenPayload
+}
+
+---
+
+# Source 1: 1672_inputs_InviteUserInput.graphql
+
+"""Data needed to invite a new User."""
+input InviteUserInput {
+  """E-mail of the user to invite."""
+  email: String!
+  """
+  The list of users' roles that determine a user's permissions within the organization.
+  """
+  roles: [UserRole!]!
+}
+
+---
+
+# Source 1: 067_mutations_updateUser.graphql
+
+type Mutation {
+  """"""Updates an existing Users data.""""""
+  """Updates an existing Users data."""
+updateUser(input: UpdateUserInput!): UpdateUserPayload
+}
+
+---
+
+# Source 1: 068_mutations_inviteUser.graphql
+
+type Mutation {
+  """"""Invites a User to your Organization.""""""
+  """Invites a User to your Organization."""
+inviteUser(input: InviteUserInput!): InviteUserPayload
+}
+
+---
+
+# Source 1: 023_mutations_tokenizeUSPersonAuthorizedUser.graphql
+
+type Mutation {
+  """"""Tokenizes data for a new USPersonAuthorizedUser.""""""
+  """Tokenizes data for a new USPersonAuthorizedUser."""
+tokenizeUSPersonAuthorizedUser(input: CreateUSPersonAuthorizedUserInput!): TokenizeUSPersonAuthorizedUserPayload
+}
+
+### Answer:
+
+
+--- LLM Response ---
+How do I create a user?
+
+Unfortunately, the provided schema context does not contain a clear mutation or query that creates a user. The `inviteUser` mutation exists, but its input type is specific to inviting an existing user to your Organization.
+
+I don't know based on the provided schema context how to create a new user.
+==== END LOG ====
+

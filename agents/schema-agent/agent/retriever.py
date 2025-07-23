@@ -1,13 +1,14 @@
 import json
 import logging
+import re
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Set
 from functools import lru_cache
 from agent.embedder import Embedder
 
 class Retriever:
     def __init__(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json", 
-                 model_name="BAAI/bge-base-en-v1.5", min_similarity_score=-10.0):
+                 model_name="BAAI/bge-base-en-v1.5", min_similarity_score=-2.0):
         """
         Initialize the retriever.
         
@@ -44,7 +45,7 @@ class Retriever:
             self.logger.error(f"Failed to initialize embedder: {e}")
             raise RuntimeError(f"Failed to initialize retriever: {e}")
 
-    def retrieve_chunks(self, question: str, top_k: int = 5) -> List[Tuple[str, str, float]]:
+    def retrieve_chunks(self, question: str, top_k: int = 12) -> List[Tuple[str, str, float]]:
         """
         Retrieve top-k most relevant SDL chunks for the user's question.
         
@@ -69,16 +70,26 @@ class Retriever:
             
             # Try to get results with similarity scores, fallback to regular search
             try:
-                results_with_scores = self.embedder.search_with_scores(processed_question, top_k=top_k)
+                primary_results = self.embedder.search_with_scores(processed_question, top_k=top_k)
                 
                 # Filter by minimum similarity score
-                filtered_results = [
-                    (path, content, score) for path, content, score in results_with_scores 
+                filtered_primary = [
+                    (path, content, score) for path, content, score in primary_results 
                     if score >= self.min_similarity_score
                 ]
                 
-                self.logger.info(f"Retrieved {len(filtered_results)} chunks with scores for query: {question[:50]}...")
-                return filtered_results
+                # Fetch related chunks based on type references
+                related_chunks = self._fetch_related_chunks(filtered_primary, max_related=5)
+                
+                # Combine primary and related results, sort by score
+                all_results = filtered_primary + related_chunks
+                all_results.sort(key=lambda x: x[2], reverse=True)  # Sort by score descending
+                
+                # Limit total results to top_k + some related chunks
+                final_results = all_results[:top_k + 3]
+                
+                self.logger.info(f"Retrieved {len(filtered_primary)} primary + {len(related_chunks)} related chunks for query: {question[:50]}...")
+                return final_results
                 
             except (AttributeError, TypeError) as e:
                 # Fallback to regular search without scores
@@ -98,16 +109,111 @@ class Retriever:
             return []
 
     def _preprocess_query(self, query: str) -> str:
-        """Preprocess the query for better retrieval."""
-        # Remove extra whitespace and normalize
-        query = query.strip()
+        """Preprocess the query for better retrieval with GraphQL-specific enhancements."""
+        query = query.strip().lower()
         
-        # Add GraphQL-specific context hints if not present
-        graphql_keywords = ['mutation', 'query', 'type', 'field', 'schema']
-        if not any(keyword in query.lower() for keyword in graphql_keywords):
-            query = f"GraphQL {query}"
+        # GraphQL keyword mappings and expansions
+        expansions = {
+            'create': ['create', 'mutation', 'input'],
+            'update': ['update', 'mutation', 'input'], 
+            'delete': ['delete', 'mutation'],
+            'get': ['query', 'type'],
+            'list': ['query', 'type', 'connection'],
+            'user': ['user', 'createuser', 'updateuser', 'userinput'],
+            'field': ['field', 'type', 'property'],
+            'mutation': ['mutation', 'input', 'create', 'update', 'delete'],
+            'query': ['query', 'type', 'get', 'list'],
+            'input': ['input', 'mutation', 'create', 'update'],
+            'type': ['type', 'field', 'interface', 'enum']
+        }
+        
+        # Expand query with related terms
+        expanded_terms = set(query.split())
+        for word in query.split():
+            if word in expansions:
+                expanded_terms.update(expansions[word])
+        
+        # Question type detection and enhancement  
+        question_patterns = {
+            'what': ['type', 'field', 'definition'],
+            'how': ['mutation', 'query', 'example'],
+            'create': ['mutation', 'input', 'create'],
+            'fields': ['type', 'field', 'property'],
+            'available': ['query', 'mutation', 'type'],
+            'input': ['input', 'mutation', 'create', 'update']
+        }
+        
+        for pattern, enhancements in question_patterns.items():
+            if pattern in query:
+                expanded_terms.update(enhancements)
+        
+        # Convert back to string and ensure GraphQL context
+        expanded_query = ' '.join(expanded_terms)
+        if 'graphql' not in expanded_query:
+            expanded_query = f"GraphQL {expanded_query}"
             
-        return query
+        return expanded_query
+    
+    def _extract_type_references(self, content: str) -> Set[str]:
+        """Extract GraphQL type references from schema content."""
+        type_refs = set()
+        
+        # Match type references in various contexts
+        patterns = [
+            r'\b([A-Z]\w+)!?\s*(?:\(|\{|:)',  # Type names followed by operators
+            r':\s*([A-Z]\w+)!?',              # Field types  
+            r'\[([A-Z]\w+)!?\]!?',            # Array types
+            r'input\s+([A-Z]\w+)',            # Input type definitions
+            r'type\s+([A-Z]\w+)',             # Type definitions
+            r'interface\s+([A-Z]\w+)',        # Interface definitions
+            r'enum\s+([A-Z]\w+)',             # Enum definitions
+        ]
+        
+        for pattern in patterns:
+            matches = re.findall(pattern, content, re.IGNORECASE)
+            for match in matches:
+                if match and not match.lower() in ['string', 'int', 'float', 'boolean', 'id']:
+                    type_refs.add(match)
+        
+        return type_refs
+    
+    def _fetch_related_chunks(self, primary_results: List[Tuple[str, str, float]], max_related: int = 5) -> List[Tuple[str, str, float]]:
+        """Fetch chunks related to the primary results by type references."""
+        if not primary_results:
+            return []
+            
+        # Extract all type references from primary results
+        all_type_refs = set()
+        primary_paths = set()
+        
+        for path, content, score in primary_results:
+            primary_paths.add(path)
+            type_refs = self._extract_type_references(content)
+            all_type_refs.update(type_refs)
+        
+        # Search for chunks containing these type references
+        related_chunks = []
+        seen_paths = primary_paths.copy()
+        
+        for type_ref in all_type_refs:
+            if len(related_chunks) >= max_related:
+                break
+                
+            try:
+                # Search for this specific type
+                type_results = self.embedder.search_with_scores(f"type {type_ref}", top_k=3)
+                
+                for path, content, score in type_results:
+                    if path not in seen_paths and len(related_chunks) < max_related:
+                        # Boost score slightly to indicate it's a related type
+                        related_chunks.append((path, content, score * 0.8))
+                        seen_paths.add(path)
+                        
+            except Exception as e:
+                self.logger.debug(f"Failed to fetch related chunks for {type_ref}: {e}")
+                continue
+        
+        return related_chunks
     
     def format_context(self, results: List[Tuple[str, str, float]], include_scores: bool = False) -> str:
         """

@@ -9,7 +9,9 @@ DEFAULT_SYSTEM_PROMPT = (
     "You are a GraphQL schema expert.\n\n"
     "Using ONLY the following GraphQL schema context, answer the user's question as accurately as possible.\n"
     "- If the answer is not in the context, say 'I don't know based on the provided schema context.'\n"
-    "- Cite the relevant schema chunk(s) by filename if possible.\n"
+    "- If the question is vague ask the user to be more specific.\n"
+    "- Cite the relevant schema chunk(s) by just name of the object if possible.\n"
+    "- Provide mutation and query in the answer if the question is about them.\n"
 )
 
 # Example Q&A for few-shot prompting
@@ -120,7 +122,7 @@ class LLMQA:
         messages.append({"role": "user", "content": prompt})
         return messages
 
-    def answer(self, question: str, top_k: int = 5) -> str:
+    def answer(self, question: str, top_k: int = 12) -> str:
         chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
         if not chunks:
             raise RuntimeError("No relevant schema context found for your question.")
@@ -146,7 +148,7 @@ class LLMQA:
             self.save_history()
         return answer
 
-    def stream_answer(self, question: str, top_k: int = 5):
+    def stream_answer(self, question: str, top_k: int = 12):
         chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
         if not chunks:
             raise RuntimeError("No relevant schema context found for your question.")
