@@ -147,7 +147,7 @@ class LLMQA:
             self.save_history()
         return answer
 
-    def stream_answer(self, question: str, top_k: int = 12):
+    def stream_answer(self, question: str, top_k: int = 5):
         chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
         if not chunks:
             raise RuntimeError("No relevant schema context found for your question.")

@@ -46,6 +46,12 @@ ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 MAX_QUESTION_LENGTH = int(os.getenv("MAX_QUESTION_LENGTH", "1000"))
 ENABLE_AUTH = os.getenv("ENABLE_AUTH", "false").lower() == "true"
 
+# Enhanced chunking configuration
+USE_ENHANCED_CHUNKS = os.getenv("USE_ENHANCED_CHUNKS", "true").lower() == "true"
+ENHANCED_INDEX_PATH = os.getenv("ENHANCED_INDEX_PATH", "embeddings_enhanced/index.faiss")
+ENHANCED_METADATA_PATH = os.getenv("ENHANCED_METADATA_PATH", "embeddings_enhanced/metadata.json")
+ENHANCED_MAX_TOKENS = int(os.getenv("ENHANCED_MAX_TOKENS", "12000"))
+
 app = FastAPI(
     title="GraphQL Schema QA API",
     description="AI-powered GraphQL schema question-answering service",
@@ -67,8 +73,20 @@ app.add_middleware(
 
 # Initialize your schema-aware agent with error handling
 try:
-    agent = SchemaAgent()
-    logger.info("Schema agent initialized successfully")
+    if USE_ENHANCED_CHUNKS:
+        logger.info("Initializing with enhanced chunking strategy...")
+        agent = SchemaAgent(
+            index_path=ENHANCED_INDEX_PATH,
+            metadata_path=ENHANCED_METADATA_PATH,
+            max_tokens=ENHANCED_MAX_TOKENS
+        )
+        logger.info(f"Enhanced schema agent initialized successfully")
+        logger.info(f"Using enhanced chunks: {ENHANCED_INDEX_PATH}")
+        logger.info(f"Max tokens: {ENHANCED_MAX_TOKENS}")
+    else:
+        logger.info("Initializing with standard chunking strategy...")
+        agent = SchemaAgent()
+        logger.info("Standard schema agent initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize schema agent: {e}")
     agent = None
