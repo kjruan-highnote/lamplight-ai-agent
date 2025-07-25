@@ -46,8 +46,8 @@ ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 MAX_QUESTION_LENGTH = int(os.getenv("MAX_QUESTION_LENGTH", "1000"))
 ENABLE_AUTH = os.getenv("ENABLE_AUTH", "false").lower() == "true"
 
-# Enhanced chunking configuration
-USE_ENHANCED_CHUNKS = os.getenv("USE_ENHANCED_CHUNKS", "true").lower() == "true"
+# Standard optimized chunking configuration (token-optimized chunks)
+USE_ENHANCED_CHUNKS = os.getenv("USE_ENHANCED_CHUNKS", "false").lower() == "true"
 ENHANCED_INDEX_PATH = os.getenv("ENHANCED_INDEX_PATH", "embeddings_enhanced/index.faiss")
 ENHANCED_METADATA_PATH = os.getenv("ENHANCED_METADATA_PATH", "embeddings_enhanced/metadata.json")
 ENHANCED_MAX_TOKENS = int(os.getenv("ENHANCED_MAX_TOKENS", "12000"))
