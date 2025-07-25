@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import List, Tuple, Optional, Set, Dict
 from difflib import SequenceMatcher
 from agent.embedder import Embedder
+from agent.schema_analyzer import SchemaAnalyzer
+from agent.pattern_generator import PatternGenerator
+from agent.relevance_scorer import RelevanceScorer
 
 class Retriever:
     def __init__(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json", 
@@ -28,9 +31,37 @@ class Retriever:
         # Set up logging
         self.logger = logging.getLogger(__name__)
         
+        # Initialize schema analyzer for self-learning vocabulary
+        self.schema_analyzer = SchemaAnalyzer(metadata_path=metadata_path)
+        
+        # Load generated question patterns
+        self.question_patterns = self._load_question_patterns()
+        
+        # Initialize relevance scorer
+        self.relevance_scorer = RelevanceScorer()
+        
         self._initialize_embedder()
-        self._expansion_cache = None  # Cache for dynamic expansions
     
+    def _load_question_patterns(self) -> Dict[str, List[str]]:
+        """Load generated question patterns from file."""
+        try:
+            patterns = PatternGenerator.load_patterns("question_patterns.json")
+            pattern_dict = {}
+            
+            for pattern in patterns:
+                for trigger in pattern.trigger_words:
+                    if trigger not in pattern_dict:
+                        pattern_dict[trigger] = []
+                    pattern_dict[trigger].extend(pattern.expansion_terms)
+            
+            self.logger.info(f"Loaded {len(patterns)} question patterns")
+            return pattern_dict
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to load question patterns: {e}")
+            return {}
+    
+    # Legacy method kept for compatibility - now uses schema analyzer
     def _build_dynamic_expansions(self) -> Dict[str, List[str]]:
         """Build query expansions dynamically from actual GraphQL schema files."""
         if self._expansion_cache is not None:
@@ -357,15 +388,21 @@ class Retriever:
             
             # Try to get results with similarity scores, fallback to regular search
             try:
-                # 1. Semantic search
-                semantic_results = self.embedder.search_with_scores(processed_question, top_k=top_k * 2)
+                # 1. Semantic search - cast wider net initially
+                semantic_results = self.embedder.search_with_scores(processed_question, top_k=top_k * 4)
                 
                 # Calculate adaptive threshold based on score distribution
                 scores = [score for _, _, score in semantic_results]
                 adaptive_threshold = self._calculate_adaptive_threshold(scores, top_k)
                 
-                # Use the more permissive of adaptive vs fixed threshold
-                effective_threshold = min(adaptive_threshold, self.min_similarity_score)
+                # Use more permissive threshold to include more candidates
+                # Be extra permissive for validation queries since they often need specific files
+                validation_related = any(term in processed_question.lower() 
+                                       for term in ['validation', 'validate', 'pattern', 'regex', 'format'])
+                if validation_related:
+                    effective_threshold = min(adaptive_threshold, -1.5)  # Much more permissive for validation queries
+                else:
+                    effective_threshold = min(adaptive_threshold, -1.0)  # Allow scores down to -1.0
                 
                 # Filter semantic results by threshold
                 filtered_semantic = [
@@ -380,11 +417,11 @@ class Retriever:
                     # Limit keyword results to prevent overwhelming semantic results
                     keyword_results = keyword_results[:top_k]
                 
-                # 3. Hybrid merge and ranking
-                hybrid_results = self._merge_hybrid_results(filtered_semantic, keyword_results, top_k)
+                # 3. Hybrid merge and ranking (keep more candidates than requested)
+                hybrid_results = self._merge_hybrid_results(filtered_semantic, keyword_results, top_k * 2)
                 
                 # 4. Fetch related chunks based on type references from top hybrid results
-                related_chunks = self._fetch_related_chunks(hybrid_results[:top_k//2], max_related=3)
+                related_chunks = self._fetch_related_chunks(hybrid_results[:top_k], max_related=3)
                 
                 # 5. Final combination
                 all_results = hybrid_results + related_chunks
@@ -396,7 +433,13 @@ class Retriever:
                         deduplicated_results.append(item)
                         seen_paths.add(item[0])
                 
-                final_results = deduplicated_results[:top_k + 2]
+                # 6. Apply relevance scoring for final ranking (but keep more balanced)
+                relevance_enhanced_results = self.relevance_scorer.enhance_search_results(
+                    deduplicated_results, question, top_k + 2
+                )
+                
+                # 7. Return relevance-enhanced results
+                final_results = relevance_enhanced_results
                 
                 # Production: summary logging only
                 self.logger.info(f"Retrieved {len(final_results)} chunks via hybrid search")
@@ -420,89 +463,21 @@ class Retriever:
             return []
 
     def _preprocess_query(self, query: str) -> str:
-        """Preprocess the query for better retrieval with GraphQL-specific enhancements."""
-        query = query.strip().lower()
+        """Preprocess the query using relevance scorer for focused expansion."""
+        query = query.strip()
         
-        # Get dynamic expansions based on actual schema files
-        expansions = self._build_dynamic_expansions()
+        # Use relevance scorer to create optimized query
+        optimized_query = self.relevance_scorer.create_optimized_query(query)
         
-        # Handle multi-word phrases first
-        phrase_expansions = {
-            'business account holder': ['businessaccountholder', 'usbusinessaccountholder', 'createusbusinessaccountholder'],
-            'account holder': ['accountholder', 'personaccountholder', 'businessaccountholder'],
-            'authorized user': ['authorizeduser', 'uspersonauthorizeduser', 'createuspersonauthorizeduser'],
-            'person account holder': ['personaccountholder', 'uspersonaccountholder', 'createuspersonaccountholder']
-        }
+        # Add minimal GraphQL context if needed
+        if 'graphql' not in optimized_query.lower():
+            optimized_query = f"GraphQL {optimized_query}"
         
-        # Apply phrase expansions
-        expanded_terms = set(query.split())
-        for phrase, expansion in phrase_expansions.items():
-            if phrase in query:
-                expanded_terms.update(expansion)
-        
-        # Expand individual words
-        for word in query.split():
-            if word in expansions:
-                expanded_terms.update(expansions[word])
-        
-        # Question type detection and enhancement  
-        question_patterns = {
-            'what': ['type', 'field', 'definition'],
-            'how': ['mutation', 'query', 'example'],
-            'create': ['mutation', 'input', 'create'],
-            'fields': ['type', 'field', 'property'],
-            'available': ['query', 'mutation', 'type'],
-            'input': ['input', 'mutation', 'create', 'update']
-        }
-        
-        for pattern, enhancements in question_patterns.items():
-            if pattern in query:
-                expanded_terms.update(enhancements)
-        
-        # Convert back to string and ensure GraphQL context
-        expanded_query = ' '.join(expanded_terms)
-        if 'graphql' not in expanded_query:
-            expanded_query = f"GraphQL {expanded_query}"
-            
-        return expanded_query
+        return optimized_query
     
     def _extract_technical_terms(self, query: str) -> Set[str]:
-        """Extract GraphQL technical terms using schema-derived approach."""
-        query_lower = query.lower()
-        technical_terms = set()
-        
-        # Extract words from query
-        query_words = re.findall(r'\b\w+\b', query_lower)
-        
-        # Build terms directly from schema files (simplified approach)
-        schema_terms = self._get_schema_terms_for_extraction()
-        
-        # Match query words to schema terms
-        for word in query_words:
-            if word in schema_terms:
-                technical_terms.update(schema_terms[word])
-        
-        # Pattern-based extraction for common GraphQL operations
-        operation_patterns = [
-            (r'create\s+(\w+)', 'create{}'),  # "create user" → "createuser"
-            (r'issue\s+(\w+)', 'issue{}'),    # "issue card" → "issuecard"
-            (r'update\s+(\w+)', 'update{}'),  # "update user" → "updateuser"
-            (r'(\w+)\s+input', '{}input'),    # "user input" → "userinput"
-            (r'(\w+)\s+mutation', '{}'),      # "user mutation" → "user"
-        ]
-        
-        for pattern, template in operation_patterns:
-            matches = re.findall(pattern, query_lower)
-            for match in matches:
-                generated_term = template.format(match)
-                technical_terms.add(generated_term)
-                technical_terms.add(match)  # Also add base term
-        
-        # Add common GraphQL keywords found in query
-        graphql_keywords = {'mutation', 'query', 'input', 'type', 'field', 'create', 'update', 'delete', 'issue'}
-        technical_terms.update(word for word in query_words if word in graphql_keywords)
-        
-        return technical_terms
+        """Extract technical terms using self-learning schema analyzer."""
+        return self.schema_analyzer.get_technical_terms(query)
     
     def _calculate_adaptive_threshold(self, scores: List[float], top_k: int = 12) -> float:
         """Calculate adaptive similarity threshold based on score distribution."""
@@ -683,14 +658,20 @@ class Retriever:
         """Get retriever statistics."""
         if self.embedder is None:
             return {"status": "not_initialized"}
-            
-        return {
+        
+        stats = {
             "status": "ready",
             "total_chunks": len(self.embedder.texts),
             "model_name": self.model_name,
             "index_path": str(self.index_path),
             "min_similarity_score": self.min_similarity_score
         }
+        
+        # Add schema analyzer stats
+        schema_stats = self.schema_analyzer.get_stats()
+        stats["schema_analyzer"] = schema_stats
+        
+        return stats
 
 if __name__ == "__main__":
     import argparse

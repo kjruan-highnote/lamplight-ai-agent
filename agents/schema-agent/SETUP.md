@@ -40,12 +40,12 @@ cd /path/to/schema-agent
 ```
 
 The script will:
-- ✅ Check that Ollama and ngrok are installed
-- ✅ Verify that the `llama3` model is available
-- ✅ Create embeddings if they don't exist (this may take a few minutes)
-- ✅ Start the API server on localhost:8000
-- ✅ Start ngrok tunnel for public access
-- ✅ Display both local and public URLs
+- Check that Ollama and ngrok are installed
+- Verify that the `llama3` model is available
+- Create embeddings if they don't exist (this may take a few minutes)
+- Start the API server on localhost:8000
+- Start ngrok tunnel for public access
+- Display both local and public URLs
 
 ## Manual Setup
 

@@ -11,7 +11,7 @@ from agent.llm_agent import LLMQA
 def test_retrieval_comparison():
     """Compare retrieval quality between old and new chunking approaches."""
     
-    print("🧪 Testing Chunking Approaches Comparison")
+    print("Testing Chunking Approaches Comparison")
     print("=" * 50)
     
     # Test queries that were problematic
@@ -23,7 +23,7 @@ def test_retrieval_comparison():
     ]
     
     # Test with current chunks
-    print("\\n📊 Testing CURRENT chunking approach...")
+    print("\\nTesting CURRENT chunking approach...")
     current_retriever = Retriever(
         index_path="embeddings/index.faiss",
         metadata_path="embeddings/metadata.json"
@@ -44,19 +44,19 @@ def test_retrieval_comparison():
     # Check if enhanced chunks exist and test them
     enhanced_chunks_dir = Path("enhanced_chunks_test")
     if enhanced_chunks_dir.exists():
-        print("\\n🚀 Testing ENHANCED chunking approach...")
+        print("\\nTesting ENHANCED chunking approach...")
         
         # We'd need to create embeddings for the enhanced chunks first
         print("   (Note: Enhanced chunks would need re-embedding for full comparison)")
         
         # For now, let's analyze the content quality
-        print("\\n📋 Content Quality Analysis:")
+        print("\\nContent Quality Analysis:")
         
         # Check financial account management chunk
         financial_chunk = enhanced_chunks_dir / "006_domain_financial_account_management.graphql"
         if financial_chunk.exists():
             content = financial_chunk.read_text()
-            print(f"   ✅ Financial Account chunk: {len(content)} characters")
+            print(f"   Financial Account chunk: {len(content)} characters")
             print(f"      Contains complete context: {'issueFinancialAccountForApplication' in content}")
             print(f"      Has proper description: {'financial account' in content.lower()}")
         
@@ -64,12 +64,12 @@ def test_retrieval_comparison():
         payment_chunk = enhanced_chunks_dir / "005_domain_payment_card_operations.graphql"
         if payment_chunk.exists():
             content = payment_chunk.read_text()
-            print(f"   ✅ Payment Card chunk: {len(content)} characters")
+            print(f"   Payment Card chunk: {len(content)} characters")
             print(f"      Contains payment card ops: {'issuePaymentCardForApplication' in content}")
             print(f"      Clear domain separation: {'payment card' in content.lower()}")
     
     # Display current results analysis
-    print("\\n📈 CURRENT Approach Results Analysis:")
+    print("\\nCURRENT Approach Results Analysis:")
     for query, data in current_results.items():
         print(f"\\n   Query: {query}")
         print(f"   Retrieval time: {data['time']:.3f}s")
@@ -99,7 +99,7 @@ def test_retrieval_comparison():
             print(f"   Top result: {Path(top_result[0]).name} (score: {top_result[2]:.3f})")
     
     print("\\n" + "=" * 50)
-    print("📊 Summary:")
+    print("Summary:")
     print("   Current approach: Fragments operations across multiple small chunks")
     print("   Enhanced approach: Groups related operations with complete context")
     print("   Expected improvement: 60% fewer chunks needed, better context coherence")

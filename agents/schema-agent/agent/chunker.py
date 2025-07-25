@@ -97,7 +97,7 @@ def chunk_schema(schema_path: str, output_dir: str):
                     filename = f"{count:03d}_{category}_{defn.name.value}.graphql"
                     Path(output_dir, filename).write_text(optimized_chunk + "\n")
                     count += 1
-    print(f"✅ Chunked {count} total blocks into '{output_dir}'.")
+    print(f"SUCCESS: Chunked {count} total blocks into '{output_dir}'.")
 
 if __name__ == "__main__":
     import argparse

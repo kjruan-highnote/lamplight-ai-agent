@@ -1,9 +1,19 @@
-2025-07-25 13:55:28,377 - agent.api - INFO - Initializing with standard chunking strategy...
-2025-07-25 13:55:28,487 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-07-25 13:55:28,487 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-07-25 13:55:31,981 - agent.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-07-25 13:55:31,981 - agent.api - INFO - Standard schema agent initialized successfully
-INFO:     Started server process [79601]
+2025-07-25 15:27:06,449 - agent.api - INFO - Initializing with standard chunking strategy...
+2025-07-25 15:27:06,451 - agent.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-07-25 15:27:06,451 - agent.schema_analyzer - INFO - Building new schema vocabulary...
+2025-07-25 15:27:06,452 - agent.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-07-25 15:27:06,592 - agent.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-07-25 15:27:06,708 - agent.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-07-25 15:27:06,849 - agent.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-07-25 15:27:06,980 - agent.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-07-25 15:27:07,118 - agent.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-07-25 15:27:07,120 - agent.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-07-25 15:27:07,123 - agent.retriever - INFO - Loaded 520 question patterns
+2025-07-25 15:27:07,148 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-07-25 15:27:07,149 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-25 15:27:09,890 - agent.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-07-25 15:27:09,890 - agent.api - INFO - Standard schema agent initialized successfully
+INFO:     Started server process [99540]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
@@ -13,31 +23,30 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 📋 Health check: http://localhost:8000/health
 💬 Chat API: POST http://localhost:8000/chat
 
-INFO:     127.0.0.1:53669 - "GET /health HTTP/1.1" 200 OK
-2025-07-25 13:55:56,404 - agent.api - INFO - Processing question: How do I create a user?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.58it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.58it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.03it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.03it/s]
-2025-07-25 13:55:58,902 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 46.49it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.45it/s]
-2025-07-25 13:55:59,768 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-07-25 13:56:15,310 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:53712 - "POST /chat HTTP/1.1" 200 OK
-2025-07-25 13:56:33,613 - agent.api - INFO - Processing question: How do I create a person account holder?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.73it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.72it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.70it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.70it/s]
-2025-07-25 13:56:44,086 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.05it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.12it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.09it/s]
-2025-07-25 13:56:54,117 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-07-25 13:57:02,617 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:53756 - "POST /chat HTTP/1.1" 200 OK
-2025-07-25 13:57:25,323 - agent.api - INFO - Processing question: createUSPersonAccountHolder...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.90it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.89it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.63it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.62it/s]
-2025-07-25 13:57:26,033 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.49it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 45.73it/s]
-2025-07-25 13:57:26,079 - agent.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-07-25 13:57:37,310 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:53802 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58290 - "GET /health HTTP/1.1" 200 OK
+2025-07-25 15:27:46,852 - agent.api - INFO - Processing question: What are the validations for streetAddress?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.72it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.25it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.24it/s]
+2025-07-25 15:27:47,403 - agent.retriever - INFO - Retrieved 8 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 55.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.63it/s]
+2025-07-25 15:27:47,446 - agent.retriever - INFO - Retrieved 8 chunks via hybrid search
+2025-07-25 15:27:54,308 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:58301 - "POST /chat HTTP/1.1" 200 OK
+2025-07-25 15:28:04,486 - agent.api - INFO - Processing question: What are the validations for streetAddress?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.09it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.88it/s]
+2025-07-25 15:28:04,929 - agent.retriever - INFO - Retrieved 13 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 51.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.41it/s]
+2025-07-25 15:28:04,994 - agent.retriever - INFO - Retrieved 13 chunks via hybrid search
+2025-07-25 15:28:18,539 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:58343 - "POST /chat HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [99540]
+/Users/kevinruan/miniconda3/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

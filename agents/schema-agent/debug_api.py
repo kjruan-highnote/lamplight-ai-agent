@@ -11,88 +11,88 @@ from pathlib import Path
 current_dir = Path(__file__).parent.absolute()
 sys.path.insert(0, str(current_dir))
 
-print("🔍 Debug API Startup")
+print("Debug API Startup")
 print("=" * 30)
 
 # Set environment variables
 os.environ['ENABLE_AUTH'] = 'false'
 os.environ['ALLOWED_ORIGINS'] = '*'
 
-print("✅ Environment variables set")
+print("Environment variables set")
 
 # Test imports one by one
 try:
-    print("📦 Testing imports...")
+    print("Testing imports...")
     
     print("   - fastapi...", end="")
     import fastapi
-    print(" ✅")
+    print(" OK")
     
     print("   - uvicorn...", end="")
     import uvicorn
-    print(" ✅")
+    print(" OK")
     
     print("   - slowapi...", end="")
     import slowapi
-    print(" ✅")
+    print(" OK")
     
     print("   - ollama...", end="")
     import ollama
-    print(" ✅")
+    print(" OK")
     
     print("   - agent.llm_agent...", end="")
     from agent.llm_agent import LLMQA
-    print(" ✅")
+    print(" OK")
     
     print("   - agent.api...", end="")
     from agent.api import app
-    print(" ✅")
+    print(" OK")
     
 except Exception as e:
-    print(f" ❌ {e}")
+    print(f" FAILED: {e}")
     sys.exit(1)
 
-print("\n🎯 Testing agent initialization...")
+print("\nTesting agent initialization...")
 try:
     agent = LLMQA()
-    print("✅ Agent initialized successfully")
+    print("Agent initialized successfully")
     
     # Test retriever
     stats = agent.retriever.get_stats()
-    print(f"✅ Retriever stats: {stats}")
+    print(f"Retriever stats: {stats}")
     
 except Exception as e:
-    print(f"❌ Agent initialization failed: {e}")
+    print(f"Agent initialization failed: {e}")
     import traceback
     traceback.print_exc()
     sys.exit(1)
 
-print("\n🌐 Testing Ollama connection...")
+print("\nTesting Ollama connection...")
 try:
     result = ollama.list()
-    print(f"✅ Ollama response: {result}")
+    print(f"Ollama response: {result}")
     
     models = []
     if 'models' in result:
         models = [model.get('name', 'unknown') for model in result['models']]
     
-    print(f"✅ Available models: {models}")
+    print(f"Available models: {models}")
     
     if not any('llama3' in model for model in models):
-        print("⚠️  Warning: llama3 model not found. Install with: ollama pull llama3")
+        print("Warning: llama3 model not found. Install with: ollama pull llama3")
     else:
-        print("✅ llama3 model is available")
+        print("llama3 model is available")
     
 except Exception as e:
-    print(f"❌ Ollama connection failed: {e}")
+    print(f"Ollama connection failed: {e}")
     print("   Make sure Ollama is running: ollama serve")
     import traceback
     traceback.print_exc()
 
-print("\n🚀 Starting API server...")
-print("📍 The API will be available at: http://localhost:8000")
-print("📍 Health check: http://localhost:8000/health")
-print("📍 Press Ctrl+C to stop")
+print("\nStarting API server...")
+print("The API will be available at: http://localhost:8000")
+print("Health check: http://localhost:8000/health")
+print("Press Ctrl+C to stop")
 print("")
 
 if __name__ == "__main__":

@@ -22,11 +22,11 @@ if __name__ == "__main__":
     import uvicorn
     from agent.api import app
     
-    print("🚀 Starting GraphQL Schema QA API")
-    print("✅ No authentication required")
-    print("🌐 Local URL: http://localhost:8000")
-    print("📋 Health check: http://localhost:8000/health")
-    print("💬 Chat API: POST http://localhost:8000/chat")
+    print("Starting GraphQL Schema QA API")
+    print("No authentication required")
+    print("Local URL: http://localhost:8000")
+    print("Health check: http://localhost:8000/health")
+    print("Chat API: POST http://localhost:8000/chat")
     print("")
     
     uvicorn.run(
