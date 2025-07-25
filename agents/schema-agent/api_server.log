@@ -1,52 +1,27 @@
-2025-07-25 15:27:06,449 - agent.api - INFO - Initializing with standard chunking strategy...
-2025-07-25 15:27:06,451 - agent.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
-2025-07-25 15:27:06,451 - agent.schema_analyzer - INFO - Building new schema vocabulary...
-2025-07-25 15:27:06,452 - agent.schema_analyzer - INFO - Processed 0/2465 chunks
-2025-07-25 15:27:06,592 - agent.schema_analyzer - INFO - Processed 500/2465 chunks
-2025-07-25 15:27:06,708 - agent.schema_analyzer - INFO - Processed 1000/2465 chunks
-2025-07-25 15:27:06,849 - agent.schema_analyzer - INFO - Processed 1500/2465 chunks
-2025-07-25 15:27:06,980 - agent.schema_analyzer - INFO - Processed 2000/2465 chunks
-2025-07-25 15:27:07,118 - agent.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
-2025-07-25 15:27:07,120 - agent.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
-2025-07-25 15:27:07,123 - agent.retriever - INFO - Loaded 520 question patterns
-2025-07-25 15:27:07,148 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-07-25 15:27:07,149 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-07-25 15:27:09,890 - agent.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-07-25 15:27:09,890 - agent.api - INFO - Standard schema agent initialized successfully
-INFO:     Started server process [99540]
+2025-07-25 16:09:27,436 - agent.api - INFO - Initializing with standard chunking strategy...
+2025-07-25 16:09:27,439 - agent.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-07-25 16:09:27,439 - agent.schema_analyzer - INFO - Building new schema vocabulary...
+2025-07-25 16:09:27,439 - agent.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-07-25 16:09:27,588 - agent.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-07-25 16:09:27,713 - agent.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-07-25 16:09:27,852 - agent.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-07-25 16:09:27,975 - agent.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-07-25 16:09:28,117 - agent.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-07-25 16:09:28,119 - agent.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-07-25 16:09:28,122 - agent.retriever - INFO - Loaded 520 question patterns
+2025-07-25 16:09:28,148 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-07-25 16:09:28,149 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-25 16:09:31,249 - agent.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-07-25 16:09:31,249 - agent.api - INFO - Standard schema agent initialized successfully
+INFO:     Started server process [14003]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-🚀 Starting GraphQL Schema QA API
-✅ No authentication required
-🌐 Local URL: http://localhost:8000
-📋 Health check: http://localhost:8000/health
-💬 Chat API: POST http://localhost:8000/chat
-
-INFO:     127.0.0.1:58290 - "GET /health HTTP/1.1" 200 OK
-2025-07-25 15:27:46,852 - agent.api - INFO - Processing question: What are the validations for streetAddress?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.72it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.72it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.25it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.24it/s]
-2025-07-25 15:27:47,403 - agent.retriever - INFO - Retrieved 8 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 55.66it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.63it/s]
-2025-07-25 15:27:47,446 - agent.retriever - INFO - Retrieved 8 chunks via hybrid search
-2025-07-25 15:27:54,308 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:58301 - "POST /chat HTTP/1.1" 200 OK
-2025-07-25 15:28:04,486 - agent.api - INFO - Processing question: What are the validations for streetAddress?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.14it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.09it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.08it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.88it/s]
-2025-07-25 15:28:04,929 - agent.retriever - INFO - Retrieved 13 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.09it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 51.83it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.41it/s]
-2025-07-25 15:28:04,994 - agent.retriever - INFO - Retrieved 13 chunks via hybrid search
-2025-07-25 15:28:18,539 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:58343 - "POST /chat HTTP/1.1" 200 OK
-INFO:     Shutting down
+ERROR:    [Errno 48] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [99540]
-/Users/kevinruan/miniconda3/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
+Starting GraphQL Schema QA API
+No authentication required
+Local URL: http://localhost:8000
+Health check: http://localhost:8000/health
+Chat API: POST http://localhost:8000/chat
+

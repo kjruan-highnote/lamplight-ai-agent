@@ -332,13 +332,25 @@ class SchemaAnalyzer:
         if not self.vocabulary:
             return set()
         
+        # Extract words preserving original casing and create lowercase version for patterns
         query_lower = query.lower()
-        query_words = re.findall(r'\w+', query_lower)
+        query_words = re.findall(r'\w+', query)
         technical_terms = set()
         
         # Direct matches with known schema elements
         for word in query_words:
-            word_variants = {word, word.title(), word.capitalize()}
+            # Generate comprehensive variants including camelCase preservation
+            word_variants = {
+                word,                    # Original case (e.g., "streetAddress")
+                word.lower(),           # All lowercase (e.g., "streetaddress")
+                word.upper(),           # All uppercase (e.g., "STREETADDRESS")
+                word.title(),           # Title case (e.g., "Streetaddress")
+                word.capitalize(),      # Capitalize first (e.g., "Streetaddress")
+            }
+            
+            # Add camelCase variant if word contains mixed case
+            if any(c.isupper() for c in word) and any(c.islower() for c in word):
+                word_variants.add(word)  # Keep original camelCase
             
             for variant in word_variants:
                 if (variant in self.vocabulary.types or 
