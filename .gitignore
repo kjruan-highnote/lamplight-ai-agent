@@ -3,3 +3,10 @@ embeddings/
 .env
 .DS_Store 
 __pycache__/
+
+# Configuration files that may contain secrets
+**/config/config.json
+config.json
+*.key
+*.pem
+secrets.*
