@@ -2,13 +2,29 @@
 
 # GCP Cloud Run Deployment Script for Schema Agent
 # Usage: ./deploy-cloud-run.sh [PROJECT_ID] [REGION]
+#
+# Environment Variables:
+#   GCP_PROJECT_ID       - GCP project ID (default: your-gcp-project-id)
+#   GCP_REGION          - GCP region (default: us-central1)
+#   SERVICE_NAME         - Service name (default: schema-agent)
+#   MEMORY              - Memory allocation (default: 2Gi)
+#   CPU                 - CPU allocation (default: 1)
+#   TIMEOUT             - Request timeout (default: 300s)
+#   MAX_INSTANCES       - Maximum instances (default: 10)
+#   MIN_INSTANCES       - Minimum instances (default: 0)
+#   CONCURRENCY         - Concurrency per instance (default: 80)
+#   PORT                - Service port (default: 8000)
+#   ALLOW_UNAUTH        - Allow unauthenticated access (default: true)
+#   HOST                - Application host (default: 0.0.0.0)
+#   ENABLE_AUTH         - Enable API authentication (default: false)
+#   ALLOWED_ORIGINS     - CORS allowed origins (default: *)
 
 set -e
 
-# Configuration
-PROJECT_ID=${1:-"your-gcp-project-id"}
-REGION=${2:-"us-central1"}
-SERVICE_NAME="schema-agent"
+# Configuration - can be set via environment variables
+PROJECT_ID=${1:-"${GCP_PROJECT_ID:-your-gcp-project-id}"}
+REGION=${2:-"${GCP_REGION:-us-central1}"}
+SERVICE_NAME="${SERVICE_NAME:-schema-agent}"
 IMAGE_NAME="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
 
 echo -e "\033[0;32m[ROCKET]\033[0m Deploying Schema Agent to Cloud Run"
@@ -54,15 +70,15 @@ gcloud run deploy ${SERVICE_NAME} \
     --image=${IMAGE_NAME}:latest \
     --platform=managed \
     --region=${REGION} \
-    --allow-unauthenticated \
-    --memory=2Gi \
-    --cpu=1 \
-    --timeout=300s \
-    --max-instances=10 \
-    --min-instances=0 \
-    --concurrency=80 \
-    --port=8000 \
-    --set-env-vars="HOST=0.0.0.0,PORT=8000,ENABLE_AUTH=false,ALLOWED_ORIGINS=*"
+    $([ "${ALLOW_UNAUTH:-true}" = "true" ] && echo "--allow-unauthenticated" || echo "--no-allow-unauthenticated") \
+    --memory=${MEMORY:-2Gi} \
+    --cpu=${CPU:-1} \
+    --timeout=${TIMEOUT:-300s} \
+    --max-instances=${MAX_INSTANCES:-10} \
+    --min-instances=${MIN_INSTANCES:-0} \
+    --concurrency=${CONCURRENCY:-80} \
+    --port=${PORT:-8000} \
+    --set-env-vars="HOST=${HOST:-0.0.0.0},PORT=${PORT:-8000},ENABLE_AUTH=${ENABLE_AUTH:-false},ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-*}"
 
 # Get service URL
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} \

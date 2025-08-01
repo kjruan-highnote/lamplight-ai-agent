@@ -1,15 +1,27 @@
 #!/bin/bash
 
 # Deploy Cloud Scheduler for automated schema updates
-# Usage: ./deploy-cloud-scheduler.sh [PROJECT_ID] [SCHEDULE]
+# Usage: ./deploy-cloud-scheduler.sh [PROJECT_ID] [SCHEDULE] [TIMEZONE]
+#
+# Environment Variables:
+#   GCP_PROJECT_ID       - GCP project ID (default: your-gcp-project-id)
+#   CRON_SCHEDULE        - Cron schedule (default: 0 */6 * * *)
+#   SCHEDULE_TIMEZONE    - Timezone (default: UTC)
+#   CLOUD_FUNCTION_NAME  - Function name (default: schema-updater)
+#   SCHEDULER_JOB_NAME   - Job name (default: schema-update-job)
+#   PUBSUB_TOPIC_NAME    - Pub/Sub topic (default: schema-updates)
+#   STORAGE_BUCKET       - Storage bucket (default: ${PROJECT_ID}-schema-agent-data)
+#   GRAPHQL_ENDPOINT     - GraphQL endpoint URL
+#   GRAPHQL_TOKEN        - GraphQL authentication token
 
 set -e
 
-PROJECT_ID=${1:-"your-gcp-project-id"}
-SCHEDULE=${2:-"0 */6 * * *"}  # Every 6 hours
-TIMEZONE=${3:-"UTC"}
-FUNCTION_NAME="schema-updater"
-JOB_NAME="schema-update-job"
+# Configuration - can be set via environment variables
+PROJECT_ID=${1:-"${GCP_PROJECT_ID:-your-gcp-project-id}"}
+SCHEDULE=${2:-"${CRON_SCHEDULE:-0 */6 * * *}"}  # Every 6 hours
+TIMEZONE=${3:-"${SCHEDULE_TIMEZONE:-UTC}"}
+FUNCTION_NAME="${CLOUD_FUNCTION_NAME:-schema-updater}"
+JOB_NAME="${SCHEDULER_JOB_NAME:-schema-update-job}"
 
 echo -e "\033[0;34m[CLOCK]\033[0m Setting up Cloud Scheduler for Schema Updates"
 echo "Project: ${PROJECT_ID}"
@@ -33,7 +45,7 @@ gcloud services enable \
     pubsub.googleapis.com
 
 # Create Pub/Sub topic if it doesn't exist
-TOPIC_NAME="schema-updates"
+TOPIC_NAME="${PUBSUB_TOPIC_NAME:-schema-updates}"
 if ! gcloud pubsub topics describe ${TOPIC_NAME} &> /dev/null; then
     echo -e "\033[0;36m[MEGAPHONE]\033[0m Creating Pub/Sub topic..."
     gcloud pubsub topics create ${TOPIC_NAME}
@@ -48,7 +60,7 @@ gcloud functions deploy ${FUNCTION_NAME} \
     --trigger-topic=${TOPIC_NAME} \
     --memory=2GB \
     --timeout=540s \
-    --set-env-vars="GRAPHQL_ENDPOINT=${GRAPHQL_ENDPOINT},GRAPHQL_TOKEN=${GRAPHQL_TOKEN},SOURCE_BUCKET=${PROJECT_ID}-schema-agent-data"
+    --set-env-vars="GRAPHQL_ENDPOINT=${GRAPHQL_ENDPOINT},GRAPHQL_TOKEN=${GRAPHQL_TOKEN},SOURCE_BUCKET=${STORAGE_BUCKET:-${PROJECT_ID}-schema-agent-data}"
 
 # Create Cloud Scheduler job
 echo -e "\033[0;35m[ALARM]\033[0m Creating Cloud Scheduler job..."

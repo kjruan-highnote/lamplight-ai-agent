@@ -2,13 +2,19 @@
 
 # GCP Cloud Storage Setup for Schema Agent
 # Usage: ./setup-storage.sh [PROJECT_ID] [BUCKET_NAME]
+#
+# Environment Variables:
+#   GCP_PROJECT_ID           - GCP project ID (default: your-gcp-project-id)
+#   STORAGE_BUCKET_NAME      - Storage bucket name (default: ${PROJECT_ID}-schema-agent-data)
+#   GCP_REGION              - GCP region (default: us-central1)
+#   SERVICE_ACCOUNT_NAME     - Service account name (default: schema-agent-sa)
 
 set -e
 
-# Configuration
-PROJECT_ID=${1:-"your-gcp-project-id"}
-BUCKET_NAME=${2:-"${PROJECT_ID}-schema-agent-data"}
-REGION="us-central1"
+# Configuration - can be set via environment variables
+PROJECT_ID=${1:-"${GCP_PROJECT_ID:-your-gcp-project-id}"}
+BUCKET_NAME=${2:-"${STORAGE_BUCKET_NAME:-${PROJECT_ID}-schema-agent-data}"}
+REGION="${GCP_REGION:-us-central1}"
 
 echo -e "\033[0;36m[FOLDER]\033[0m Setting up Cloud Storage for Schema Agent"
 echo "Project: ${PROJECT_ID}"
@@ -59,7 +65,7 @@ if [ -d "chunks" ] && [ "$(ls -A chunks)" ]; then
 fi
 
 # Create service account for the application (optional)
-SERVICE_ACCOUNT_NAME="schema-agent-sa"
+SERVICE_ACCOUNT_NAME="${SERVICE_ACCOUNT_NAME:-schema-agent-sa}"
 SERVICE_ACCOUNT_EMAIL="${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
 if ! gcloud iam service-accounts describe ${SERVICE_ACCOUNT_EMAIL} &> /dev/null; then

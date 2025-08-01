@@ -2,14 +2,26 @@
 
 # GCP GKE Deployment Script for Schema Agent
 # Usage: ./deploy-gke.sh [PROJECT_ID] [CLUSTER_NAME] [ZONE]
+#
+# Environment Variables:
+#   GCP_PROJECT_ID       - GCP project ID (default: your-gcp-project-id)
+#   GKE_CLUSTER_NAME     - GKE cluster name (default: schema-agent-cluster)
+#   GCP_ZONE            - GCP zone (default: us-central1-a)
+#   SERVICE_NAME         - Service name (default: schema-agent)
+#   MACHINE_TYPE         - Machine type (default: e2-standard-2)
+#   NUM_NODES           - Number of nodes (default: 2)
+#   MIN_NODES           - Minimum nodes (default: 1)
+#   MAX_NODES           - Maximum nodes (default: 5)
+#   DISK_SIZE           - Disk size (default: 20GB)
+#   KUBERNETES_MANIFESTS_DIR - Kubernetes manifests directory (default: gcp/kubernetes)
 
 set -e
 
-# Configuration
-PROJECT_ID=${1:-"your-gcp-project-id"}
-CLUSTER_NAME=${2:-"schema-agent-cluster"}
-ZONE=${3:-"us-central1-a"}
-SERVICE_NAME="schema-agent"
+# Configuration - can be set via environment variables
+PROJECT_ID=${1:-"${GCP_PROJECT_ID:-your-gcp-project-id}"}
+CLUSTER_NAME=${2:-"${GKE_CLUSTER_NAME:-schema-agent-cluster}"}
+ZONE=${3:-"${GCP_ZONE:-us-central1-a}"}
+SERVICE_NAME="${SERVICE_NAME:-schema-agent}"
 IMAGE_NAME="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
 
 echo -e "\033[0;32m[ROCKET]\033[0m Deploying Schema Agent to GKE"
@@ -49,14 +61,14 @@ if ! gcloud container clusters describe ${CLUSTER_NAME} --zone=${ZONE} &> /dev/n
     echo -e "\033[0;36m[BUILDING]\033[0m Creating GKE cluster..."
     gcloud container clusters create ${CLUSTER_NAME} \
         --zone=${ZONE} \
-        --machine-type=e2-standard-2 \
-        --num-nodes=2 \
+        --machine-type=${MACHINE_TYPE:-e2-standard-2} \
+        --num-nodes=${NUM_NODES:-2} \
         --enable-autoscaling \
-        --min-nodes=1 \
-        --max-nodes=5 \
+        --min-nodes=${MIN_NODES:-1} \
+        --max-nodes=${MAX_NODES:-5} \
         --enable-autorepair \
         --enable-autoupgrade \
-        --disk-size=20GB \
+        --disk-size=${DISK_SIZE:-20GB} \
         --disk-type=pd-standard
 else
     echo -e "\033[0;32m[CHECK]\033[0m GKE cluster already exists"
@@ -75,13 +87,13 @@ docker push ${IMAGE_NAME}:latest
 
 # Update deployment YAML with correct image
 echo -e "\033[0;36m[MEMO]\033[0m Updating Kubernetes manifests..."
-sed -i.bak "s/YOUR_PROJECT_ID/${PROJECT_ID}/g" gcp/kubernetes/deployment.yaml
-sed -i.bak "s/YOUR_PROJECT_ID/${PROJECT_ID}/g" gcp/kubernetes/ingress.yaml
+sed -i.bak "s/YOUR_PROJECT_ID/${PROJECT_ID}/g" ${KUBERNETES_MANIFESTS_DIR:-gcp/kubernetes}/deployment.yaml
+sed -i.bak "s/YOUR_PROJECT_ID/${PROJECT_ID}/g" ${KUBERNETES_MANIFESTS_DIR:-gcp/kubernetes}/ingress.yaml
 
 # Deploy to GKE
 echo -e "\033[0;32m[ROCKET]\033[0m Deploying to GKE..."
-kubectl apply -f gcp/kubernetes/deployment.yaml
-kubectl apply -f gcp/kubernetes/service.yaml
+kubectl apply -f ${KUBERNETES_MANIFESTS_DIR:-gcp/kubernetes}/deployment.yaml
+kubectl apply -f ${KUBERNETES_MANIFESTS_DIR:-gcp/kubernetes}/service.yaml
 
 # Wait for deployment to be ready
 echo -e "\033[0;33m[HOURGLASS]\033[0m Waiting for deployment to be ready..."
