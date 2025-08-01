@@ -12,21 +12,35 @@
         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
         
   @app.on_event("shutdown")
-2025-08-01 15:57:01,792 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
-2025-08-01 15:57:01,793 - __main__ - INFO - Authentication enabled: False
-2025-08-01 15:57:01,793 - __main__ - INFO - Schema agent: http://localhost:8000
-2025-08-01 15:57:01,793 - __main__ - INFO - Document agent: http://localhost:8001
-INFO:     Started server process [59029]
+2025-08-01 16:12:21,850 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
+2025-08-01 16:12:21,851 - __main__ - INFO - Authentication enabled: False
+2025-08-01 16:12:21,851 - __main__ - INFO - Schema agent: http://localhost:8000
+2025-08-01 16:12:21,851 - __main__ - INFO - Document agent: http://localhost:8001
+INFO:     Started server process [62820]
 INFO:     Waiting for application startup.
-2025-08-01 15:57:01,836 - api - INFO - Initializing advisory agent router...
-2025-08-01 15:57:01,836 - api - INFO - Advisory agent router initialized successfully
-2025-08-01 15:57:01,836 - api - INFO - Schema agent URL: http://localhost:8000
-2025-08-01 15:57:01,836 - api - INFO - Document agent URL: http://localhost:8001
-2025-08-01 15:57:01,851 - api - INFO - schema_agent: healthy
-2025-08-01 15:57:01,851 - api - INFO - doc_agent: healthy
+2025-08-01 16:12:21,889 - api - INFO - Initializing advisory agent router...
+2025-08-01 16:12:21,889 - api - INFO - Advisory agent router initialized successfully
+2025-08-01 16:12:21,889 - api - INFO - Schema agent URL: http://localhost:8000
+2025-08-01 16:12:21,889 - api - INFO - Document agent URL: http://localhost:8001
+2025-08-01 16:12:21,901 - api - INFO - schema_agent: healthy
+2025-08-01 16:12:21,901 - api - INFO - doc_agent: healthy
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
-INFO:     127.0.0.1:50268 - "GET /health HTTP/1.1" 200 OK
-2025-08-01 15:58:08,179 - api - INFO - Processing question: How do I set up card design and virtual card profiles in Highnote?...
-2025-08-01 15:58:08,183 - src.agent_router - INFO - Routing query: 'How do I set up card design and virtual card profi...' -> Type: documentation, Schema: False, Docs: True
-INFO:     127.0.0.1:50366 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51447 - "GET /health HTTP/1.1" 200 OK
+2025-08-01 16:12:28,565 - api - INFO - Processing question: How do I create a card product and what GraphQL mutation do I use?...
+2025-08-01 16:12:28,566 - src.agent_router - INFO - Routing query: 'How do I create a card product and what GraphQL mu...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:51482 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51548 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51576 - "POST /analyze HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51578 - "POST /query HTTP/1.1" 404 Not Found
+2025-08-01 16:13:58,333 - api - INFO - Processing question: How do I create a card?...
+2025-08-01 16:13:58,334 - src.agent_router - INFO - Routing query: 'How do I create a card?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:51581 - "POST /chat HTTP/1.1" 200 OK
+2025-08-01 16:16:28,597 - api - INFO - Processing question: How do I create a card using GraphQL mutation?...
+2025-08-01 16:16:28,598 - src.agent_router - INFO - Routing query: 'How do I create a card using GraphQL mutation?...' -> Type: documentation, Schema: True, Docs: True
+INFO:     127.0.0.1:51686 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51724 - "GET /routing/test?question=How%20do%20I%20create%20a%20card? HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51745 - "GET /routing/test?question=What%20GraphQL%20mutation%20creates%20a%20card? HTTP/1.1" 200 OK
+2025-08-01 16:22:13,303 - api - INFO - Processing question: What are the key features of Highnote?...
+2025-08-01 16:22:13,303 - src.agent_router - INFO - Routing query: 'What are the key features of Highnote?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:52036 - "POST /chat HTTP/1.1" 200 OK

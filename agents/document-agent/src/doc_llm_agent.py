@@ -1,4 +1,4 @@
-from src.simple_retriever import SimpleDocumentRetriever
+from src.faiss_retriever import FAISSDocumentRetriever
 import ollama
 import sys
 import datetime
@@ -51,7 +51,7 @@ class DocumentLLMAgent:
                  chunks_dir="data/chunks",
                  log_path=None, 
                  history_path=None):
-        self.retriever = SimpleDocumentRetriever(chunks_dir=chunks_dir)
+        self.retriever = FAISSDocumentRetriever(index_path="data/embeddings")
         self.model = model
         self.system_prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
         self.use_examples = use_examples
@@ -136,7 +136,7 @@ class DocumentLLMAgent:
         return messages
 
     def answer(self, question: str, top_k: int = 5, category_filter: str = None) -> str:
-        chunks = self.retriever.retrieve_chunks(question, top_k=top_k, category_filter=category_filter)
+        chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
         
         if not chunks:
             raise RuntimeError("No relevant documentation found for your question.")
@@ -168,7 +168,7 @@ class DocumentLLMAgent:
         return answer
 
     def stream_answer(self, question: str, top_k: int = 5, category_filter: str = None):
-        chunks = self.retriever.retrieve_chunks(question, top_k=top_k, category_filter=category_filter)
+        chunks = self.retriever.retrieve_chunks(question, top_k=top_k)
         
         if not chunks:
             raise RuntimeError("No relevant documentation found for your question.")

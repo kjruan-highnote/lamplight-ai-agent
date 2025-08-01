@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to build embeddings from scraped documentation.
+Script to build FAISS embeddings from scraped documentation.
 """
 
 import sys
@@ -9,7 +9,8 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.doc_chunker import DocumentChunker
-from src.embedder_chroma import DocumentEmbedder
+from src.embedder import DocumentEmbedder
+from src.faiss_retriever import FAISSDocumentRetriever
 import argparse
 import logging
 
@@ -17,12 +18,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def main():
-    parser = argparse.ArgumentParser(description="Build embeddings from scraped documentation")
+    parser = argparse.ArgumentParser(description="Build FAISS embeddings from scraped documentation")
     parser.add_argument("--docs-file", default="data/docs/scraped_docs.json", help="Input scraped docs JSON file")
     parser.add_argument("--chunks-dir", default="data/chunks", help="Output directory for chunks")
-    parser.add_argument("--embeddings-dir", default="embeddings", help="Output directory for embeddings")
+    parser.add_argument("--embeddings-dir", default="data/embeddings", help="Output directory for FAISS index")
     parser.add_argument("--model", default="sentence-transformers/all-MiniLM-L6-v2", help="Embedding model")
-    parser.add_argument("--max-chunk-size", type=int, default=1000, help="Maximum chunk size")
+    parser.add_argument("--max-chunk-size", type=int, default=800, help="Maximum chunk size")
     parser.add_argument("--skip-chunking", action="store_true", help="Skip chunking step (chunks already exist)")
     parser.add_argument("--skip-embedding", action="store_true", help="Skip embedding step (embeddings already exist)")
     
@@ -34,7 +35,7 @@ def main():
         
         if not os.path.exists(args.docs_file):
             logger.error(f"Scraped docs file not found: {args.docs_file}")
-            logger.error("Run 'python scripts/scrape_docs.py' first")
+            logger.error("Run 'python src/web_scraper.py' first")
             return 1
         
         # Load scraped documents
@@ -43,42 +44,39 @@ def main():
         
         logger.info(f"Loaded {len(docs)} documents")
         
-        # Create chunker and process documents
-        chunker = DocumentChunker(
-            max_chunk_size=args.max_chunk_size,
-            preserve_sections=True
-        )
+        # Create chunker and process documents - use the rebuild script approach
+        logger.info("Using comprehensive chunking approach from rebuild_expanded_docs.py")
+        logger.info("Please run 'python scripts/rebuild_expanded_docs.py' instead for optimal results")
         
-        chunks = chunker.chunk_all_documents(docs)
-        chunker.save_chunks(chunks, args.chunks_dir)
-        
-        logger.info(f"Created {len(chunks)} chunks")
     else:
         logger.info("Skipping chunking step")
     
-    # Step 2: Embedding
+    # Step 2: FAISS Embedding
     if not args.skip_embedding:
-        logger.info("Step 2: Creating embeddings...")
+        logger.info("Step 2: Creating FAISS embeddings...")
         
         if not os.path.exists(args.chunks_dir):
             logger.error(f"Chunks directory not found: {args.chunks_dir}")
             logger.error("Run chunking step first or check directory path")
             return 1
         
-        # Create embedder and build index
-        embedder = DocumentEmbedder(
-            model_name=args.model,
-            persist_directory=args.embeddings_dir
+        # Create embedder and FAISS retriever
+        embedder = DocumentEmbedder(model_name=args.model)
+        
+        retriever = FAISSDocumentRetriever(
+            embedder=embedder,
+            index_path=args.embeddings_dir,
+            auto_load=False
         )
         
-        num_chunks = embedder.embed_and_store(args.chunks_dir)
-        logger.info(f"Created embeddings for {num_chunks} chunks")
+        num_chunks = retriever.build_index_from_directory(args.chunks_dir)
+        logger.info(f"Created FAISS index with {num_chunks} chunks")
     else:
         logger.info("Skipping embedding step")
     
     logger.info("Build complete!")
-    logger.info(f"Chunks saved to: {args.chunks_dir}")
-    logger.info(f"Embeddings saved to: {args.embeddings_dir}")
+    logger.info(f"Chunks directory: {args.chunks_dir}")
+    logger.info(f"FAISS index saved to: {args.embeddings_dir}")
     
     return 0
 
