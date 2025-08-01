@@ -1,0 +1,32 @@
+Title: Build a Transaction Feed
+URL: https://highnote.com/docs/issuing/transactions/transaction-feed
+==================================================
+
+Home / Issuing / Handle Transactions
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+A card product, financial account, and payment card
+Optional - Real or simulated transactions
+
+## Financial account activity
+
+Financial account activity is recorded in the Highnote ledger. To build a transaction feed for your account holders, you can query a financial account to return its account activity and associated ledgers. Building transaction feeds against a financial account ensures financial account activity carries across all payment cards associated with the financial account.
+
+Note the following when querying for financial account activity:
+
+For financial accounts with no activities: The Highnote API returns four specific ledgers, CASH, AVAILABLE_CASH, CREDIT_OUTSTANDING, AVAILABLE_CREDIT.
+For financial accounts with activities: The Highnote API only returns ledgers that have at least one activity on them.
+
+CASH
+
+AVAILABLE_CASH
+
+CREDIT_OUTSTANDING
+
+AVAILABLE_CREDIT
+
+Use the following query to return financial account activity:
+

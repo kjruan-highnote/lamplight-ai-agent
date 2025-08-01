@@ -1,0 +1,42 @@
+Title: Virtual Cards
+URL: https://highnote.com/docs/issuing/design/virtual
+==================================================
+
+Home / Issuing / Card Design
+
+## Overview
+
+Virtual cards are displayed in an application or website and used to make online purchases. On the Highnote platform, all cards start as virtual cards.
+
+Highnote supports issuing virtual cards on the following card networks:
+
+Mastercard
+Visa
+
+This guide provides guidelines for designing card art for virtual cards.
+
+## Card art templates
+
+Card art templates are used to help guide you with your card design. Highnote provides specific card art templates based on your card product's card network, vertical (prepaid, debit, credit, etc.), and Partner Bank.
+
+Contact the Highnote implementations team for access to a card art template for your card product.
+
+## Design guidelines
+
+Card art must follow specific guidelines for approval by Highnote and Partner Banks. Some guidelines apply to all virtual cards, while others apply only to cards issued using Visa or Mastercard. Refer to general and card network-specific guidelines when designing card art.
+
+## General guidelines
+
+The following general design guidelines apply to all virtual card designs:
+
+If you plan to issue a physical card, the corresponding virtual card design should be an exact replica of the physical card design.
+We recommend displaying virtual card designs on a neutral background.
+
+## Mastercard guidelines
+
+The following guidelines apply to card products issued on the Mastercard network:
+
+## Visa guidelines
+
+The following guidelines apply to card products issued on the Visa card network:
+

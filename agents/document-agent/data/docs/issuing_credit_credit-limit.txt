@@ -1,0 +1,107 @@
+Title: Set and Update Credit Limits
+URL: https://highnote.com/docs/issuing/credit/credit-limit
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+For credit, charge, and fleet card products, you can create or update a credit limit for an account holder's financial account based on your underwriting criteria, agreements, and product guidelines. The credit limit establishes a maximum spending limit for a given period, and authorizations exceeding the credit limit will be declined.
+
+Once you have created a credit limit, you can update it as you factor in new information, such as changes in your customers' financial situations. As part of this feature, Highnote tracks the total credit extended to your account holders' financial accounts and ensures the extended credit does not exceed your card product’s limits.
+
+## Set credit limit
+
+Note: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.
+
+You can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders.
+
+financialAccountId
+
+Use the following mutation to set a credit limit:
+
+## Check credit limit status
+
+Once you have requested to set or update the credit limit on a financial account, you can query for and display the following statuses:
+
+PENDING
+
+PROCESSING
+
+COMPLETED
+
+FAILED
+
+statusReasonCode
+
+statusReasonCode has the following values:
+
+statusReasonCode
+
+ACCOUNT_CLOSED
+
+ACCOUNT_NOT_FOUND
+
+INSUFFICIENT_FUNDS
+
+LIMIT_AMOUNT_EXCEEDING_MAX_PROGRAM_LOAD_LIMIT
+
+Use the following query to check the status of a credit limit update:
+
+## Update a credit limit
+
+You can increase or decrease a financial account's credit limit by creating a credit limit change request case. Credit limit updates fall into two categories:
+
+Proactive: Requested by you
+Reactive: Request by your account holders
+
+Each credit limit update, increase or decrease, proactive or reactive, may have a credit policy associated with your card product. Creating a credit limit change request case triggers the workflows necessary to make an underwriting decision. The underwriting decision for a credit limit update may be executed by your or Highnote, depending on your card program's credit policies.
+
+## Create credit limit change request
+
+To request a credit limit change for a financial account, you must provide:
+
+The financial account ID
+The requested change type, increase or decrease
+
+If you are running your own underwriting for credit limit updates, subscribe to the CREDIT_LIMIT_CHANGE_REQUEST_UNDERWRITING_DECISION_REQUESTED notification event to be notified when a credit limit change request is made.
+
+CREDIT_LIMIT_CHANGE_REQUEST_UNDERWRITING_DECISION_REQUESTED
+
+The following mutation can be used to create the credit limit change request:
+
+## View credit limit change request
+
+To view the status of a credit limit change request, use the following query and the CREDIT_LIMIT_CHANGE_REQUEST_ID:
+
+CREDIT_LIMIT_CHANGE_REQUEST_ID
+
+## Approve or deny the request
+
+If you are running your own underwriting, you must provide the variables required to decision a credit limit change request based on your credit policy.
+
+In the test environment, use the following variables to approve or deny an increase or decrease credit limit change request. Note the following about credit limit change requests and adverse action reasons:
+
+Credit limit decreases always require an Adverse Action reason
+Credit limit increases always require an Adverse Action reason when the requestor is the customer and the request is denied
+
+## Approve credit limit increase
+
+Use the following mutation to approve a credit limit increase request:
+
+## Deny credit limit increase
+
+Use the following mutation to deny a credit limit increase request:
+
+## Approve credit limit decrease
+
+Use the following mutation to approve a credit limit decrease:
+
+## Deny credit limit decrease
+
+Use the following mutation to deny a credit limit decrease:
+
+## View credit limit request history
+
+Use the following query to view the history of credit limit change requests on a financial account:
+

@@ -1,0 +1,52 @@
+Title: Payment Orders
+URL: https://highnote.com/docs/acquiring/accept-payments/payment-orders
+==================================================
+
+Home / Acquiring / Accept Payments
+
+## Overview
+
+The Payment Orders API simplifies the Highnote acquiring offering by letting you easily define items for a PaymentOrder and enabling Highnote to manage the payment flow.
+
+PaymentOrder
+
+## Create a payment order
+
+A payment order can be created using createPaymentOrder. This mutation takes catalogItems which are pre-defined by Highnote for your merchant. These items have pre-defined names, descriptions, and amounts. All pre-defined data can be overwritten when invoking the mutation.
+
+createPaymentOrder
+
+catalogItems
+
+catalogItems can take paymentInstructions which define and automate disbursement regarding which accounts get what amounts. Payment Instructions can be defined to disburse a specific amount or a percentage of the item’s amount. They also require a disburseToId (i.e., a Highnote Node ID) to disburse funds to. Currently only a FinancialAccount ID can be used.
+
+catalogItems
+
+paymentInstructions
+
+disburseToId
+
+Node
+
+FinancialAccount
+
+## Charge a payment order with payment method token
+
+Once the payment order has been created, a request to charge a PaymentMethodToken (generated from the Checkout SDK) can proceed by using chargePaymentOrderFromPaymentMethodToken. This mutation returns both the payment order charged and a new PaymentTransaction charging the token for the payment order amount.
+
+PaymentMethodToken
+
+chargePaymentOrderFromPaymentMethodToken
+
+PaymentTransaction
+
+## Query a payment order
+
+A PaymentOrder can be queried using the node query, which lists any PaymentTransactions associated with the PaymentOrder.
+
+PaymentOrder
+
+PaymentTransactions
+
+PaymentOrder
+

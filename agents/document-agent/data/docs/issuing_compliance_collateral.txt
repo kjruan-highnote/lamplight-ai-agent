@@ -1,0 +1,174 @@
+Title: Marketing and Collateral
+URL: https://highnote.com/docs/issuing/compliance/collateral
+==================================================
+
+Home / Issuing / Compliance
+
+## Overview
+
+Marketing materials should accurately describe Subscriber card program offerings, utilize clear and conspicuous language to ensure applicants and/or cardholders understand important terms about the card offering (ie. the costs associated with having and using the card), and ensure fairness in the marketing practices of the program.
+
+General guidance when it comes to these materials is that all customer facing materials must be reviewed and approved by Highnote and its Partner Bank. Marketing review submission process will be communicated to you during the implementation process and may vary based on your bank partner. If you have questions about how to submit marketing assets for review, please contact your implementation manager.
+
+## Definitions
+
+Marketing Material: Any digital or printed materials used to communicate, promote, or disseminate information about a Card Product
+Partner Bank: The Highnote Partner Bank who approved the Subscriber Card Program
+Subscriber: A bank-approved Highnote customer who is offering a specific Card Product
+Account Holder, Card Holder, Customer, or End User: Any person or business entity to whom a card is issued and has agreed to the obligations set forth in the Subscriber Cardholder Agreement
+Network: Refers to Visa or Mastercard card networks
+
+## Material for review
+
+If an Account Holder or potential Account Holder is going to see or read anything related to the Payment Card or Card Product, it needs to undergo the collateral review process. Please note that items should be submitted even if there is a question or concern that may not be relevant.
+
+The following are required to be reviewed for collateral approval:
+
+Card Designs, Virtual, Physical, and Tokenized
+Card Inserts
+Marketing and Advertisements, including websites/Subscriber landing pages, flyers, media releases, mailers, commercials (TV, radio, podcasts, online, social media, blog posts, etc.), and emails
+Documents including Account Holder Agreements, Terms and Conditions (Terms of Use), Short Form Disclosures, Long Form Disclosures, Privacy Notice Form, Frequently Asked Questions, Privacy Policy, Rewards Terms and Conditions, Authorized User Terms, etc. Any other agreements or disclosures used must be approved by Highnote and its Partner Bank.
+Customer communications/dispute resolution material, including IVR Flows, response templates, Adverse Action Notice Templates, Application screens for products, UX from mobile device app screens, Servicing/Account Dashboards, chat responses, call scripts, training materials, predetermined responses/scripts, reference documents
+
+It is important that verbiage across all of these materials is clear and conspicuous for the Account Holder (and/or consumer) to understand the terms of, as well as general details around, the Card Product.
+
+## Review process
+
+Marketing materials cannot be published until the Subscriber’s Card Product application to work with Highnote has been approved.
+
+## Review process notes
+
+Note the following regarding the review process:
+
+Ensure your naming convention includes the name of your business and a brief description of the marketing item, for example, "Highnote.CardArt.pdf".
+Materials are to be reviewed within five to 10 business days from the date of receipt confirmation by Highnote. Highnote often delivers marketing material responses sooner than the aforementioned time frame.
+Materials are reviewed and approved by both Highnote and Partner Bank.
+If any changes to the materials are required, such as wording or graphics, materials must be resubmitted for final approval prior to production and use.
+A clean version, which when appropriate includes the approved date, must be sent back to Highnote for internal records and partner bank records.
+Once approved, Highnote will respond back to the Subscriber with confirmation.
+After approval, resubmission of materials is required when changes to the product or the information being communicated to the Account Holder is changed.
+Resubmissions undergo the same five to 10 business day Service Level Agreement (SLA) timeframe.
+
+## General guidelines
+
+General guidelines for marketing and collateral are included in this section. It is the responsibility of the Subscriber to ensure the submitted marketing materials comply with UDAP/UDAAP, CAN-SPAM, and any other applicable regulations.
+
+## What to do
+
+Ensure all marketing materials are clear and conspicuous. Be mindful of the 4 P's standard under UDAAP (placement, proximity, prominence, and presentation).
+Ensure the Program name and Network name are the same text size.
+Ensure the Program name utilizes proper capitalization and punctuation, following the approved Program with Highnote and the Partner Bank. For example, “Prepaid” instead of "Pre-paid" or "PrePaid".
+For Mastercard Debit cards, “debit” should be utilized if listed on the front of the card with the Mastercard logo.
+Ensure card details reflect the approved Program with Highnote and the Partner Bank.
+The Partner Bank/Lender Issuing Statement must be included on any materials where the payment card is shown or referenced. For credit products, "subject to credit approval" disclosure must be included.
+Ensure pictures and images in materials portray the Partner Bank as inclusive rather than exclusive with respect to race, color, religion, national origin, sex, marital status, age, or any right under the Consumer Credit Protection Act (the "Prohibited Bases").
+Include information about terms that are actually available; if marketing materials mention specific credit terms, you must provide those terms to applications qualifying for the offer.
+Ensure fees or finance charges include an explanation about how the fee/finance charge and amount will be determined.
+
+## What not to do
+
+Include unfair, deceptive, abusive acts or practices (UDAP/UDAAP) information.
+Use language suggesting the Subscriber is a bank or offers banking services; exceptions apply for Demand Deposit Accounts (DDA).
+Language that states digital or mobile banking is permitted.
+Reference offerings the Product does not offer.
+Say "free" or "no fees" when there is a potential for fees. Language such as "no hidden fees" should also be avoided.
+Include language that discourages a potential application from applying for credit based on one or more Prohibited Bases.
+Use express claims that are not easily substantiated, such as "free" products or services: "no fees," "instant approval," etc.
+Use comparison tables of rates, fees, or other credit terms.
+
+## Use of “Bank” and “Banking”
+
+Refer to the following guidelines on the use of "Bank" and "Banking" in Marketing and Collateral materials:
+
+A bank is a financial institution licensed to receive deposits and provide other services such as mortgage loans and individual retirement accounts. A chartered bank is a financial institution in the business of providing monetary transactions, such as safeguarding deposits and making loans.
+“Bank” and ”Banking” cannot be used in URLs, documents, marketing materials, or other customer-facing materials that would represent the Subscriber as a licensed bank.
+The Subscriber must clarify the program is a FinTech and make the distinction that it is not a bank in all publications and materials. Banking services are provided by the Partner Bank.
+Marketing materials  cannot use language stating, for example, “opening a [Subscriber] bank account” or “how to open a bank account with [Subscriber].” Instead, an option would be to say, "open an account through [Subscriber]."
+Google search results must place a statement on Google or other ads that banking services are provided by Partner Bank.
+Frequently Asked Questions (FAQs) must include a section that explains that accounts are held at the Partner Bank.
+During account setup, there must be a clear and prominent statement to inform consumers that your company is a FinTech, not a bank and that banking services are provided by the Partner Bank.
+Company description must be clear that you are not a bank. It is suggested to put a “What is [Company Name]” section in the FAQs.
+
+Subscribers should ensure that all marketing, disclosures, and communications accurately represent the nature of account features and protections, avoiding any misrepresentation regarding deposit insurance coverage or guarantees.
+
+## Issuing statement
+
+Issuing statements are required to appear anytime the Program or the Network is identified or displayed in any form of marketing materials. Your Highnote Implementation and Customer Success Team can provide you with the specific statement for your Partner Bank and Network.
+
+## General guidelines for issuing statements
+
+When displaying Partner Banks, naming conventions must abide by approved formatting.
+Similarly, if the Partner Bank is mentioned as a corporate organization, Highnote can provide an approved description.
+For websites, the issuing statement must appear at the bottom of each website page where the Program or Network is identified or displayed.
+For In-App/Virtual Cards, the issuing statement can be displayed on the app screen where the card, Program, or Network is identified. Other location options for the issuing statement include a link on the screen where the card, Program, or Network is mentioned that directs the customer to the issuing statement or an icon on the screen where the card, Program, or Card Network is mentioned in which the customer can touch or hover that displays the issuing statement.
+For Commercials, the issuing statement must appear at the end of the commercial.
+For Physical Cards, the issuing statement must appear on the Physical Card.
+For emails, the issuing statement must appear at the bottom of each email.
+
+## Registered trademark symbol
+
+At the first mention of the Network (Mastercard, Visa, or Discover), the registered trademark symbol (®) must be present. The registered trademark symbol (®) may stop being used when the Network is mentioned again in the same document. Brand marks may not be used in place of a brand name.
+
+## Trademark statement
+
+The Trademark Statement should appear below the Issuing Statement on non-card materials that reference the Card Product.
+
+## Mastercard
+
+Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.
+
+## Visa
+
+Visa is a registered trademark of Visa, U.S.A. Inc. All other trademarks and service marks belong to their respective owners.
+
+## Lotteries, sweepstakes, and contests
+
+A Card Product cannot participate in any type of lottery, sweepstake, or contest without the express permission of Highnote, the Partner Bank, and Network brand.
+
+Common definitions to consider when evaluating lotteries, sweepstakes, and contests include:
+
+Lottery is a promotion that will be considered a lottery if it has, consideration to enter, chance and/or a prize.
+Sweepstake is a random drawing or a prize.
+Contest is a true competition, skill replaces chance, such as a best photo contest.
+
+The FDIC and networks have strict guidelines relating to these practices. See FDIC Federal Deposit Insurance Act for more information.
+
+## Rewards and promotions
+
+Any promotion and/or reward that is offered through a Subscriber product or service must be compliant with applicable laws and regulations and must be accompanied by the terms and conditions to receive such reward or promotion. The terms and conditions should be prominently displayed within close proximity to the advertised offer. At a minimum, the terms and conditions must include:
+
+Description of the rewards of promotion;
+Eligibility requirements that the customer must fulfill to obtain the reward or promotion;
+Date range(s) the rewards or promotions offer will be valid;
+Any restrictions that apply;
+Instructions detailing the process for redeeming rewards; and
+Details of any expiration of the rewards or promotions
+
+## TILA/Reg Z Triggering Terms
+
+If advertisements for consumer loans and other credit-related products contain certain terms from the credit agreement, whether in print, broadcast, or online, then the advertisement must also contain specified disclosures. This regulatory requirement is meant to protect consumers from predatory advertising and lending practices.
+
+If the following terms are used when advertising Closed-End Credit:
+
+The amount of a down payment expressed as a percentage or a dollar amount (example: "As little as 3% down" or "90% financing");
+The amount of any payment expressed as a percentage or a dollar amount (example: "$20 per month" or "monthly payments of under $50");
+The number of payments (example: "36 monthly payments" or "10 small payments is all you owe");
+The total time required to pay and the period of repayment (example: "5-year loans available" or "just 36 low monthly payments"); Or
+The finance charge amount (example: "Less than $300 interest" or "financing costs less than $100");
+
+Then, the ad must disclose the following:
+
+The amount or percentage of the downpayment;
+The terms of repayment, which reflect the repayment obligations over the full term of the loan, including any balloon payment; and
+The "annual percentage rate" using that term, and disclose (if applicable) that the APR may be increased after consummation.
+For Open-End Credit, if the finance charge and other payment terms required to be disclosed at account opening are included in an advertisement, then it must state the following additional disclosures:
+The minimum, fixed, transaction, activity, or similar finance charge that could be imposed;
+The periodic rate that may be applied expressed as an annual percentage rate (APR) - If the plan provides for variable rates, that must also be disclosed; and
+The membership or participation fees that could be imposed.
+
+Keep in mind that triggering terms do not need to be explicitly stated; additional disclosures are required if the terms can be inferred from the advertisement. For instance, if an advertisement states, “80 percent financing available,” it implies a 20 percent down payment is required, which qualifies as a triggering term. Negative, as well as affirmative, statements trigger the requirement for additional information. For example, stating that a plan has “no interest” or “no annual membership fee” in an advertisement would require additional disclosures.
+
+Additionally, if an advertisement references specific credit terms, it must only include terms the creditor is genuinely prepared to offer. For instance, a creditor cannot advertise an exceptionally low annual percentage rate that will never actually be available. This rule does not restrict the promotion of new credit programs but prohibits the advertising of terms that are unavailable or will never be offered. For example, a creditor may promote terms that will be available for a limited time or will take effect on a future date.
+
+Finally, disclosures must always be clear and conspicuous, and in a reasonably understandable form.
+

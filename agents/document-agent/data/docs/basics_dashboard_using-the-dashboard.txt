@@ -1,0 +1,64 @@
+Title: Using the Dashboard
+URL: https://highnote.com/docs/basics/dashboard/using-the-dashboard#create-and-manage-api-keys
+==================================================
+
+Home / Basics / Dashboard
+
+## Overview
+
+Highnote dashboard sessions time out after 15 minutes of inactivity.
+
+The Highnote dashboard is a no-code user interface built on top of the Highnote API. The "Developers" section of the dashboard contains several developer-related controls.
+
+This guide is for developers. Non-technical users should refer to Using the dashboard in the support guide. To access the dashboard, sign up for a new account or log in.
+
+## Test and live environments
+
+The Highnote dashboard lets you switch between test and live environments using the environment drop-down. For a general overview of the test and live environments, see the Using the Highnote dashboard support guide.
+
+## API keys
+
+You can create and manage API keys from the Highnote dashboard. You must have a valid API key to interact with the Highnote API.
+
+We recommend rotating API keys to mitigate risk and misuse of sensitive data. For more information, see Rotating API Keys.
+
+## Create API key
+
+Use the following steps to create an API key:
+
+From the Highnote dashboard, click Developers.
+On the API Keys tab, click Create API Key.
+Provide an API Key Name and click Create API Key.
+Copy your API key and store it in a safe location. For security reasons, we can’t display the API key again.
+Once you’ve copied and stored your API key, click I’ve copied my key.
+
+## Revoke API key
+
+Use the following steps to revoke an API key:
+
+From the Highnote dashboard, click Developers.
+On the API Keys tab, locate the API key you want to delete.
+Click Revoke API Key.
+
+## Notifications and events
+
+The Highnote dashboard allows you to manage notifications, targets, and events. For more information on using the dashboard to manage notifications, see the following support guides:
+
+Manage notifications: Add, manage, activate, and delete notification targets
+Monitor events: View event details and replay events
+
+## Collaborative authorization
+
+Using the Highnote dashboard, you can add collaborative authorization endpoints, which allow you to receive collaborative authorization requests.
+
+For more information on using the dashboard to manage collaborative authorization endpoints, see the following support guide: Collaborative authorization.
+
+## Dashboard roles and permissions
+
+The Highnote dashboard offers different user and permission levels:
+
+Admin
+Support
+
+For an overview of dashboard roles and permissions, see Dashboard roles and permissions.
+

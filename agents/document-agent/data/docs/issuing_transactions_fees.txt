@@ -1,0 +1,84 @@
+Title: Fees
+URL: https://highnote.com/docs/issuing/transactions/fees
+==================================================
+
+Home / Issuing / Handle Transactions
+
+## Overview
+
+The Highnote platform supports the ability to charge fees for your card product. Fees can serve as an additional revenue stream for your card program. If you choose to charge fees, the Highnote team and partner bank must review and approve your fees along with your Cardholder Agreements and Disclosures. Once your fees are approved, Highnote will configure the fees for your card product and create a fee schedule. This guide provides an overview of fee schedules, fee activity types, and steps for viewing and managing fees for your card product.
+
+## Fee schedules and activities
+
+Fee schedules represent all the fees for your card product and are configured by the Highnote team. Individual fees within a fee schedule are referred to as fee activity types.
+
+Fee activity types are triggered by a fee charge activity. When a transaction or event matches a fee charge activity, a fee schedule is activated and a fee is applied to the account holder's financial account.
+
+For an overview of fee activity types and charge activities, see the Fee schedules support guide.
+
+## Simulate create fee schedule
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+The Highnote team will configure and activate fee schedules in your live environment, but you can simulate creating fee Schedules in your test environment using the following query:
+
+## View fee schedule
+
+Note: In addition to displaying fees, you must display the appropriate Cardholder Agreements and Disclosures for your account holders.
+
+Once a fee schedule is configured for your card product, you can query the configuration to display on your website or application for your account holders.
+
+Each fee schedule has an active date and a status to determine if the schedule is active. The following query can be used to view a fee schedule:
+
+## Test your fee schedule
+
+Note: Fees for ATM withdrawals, ATM balance inquiries, international transactions, and monthly fees cannot be simulated in the test environment.
+
+Once the Highnote team configures fees, you can test the configuration to ensure the fees are assigned properly to your users. Testing your fee schedule consists of the following:
+
+View fees on financial account activity
+View fee collection activity
+Query for fee balances
+Search for collected fees
+
+## View financial account activity
+
+Fees associated with transaction events are stored as financial account activities.
+
+Note the following when querying for financial account activities:
+
+For financial accounts with no activities: The Highnote API returns four specific ledgers: CASH, AVAILABLE_CASH, CREDIT_OUTSTANDING, and AVAILABLE_CREDIT.
+For financial accounts with activities: The Highnote API only returns ledgers that have at least one activity on them.
+
+CASH
+
+AVAILABLE_CASH
+
+CREDIT_OUTSTANDING
+
+AVAILABLE_CREDIT
+
+Use the following query to view financial account activity. Fees are listed in the results payload:
+
+## Query card product income balance
+
+Fees are collected from an account holder's financial account immediately and transferred to an Income Account for each card product. You view the balance of fees collected for your card product by querying the ledgers associated with your card product income account. Use the following query to query the balance on an income account:
+
+## Search for collected fees
+
+You can query for a group of fees collected, and filter by account holder financial accounts. Use the following query to search for fees collected on a card product:
+
+## Waive fees
+
+When you waive a fee, the entire fee amount from the original fee transfer event is reversed.
+
+The following waiveFeeTransfer mutation creates a ReversedFeeTransfer event that starts in a PENDING state, and can either FAIL or COMPLETE successfully.
+
+waiveFeeTransfer
+
+PENDING
+
+FAIL
+
+COMPLETE
+

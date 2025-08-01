@@ -1,0 +1,62 @@
+Title: Sardine Processor API
+URL: https://highnote.com/docs/sdks/issuing-sdks/sardine-processor-api
+==================================================
+
+Home
+
+## Overview
+
+Contact your Highnote Implementation Manager to enable Sardine Processor Model integration.
+
+Highnote supports a bring-your-own Sardine integration model. Under this approach, you maintain full ownership and management of your Sardine account while allowing Highnote to access your onboarding risk scores.
+
+To enable this parent-child relationship, you must have an active Sardine account and integration. This setup grants Highnote the necessary permissions to act on behalf of your Sardine account for risk evaluation purposes.
+
+## Sardine application sequence
+
+The application proceess with the Sardine Processor is asynchronous and does not block the applicant from seeing the Application Submission Screen.
+
+The sequence of steps for evaluating an application with Sardine is as follows:
+
+Card Applicant: Submit Application
+Subscriber Frontend: Initialize Onboarding Flow
+Subscriber Backend: Generate Risk Client Token
+Subscriber Frontend: Initialize Sardine SDK
+Subscriber Frontend: Create Account Holder
+Subscriber Backend: Create US Person Account Holder
+Highnote: Evaluate Account Holder information
+Subscriber Backend: Create Account Holder Card Product Application
+Highnote: Assess Onboarding Evaluation Signals and Risk
+
+## Generate risk client token
+
+Generate a client token to create an account holder and associated application with the Highnote GraphQL API.
+
+## Sardine risk level
+
+Using simulated values for Account Holders may result in different application outcomes based on verification of the applicant’s identity. See Simulate Application Review for more information.
+
+You can trigger varying fraud risk levels using the Person Account Holder’s email or the email of the Primary Authorized Person for a Business Account Holder.
+
+Highnote will move the application to APPROVED or IN_REVIEW based on the assessed fraud risk level and verification of the applicant’s identity.
+
+APPROVED
+
+IN_REVIEW
+
+LOW
+
+APPROVED
+
+MEDIUM
+
+IN_REVIEW
+
+HIGH
+
+IN_REVIEW
+
+VERY HIGH
+
+IN_REVIEW
+

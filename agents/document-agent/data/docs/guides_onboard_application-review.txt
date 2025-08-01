@@ -1,0 +1,173 @@
+Title: Request Documents for Application Review
+URL: https://highnote.com/docs/guides/onboard/application-review#document-upload-create-link
+==================================================
+
+Home / Issuing / Onboard Accounts
+
+## Prerequisites
+
+An account holder card product application with an IN_REVIEW status
+Access to the Highnote API, API Explorer, or dashboard
+
+IN_REVIEW
+
+## Overview
+
+In some cases, applications can be flagged for review because additional account holder verification information is needed. This review process confirms the person or business's identity and ensures compliance with Know-Your-Customer (KYC) or Know-Your-Business (KYB) regulations.
+
+The application review process typically takes place as follows:
+
+The application is flagged for review and inherits an IN_REVIEW status.
+The application is either manually reviewed by Highnote or indicates that additional documentation is needed from the account holder.
+Optional - Using the application status event notification, you can send a notification to account holders to alert them of the application review status and direct them to the document upload flow.
+Generate a document upload session so the account holder can upload their documents.
+Once the account holder documents are received, Highnote reviews them and makes one of the following application decisions:
+
+IN_REVIEW
+
+Approve the application: This indicates that the documents were verified and that the account holder's identity was confirmed.
+Deny the application: This indicates documents were not provided or appear to be fraudulent.
+Ask for more documents: This indicates that additional documents are needed to confirm the identity of the account holder.
+
+## Account holder documentation
+
+Depending on the type of account holder applying for a card product, documentation may be required from more than one applicant. For example, for business account holders, documents may be required for the primary authorized person and each beneficial owner.
+
+When an application enters IN_REVIEW status, the GraphQL API returns a response for why it was flagged for review, with verificationResultCodes displaying the reason for the flag. When there are multiple response codes, the account holder may need to provide multiple documents.
+
+IN_REVIEW
+
+verificationResultCodes
+
+In the response payload for the startDocumentUploadSession mutation, the following fields can be used to resolve a flagged application:
+
+startDocumentUploadSession
+
+The recommendedDocumentTypes field provides the document(s) that are most likely to resolve the review status with the fewest documents needed.
+The verificationResultCodeDocumentContext to see all document types that may resolve each result code.
+
+recommendedDocumentTypes
+
+verificationResultCodeDocumentContext
+
+## US business account holder documentation
+
+Business entity documentation is only relevant to USBusinessAccountHolders and includes documentation related to the business.
+
+USBusinessAccountHolders
+
+In cases where a business account holder is a sole proprietor, personal information can be used in place of business-related documentation. For example, a sole proprietor may not have an EIN but can have one of the following documents:
+
+Taxpayer identification
+Social Security card
+Owner’s full tax return with Schedule C included
+
+## Collect documents for identity verification
+
+Warning: Account holder documents cannot be expired, and supporting documents must be dated within 60 days. If the document appears forged, is outdated, and/or is otherwise invalid, the application will be DENIED.
+
+DENIED
+
+When an Application enters IN_REVIEW status and verification documents are required, you can collect documents using two methods:
+
+IN_REVIEW
+
+Use the Document Upload SDK
+Use the Highnote API to generate URLs for each required document
+
+If you use the Highnote API, the document upload process consists of the following steps:
+
+Optional - Generate a client token 
+Start document upload session
+Create document upload link
+End the document upload session
+
+One or more documents may be required based on the review response and the document type they provide.
+
+## Start session
+
+Note: For compliance reasons, if you are not using a server or do not have access to one, you must generate a client token to make requests directly from your client. For more information, see Client Tokens.
+
+Start a document upload session by generating a URL to send the account holder that allows them to upload their documents. We recommend using the application status event notification to send a notification to account holders to alert them of the application review status and provide a URL to your document upload session.
+
+Note the following when starting a document upload session:
+
+Document upload sessions expire 30 days from creation. If the account holder does not provide the required documentation within 30 days, the application will be DENIED.
+A session will indicate any requirements that your system may need to enforce when uploading the file.
+
+DENIED
+
+Use the following mutation to start a document upload session:
+
+## Create link
+
+Note: Document upload links expire five minutes after creation.
+
+Once a document upload session has started, you must create a secure upload link for each document. For example, if the applicant must provide a driver’s license and utility bill, each document would need its own unique upload link.
+
+Note the following when creating upload links:
+
+Upload links expire five minutes after being created. If one has expired, an error message will be returned, and you must request a new link.
+Each upload link represents a single upload file.
+When creating upload links, the document upload session status transitions to PENDING.
+You can use the uploadURL field in the mutation's response to stream the document upload.
+
+PENDING
+
+uploadURL
+
+The following types of file formats are supported for document uploads:
+
+Use the following mutation to create a document upload link. Use the DOCUMENT_UPLOAD_SESSION_ID from the startDocumentUploadSession response for this mutation’s variable field:
+
+DOCUMENT_UPLOAD_SESSION_ID
+
+startDocumentUploadSession
+
+## End session
+
+After an account holder has confirmed they have uploaded all required documents, you can end the document upload session.
+
+Note the following when ending a document upload session:
+
+When ending a session, the session status transitions to SUBMITTED.
+Once a session’s status is SUBMITTED, no other actions can be taken for it. If more documentation is required, a new session must be started to upload the additional documents.
+The Highnote team will review the account holder's documents and decide on the application status.
+
+SUBMITTED
+
+SUBMITTED
+
+Use the following mutation to end a document upload session:
+
+## Monitor application review status
+
+Note: Highnote will not return a public link to access the content of the documents to protect the account holder's privacy.
+
+You can monitor the status of account holder documents while the Highnote team reviews them by querying for the status using the Highnote API or the dashboard. For a full list of application status codes, see the AccountHolderApplicationStatusCode enum.
+
+Note the following about monitoring application review statuses:
+
+Each document has its own individual status
+Displaying the review status to the account holder is optional
+
+Use the following query to fetch the review status of an account holder application:
+
+## Update document upload status
+
+Once you've closed the document upload session, you can simulate the review status of each document by assigning a new status of APPROVED or DENIED. Use the following mutation to simulate the review status for each document uploaded in the upload session:
+
+APPROVED
+
+DENIED
+
+## Simulate application review
+
+Highnote's application review simulation allows you to test the following:
+
+Application statuses
+Your application review workflow
+Document uploads
+
+For more information, see Simulate Application Review.
+

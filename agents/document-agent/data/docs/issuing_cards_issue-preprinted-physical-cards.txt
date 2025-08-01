@@ -1,0 +1,68 @@
+Title: Issue Preprinted Physical Cards
+URL: https://highnote.com/docs/issuing/cards/issue-preprinted-physical-cards
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+Access to an API key or the API Explorer
+An account holder with an approved application
+
+## Overview
+
+Highnote offers preprinted, ready-to-use physical cards for on-the-spot distribution to users. Preprinted cards use a placeholder financial account that allows you to issue the card, without it being activated or used right away. Once you have an account holder to assign the preprinted card to, you can reissue a new personalized payment card against the account holder's financial account. This guide provides an overview of issuing preprinted physical cards to account holders.
+
+The following graphic outlines the typically process for issuing preprinted physical cards:
+
+## Issue a financial account
+
+Once you have an account holder with an approved application, you can issue a preprinted financial account to the account holder. A preprinted financial account acts as a placeholder that allows you to issue a preprinted card to an account holder.
+
+Use the following mutation to issue a preprinted financial account:
+
+## Issue a virtual card
+
+After issuing a preprinted financial account, you can issue a virtual card. Virtual cards are available to account holders immediately for use at online retailers or to add to their digital wallets. By default, all payment cards begin as virtual cards. If you choose to, you can additionally create and send a physical card.
+
+For information on issuing virtual cards, see Issue a Virtual Card.
+
+## Create physical cards
+
+You can use the regular physical card order flow to create preprinted cards for preprinted financial accounts. For more information on creating physical cards, refer to the following guides:
+
+Print Physical Cards
+Print Cards in Bulk
+
+## Assign preprinted card to account holder
+
+To issue a preprinted card to an account holder, you must assign it to an account holder financial account. Use the following steps to issue an account holder financial account:
+
+Onboard an account holder
+Create an application
+Issue a financial account for the account holder's application
+
+Once you create the account holder financial account, use the following mutation to assign the preprinted card to the account holder's financial account:
+
+## Issue personalized card
+
+After assigning the preprinted card to the account holder financial account, you can issue a new payment card as the personalized card. The personalized card allows the account holder to use their account holder details for their card. Refer to the following guides to issue a new card and send personalized physical cards:
+
+Issue Cards
+Print Physical Cards
+Print Cards in Bulk
+
+## Reissue lost preprinted card
+
+There may be times when an account holder loses a preprinted card before they are issued or receive their personalized card. In this scenario, you must do the following:
+
+Suspend the lost preprinted card. Do not deactivate the lost card.
+Assign a new temporary preprinted card.
+Issue the account holder's personalized payment card using the suspended card's PAN. Do not issue the personalized card using the temporary preprinted card's PAN.
+Activate the new personalized payment card. This automatically deactivates the suspended card.
+
+The following graphic outlines these steps:
+
+Note: For non-preprinted payment cards, see lost or stolen cards.
+

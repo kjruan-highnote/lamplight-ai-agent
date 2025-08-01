@@ -1,0 +1,200 @@
+Title: Design Your Card Experience
+URL: https://highnote.com/docs/issuing/design/design-your-card-experience
+==================================================
+
+Home / Issuing / Card Design
+
+## Before you start
+
+Building a card experience on your website or app is an integral step in launching a card product. This guide is a companion to Highnote’s API guides and is most helpful for designers, product managers, and front-end engineers. This guide aims to help your team understand and explore the steps of building your card experience.
+
+## Onboarding experience
+
+Creating the account holder onboarding flow is the first part of designing a card experience. During onboarding, account holders enter their personal information and open applications.
+
+## Account holder credentials
+
+Highnote does not manage your users' credentials for logging into your website or application. Before designing your card experience, you must have a way to create user credentials in your system or connect your Highnote card experience to your existing user credentials.
+
+Highnote’s AccountHolder object supports an externalId that you can use to match your existing user credentials to account holders in the Highnote platform. Refer to the following account holder types for an overview of the account holder object:
+
+AccountHolder
+
+externalId
+
+US Person Account Holder: An account holder who uses a consumer card product
+US Business Account Holder: An account holder who uses a commercial card product
+
+## Create account holder
+
+Warning: Account holder first names must be at least one character.
+
+After a user logs in using their credentials, you can direct them to a form where they can provide their account holder details. Account holder details have required input fields that are essential for running KYC or KYB identity checks, ensuring the account holder qualifies for your card product, and creating the account holder in Highnote.
+
+We recommend collecting account holder details in a single view to avoid storing sensitive information on your client. US Person and US Business Account Holders have different required input fields. Refer to the following table for an overview of the required input fields for each account holder type:
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Onboard an Account Holder guide
+Create US Person Account Holder mutation
+Create US Business Account Holder mutation
+
+## Open an application
+
+The API call used to create an account holder is separate from the API call used to open an application. You can open an application using one of the following methods:
+
+Use the API to create an account holder and open the application in two separate flows.
+Use the API to create an account holder and open the application in the same flow, with the open application call requested silently at the time of account creation. If you choose this option, you must present your card product's terms when you capture the account holder details.
+
+When opening the application, you must display your complete card product terms to the account holder, capture their consent, and record when they agreed to the terms.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Open an Application guide
+Create Account Holder Card Product Application mutation
+
+## Display application status
+
+After an application opens, it enters a PENDING status while under review. Application reviews are automated and usually process quickly, but risky applications may sometimes require a more extended review period.
+
+PENDING
+
+After an account holder applies, you can look up the application status and display the status in your card experience. For example, you can create different views for when an application is PENDING, APPROVED, or DENIED, ensuring account holders can track their application status while logged into their account.
+
+PENDING
+
+APPROVED
+
+DENIED
+
+You can also subscribe to application status notifications and events. Using notifications and events, you can use status changes to send account holders an email or push notification notifying them whether they’ve been approved or denied, or if extra documentation is required.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Check Application Status guide
+Account Holder Application Status Code query
+Application Status Events reference
+
+## Collect additional documentation
+
+Some applications may require additional documents from the account holder to verify their identity. When an application needs additional documents for approval, you can create a notification or callout in your card experience that notifies the applicant. This notification or callout is triggered using the DOCUMENT_UPLOAD_REQUIRED verification status reason code.
+
+DOCUMENT_UPLOAD_REQUIRED
+
+After notifying the applicant, you can provide a view informing them what documents they need for identity verification and a way to upload them to Highnote using a document upload link. When an application returns a DOCUMENT_UPLOAD_REQUIRED status, the API response provides the needed documents.
+
+DOCUMENT_UPLOAD_REQUIRED
+
+Once uploaded, the Highnote team reviews the documents, so you do not need to create an experience for your support team to verify the documents. During the review process, you can show a pending status view to your applicant. This pending status view can either be the same application status view you created previously, or a specific one related to the document review status.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Request Documents for Application Review guide
+Document Upload SDK
+Application Status notification
+Document Upload notification
+
+## Issue and order cards
+
+After onboarding an account holder and approving their application, you can create the card issuing and ordering experience.
+
+## Issue financial account and virtual card
+
+When an account holder has been approved for your card product, you will issue them a financial account. A financial account stores card balances and requires no end-user input, meaning you can create it in the backend immediately after application approval. In addition to storing card balances, financial accounts can support linking external bank accounts to transfer money in and out of them. Some financial accounts can even have account and routing numbers to support direct deposits.
+
+After issuing a financial account, you can issue a card to the account holder. By default, the card starts as a virtual card, with the option to issue a physical card. Issuing a card also requires no end-user input, so you can issue the card in the backend immediately after issuing a financial account.
+
+You can also choose to activate a card automatically at creation or design your own activation experience for the account holder to self-activate their card.
+
+During this step, you can use notifications and events to send an email or push notification to the account holder to let them know their card is ready.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Issue a Financial Account guide
+Issue a Virtual Card guide
+Activate a Card guide
+Issue Financial Account mutation
+Issue Payment Card mutation
+
+## Display virtual card
+
+By default, a payment card starts as a virtual card. After issuing a card, you can display the virtual card on your app or website to the account holder so they may use the card for online purchases immediately. You can also provide a method for the account holder to add their card to a digital wallet like Apple Pay or Google Wallet.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Display a Card guide
+Card Viewer SDK
+Add Cards to Digital Wallets guide
+
+## Order physical card
+
+You also have the option of ordering physical cards for account holders. There are two methods for issuing physical cards:
+
+Pre-fill the account holder’s details using your data on file and immediately order the card once the application is approved. This option drives spending and increases the account holder's excitement at approval time.
+Provide a way for the account holder to order a card after the application experience is complete.
+
+You can also use the Physical Cards events reference to send emails or push notifications to account holders when their physical cards ship.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Physical Cards Design guide
+Print Physical Cards guide
+Print Cards in Bulk guide
+Physical Card Fulfillment events reference
+
+## Core experience
+
+After an account holder has gone through your onboarding experience and been issued a card, you will want to ensure they can access their account on your app or website. When an account holder accesses their account, we recommend directing them to a core experience where they can view account information, manage or control their card, view recent transaction history, and more.
+
+We recommend including the following when designing your card’s core experience:
+
+Display account balance or credit limit
+Display the last four digits of a card number
+Display direct deposit information for financial accounts with the direct deposit feature enabled
+Provide a button for disabling, suspending, or activating their card
+Provide a link to replace lost, stolen, or damaged cards
+Provide a view of recent transactions with a link to view all transactions or statements
+
+## Funds and balances
+
+Your card experience should include a way for account holders to transfer funds or view their account balance or credit limits. The process for funding financial accounts differs depending on the type of card product you offer:
+
+Debit, prepaid credit, or secured credit card products support connecting external bank accounts to transfer funds to or from a financial account via ACH. You can create an experience using Plaid or Finicity in your application that allows account holders to link their accounts.
+Account holders using credit, consumer charge, or fleet card products use credit lines to fund their financial accounts.
+
+## Debit, prepaid, and secured credit card products
+
+You can create an experience that allows your account holders to connect their external bank accounts as a funding source. We recommend designing one of the following experiences for connecting a bank account:
+
+Create a section in your app or website where the bank account information lives, and add a button to that section that can be used to connect a bank account.
+Immediately after card approval, redirect the account holder to a UI for connecting their bank account.
+
+When the account holder starts the experience to connect their bank account, they will be redirected to Plaid or Finicity. Plaid or Finicity will ask for their banking credentials, authenticate the account holder, and send their bank account information to your app or website. You can display a success screen or notification when the account holder's bank account information has been received.
+
+Once an account holder's bank account is connected, you can create an experience for them to add funds or move funds out of their financial account. We recommend creating buttons for transferring funds from their external bank account to their card product's financial account.
+
+Each card product type has a different funding source. See the Add Funds to an Account guide for more details.
+
+## Credit, charge, and fleet cards
+
+Funding for credit, consumer charge, and fleet card products uses the credit limit issued to the account holder. The credit limit uses your product funding account to fund the account holder's financial account. This means, at the minimum, the equivalent of the issued credit line must be available in your product funding account. The account holder does not need to connect an external bank account; they only need to be able to monitor their credit limit.
+
+We recommend creating a display in your app or website’s core experience that displays the account holder's credit limit.
+
+Refer to the following API guides and references with your development team to create this part of your card experience:
+
+Connect External Accounts guide
+Add Funds to an Account guide
+Move Funds Out of Highnote guide
+Commercial Charge guide
+Consumer Charge guide
+Fleet guide
+
+## Account holder management
+
+Another essential part of building a card experience is to design a way for account holders to manage their account details. US Person and US Business account holder can update their address, phone number, email, and website. You can also create a way for beneficial owners and authorized users to update their account information.
+
+We recommend designing a settings page for your app or website that houses account holder information and allows the end-user to update it. Each piece of account holder information uses its own API call, so we recommend designing the settings page as a form with a field for each piece of account holder information that can be submitted and saved.
+
+Refer to the Update Account Information guide to create this part of your card experience.
+

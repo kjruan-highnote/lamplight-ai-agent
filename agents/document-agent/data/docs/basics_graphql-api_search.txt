@@ -1,0 +1,124 @@
+Title: Search
+URL: https://highnote.com/docs/basics/graphql-api/search#search-latency
+==================================================
+
+Home / Basics / Highnote API
+
+## Before you start
+
+All Highnote API entities use the same search and sorting conventions. You can use the following examples to build your queries when filtering for matches. Results will always return as a paginated list you can traverse using cursors.
+
+## Search latency
+
+Highnote’s Search API has a latency period of up to two minutes. This delay occurs because new objects are initially stored in the main database before synchronizing with the search database. For example, if you create a new account holder, that account holder’s data is not available via the search database for up to two minutes. This process is illustrated in the following graphic:
+
+## Filtering basics
+
+Different fields can filter every entity in our graph. However, all fields of the same type follow similar conventions.
+
+## Date filters
+
+To filter by date range, use the following filters:
+
+greaterThan
+lessThan
+greaterThanOrEqualTo
+lessThanOrEqualTo
+equals
+notEquals
+
+greaterThan
+
+lessThan
+
+greaterThanOrEqualTo
+
+lessThanOrEqualTo
+
+equals
+
+notEquals
+
+## Number filters
+
+To filter by numbers, use the following filters:
+
+greaterThan
+lessThan
+greaterThanOrEqualTo
+lessThanOrEqualTo
+equals
+notEquals
+
+greaterThan
+
+lessThan
+
+greaterThanOrEqualTo
+
+lessThanOrEqualTo
+
+equals
+
+notEquals
+
+## String filters
+
+To filter with common string matching, use the following filters:
+
+contains
+equals
+notEquals
+startsWith
+endsWith
+
+contains
+
+equals
+
+notEquals
+
+startsWith
+
+endsWith
+
+## List filters
+
+You can filter multiple values by choosing what values to include or exclude from the results. In the following example, the request is filtered to include AUTHORIZATION_EVENT and CLEARING_EVENT:
+
+AUTHORIZATION_EVENT
+
+CLEARING_EVENT
+
+## Enum filters
+
+You can filter enums by including the enum values you wish to include, exclude, or match exactly. In the following example, the request is filtered to equal AUTHORIZATION_EVENT:
+
+AUTHORIZATION_EVENT
+
+## Combine filters
+
+You can combine multiple filters to construct more advanced queries. In the following example, an enum, number, and date filter are used:
+
+## Application search
+
+You can use the Highnote API to search Account Holder applications based on status, updatedAt, and createdAt search fields.
+
+status
+
+updatedAt
+
+createdAt
+
+AccountHolderCardProductApplication
+
+status
+
+updatedAt
+
+createdAt
+
+The following example query would return the first 20 account holder applications with an APPROVED status:
+
+APPROVED
+

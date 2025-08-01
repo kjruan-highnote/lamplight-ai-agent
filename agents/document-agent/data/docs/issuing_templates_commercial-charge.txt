@@ -1,5 +1,5 @@
 Title: Commercial Charge
-URL: https://highnote.com/docs/issuing/templates/commercial-charge
+URL: https://highnote.com/docs/issuing/templates/commercial-charge#simulate-credit-line-assignment
 ==================================================
 
 Home / Issuing / Quick Start Templates

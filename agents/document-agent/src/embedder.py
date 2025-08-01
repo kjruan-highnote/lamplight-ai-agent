@@ -188,7 +188,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Create embeddings for documentation chunks")
     parser.add_argument("--chunks-dir", default="data/chunks", help="Directory containing chunks")
-    parser.add_argument("--output-dir", default="embeddings", help="Output directory for index")
+    parser.add_argument("--output-dir", default="data/embeddings", help="Output directory for index")
     parser.add_argument("--model", default="sentence-transformers/all-MiniLM-L6-v2", help="Embedding model")
     parser.add_argument("--batch-size", type=int, default=16, help="Batch size for embedding")
     

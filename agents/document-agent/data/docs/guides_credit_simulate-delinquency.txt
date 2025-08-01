@@ -1,0 +1,108 @@
+Title: Simulate Delinquency
+URL: https://highnote.com/docs/guides/credit/simulate-delinquency#account-aging-simulation
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Prerequisites
+
+A Highnote account
+API keys or the API Explorer
+A credit card product for your test environment
+A new financial account for a credit card product
+No closed billing cycles on the financial account
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+The delinquency simulator lets you view a financial account's delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with testing and configuring notification events.
+
+The delinquency simulator allows you to test the following:
+
+View the financial account's delinquency status and balances by billing cycle for agent servicing, portfolio analysis, and collections strategies.
+Add the DELINQUENT and DELINQUENT_SUSPENDED financial account attributes when the financial account becomes delinquent and receive the associated notification events.
+Remove the DELINQUENT and DELINQUENT_SUSPENDED financial account attributes when the financial account becomes current and receive the associated notification events
+
+DELINQUENT
+
+DELINQUENT_SUSPENDED
+
+DELINQUENT
+
+DELINQUENT_SUSPENDED
+
+## Simulate delinquency
+
+Use the following steps to simulate delinquency in your test environment:
+
+Issue a new financial account on an existing approved application and set the financial account’s credit limit.
+Issue a payment card to the financial account.
+To create receivables, simulate and clear the desired authorizations, resulting in a simulated billing statement. The simulated billing statement should not include any pending authorizations.
+Use the account aging simulation to generate a statement and age the financial account.
+Optional - To clear the financial account's delinquency, make a payment for the past due amount.
+
+amount
+
+Repeat steps 3 and 4 to generate additional past billing statements. If you simulate multiple billing statements, you must generate simulated billing statements from oldest to newest. For example, you must start by generating the oldest of the three to generate three billing statements.
+
+## Account aging simulation
+
+Note: To simulate multiple billing statements, you must generate simulated billing statements from oldest to newest. You cannot simulate the same past billing cycle more than once.
+
+You can use the account aging simulation once you have simulated receivables and payments on a financial account. Refer to the following steps to use the account aging simulation:
+
+To ensure your simulation results in a delinquent financial account, the OUTSTANDING_BALANCE_PAYABLE ledger must be greater than $0.
+Provide the number of past billing cycles you want the simulated billing statement to generate. The simulator considers the unique calendar days of the financial account's due date, billing period start date, and billing period end date. For a list of simulation values, see Simulation values.
+
+OUTSTANDING_BALANCE_PAYABLE
+
+Note the following guidelines for using the account aging simulation:
+
+The financial account being simulated must be in its first billing cycle and cannot have a closed billing statement.
+We recommend issuing a new financial account each time you use the simulation.
+
+Use the following mutation to simulate account aging:
+
+## Simulation values
+
+Use the following simulation actions for the account aging simulation:
+
+DELINQUENT
+
+OUTSTANDING_BALANCE_PAYABLE
+
+DELINQUENT_SUSPENDED
+
+OUTSTANDING_BALANCE_PAYABLE
+
+DELINQUENT
+
+DELINQUENT_SUSPENDED
+
+OUTSTANDING_BALANCE_PAYABLE
+
+## Simulate repayment
+
+Note: Repayments may take up to five minutes to update a financial account’s delinquency status.
+
+You can simulate a repayment if your simulation results in a delinquent financial account. See Schedule Repayments for more information on simulating repayment.
+
+## Simulate charge off
+
+Note: In the live environment, the Highnote team will close an account with a SUSPENDED status due to a charge-off event.
+
+SUSPENDED
+
+You can use the delinquency simulator in the test environment to simulate a charge-off. Use the steps outlined in the Simulate Delinquency guide. In Step 4, shift an unpaid statement balance due back at least seven billing cycles to make the financial account's totalDaysDelinquent >= 180 days.
+
+totalDaysDelinquent
+
+With the totalDaysDelinquent set to 180 days the financial account attribute of CHARGE_OFF will be added and the financial account status will be set to SUSPENDED.
+
+totalDaysDelinquent
+
+CHARGE_OFF
+
+SUSPENDED
+

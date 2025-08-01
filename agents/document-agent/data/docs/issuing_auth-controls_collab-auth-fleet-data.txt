@@ -1,0 +1,122 @@
+Title: Collaborative Authorization Fleet Data
+URL: https://highnote.com/docs/issuing/auth-controls/collab-auth-fleet-data
+==================================================
+
+Home / Issuing / Control Authorizations
+
+## Overview
+
+Highnote provides fleet-specific data from Visa and Mastercard during authorization requests, which can be used to enhance your collaborative authorization decision-making process. For an overview of the collaborative authorization feature, see Collaborative Authorization.
+
+This guide provides an overview of each card network's fleet-specific data, examples of request bodies, and resources to simulate fleet transactions in your test environment.
+
+## Fleet Data
+
+When a cardholder initiates a transaction, Highnote sends a collaborative authorization request to your endpoint that contains transaction data. Fleet collaborative authorization requests contain a field called mastercardFleetData or visaFleetData depending on the network.  You can configure your collaborative authorization flow to use this data in decisioning.
+
+mastercardFleetData
+
+visaFleetData
+
+Note the following about fleet-specific collaborative authorization data:
+
+Fleet data fields may be null if the payment card is not configured to prompt the cardholder or POS did not return fleet information in the authorization message.
+Fleet data provided by Visa and Mastercard differ.
+
+null
+
+## Visa
+
+Note: For an overview of Visa product codes, see the Visa Fleet 2.0 Global Implementation Guide V1.2.
+
+The following data is available for Visa fleet card products:
+
+visaFleetData.purchasetype
+
+FUEL_PURCHASE
+
+NON_FUEL_PURCHASE
+
+MIXED
+
+NOT_SPECIFIED
+
+visaFleetData.servicetype
+
+FULL_SERVICE
+
+SELF_SERVICE
+
+NOT_SPECIFIED
+
+visaFleetData.purchaseIdFormat
+
+visaFleetData.purchaseId
+
+visaFleetData.purchaseId
+
+visaFleetData.fleetId
+
+visaFleetData.odometer
+
+visaFleetData.employeeNumber
+
+visaFleetData.trailerNumber
+
+visaFleetData.customPrompt1
+
+visaFleetData.customPrompt2
+
+visaFleetData.nonFuelProductCodes
+
+visaFleetData.purchaseRestrictonsFlag
+
+## Mastercard
+
+Note: For an overview of Mastercard prompt values and product codes, see the Mastercard Fleet Implementation Guide v4.
+
+The following data is available for Mastercard fleet card products:
+
+mastercardFleetData.driverId
+
+mastercardFleetData.vehicleId
+
+mastercardFleetData.prompts
+
+mastercardFleetData.fuelProducts
+
+mastercardFleetData.nonFuelProducts
+
+mastercardFleetData.spendControlOverrideFlag
+
+## Request body
+
+When you receive a collaborative authorization request for a fleet card product, the request body contains fleet-specific data you can use in decisioning. Each request body has network-specific visaFleetData or mastercardFleetData.
+
+visaFleetData
+
+mastercardFleetData
+
+Note, some fields in a fleet collaborative authorization request body may be null in the following scenarios:
+
+null
+
+The card is not configured to prompt the cardholder.
+The POS did not return fleet information in the authorization message.
+
+## Visa example payload
+
+The following payload is an example of a Visa fleet collaborative authorization request body:
+
+Copy code snippet
+
+## Mastercard example payload
+
+The following payload is an example of a Mastercard fleet collaborative authorization request body:
+
+Copy code snippet
+
+## Simulate fleet transactions
+
+To simulate collaborative authorization fleet data, you can use the fleet transaction simulator to simulate transactions in the test environment. For more information, see Simulate Fleet Transactions.
+

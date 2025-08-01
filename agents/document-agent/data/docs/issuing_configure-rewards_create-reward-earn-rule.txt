@@ -1,0 +1,100 @@
+Title: Create Reward Earn Rule
+URL: https://highnote.com/docs/issuing/configure-rewards/create-reward-earn-rule
+==================================================
+
+Home
+
+## Overview
+
+Highnote's rewards feature supports creating rewards programs for your card products. The rewards feature works by using configurable reward earn rules. Once you attach a reward earn rule to your card product, account holders can earn rewards. They can then redeem these rewards through reward redemptions.
+
+Reward earn rules define how account holders earn rewards points. Highnote supports two types of reward earn rule configurations:
+
+MCC-based reward earn rules: Earn rewards for dollars spent at specific MCCs
+Default reward earn rules: Earn rewards for transactions that don’t qualify for specific earning rules
+
+You can use both MCC-based and default reward earn rules to create a robust rewards system.
+For example, you could use MCC-based earn rules to offer 3% cash back on travel. Then, you could use default earn rules to offer 1% cash back on everything else.
+
+Note the following guidelines when creating an MCC-based earn rule:
+
+If a card product uses both MCC-based and default earn rules, Highnote prioritizes the MCC-based earn rule.
+You can't create two different MCC-based earn rules with the same MCC (ex: a restaurant with 3% cash back and a different restaurant with 2% cash back).
+
+## Enable the feature
+
+To offer rewards for your card product, you must contact support@highnote.com to request access to the feature. The feature is enabled in the test environment by default for all consumer revolving credit card products.
+
+To use the feature for your card product(s) in the live environment, you must complete the following requirements:
+
+Work with your Highnote Implementation team to define your reward program's policies and rules.
+Get your rewards program approved by Highnote and the Partner Bank.
+Once approved, work with your Highnote Implementation team to configure your reward earn rules and redemptions in your live environment.
+
+The test environment allows you to fully test the feature before going live.
+
+## Reward point earnings
+
+When creating reward earn rules, you must set reward point earnings. Reward point earnings set your reward rate. For example, if you set a reward point earning of 2, your account holders will earn 2 points for every $1 spent.
+
+Highnote rounds down fractional reward points. For example, the following scenarios outline examples of a reward point earning rate of 1.57:
+
+A cardholder who spends $100 would earn 157 reward points.
+Another cardholder who spends $11.50 on a transaction would earn 17.6625 reward points. Highnote rounds this number down to 17 reward points in the reward points ledger.
+
+## Create MCC-based reward earn rule
+
+Note: Once your rewards program is approved, the Highnote team will assist with creating reward earn rules in the live environment.
+
+Use the following mutation to create an MCC-based reward earn rule in the test environment. Adjust the rewardPointEarning rate according to your own reward point logic:
+
+rewardPointEarning
+
+## Create default reward earn rule
+
+Note: Once your rewards program is approved, the Highnote team will assist with creating reward earn rules in the live environment.
+
+Use the following mutation to create a default reward earn rule in the test environment. Adjust the rewardPointEarning rate according to your own reward point logic:
+
+rewardPointEarning
+
+## Attach reward earn rule to card product
+
+Note: Once your rewards program is approved, the Highnote team will assist with attaching your earn rules to your card product(s) in the live environment.
+
+After creating a reward earn rule, you must attach it to a card product. This allows all account holders for that card product to start earning rewards.
+
+Use the following mutation to attach a reward earn rule to a card product in the test environment:
+
+## Update reward earn rule
+
+Warning: When updating the effectiveThrough date, the data must be now or in the future.
+
+effectiveThrough
+
+If a rule needs to be “deactivated” from earn reward points, the attachment’s effectiveThrough date can be updated to stop earning points at a given time.
+
+effectiveThrough
+
+Use the following mutation to update the attachment between the reward earn rule and the product in the test environment:
+
+## Find reward earn rule
+
+You can query for a reward earn rule to display it in your website or application. You can query for a reward earn rule using the following methods:
+
+via reward earn rule ID
+via card product ID
+via organization ID
+
+## via reward earn rule ID
+
+Use the following mutation to query for a reward earn rule using the reward earn rule ID:
+
+## via product ID
+
+Use the following mutation to query for a reward earn rule using your card product ID:
+
+## via organization
+
+Use the following mutation to query for a reward earn rule using your organization ID:
+

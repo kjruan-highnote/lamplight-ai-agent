@@ -1,0 +1,59 @@
+Title: PCI Data Security Standards
+URL: https://highnote.com/docs/basics/get-started/pci-dss
+==================================================
+
+Home
+
+## Overview
+
+Highnote subscribers who access sensitive payment data from their own servers, must be fully PCI compliant. Consider using the Highnote SDKs to reduce your PCI compliance requirements.
+
+Payment Card Industry Data Security Standards, or PCI DSS, are designed to protect payment data throughout the payment lifecycle. How you process and access PCI data will determine your compliance requirements.
+
+There are different levels of compliance (usually 4 for merchants and 2 for service providers). The PCI Security Standards Council (PCI SSC) develops and maintains standards for each level; and each card network defines their own specific requirements based on those standards.
+
+## Compliance levels
+
+All levels of PCI compliance require an Attestation of Compliance (AOC). Full PCI DSS compliance requires a Report on Compliance (ROC) and an AOC signed by a Qualified Security Assessor (QSA). Lower levels of compliance require a Self-Assessment Questionnaire (SAQ) and a self-signed AOC.
+
+SAQ-A: Typically used for merchants who fully outsource all cardholder data functions to PCI DSS validated third-party service providers, and have no electronic storage, processing, or transmission of any cardholder data on their systems or premises.
+
+
+SAQ-D: Typically used for merchants who don't qualify for any other SAQ and handle cardholder data themselves; or for service providers who handle their own cardholder data and may store it electronically.
+
+SAQ-A: Typically used for merchants who fully outsource all cardholder data functions to PCI DSS validated third-party service providers, and have no electronic storage, processing, or transmission of any cardholder data on their systems or premises.
+
+SAQ-D: Typically used for merchants who don't qualify for any other SAQ and handle cardholder data themselves; or for service providers who handle their own cardholder data and may store it electronically.
+
+## Highnote SDKs
+
+Highnote SDKs can significantly reduce your PCI compliance requirements.
+
+Highnote SDKs enable you to handle payment data without having PCI-scoped data flowing through your systems.
+
+Subscribers who are SAQ-A compliant, and want to maintain that compliance, should tokenize payment data with the Highnote Checkout SDK, or more customizable Secure Inputs SDK. Subscribers who are SAQ-D compliant, and already store PCI data securely, can bypass tokenization.
+
+## Issuing
+
+Card Viewer SDK - Embed sensitive card data into your UI using iframes.
+Secure Inputs (PIN) SDK - Securely set and update PIN data from your UI using iframes.
+
+## Acquiring
+
+Checkout SDK - Simple embedded checkout UI to accept payment card information.
+Secure Inputs (Tokenization) SDK - Customized checkout UI to tokenize payment method details.
+
+## Decision guide
+
+When analyzing your compliance needs, start by asking the following:
+
+Question 1: Will you handle sensitive cardholder payment data (possibly with the Highnote PaymentCardRestrictedDetails object) on your own servers?
+
+If YES: Establish SAQ-D compliance at a minimum, or full Level 1 if you have high transaction processing volumes.
+If NO: Use the Highnote SDKs to maintain your SAQ-A compliance (and continue to question 2).
+
+Question 2: Will you customize your payment and card experience for customers?
+
+If NO: Use the Highnote Checkout SDK (acquirers) or Card Viewer SDK (issuers) to maintain your SAQ-A compliance.
+If YES: Use the Highnote Secure Inputs tokenization or PIN SDKs to maintain your SAQ-A compliance.
+

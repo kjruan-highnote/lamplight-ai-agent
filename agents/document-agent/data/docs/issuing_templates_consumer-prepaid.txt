@@ -1,0 +1,154 @@
+Title: Consumer Prepaid
+URL: https://highnote.com/docs/issuing/templates/consumer-prepaid
+==================================================
+
+Home / Issuing / Quick Start Templates
+
+## Overview
+
+Consumer prepaid card products allow consumers to manage personal expenses, shop both in-store and online, and withdraw cash from ATMs. Consumer prepaid card products have the following features:
+
+Debit card capabilities
+A predefined amount of funds
+Funded from a designated bank account
+
+Prepaid cards require funding through a bank account. When the account holder needs to increase the balance in their financial account, a transfer is initiated from an external bank account.
+
+The following graphic shows how a consumer prepaid card is created and funded:
+
+This guide provides an overview of creating and setting up a consumer prepaid card product in the test environment.
+
+## Create a card product
+
+Use the following mutation to create a consumer prepaid card product. Use CONSUMER_PREPAID as the vertical input variable:
+
+CONSUMER_PREPAID
+
+vertical
+
+## Fund your card program
+
+Some card products use a product funding account to transfer funds to financial accounts. In the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified external bank account.
+
+Funding your product funding account requires the following steps:
+
+Retrieve the product funding account ID.
+Initiate a wire transfer to the product funding account.
+
+## Find product funding account ID
+
+Use the following query to find your product funding account ID:
+
+## Initiate a wire transfer
+
+Using the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:
+
+toFinancialAccountId
+
+## Create an account holder
+
+Consumer cards are used by US person account holders. Use the following mutation to create a US person account holder:
+
+## Open an application
+
+After creating an account holder, you can open an application to onboard them to your card product. Opening an application triggers identity verification processes. You can participate in the application decisioning process using Collaborative Application Decisioning.
+
+In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.
+
+Use the following mutation to open an application for an account holder:
+
+## Issue a financial account
+
+Financial accounts hold the balance for payment cards. To create a financial account, pass the id of the account holder's approved application.
+
+id
+
+Financial accounts have an externalId variable field that allows you to tie the account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.
+
+externalId
+
+externalId
+
+Use the following mutation to issue a financial account for an application:
+
+## Issue a payment card
+
+Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.
+
+Use the following mutation to issue a virtual card:
+
+## Physical cards
+
+By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.
+
+## Digital wallets
+
+Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.
+
+## Non-originated ACH
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+In the live environment, non-originated ACH transfers are initiated by account holders. In the test environment, you can simulate a non-originated ACH transfer to fund a financial account using the following mutation:
+
+## Transfer from product funding account
+
+Some prepaid card products may require using your product funding account to fund an account holder's financial account. Use the following input variables to ensure money is moving in the correct direction:
+
+toFinancialAccountId: Account holder's financial account ID
+fromFinancialAccountId: Product funding account ID
+
+toFinancialAccountId
+
+fromFinancialAccountId
+
+Use the following mutation to initiate a transfer from your product funding account:
+
+## Transfer funds from a financial account
+
+Use the following mutation to transfer funds from a Highnote financial account to your product funding account. For input variables, use the following IDs:
+
+toFinancialAccountId: Product funding account ID
+fromFinancialAccountId: Account holder's payment card financial account ID
+
+toFinancialAccountId
+
+fromFinancialAccountId
+
+## Display account and routing number
+
+Prepaid cards have the DIRECT_DEPOSIT feature enabled by default. Financial accounts with the DIRECT_DEPOSIT feature have an associated account and routing number that can be used to transfer funds into the account from outside Highnote.
+
+DIRECT_DEPOSIT
+
+DIRECT_DEPOSIT
+
+To display the account and routing number in your website or application, you can fetch them from the API by generating a Client Token and using that token to view the restricted details. The following graphic shows an example of what fetching an account and routing number looks like:
+
+Use the following query to view direct deposit information:
+
+## Display payment card data
+
+Warning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.
+
+There are two methods for displaying payment card data on your website or application:
+
+Fetching the data from the Highnote API
+Use the Card Viewer SDK to ensure PCI compliance
+
+To fetch payment card data from the API, use the following query:
+
+## Simulate transactions
+
+After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.
+
+For more information on simulating transactions, see Simulate Transactions.
+
+## Expand your integration
+
+After configuring your card product and simulating transactions, you can use the following features to further expand your integration:
+
+Create authorization controls to manage spending.
+Create a rewards program for your card product.
+Set up notifications to automate your integration.
+

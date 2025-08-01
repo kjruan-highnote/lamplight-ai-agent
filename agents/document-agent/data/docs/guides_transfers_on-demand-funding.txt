@@ -1,0 +1,95 @@
+Title: On-demand Funding
+URL: https://highnote.com/docs/guides/transfers/on-demand-funding#pseudo-balance-update
+==================================================
+
+Home
+
+## Overview
+
+On-demand funding is a card product feature that allows financial accounts to maintain a $0 balance until authorization and receive real-time funding as needed. On-demand funding uses a source financial account for funding account holder financial accounts. When an account holder initiates a transaction, Highnote moves funds from the source financial account into the account holder's financial account to cover the cost of the transaction.
+
+## Enable on-demand funding
+
+Note: You can enable and test on-demand Funding features in your test environment for prepaid and debit card products. In the live environment, the Highnote team must enable the feature for your card product.
+
+When enabling the feature, you can optionally choose to enable pseudo balance. Pseudo balance lets you set a spend balance on an account holder's financial account. This ensures the account holder cannot spend over a specific balance amount.
+
+A pseudo AVAILABLE_CASH ledger is used to keep track of the spend balance. Highnote checks the ledger when a transaction is initiated and automatically declines transactions over the allocated balance. Highnote also checks the balance of your source financial account during authorization.
+
+AVAILABLE_CASH
+
+For example, you choose to allocate $100 of pseudo balance to a financial account. The account holder spends $100 on their payment card. The initial $100 transaction would be approved, but any additional authorizations would be denied since the account holder spent the full balance.
+
+If pseudo balance isn’t enabled, Highnote checks the balance of your source financial account during authorization.
+
+Use the following mutation to enable on-demand funding and use a boolean value to optionally enable pseudo balance in your test environment:
+
+## Issue source financial account
+
+Before issuing a financial account with an on-demand funding source, you must have a source financial. A source financial account is a pre-funded account that links to the account holder's financial account for funding.
+
+The following accounts can be used as source financial accounts:
+
+A financial account issued against an application
+A product funding account
+A financial account that exists at the account holder level
+
+Source financial accounts can be existing accounts or new accounts. To issue a new financial account as your source financial account, use the following mutation:
+
+## Issue a financial account with on-demand funding source
+
+When an account holder’s application is approved, you can issue the account holder a financial account with an on-demand funding source.
+
+Use the following mutation to issue a financial account with an on-demand funding source:
+
+## Initiate pseudo balance update
+
+Note: You must have pseudo balance enabled for your card product to use the following mutation.
+
+You can set and update the pseudo balance on an account holder's financial account. After setting and updating a pseudo balance, you should query the balance update to ensure correct ledger balances and validations.
+
+The following table contains example scenarios in chronological order for setting and updating a pseudo balance:
+
+initiateFinancialAccountPseudoBalanceUpdate
+
+AVAILABLE_CASH
+
+AVAILABLE_CASH
+
+AVAILABLE_CASH
+
+initiateFinancialAccountPseudoBalanceUpdate
+
+AVAILABLE_CASH
+
+Use the following mutation to initiate a financial account pseudo balance update:
+
+## Check pseudo balance update status
+
+After updating the pseudo balance, you can check the status of the update using two methods:
+
+Query Highnote's API to retrieve the status
+Subscribe to the INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS notification event
+
+INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS
+
+Pseudo balance updates have the following statuses:
+
+PENDING
+
+COMPLETED
+
+FAILED
+
+statusReasonCode
+
+ACCOUNT_CLOSED
+
+ACCOUNT_NOT_FOUND
+
+Use the following query to check the status of a pseudo balance update:
+
+## Lookup source financial account
+
+Once a financial account is issued, you can look up the source financial account using the following query:
+

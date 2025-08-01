@@ -1,0 +1,112 @@
+Title: Create Secured Deposit Offer
+URL: https://highnote.com/docs/issuing/credit/create-secured-deposit-offer
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+With Highnote’s secured deposit card product feature, you can offer secured card products as a counteroffer during the card product application process. Secured deposit offers provide an alternative card product offering for account holders who do not meet the creditworthiness requirements for your unsecured card product.
+
+The secured deposit card product feature works as follows:
+
+An account holder applies for your unsecured card product and is DENIED.
+The account holder receives a counteroffer for your secured card product offering and accepts the counteroffer.
+When the account holder accepts the counteroffer and their application is approved, an account holder financial account is issued. This financial account has the secured deposit feature attached to it.
+After approving the account holder for the secured card product, you collect the secured deposit in your external payment system.
+You can use a non-originated ACH transfer to move the account holder's secured deposit to your secured deposit product financial account.
+To apply the secured deposit to an account holder's financial account, you can use an internal Highnote transfer to move the funds from your product financial account.
+
+DENIED
+
+This flow is outlined in the following graphic:
+
+## Enable secured deposit feature
+
+The Highnote team must enable the secured deposit feature for your card product. Contact support@highnote.com for assistance with enabling the feature.
+
+## View card product with secured deposit feature
+
+Once you have the secured deposit feature enabled for your card product, you can use the following query to view your card product feature settings:
+
+## Create card product application
+
+During the application process, you can use the secured deposit feature to offer account holders a secured charge card counteroffer. If you are using collaborative application decisioning to offer counteroffers, see Respond with a counteroffer.
+
+For information on opening an application, see Open an application.
+
+## Issue a financial account
+
+When an account holder accepts a counter offer and receives approval, you can create a financial account for the account holder. The financial account includes the secured deposit feature.
+
+Use the following mutation to issue a financial account to the account holder:
+
+## Find secured deposit product financial account
+
+When an account holder is approved for a secured deposit card product, you collect funds in your external payment system and deposit them into the secured deposit product financial account. This account is used to send the secured deposit to account holders' financial accounts. In this transfer, the from and to financial accounts are as follows:
+
+from
+
+to
+
+from: Secured deposit product financial account
+to: Account holder financial account
+
+from
+
+to
+
+Use the following query to find the product financial account with the secured deposit feature:
+
+## Add funds to secured deposit product financial account
+
+In the live environment, you must initiate the funds transfer to add funds to your secured deposit product financial account. Use the following mutation to simulate funding a product financial account using non-originated ACH in the test environment:
+
+## Transfer secured deposit to account holder financial account
+
+Use the following mutation to transfer a secured deposit from your product financial account to the account holder’s financial account. In the query, the from and to financial accounts are as follows:
+
+from
+
+to
+
+from: Secured deposit product financial account
+to: Account holder financial account
+
+from
+
+to
+
+Use the purpose input variable field as follows:
+
+purpose
+
+Use the SECURED_DEPOSIT value
+
+SECURED_DEPOSIT
+
+## Reverse a secured deposit fund distribution
+
+In the event you need to reverse a secure deposit fund distribution, use the following mutation. Reversing a secured deposit fund distribution is helpful if an error was made during the funds distribution process, or you need to return a deposit to an account holder when they graduate from a secured to unsecured charge card.
+
+In the query, the from and to financial accounts are as follows:
+
+from
+
+to
+
+from: Account holder financial account
+to: Secured deposit product financial account
+
+from
+
+to
+
+Use the purpose input variable field as follows:
+
+purpose
+
+Use the SECURED_DEPOSIT_REVERSAL value
+
+SECURED_DEPOSIT_REVERSAL
+

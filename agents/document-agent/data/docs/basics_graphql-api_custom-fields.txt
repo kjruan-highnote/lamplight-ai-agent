@@ -1,0 +1,158 @@
+Title: Custom Fields
+URL: https://highnote.com/docs/basics/graphql-api/custom-fields#filter-by-not-equals
+==================================================
+
+Home / Basics / Highnote API
+
+## Overview
+
+Warning: For compliance and security reasons, do not use custom fields to store PCI or PII data.
+
+Financial account and payment card objects implement custom fields that let you to add key-value pairs to the object.
+
+Each Highnote CustomFields object is a set of key-value pairs stored and returned in plain text. Limits are:
+
+CustomFields
+
+You are allowed a maximum of 20 CustomFields objects.
+Each key is an alpha-numeric string with a maximum of 40 characters.
+Each value is an alpha-numeric string with a maximum of 255 characters.
+
+CustomFields
+
+Use cases for using custom fields include:
+
+Linking IDs in your system with Highnote data
+Marking notes on Highnote data
+Adding a nickname to a card
+Tagging an account with the application ID
+Searching for objects relating to a customer in your system
+
+## Query custom fields
+
+You can use the following node query to find customFields on a financial account:
+
+customFields
+
+## Search multiple objects
+
+You can also use a nodeByCustomFields query with a CustomFieldsFilter to look up multiple objects and their custom fields. Use the following query to search multiple objects:
+
+nodeByCustomFields
+
+CustomFieldsFilter
+
+## Filters
+
+In addition to using the customFields filter to search multiple objects, you can use the following filters to refine your search results:
+
+customFields
+
+Accepts one input
+
+equals
+notEquals
+
+equals
+
+notEquals
+
+Accepts one or more inputs
+
+includes
+excludes
+
+includes
+
+excludes
+
+## Example 1: Equals
+
+The following code snippet provides an example of using the equals filter in your query input:
+
+equals
+
+Copy code snippet
+
+## Example 2: Not equals
+
+The following code snippet provides an example of using the notEquals filter in your query input:
+
+notEquals
+
+Copy code snippet
+
+## Example 3: Includes
+
+The following code snippet provides an example of using the includes filter in your query input:
+
+includes
+
+Copy code snippet
+
+## Example 4: Excludes
+
+The following code snippet provides an example of using the excludes filter in your query input:
+
+excludes
+
+Copy code snippet
+
+## Create custom fields for new object
+
+Note: Currently, objects that support custom fields are FinancialAccount and PaymentCard.
+
+FinancialAccount
+
+PaymentCard
+
+You can create custom fields when creating a new object that supports customFields.
+
+customFields
+
+The following mutation provides an example of creating a FinancialAccount with customFields key-value pairs entered as input variables:
+
+FinancialAccount
+
+customFields
+
+## Update custom fields of existing object
+
+Warning: Setting a key-value pair's value to empty will delete the key.
+
+You can add, update, or delete customFields of an existing object with the UpdateCustomField mutation and by referencing key-value pairs explicitly as input variables.
+
+customFields
+
+UpdateCustomField
+
+## Example 1: Add fields
+
+The following example uses the UpdateCustomFields mutation to add multiple customFields key-value pairs to an existing object:
+
+UpdateCustomFields
+
+customFields
+
+## Example 2: Add, update, delete fields
+
+Continuing from the previous output, the following example uses the UpdateCustomFields mutation to do the following:
+
+UpdateCustomFields
+
+Delete a key-value pair (regionId)
+Update another key-value pair (customerGroupId)
+Add a new key-value pair (sectorId)
+
+regionId
+
+customerGroupId
+
+sectorId
+
+## Delete custom fields
+
+You can use the following mutation to delete all customFields for an object without having to specify the keys explicitly:
+
+customFields
+

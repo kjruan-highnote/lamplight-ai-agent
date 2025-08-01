@@ -1,0 +1,421 @@
+Title: Collaborative Authorization
+URL: https://highnote.com/docs/guides/auth-controls/collaborative-authorization
+==================================================
+
+Home / Issuing / Control Authorizations
+
+## Overview
+
+Collaborative authorization empowers you to approve or decline transactions in real time based on your business logic. The following steps outline an example of how collaborative authorization typically works on a card product:
+
+An account holder makes a purchase which is sent to Highnote.
+The purchase is passed through your business logic, for example, your configured spend rules.
+If the purchase passes your business logic, an HTTPS POST request is sent to your configured collaborative authorization endpoint for approval.
+You respond to the request with an approval or denial decision.
+The authorization response is sent to the merchant with the decision.
+
+These steps are outlined in the following graphic:
+
+This guide covers how to configure and activate a collaborative authorization endpoint, verify requests, make real-time authorization decisions, and simulate authorizations in the test environment.
+
+## Enable the feature
+
+Note: Collaborative authorization is self-service in your test environment. In the live environment, the Highnote team must enable the feature for your product.
+
+To start using collaborative authorization, you must complete the following steps:
+
+Have the Highnote team enable the feature for your card product. For more information, contact support@highnote.com.
+Register a collaborative authorization endpoint.
+Activate the collaborative authorization endpoint.
+Configure your request and response process.
+Optional - Test the feature.
+
+## Manage endpoints
+
+You can manage collaborative authorization endpoints using the Highnote dashboard or API.
+
+## via the dashboard
+
+For information on managing your collaborative authorization endpoints using the Highnote dashboard, see the Collaborative authorization support guide.
+
+## via the Highnote API
+
+Refer to the following guidelines when managing collaborative authorization endpoints using the Highnote API:
+
+You can have up to five collaborative authorization endpoints, but only one endpoint can be active at a time.
+Collaborative authorization requests are sent as HTTPS POST requests with JSON bodies. The following headers will be included on each request:
+
+user-agent: HightnotePlatform/1.0.0
+highnote-signature: The result of computing an HMAC 256 signature of the request body
+content-type: application/json
+
+user-agent: HightnotePlatform/1.0.0
+highnote-signature: The result of computing an HMAC 256 signature of the request body
+content-type: application/json
+
+user-agent
+
+HightnotePlatform/1.0.0
+
+highnote-signature
+
+content-type
+
+application/json
+
+## Register an endpoint
+
+You can use the following mutation to register and add a collaborative authorization endpoint. By default, collaborative authorization endpoints are inactive at creation. Refer to the following requirements when registering a collaborative authorization endpoint:
+
+Make the endpoint highly available.
+The endpoint must be capable of returning a 2XX response. All other status codes will result in the transaction being declined.
+The endpoint requests and responses must be served via HTTPS.
+
+2XX
+
+## Activate an endpoint
+
+Warning: Activating an endpoint will automatically deactivate any existing ACTIVE endpoints. Only one endpoint can be ACTIVE at a time.
+
+ACTIVE
+
+ACTIVE
+
+Once a collaborative authorization endpoint has been registered, you must activate and verify it. Use the following mutation to activate a collaborative authorization endpoint:
+
+## Request and response guidelines
+
+Warning: The collaborativeAuthorizationRequest.id is an idempotent key. In the event of a retry, Highnote will resend the same request to your collaborative authorization endpoint with the same id.
+
+collaborativeAuthorizationRequest.id
+
+id
+
+Note the following guidelines for handling collaborative authorization requests and responses:
+
+You have up to two seconds to respond to a collaborative authorization request with an approval or denial decision.
+Returning any HTTP response code except 2XX will cause the collaborative authorization request to fail and trigger your default authorization settings.
+Failure to respond to a request within two seconds will cause the collaborative authorization request to fail and trigger your default authorization settings.
+
+## Request body
+
+A collaborative authorization request is an HTTPS POST request with a JSON body. A collaborative authorization request body has several Amount fields relating to a transaction's money movement. These Amount fields may differ from one request to another.
+
+Amount
+
+Amount
+
+Refer to the following table for an overview of the various Amount fields in a request body:
+
+Amount
+
+transactionAmount
+
+settlementAmount
+
+transactionAmount
+
+transactionAmount
+
+settlementAmount
+
+requestedAmount
+
+## Request body example payload
+
+The following code snippet provides an example of a collaborative authorization request body:
+
+Copy code snippet
+
+## Response
+
+Collaborative authorization reponse bodies may have the following fields:
+
+transaction.id
+
+reponseCode
+
+authorizedAmount
+
+Amount
+
+For a full list of collaborative authorization response codes, see the CollaborativeAuthorizationReponseCode API reference.
+
+## Approved response
+
+When your endpoint responds with the following payload, an AuthorizationEvent will reflect a status of APPROVED. The following code snippet provides an example APPROVED response body:
+
+AuthorizationEvent
+
+APPROVED
+
+APPROVED
+
+Copy code snippet
+
+## Partial amount approved response
+
+Note: For partial approvals, the authorizedAmount cannot be greater than the requestedAmount and must be expressed in the same currency.
+
+authorizedAmount
+
+requestedAmount
+
+When your endpoint responds with the following payload, an AuthorizationEvent will reflect a status of PARTIAL_AMOUNT_APPROVED. The merchant must report whether their point of sale can accept a partial amount via the terminalSupportsPartialApproval field in the pointOfSaleDetails object:
+
+AuthorizationEvent
+
+PARTIAL_AMOUNT_APPROVED
+
+terminalSupportsPartialApproval
+
+pointOfSaleDetails
+
+Copy code snippet
+
+## Declined response
+
+When you need to decline an AuthorizationEvent, your endpoint will pass back an appropriate response code reflecting why your system declined the authorization:
+
+AuthorizationEvent
+
+Copy code snippet
+
+## Response codes
+
+During collaborative authorization, when Highnote receives an authorization from the payment network, Highnote responds with one of three initial response codes:
+
+APPROVED
+PARTIAL_AMOUNT_APPROVED
+DO_NOT_HONOR
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+DO_NOT_HONOR
+
+You will see only see a collaborative authorization request in your system if Highnote sends an APPROVED or PARTIAL_AMOUNT_APPROVED response. When your system responds to the collaborative authorization request, the resulting response code from Highnote's platform follows the pattern described in the following tables.
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+## Approved response codes
+
+The following table provides an overview of scenarios when Highnote provides an APPROVED response to a IssuerPreliminaryAuthorizationEvent:
+
+APPROVED
+
+IssuerPreliminaryAuthorizationEvent
+
+APPROVED
+
+APPROVED
+
+authorizedAmount
+
+authorizedAmount
+
+requestedAmount
+
+APPROVED
+
+APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+APPROVED
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+APPROVED
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+APPROVED
+
+DO_NOT_HONOR
+
+## Partial amount approved response codes
+
+The following table provides an overview of scenarios when Highnote provides an PARTIAL_AMOUNT_APPROVED response to a IssuerPreliminaryAuthorizationEvent:
+
+PARTIAL_AMOUNT_APPROVED
+
+IssuerPreliminaryAuthorizationEvent
+
+PARTIAL_AMOUNT_APPROVED
+
+APPROVED
+
+authorizedAmount
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+PARTIAL_AMOUNT_APPROVED
+
+authorizedAmount
+
+requestedAmount
+
+DO_NOT_HONOR
+
+PARTIAL_AMOUNT_APPROVED
+
+DO_NOT_HONOR
+
+## Find collaborative authorization key
+
+When you register a collaborative authorization endpoint, the API returns a secret key. If you need to retrieve this key again, you can query the CollaborativeAuthorizationEndpoint object to retrieve the signingKeys field.
+
+CollaborativeAuthorizationEndpoint
+
+signingKeys
+
+Use the following query to retrieve a collaborative authorization endpoint's secret key:
+
+## Simulate collaborative authorization
+
+You can use the collaborative authorization simulation to test your endpoints in the test environment. For more information, see Simulate Collaborative Authorization.
+

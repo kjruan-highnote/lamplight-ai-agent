@@ -1,0 +1,100 @@
+Title: Collaborative Application Decisioning
+URL: https://highnote.com/docs/issuing/credit/collaborative-underwriting#counter-offer
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+Note: Collaborative application decisioning is self-service in your test environment. In the live environment, the feature must be enabled for your card product by the Highnote team.
+
+With collaborative application decisioning, you or your underwriter can make a recommended decision of APPROVED or DENIED for applications of your product based on your credit policy. Highnote will conduct regulatory checks on the application, including KYC, KYB, and OFAC, and use your recommended decision to arrive at a final decision. Highnote also allows for customization of the sequencing of application decisioning calls and rule execution to fit your product and credit policy.
+
+APPROVED
+
+DENIED
+
+This guide assumes that you or your underwriter provide a recommended decision after identity and fraud checks are run by Highnote.
+
+## Enable collaborative application decisioning
+
+In the live environment, the Highnote team will enable this feature for you. To request access to this feature, contact support@highnote.com.
+
+Use the following mutation to enable collaborative application decisioning in the test environment:
+
+## Receive a decision request
+
+Note: You must set up notification targets to receive notification events. For more information, see Notifications.
+
+After an application is submitted to Highnote, you will receive the underwriting decision requested notification event. This notification event requests an underwriting decision from you or your underwriter.
+
+The following payload is an example of the notification event you will receive:
+
+## Example notification event payload
+
+Copy code snippet
+
+After receiving the event notification, Highnote waits for your response to the underwriting decision.
+
+## Approve request
+
+To approve a collaborative application decision request, you must respond with the credit limit decision. If you are unsure about the initial credit limit during the underwriting decision, you can assign a credit limit of $0 and adjust it on the financial account later.
+
+Use the following mutation to approve a collaborative application decision request:
+
+## Deny request
+
+When you deny a decision request, the overall application is DENIED and you must provide applicable adverse action reason(s) based on your credit policy. If a decision is not received within 30 days from the application creation date, the application status will transition to DENIED.
+
+DENIED
+
+DENIED
+
+For a complete list of adverse action reasons, see the API Reference.
+
+Use the following mutation to deny a decision request:
+
+## Manage offers
+
+Note: If you provide a counteroffer, you still must provide the adverse action reason(s) for denial in the underwriting decision of the card product the account holder originally applied for.
+
+Please reach out to your Highnote representative to configure your card product for offer management.
+
+If an account holder’s creditworthiness does not qualify them for the card product they applied for, you can extend them a counteroffer to an alternative product. For example, you may want to provide a counteroffer to a secured credit card instead of an unsecured one. For more information on Highnote's secured deposit feature, see Create Secured Deposit Offer. From the time of the first extended offer, the account holder will have 30 days to accept the offer before the application is systemically denied.
+
+You can disqualify an offer if the account holder does not meet the underwriting criteria for the counteroffer. Alternatively, if the account holder does not accept the offer you extended, you can reject the offer. If all offers on the application are disqualified or rejected, the application will be denied.
+
+If your card product is configured for offer management, you should subscribe to  CARD_PRODUCT_APPLICATION_OFFER_MANAGEMENT_REQUESTED events to be notified when an application has reached the offer management state and will require an input before the application can be decisioned.
+
+CARD_PRODUCT_APPLICATION_OFFER_MANAGEMENT_REQUESTED
+
+Use the following mutation to extend, disqualify, or reject an offer:
+
+## Accept offer
+
+Note: An offer must be EXTENDED before it can be ACCEPTED. The primary offer will automatically be EXTENDED if underwriting is approved on the application.
+
+EXTENDED
+
+ACCEPTED
+
+EXTENDED
+
+If your card product has offers, one offer must be accepted to approve the application by providing the account holder’s consent and the accepted offerID, including the primary offer the account holder applied for.
+
+offerID
+
+Once an account holder accepts an offer, the application will be approved and a financial account can be issued for their accepted card product.
+
+Use the following mutation to accept an offer:
+
+## Check application status
+
+After an application decision is made, the application will be marked as PENDING while Highnote makes a final decision. To keep track of application status updates, you can use the GetAccountHolderCardProductApplication query or subscribe to the application status events notification to get notified when the application’s status changes.
+
+PENDING
+
+GetAccountHolderCardProductApplication
+
+Use the following query to check the status of an application:
+

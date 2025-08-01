@@ -1,0 +1,52 @@
+Title: API Error Handling
+URL: https://highnote.com/docs/basics/graphql-api/error-handling
+==================================================
+
+Home / Basics / Highnote API
+
+## Query errors
+
+The Highnote API rejects invalid queries and populates error information in the errors array. These errors are similar to compile-time errors and can be triggered if you send an invalid type or miss a required field.
+
+errors
+
+Invalid queries return a 400 Bad Request error response with the following body:
+
+400 Bad Request
+
+Copy code snippet
+
+We recommend testing requests and queries in the test environment before using them in your live environment. After testing in the test environment, you should see very few errors.
+
+## Validation and logic errors
+
+The Highnote API uses the errors as data pattern for validation and logic errors.
+
+Using data (instead of errors) lets Highnote document and tailor what is returned to your system. Invalid input errors are represented as data in the UserError type that is part of the returned union type. All mutations have the UserError type on the union that you can select and query for errors.
+
+data
+
+errors
+
+UserError
+
+union
+
+UserError
+
+## Troubleshooting with request ID
+
+The Highnote API includes a requestId field with a unique identifier for each request.
+
+requestId
+
+The request ID is especially useful when you need help with a response. Ensure you log this ID on any errors you encounter so the Highnote support team can monitor and debug your request.
+
+The requestId field can be found in the extensions key of the response:
+
+requestId
+
+extensions
+
+Copy code snippet
+

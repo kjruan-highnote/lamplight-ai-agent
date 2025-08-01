@@ -1,0 +1,248 @@
+Title: Configure Spend Rules
+URL: https://highnote.com/docs/guides/auth-controls/spend-rules
+==================================================
+
+Home / Issuing / Control Authorizations
+
+## Overview
+
+Spend rule & velocity control results may not be visible for up to 15 seconds after a Transaction Event. See Spend rule latency.
+
+Spend rules let you automate logic on authorizations that permit or restrict transactions. You can configure that logic on merchant category codes (MCC), dollar amount, authorization count, and more.
+
+Caution: Spend rules apply logic to authorized amounts (not requested amounts). Reversals impact the cumulative authorized amount; but refunds do not.
+
+The following graphic shows how a spend rule is created at the organization level, applied to a card product and to payment cards under that card product:
+
+Spend rules can be coupled with velocity controls to allow for even more control. Velocity controls allow you to set time boundary constraints to established spend rules. For more information on velocity controls, see Configure velocity controls.
+
+You can create spend rules from the Highnote dashboard or using the Highnote API. This guide provides an overview of creating spend rules using the Highnote API.
+
+## Spend rule latency
+
+Spend rule results are not updated immediately. Due to a synchronization between databases, there may be a 15 second delay after a Transaction Event before changes are visible.
+
+Affected Transaction Events are:
+
+ISSUER_PRELIMINARY_AUTHORIZATION_EVENT
+AUTHORIZATION_EVENT
+AUTHORIZATION_AND_CLEAR_EVENT
+VERIFICATION_EVENT
+BALANCE_INQUIRY_EVENT
+
+ISSUER_PRELIMINARY_AUTHORIZATION_EVENT
+
+AUTHORIZATION_EVENT
+
+AUTHORIZATION_AND_CLEAR_EVENT
+
+VERIFICATION_EVENT
+
+BALANCE_INQUIRY_EVENT
+
+## Create spend rules
+
+To create spend rules using the Highnote API, you must call the API using the spend rule's unique mutation and input variables.
+
+## Amount limit
+
+Warning: We recommend factoring in potential ATM fees when creating an amount spend rule. For example, if you want to create an amount spend rule of $500, we recommend setting the spend rule at $505 or $510 to avoid potential declines due to ATM fees.
+
+Amount limit spend rules are used to set limits on the maximum dollar amount a cardholder can spend in a single transaction. For example, if you create an amount limit spend rule of $100 for business expenses, the cardholder can purchase $100 worth of business expenses per transaction.
+
+Use the following mutation to create amount limit spend rules:
+
+## Authorization count limit
+
+Warning: You must attach authorization count spend rules to a velocity control. For more information on creating velocity controls, see Configure Velocity Controls.
+
+Authorization count limit spend rules set the maximum number of transactions a cardholder can authorize within a given period. Authorization count limit spend rules must be used with velocity controls to create the desired time restriction.
+
+For example, you may want to limit cardholders to three transactions per week. To create this limit, you must create an authorization count limit spend rule for three and attach the spend rule to a velocity control with a weekly window.
+
+Use the following mutation to create an authorization count limit spend rule:
+
+## Card data input capability
+
+Card data input capability spend rules restrict or block payments based on how a point of service (POS) accepts payments. For example, you can block all payments where a POS terminal only supports MAGNETIC_STRIPE. For a full list of card data input capabilities, see the API reference.
+
+MAGNETIC_STRIPE
+
+The following mutation is an example of a spend rule that blocks POS terminals that only accept MAGNETIC_STRIPE payments:
+
+MAGNETIC_STRIPE
+
+## Card transaction processing type
+
+A card transaction processing type refers to the method used to process a card event, such as a purchase or withdrawal. A card transaction processing type rule is a spend rule that allows or blocks card transaction processing types. For a full list of card transaction processing types, see the CardTransactionProcessingType enum in the API Reference.
+
+Use the following mutation to create a card transaction processing type rule:
+
+## Card verification value (CVV)
+
+Card verification value (CVV) spend rules require cardholders to enter their payment card’s CVV at the point of purchase to reduce the risk of fraudulent transactions. When a mismatched CVV is entered at checkout, this spend rule blocks authorizations.
+
+Use the following mutation to create a card verification value spend rule:
+
+## Conditional rule
+
+Warning: You must pair conditional rules with a velocity control. For more information on creating velocity controls, see Configuring Velocity Controls.
+
+A conditional rule is a spend rule that combines multiple spend rules together in an all-or-nothing approach. Conditional rules are always paired with velocity rules. For a conditional rule to pass, it must meet the following requirements:
+
+All rules contained within the velocity control must pass
+All rules contained within the velocity control must fail
+
+Use the following mutation to create a conditional rule:
+
+## Deposit amount
+
+A deposit amount spend rule limits the dollar amount that an account holder can deposit in their Highnote financial account. Use the following mutation to create a deposit amount spend rule:
+
+## Deposit count
+
+Warning: You must pair count spend rules a velocity control. For more information on creating velocity controls, see Configuring Velocity Controls.
+
+A deposit count spend rule limits the numbers of times a cash deposit can be made within a set period. Deposit count spend rules must be combined with a velocity control. Use the following mutation to create a deposit count spend rule:
+
+## Deposit processing network
+
+A deposit processing network spend rule limits which deposit processing networks can be used to make a deposit. For a full list of deposit processing networks, see the DepositProcessingNetwork enum in the API Reference.
+
+Use the following example to create a deposit processing network spend rule:
+
+## Merchant category code (MCC)
+
+Merchant category code (MCC) spend rules limit and prevent spending at specific merchants. For example, you can create MCC spend rules with the following logic:
+
+Block spending at specific merchants, for example, block cardholders from purchasing airline tickets.
+Exclusively permit cardholders to purchase fuel by blocking all other non-fuel related MCCs.
+
+For a full list of MCCs, see the MerchantCategory enum in the API Reference.
+
+Use the following mutation to create a merchant category spend rule:
+
+## Merchant identifier (MID)
+
+You can add up to 200 MIDs to a MerchantIdentifierSpendRule object.
+
+MerchantIdentifierSpendRule
+
+When processing transactions, some merchants supply an identifier called the merchant identifier (MID). In the Highnote API, the merchant identifier field accepts the input of merchant or card acceptor identifiers.
+
+A merchant identifier spend rule allows you to limit transactions for specific merchant identifiers. For example, you can restrict cardholders from using their payment cards at a particular online retailer.
+
+Use the following mutation to create a merchant identifier spend rule:
+
+## Merchant country
+
+Merchant country spend rules limit spending based on merchants' geographical locations. For example, you can create a merchant country spend rule that blocks cardholders from using their payment cards at merchants located in a specific country that your business has deemed high risk.
+
+For a full list of countries that can be blocked using spend rules, see the ISO3166Alpha3Country enum in the API Reference.
+
+Use the following mutation to create a merchant country spend rule:
+
+## PAN entry mode
+
+A PAN entry mode spend rule can restrict or block payments based on the method the cardholder used to enter their card information. For example, you can block payments for manual entries, or MANUAL_KEY_ENTERED. For a full list of PAN entry modes, see the API reference.
+
+MANUAL_KEY_ENTERED
+
+The following mutation is an example of a PAN entry spend rule that blocks mag stripe transactions:
+
+## Point of service category
+
+Point of service category spend rules can permit or restrict purchases at certain types of payment terminals, such as ATMs or gas station fuel dispensers.
+
+For a full list of point of service categories, see the PointOfServiceCategory enum in the API Reference.
+
+Use the following mutation to create a point of service category spend rule:
+
+## Postal code verification
+
+Postal code verification spend rules specify which zip codes are allowed or blocked during address verification services (AVS).
+
+Use the following mutation to create a postal code verification spend rule:
+
+## Street address
+
+Street address spend rules require cardholders to enter their payment card’s associated address at the point of checkout for address validation service (AVS). AVS reduces the risk of fraud for card-not-present transactions, such as online transactions. When an address mismatch is entered at checkout, this spend rule blocks authorizations.
+
+Use the following mutation to create a street address spend rule:
+
+## Attach spend rule to a card product
+
+Once you have created a spend rule, you can attach it to a card product. Spend rules attached to card products apply to all payment cards issued to the card product.
+
+Use the following mutation to attach a spend rule to a card product:
+
+## Attach spend rule to a payment card
+
+Once you have created a spend rule, you can attach it to a payment card. Spend rules attached to payment cards apply to only that specific payment card.
+
+Use the following mutation to attach a spend rule to a payment card:
+
+## Attach new spend rule version
+
+You can create different versions of spend rules. For example, you may want to update a spend rule without affecting existing card products or payment cards. By creating a new version of a spend rule, you can attach the new version to new card products or payment cards without affecting the already applied spend rules on existing ones. To create and attach different versions of spend rules, refer to the following steps:
+
+Use the unique mutation for each spend rule to create a spend rule.
+In the input variable field, add the version input field and provide a version number.
+Run the mutation.
+Use the AttachSpendRuleToCardProduct or AttachSpendRuleToPaymentCard mutations to attach a spend rule to your card product or payment card.
+In the input variable field, add the version input field and provide the version number of your new spend rule.
+Optional - Use LATEST instead of the version number to ensure the card product or payment card always uses the latest version.
+Run the mutation.
+
+version
+
+AttachSpendRuleToCardProduct
+
+AttachSpendRuleToPaymentCard
+
+version
+
+LATEST
+
+## Detach spend rule from a card product
+
+Use the following mutation to detach a spend rule from a card product:
+
+## Detach spend rule from a payment card
+
+Use the following mutation to detach a spend rule from a payment card:
+
+## View spend rule results
+
+You can query TransactionEventIds to view the results of an authorization decision and any associated spend rules associated with an authorization. Use the following query to view spend rule results:
+
+TransactionEventId
+
+## Update spend rules
+
+To update a spend rule:
+
+Use the spend rule's unique UpdateSpendRule mutation.
+Assign the updated spend rule a new version number.
+Attach the new version to any card products or payment cards using the original spend rule.
+
+UpdateSpendRule
+
+For a full list of available UpdateSpendRule mutations, refer to the following API Reference links:
+
+UpdateSpendRule
+
+updateConditionalRuleSetSpendRule
+updateCountLimitSpendRule
+updateCVVSpendRule
+updateDepositAmountLimitSpendRule
+updateDepositCountLimitSpendRule
+updateDepositProcessingNetworkSpendRule
+updateMerchantCategorySpendRule
+updateMerchantCountrySpendRule
+updateMerchantIdentifierSpendRule
+updatePointOfServiceCategorySpendRule
+updateStreetAddressSpendRule
+
+The following code snippet provides an example of how you would update a merchant category spend rule:
+

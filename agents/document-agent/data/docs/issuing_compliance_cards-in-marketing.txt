@@ -1,0 +1,118 @@
+Title: Cards in Marketing
+URL: https://highnote.com/docs/issuing/compliance/cards-in-marketing
+==================================================
+
+Home / Issuing / Compliance
+
+## Use of cards in marketing and advertising
+
+See the guidelines below. If you have questions about additional standards, partner with Highnote to see if there are any other Card Network-approved variances.
+
+Card Network image must be present.
+Payment Card must be clear and legible.
+Card Network symbol must be fully visible; a partial Card Network symbol is not permitted
+Payment Card image standards mentioned in the Physical Card section apply.
+Payment Card image must be approved by Highnote and Partner Bank prior to use in marketing materials
+Issuing statement must appear on the same page as the card image.
+Acceptance language is to be included on all applicable collateral material except Card Art and Design, Activation Stickers, Envelopes, and other items designated by the partner bank. Example language, “The card may be used anywhere Mastercard is accepted
+
+An account number is optional. If an account number is included, the expiration date and the cardholder name must be present
+
+For Mastercard, if a cardholder name is used, it must be Lee M. Cardholder, and the account number must be 5412 7512 3412 3456.
+For Visa, the account number must be 4000 1234 5678 9010, and there is no required cardholder name for Visa.
+For Discover, the account number must be 6011 0000 0000 0000, and there is no required cardholder name for Discover.
+For Mastercard and Visa, the expiration date should go out at least three (3) years.
+
+Language should clearly be stated to ensure a consumer does not believe a line of credit or something similar is permitted.
+
+Correct usage of applicable terms include: “Maximum value”, “Card value”, “Amount stored in your card account”, “Maximum load on your card” and “Funds available”.
+Do not utilize phrases such as “Cash limit,” “Card limit,” and “Prepaid limit.”
+
+## Virtual card/account
+
+A virtual account is established for online or mobile application commerce.  A physical card is not issued for the account.
+
+## Required items
+
+Card Network Symbol
+Primary Account Number (PAN)
+Card Validation Code (CVC)
+Expiration Date
+Issuer Identification
+
+## Prohibited items
+
+Chip
+Magnetic Strip
+Signature Panel
+
+## Card images
+
+Exact replica of corresponding physical card or neutral-color background. If there is no physical card for the Card Product, please abide by the following:
+
+Background images must contrast with the Network image, meaning the Network image should not blend in with the card art.
+
+Prohibited background images include, but not limited to:
+
+Sexual subject matter
+Political subject matter
+Offensive racial/prejudicial/religious subject matter
+Advertising
+Self-promotion, meaning personal business card
+Brand products
+Solicitations
+
+## Physical card
+
+Included are general guidelines for a physical card. The Card Network may have more specific guidance, and Subscribers can partner with Highnote should there be unique use cases where Network guidance is required.
+
+## Required items
+
+Card Network Symbol on front of card
+Primary Account Number (PAN) on front or back of card
+Card Validation Code (CVC) on back of card
+Expiration date on front or back of card
+Issuing statement on front or back of card
+Magnetic Stripe on back of card
+Customer Support contact information (phone number) on the back of the card
+
+## Card images
+
+Background images must contrast with the Card Network image, meaning the Card Network image should not blend in with the card art
+
+Prohibited background images include, but not limited to:
+
+Sexual subject matter
+Political subject matter
+Offensive racial/prejudicial/religious subject matter
+Advertising
+Self-promotion, meaning personal business card
+Brand products
+Solicitations
+
+## Digital wallet
+
+A tokenized card is a representation of a physical card for display within a digital wallet.
+
+## Required items
+
+Card Network Symbol
+Last four digits of Primary Account Number (PAN) (Mastercard tokenized only)
+Full PAN, Card Validation Code (CVC), and expiration date (Mastercard non-tokenized only)
+
+## Card images
+
+A replica of the corresponding physical card or neutral-color background. If there is no physical card for the Card Product, please abide by the following:
+
+Background images must contrast with the Card Network image, meaning the Network image should not blend in with the card art.
+
+Prohibited background images include, but not limited to:
+
+Sexual subject matter
+Political subject matter
+Offensive racial/prejudicial/religious subject matter
+Advertising
+Self-promotion, meaning personal business card
+Brand products
+Solicitations
+

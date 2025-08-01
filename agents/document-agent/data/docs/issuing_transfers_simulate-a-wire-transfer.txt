@@ -1,0 +1,39 @@
+Title: Simulate a Wire Transfer
+URL: https://highnote.com/docs/issuing/transfers/simulate-a-wire-transfer
+==================================================
+
+Home
+
+## Prerequisites
+
+A Highnote account 
+An API key or API Explorer
+A product funding financial account
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+Wire transfers are used to transfer funds into a Highnote product funding account. For more information on product funding accounts, see Add Funds to your Balance.
+
+This guide provides steps for simulating wire transfers using the Highnote API.
+
+## Simulate a wire transfer
+
+In the test environment, use the following mutation to simulate a wire transfer to fund your product funding account:
+
+## Find wire transfers
+
+After a wire transfer is initiated, you can use the Highnote API to find incoming and outgoing wire transfers. The direction of a wire transfer is defined as follows:
+
+Incoming: Money is coming into a Highnote financial account via wire transfer.
+Outgoing: Money is leaving a Highnote financial account via wire transfer.
+
+## Incoming wire transfers
+
+Use the following query to find an incoming wire transfer:
+
+## Outgoing wire transfers
+
+Use the following query to find an outgoing wire transfer:
+

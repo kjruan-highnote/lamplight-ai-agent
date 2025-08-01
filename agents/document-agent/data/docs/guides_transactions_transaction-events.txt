@@ -1,0 +1,206 @@
+Title: Transaction Lifecycle
+URL: https://highnote.com/docs/guides/transactions/transaction-events#lifecycle-clearing
+==================================================
+
+Home / Issuing / Handle Transactions
+
+## Overview
+
+A transaction is an electronic message that originates from a cardholder attempting payment online or in-store. These electronic messages are sent to Highnote based on logic set by merchants and networks. When Highnote receives these messages, the platform interprets them using the TransactionEvent object.
+
+TransactionEvent
+
+This guide provides an overview of the transaction lifecycle on the Highnote platform, details on how Highnote interprets network messages, and examples of common transaction scenarios.
+
+## Transactions at the network level
+
+At the network level, the typical transaction lifecycle occurs as follows:
+
+Authorization: The network checks the card's validity and confirms funds availability. The transaction amount is put on hold.
+Clearing: The network finalizes the hold and posts the transaction on the cardholder's account.
+Settlement: The network transfers funds between the acquiring and issuing banks.
+
+Authorizations fall into two categories:
+
+A single-message transaction: The network sends a single message to authorize, clear, and settle the transaction.
+A dual-message transaction: The network sends a message to process an authorization. A separate message is sent for clearing and settlement.
+
+The following graphics outline how Highnote receives and interprets single and dual-message authorizations throughout the transaction lifecycle:
+
+Single-message authorization flow
+
+Dual-message authorization flow
+
+## Transaction events on the Highnote platform
+
+Note: The following section provides an overview of transaction events for card products not using collaborative authorization. For more information on the transaction lifecycle for card programs with collaborative authorization enabled, see Card products with collaborative authorization.
+
+Highnote interprets electronic messages from the network using the TransactionEvent object. The table below shows how Highnote interprets network transaction messages. It also shows the related Highnote notification events:
+
+TransactionEvent
+
+VerificationEvent
+
+AuthorizationEvent
+
+AuthorizationEvent
+
+AuthorizationAndClearEvent
+
+ClearingEvent
+
+ClearingEvent
+
+ReversalEvent
+
+AuthorizationEvent
+
+AuthorizationAndClearEvent
+
+ClearingEvent
+
+## Card products with collaborative authorization
+
+Collaborative authorization allows you to approve or decline transactions in real-time based on your business logic. In card products that use collaborative authorization, an IssuerPreliminaryAuthorizationEvent precedes AuthorizationEvents.
+
+IssuerPreliminaryAuthorizationEvent
+
+AuthorizationEvent
+
+The following steps represent a common flow for transaction messages sent to Highnote for a card product using collaborative authorization:
+
+The cardholder makes a purchase.
+The network sends a message to Highnote to approve the transaction.
+Highnote creates an IssuerPreliminaryAuthorizationEvent before calling the card product's collaborative authorization endpoint. An IssuerPreliminaryAuthorizationEvent holds funds to cover the amount requested by the network.
+Highnote sends an HTTPS POST request to the card product's collaborative authorization endpoint for approval.
+The collaborative authorization endpoint responds with approval.
+The Highnote platform creates an AuthorizationEvent.
+
+IssuerPreliminaryAuthorizationEvent
+
+IssuerPreliminaryAuthorizationEvent
+
+AuthorizationEvent
+
+## Verification events
+
+Highnote interprets network verifications as VerificationEvents. Verifications are typically done to prevent fraud and validate a payment card in the following common scenarios:
+
+VerificationEvents
+
+A cardholder adds their payment card to a digital wallet
+A cardholder saves their payment card as a payment method online
+A cardholder adds their payment card to a peer-to-peer payments app
+
+Verifications may be declined for several reasons. Examples include, but are not limited to:
+
+Incorrect name or address provided
+Merchant Category Code (MCC) blocked for card or product
+Wrong zip code provided
+
+When a VerificationEvent is declined, Highnote provides a Response Code explaining why.
+
+VerificationEvent
+
+## Authorization events
+
+Highnote interprets the following types of transaction messages as AuthorizationEvents:
+
+AuthorizationEvents
+
+Pre-authorizations
+Dual-message authorizations
+Single-message authorizations
+
+Authorizations may reflect different requested and approved amounts. When an authorization is approved, the amount reflected on the Highnote ledger is the approved amount. These amounts are defined as follows:
+
+requestedAmount: The amount of funds requested from the network for the transaction.
+approvedAmount: The amount of funds approved and posted to the Highnote ledger for the transaction.
+
+requestedAmount
+
+approvedAmount
+
+## Approvals
+
+Authorizations are decisioned by Highnote based on your card product logic and settings. They can be approved or denied based on several factors. You can participate in the authorization flow using Collaborative Authorization. Collaborative authorization allows you to approve or decline the transaction before it reaches Highnote for decisioning.
+
+When a transaction is approved, Highnote typically returns an APPROVED response code. For a full list of transaction response codes, see the TransactionEventResponseCode API Reference.
+
+APPROVED
+
+TransactionEventResponseCode
+
+## Declines
+
+Declines occur for several reasons, including but not limited to the following common decline reasons:
+
+Insufficient funds in the account holder's financial account
+Incorrect PIN or CVV
+Expired payment card
+
+When an authorization is declined, the merchant will receive a response code for the decline reason. These response codes are typically used by the merchant and displayed to the cardholder. For a full list of transaction response codes, see the TransactionEventResponseCode API Reference.
+
+TransactionEventResponseCode
+
+## Other types of authorizations
+
+In some scenarios, other types of authorizations may take place. The following table provides examples of other authorization types:
+
+## Pending funds
+
+When an authorization is approved, it acts as a hold for the authorized amount. Typically, funds on hold are displayed as "pending" in an application or website.
+
+Note the following about pending authorizations:
+
+Expiration periods set by the merchant, card product logic, or network rules; with most authorizations expiring after seven days
+Some authorizations, like hotel stays or car rentals, may have longer expiration periods.
+When an authorization expires, the funds are automatically decreased on the account holder's authorization ledger and increased on their cash available ledger.
+
+If you participate in authorization via Collaborative Authorization, Highnote responds to a transaction event with an IssuerPreliminaryAuthorizationEvent to temporarily fund the requested authorization until your collaborative authorization response is received.
+
+IssuerPreliminaryAuthorizationEvent
+
+## Reversal events
+
+Reversal logic is defined by the card network (not Highnote) and can vary across different merchants. Once reversal conditions are met—e.g., an authorization expires—Highnote executes the appropriate reversal action, ensuring the transaction is canceled in accordance with the established network rules, merchant configurations, and scenario-specific requirements.
+
+Reversals are used when a transaction needs to be canceled. Reversals can be done for the full amount of the transaction or a partial amount.
+
+Reversals typically occur in the following scenarios:
+
+An authorization expires before clearing
+An item is out of stock
+A transaction is identified as fraud
+The cardholder cancels their order before a clearing event occurs
+The original authorization is no longer valid
+A duplicate transaction occurred
+Disputed transactions
+Merchant error
+
+We recommend handling reversals that occur after an authorization-and-clear transaction as refunds.
+
+## Clearing events
+
+Once an authorization event is confirmed, a clearing event takes place to transfer the funds from the account holder's financial account to the merchant. When the funds are transferred, the account holder's authorization ledger is updated and the cash ledger is decreased.
+
+Note the following about clearing events:
+
+Most clearing events are associated with an authorization event.
+If a clearing event is received without an authorization event, this is called a "forced post". Highnote monitors these types of clearing events to ensure fraud is not occurring.
+
+## Refunds
+
+Refunds occur when a merchant refunds a purchase that has already cleared. Refunds are typically sent in the following ways:
+
+The merchant sends a new authorization event with the refund amount provided as a credit
+The merchant sends a clearing event with no authorization for the amount to be refunded as a credit
+The merchant sends an authorization and clearing event for the amount to be refunded as a credit
+
+## Simulate transactions
+
+Refer to the following guides to simulate transactions using the Highnote API:
+
+For all card products, except fleet: Simulate Transactions
+For fleet card products: Simulate Fleet Transactions
+

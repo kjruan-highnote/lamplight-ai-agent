@@ -1,0 +1,88 @@
+Title: Using Ledgers
+URL: https://highnote.com/docs/issuing/transfers/ledgers
+==================================================
+
+Home
+
+## Overview
+
+When you create a card product, Highnote creates ledgers for your financial accounts based on the card product vertical. Ledgers have a LedgerName, description, and a normalBalance that is determined by the ledger category. For example, a CASH ledger has a category of ASSETS and a normalBalance of DEBIT. For a full list of ledger names, see LedgerName in the API Reference.
+
+LedgerName
+
+description
+
+normalBalance
+
+CASH
+
+ASSETS
+
+normalBalance
+
+DEBIT
+
+A ledger is made up of the following foundational concepts:
+
+Account balances show all financial events for a given ledger. When an individual financial event occurs, it results in a ledger entry. Each ledger entry reflects the change in account balance. Refer to the following example for a breakdown of this process:
+
+Funds are transferred from an external bank account into a Highnote financial account.
+The funds transfer results in a ledger entry in the financial account's CASH ledger, reflecting the account balance.
+When transactions are made using a payment card, the AUTHORIZATION ledger reflects pending authorizations and holds on the account.
+After a transaction clears, the AVAILABLE_CASH ledger reflects the money available to spend in a financial account.
+
+CASH
+
+AUTHORIZATION
+
+AVAILABLE_CASH
+
+## Account balances
+
+Account balances reflect the current balance of a ledger based on financial events, based on the following:
+
+Represented by a single positive number
+The direction of the balance, either DEBIT or CREDIT
+The account's normal balance
+
+DEBIT
+
+CREDIT
+
+If the account balance and normal balance agree, the balance is interpreted as positive. If the balance of a ledger and the normal balance disagree, the balance is interpreted as negative. The following example using a CASH ledger outlines how account balances and normal balances are reflected. CASH ledgers have a normal balance of DEBIT:
+
+CASH
+
+CASH
+
+DEBIT
+
+If a CASH ledger has a $1000 debit balance, the balance is positive. This means the account balance is $1000 because the normal balance for a CASH ledger is debit.
+If a CASH ledger has a $1000 credit balance, the balance is negative. In this case, the account balance and normal balance disagree, meaning there is -$1000 in the account.
+
+CASH
+
+CASH
+
+CASH
+
+Highnote's ledger system is based on account principles, with cash and activity being represented independently. This means that account balances provide a snapshot for a point in time, rather than reflecting pending or available balances. Pending or available balances can be calculated across ledgers if desired.
+
+## Use cases
+
+Ledgers and financial events can be used to create account statements, display account balances, and show money movement statuses. Refer to the following table for the objects used to create each use case:
+
+## Find all ledgers for your organization
+
+Use the following query to list all ledgers for your organization. The query returns each ledger's normalBalance, creditBalance, and debitBalance:
+
+normalBalance
+
+creditBalance
+
+debitBalance
+
+## Query for ledger entries
+
+Use the following query to find a ledger and its associated ledger entries:
+

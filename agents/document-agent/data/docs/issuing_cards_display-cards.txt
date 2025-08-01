@@ -1,0 +1,49 @@
+Title: Display Card and Account Details
+URL: https://highnote.com/docs/issuing/cards/display-cards
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+A payment card and financial account
+
+## Display a card
+
+You can display a virtual card in your application or website so the account holder can use their card or view their card information. You can use the following options for displaying a virtual card:
+
+For web-based applications that want to show the full card information, including card number and expiration, you can use the Card Viewer SDK.
+For native iOS and Android-based integrations, and non-native PCI-compliant environments, you can securely retrieve and display card details from the API with a Client Token.
+
+Use the following ViewPaymentCard query to display a payment card:
+
+ViewPaymentCard
+
+## Display a balance
+
+Balances are held in a financial account's ledgers. You can display different ledger balances on your website or application so the account holder can monitor their account balance(s).
+
+To display balances, you can use a FindAccount query to retrieve all ledgers on a financial account. Using the data returned from this query, use the AVAILABLE_CASH or AVAILABLE_CREDIT ledgers to display the financial account's balance.
+
+FindAccount
+
+AVAILABLE_CASH
+
+AVAILABLE_CREDIT
+
+Use the following query to find a financial account and display a balance:
+
+## Display account and routing number
+
+Prepaid cards have the DIRECT_DEPOSIT feature enabled by default. Financial accounts with the DIRECT_DEPOSIT feature have an associated account and routing number that can be used to transfer funds into the account from outside Highnote.
+
+DIRECT_DEPOSIT
+
+DIRECT_DEPOSIT
+
+To display the account and routing number in your website or application, you can fetch them from the API by generating a Client Token and using that token to view the restricted details. The following graphic shows an example of what fetching an account and routing number looks like:
+
+Use the following query to view direct deposit information:
+

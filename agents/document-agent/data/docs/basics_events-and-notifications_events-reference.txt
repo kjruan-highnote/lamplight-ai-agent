@@ -1,0 +1,1023 @@
+Title: Events Reference
+URL: https://highnote.com/docs/basics/events-and-notifications/events-reference#digital-wallet-token-activated
+==================================================
+
+Home / Basics / Events and Notifications
+
+## Overview
+
+This guide is a reference for all Highnote notification events. Note the following when using this reference:
+
+Notification events are categorized by domain. For example, the ACH section of this guide houses all notification events related to ACH transfers.
+The NotificationEvent object in the Highnote API uses a NotificationEventName field to identify different event types. This field is not always the same name as the object used to create a notification event query.
+When creating notification event queries, refer to the event's object in the Highnote API Reference. Each notification event in this reference links out to its corresponding object in the API.
+For a description of each notification event, see the corresponding Object reference link in the reference tables in this guide.
+
+NotificationEvent
+
+NotificationEventName
+
+## ACH v1
+
+Note: To simplify ACH transfer events and notifications on the Highnote platform, ACH v2 notification events were released in August 2024.
+
+ACH v1 notification events are still supported by the Highnote platform. Using these notification events will not impact your integration’s functionality or performance. You can upgrade to using ACH v2 notification events at any time. Refer to the Upgrade to ACH v2 notification events guide for more information.
+
+ACH v1 notification events are triggered for various ACH event types.
+
+The following table provides an overview of some fields you may see in an ACH notification event response. Note that this table does not contain all response fields. For a full list of response fields, refer to the API Reference:
+
+amount
+
+companyEntryDescription
+
+companyIdentifier
+
+companyName
+
+fromStatus
+
+ACH_HOLD
+
+## ACH externally initiated deposit
+
+ACH externally initiated deposit notifications are triggered when an incoming NACHA file credit transaction is processed. The following notification events are available for ACH externally initiated deposits:
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_RECEIVED
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_PROCESSED
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_FAILED
+
+The following payload provides an example notification response from an ACH_EXTERNALLY_INITIATED_DEPOSIT_RECEIVED event:
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_RECEIVED
+
+Copy code snippet
+
+## ACH externally initiated withdrawal
+
+ACH externally initiated deposit events are triggered when an incoming NACHA file debit transaction is processed, and a fund out ACH payment transitions states. The following notification events are available for ACH externally initiated withdrawals:
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_RECEIVED
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_PROCESSED
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_FAILED
+
+The following payload provides an example notification response from an ACH_EXTERNALLY_INITIATED_WITHDRAWAL_RECEIVED event:
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_RECEIVED
+
+Copy code snippet
+
+## ACH funds deposit
+
+ACH funds deposit notifications are triggered when a fund-in ACH transfer is initiated from within Highnote, or transitions states. The following notification events are available for ACH funds deposits:
+
+ACH_FUNDS_DEPOSIT_INITIATED
+
+ACH_FUNDS_DEPOSIT_PROCESSING
+
+ACH_FUNDS_DEPOSIT_PROCESSED
+
+ACH_FUNDS_DEPOSIT_FAILED
+
+ACH_FUNDS_DEPOSIT_RETURNED
+
+ACH_FUNDS_DEPOSIT_CANCELED
+
+The following payload provides an example notification response from an ACH_FUNDS_DEPOSIT_INITIATED event:
+
+ACH_FUNDS_DEPOSIT_INITIATED
+
+Copy code snippet
+
+## ACH funds withdrawal
+
+ACH funds withdrawal events are triggered when a fund-out ACH payment is initiated from within Highnote, or transitions states. The following notification events are available for ACH funds withdrawals:
+
+ACH_FUNDS_WITHDRAWAL_INITIATED
+
+ACH_FUNDS_WITHDRAWAL_PROCESSING
+
+ACH_FUNDS_WITHDRAWAL_PROCESSED
+
+ACH_FUNDS_WITHDRAWAL_FAILED
+
+ACH_FUNDS_WITHDRAWAL_RETURNED
+
+ACH_FUNDS_WITHDRAWAL_CANCELED
+
+The following payload provides an example notification response from an ACH_FUNDS_WITHDRAWAL_INITIATED event:
+
+ACH_FUNDS_WITHDRAWAL_INITIATED
+
+Copy code snippet
+
+## ACH hold
+
+ACH hold notifications trigger when an ACH transfer has been put on hold, or has a hold removed from it. The following notification events are available for ACH holds:
+
+ACH_HOLD_ADDED
+
+ACH_HOLD_REMOVED
+
+The following payload provides an example notification response from an ACH_HOLD_ADDED event:
+
+ACH_HOLD_ADDED
+
+Copy code snippet
+
+## ACH repayment
+
+ACH repayment events are triggered when an ACH repayment transaction transitions states. The following notification events are available for ACH repayments:
+
+ACH_REPAYMENT_PROCESSING
+
+ACH_REPAYMENT_PROCESSED
+
+ACH_REPAYMENT_RETURNED
+
+ACH_REPAYMENT_FAILED
+
+The following payload provides an example notification response from an ACH_REPAYMENT_PROCESSED event:
+
+ACH_REPAYMENT_PROCESSED
+
+Copy code snippet
+
+## ACH secure deposit
+
+ACH secure deposit events are triggered when an ACH secure deposit transitions states. The following notification events are available for ACH secure deposits:
+
+ACH_SECURE_DEPOSIT_INITIATED
+
+ACH_SECURE_DEPOSIT_CANCELED
+
+ACH_SECURE_DEPOSIT_PROCESSING
+
+ACH_SECURE_DEPOSIT_PROCESSED
+
+ACH_SECURE_DEPOSIT_RETURNED
+
+ACH_SECURE_DEPOSIT_FAILED
+
+The following payload provides an example notification response from an ACH_SECURE_DEPOSIT_PROCESSING event:
+
+ACH_SECURE_DEPOSIT_PROCESSING
+
+Copy code snippet
+
+## ACH v2
+
+ACH v2 notification events are Highnote’s updated version of the legacy ACH v1 notification events. ACHv2 notifications have been simplified to represent two types of ACH transfers: originated and non-originated.
+
+The following table provides descriptions for each type of ACH transfer, and the direction of money movement for each:
+
+The following table provides an overview of some fields you may see in an ACH v2 notification event response. Note that this table does not contain all response fields. For a full list of response fields, refer to the API Reference:
+
+type
+
+PUSH
+
+PULL
+
+amount
+
+companyEntryDescription
+
+companyIdentifier
+
+companyName
+
+traceNumber
+
+purpose
+
+sign
+
+status
+
+## Originated ACH transfer
+
+Originated ACH transfer notifications are triggered when an ACH transfer is initiated from within the Highnote platform. The following notification events are available for originated ACH transfers:
+
+ORIGINATED_ACH_TRANSFER_INITIATED
+
+ORIGINATED_ACH_TRANSFER_PENDING
+
+ORIGINATED_ACH_TRANSFER_PROCESSING
+
+ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ORIGINATED_ACH_TRANSFER_FAILED
+
+ORIGINATED_ACH_TRANSFER_RETURNED
+
+ORIGINATED_ACH_TRANSFER_CANCELED
+
+The following payload provides an example notification response from an ORIGINATED_ACH_TRANSFER_INITIATED event:
+
+ORIGINATED_ACH_TRANSFER_INITIATED
+
+Copy code snippet
+
+## Non-originated ACH transfer
+
+Non-originated ACH transfer notifications are triggered when an ACH transfer is initiated from outside the Highnote platform by a third-party. The following notification events are available for non-originated ACH transfers:
+
+NON_ORIGINATED_ACH_TRANSFER_RECEIVED
+
+NON_ORIGINATED_ACH_TRANSFER_PROCESSED
+
+NON_ORIGINATED_ACH_TRANSFER_FAILED
+
+NON_ORIGINATED_ACH_TRANSFER_RETURNED
+
+The following payload provides an example notification response from an NON_ORIGINATED_ACH_TRANSFER_RECEIVED event:
+
+NON_ORIGINATED_ACH_TRANSFER_RECEIVED
+
+Copy code snippet
+
+## ACH transfer hold
+
+ACH transfer hold notification events are triggered when a hold is added or removed from an ACH transfer. The following notification events are available for ACH transfer hold events:
+
+ACH_TRANSFER_HOLD_ADDED
+
+ACH_TRANSFER_HOLD_REMOVED
+
+The following payload provides an example notification response from an ACH_TRANSFER_HOLD_ADDED event:
+
+ACH_TRANSFER_HOLD_ADDED
+
+Copy code snippet
+
+## Upgrade to ACH v2 notification events
+
+To simplify ACH transfer events and notifications on the Highnote platform, ACH v2 notification events were released in August 2024.
+
+To upgrade from ACH v1 events to ACH v2 events, refer to the following table for a mapping of which v2 event to use for your corresponding v1 event:
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_RECEIVED
+
+NON_ORIGINATED_ACH_TRANSFER_RECEIVED
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_PROCESSED
+
+NON_ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_EXTERNALLY_INITIATED_DEPOSIT_FAILED
+
+NON_ORIGINATED_ACH_TRANSFER_FAILED
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_RECEIVED
+
+NON_ORIGINATED_ACH_TRANSFER_RECEIVED
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_PROCESSED
+
+NON_ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_EXTERNALLY_INITIATED_WITHDRAWAL_FAILED
+
+NON_ORIGINATED_ACH_TRANSFER_FAILED
+
+ACH_FUNDS_DEPOSIT_INITIATED
+
+ORIGINATED_ACH_TRANSFER_INITIATED
+
+ACH_FUNDS_DEPOSIT_PROCESSING
+
+ORIGINATED_ACH_TRANSFER_PROCESSING
+
+ACH_FUNDS_DEPOSIT_PROCESSED
+
+ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_FUNDS_DEPOSIT_FAILED
+
+ORIGINATED_ACH_TRANSFER_FAILED
+
+ACH_FUNDS_DEPOSIT_RETURNED
+
+ORIGINATED_ACH_TRANSFER_RETURNED
+
+ACH_FUNDS_DEPOSIT_CANCELED
+
+ORIGINATED_ACH_TRANSFER_CANCELED
+
+ACH_FUNDS_WITHDRAWAL_INITIATED
+
+ORIGINATED_ACH_TRANSFER_INITIATED
+
+ACH_FUNDS_WITHDRAWAL_PROCESSING
+
+ORIGINATED_ACH_TRANSFER_PROCESSING
+
+ACH_FUNDS_WITHDRAWAL_PROCESSED
+
+ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_FUNDS_WITHDRAWAL_FAILED
+
+ORIGINATED_ACH_TRANSFER_FAILED
+
+ACH_FUNDS_WITHDRAWAL_RETURNED
+
+ORIGINATED_ACH_TRANSFER_RETURNED
+
+ACH_FUNDS_WITHDRAWAL_CANCELED
+
+ORIGINATED_ACH_TRANSFER_CANCELED
+
+ACH_HOLD_ADDED
+
+ACH_TRANSFER_HOLD_ADDED
+
+ACH_HOLD_REMOVED
+
+ACH_TRANSFER_HOLD_REMOVED
+
+ACH_REPAYMENT_PROCESSING
+
+ORIGINATED_ACH_TRANSFER_PROCESSING
+
+ACH_REPAYMENT_PROCESSED
+
+ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_REPAYMENT_RETURNED
+
+ORIGINATED_ACH_TRANSFER_RETURNED
+
+ACH_REPAYMENT_FAILED
+
+ORIGINATED_ACH_TRANSFER_FAILED
+
+ACH_SECURE_DEPOSIT_INITIATED
+
+ORIGINATED_ACH_TRANSFER_INITIATED
+
+ACH_SECURE_DEPOSIT_CANCELED
+
+ORIGINATED_ACH_TRANSFER_CANCELED
+
+ACH_SECURE_DEPOSIT_PROCESSING
+
+ORIGINATED_ACH_TRANSFER_PROCESSING
+
+ACH_SECURE_DEPOSIT_PROCESSED
+
+ORIGINATED_ACH_TRANSFER_PROCESSED
+
+ACH_SECURE_DEPOSIT_RETURNED
+
+ORIGINATED_ACH_TRANSFER_RETURNED
+
+ACH_SECURE_DEPOSIT_FAILED
+
+ORIGINATED_ACH_TRANSFER_FAILED
+
+## Account holder identity documents requested
+
+Account holder identity document events are sent when a document is requested from an account holder for identity verification. This process can happen during application onboarding, underwriting, or for ongoing identity verification. The notification event type sent when a document is requested differs based on the type of document requested, and will include a reason code that indicates the purpose for requesting the document(s).
+
+The following events are available for account holder identity documents:
+
+PERSON_ACCOUNT_HOLDER_IDENTITY_DOCUMENTS_REQUESTED
+
+BUSINESS_ACCOUNT_HOLDER_IDENTITY_DOCUMENTS_REQUESTED
+
+BUSINESS_AUTHORIZED_PERSON_IDENTITY_DOCUMENTS_REQUESTED
+
+BUSINESS_ULTIMATE_BENEFICIAL_OWNER_IDENTITY_DOCUMENTS_REQUESTED
+
+The following payload provides an example notification response of a PERSON_ACCOUNT_HOLDER_IDENTITY_DOCUMENTS_REQUESTED event:
+
+PERSON_ACCOUNT_HOLDER_IDENTITY_DOCUMENTS_REQUESTED
+
+Copy code snippet
+
+## Account holder information update
+
+Account holder information update events are sent with an account holder or associated person's information is updated. The following events are available for account holder information updates:
+
+PERSON_ACCOUNT_HOLDER_IDENTITY_UPDATED
+
+BUSINESS_ACCOUNT_HOLDER_IDENTITY_UPDATED
+
+BUSINESS_AUTHORIZED_PERSON_IDENTITY_UPDATED
+
+BUSINESS_ULTIMATE_BENEFICIAL_OWNER_IDENTITY_UPDATED
+
+In the event payload, the updatedTypes field shows what information was updated for the account holder. The following payload provides an example notification response of a PERSON_ACCOUNT_HOLDER_IDENTITY_UPDATED event:
+
+updatedTypes
+
+PERSON_ACCOUNT_HOLDER_IDENTITY_UPDATED
+
+Copy code snippet
+
+## Application status
+
+Application status notification events are triggered when an account holder or authorized user card product application transitions states. The following table provides an overview of some fields you may see in an application status event response. For a full list of response fields, refer to the API Reference:
+
+applicationState
+
+updatedAt
+
+## Account holder application status
+
+Account holder application status notifications are triggered when a card product application transitions states. The following notification events are available for account holder application statuses:
+
+CARD_PRODUCT_APPLICATION_APPROVED
+
+CARD_PRODUCT_APPLICATION_IN_REVIEW
+
+CARD_PRODUCT_APPLICATION_MANUAL_REVIEW
+
+CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED
+
+CARD_PRODUCT_APPLICATION_DENIED
+
+CARD_PRODUCT_APPLICATION_UNDERWRITING_DECISION_REQUESTED
+
+CARD_PRODUCT_APPLICATION_OFFER_MANAGEMENT_REQUESTED
+
+The following payload provides an example notification response from an CARD_PRODUCT_APPLICATION_APPROVED event:
+
+CARD_PRODUCT_APPLICATION_APPROVED
+
+Copy code snippet
+
+## Authorized user application status
+
+Authorized user application status events are triggered when an authorized user's card product application transitions states. The following notification events are available for authorized user application statuses:
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_DENIED
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_CLOSED
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_MANUAL_REVIEW
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_UNDERWRITING_DECISION_REQUESTED
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED
+
+The following payload provides an example response for an AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED event:
+
+AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED
+
+Copy code snippet
+
+## Credit report fraud alert
+
+Credit report fraud alert events are triggered when a card product application receives a fraud alert tag during underwriting. You can subscribe to the following event to inform you when a credit report fraud alert is triggered:
+
+CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FRAUD_ALERT
+
+The following payload is an example notification response from a CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FRAUD_ALERT event:
+
+CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FRAUD_ALERT
+
+Copy code snippet
+
+## Credit report freeze
+
+Credit report freeze events are triggered when a card product application receives a credit report freeze tag during underwriting. You can subscribe to the following event to inform you when a credit report freeze is triggered:
+
+CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FREEZE
+
+The following payload is an example notification response from a CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FREEZE event:
+
+CARD_PRODUCT_APPLICATION_CREDIT_REPORT_FREEZE
+
+Copy code snippet
+
+## Chargebacks and disputes
+
+Chargeback and dispute notification events are triggered for various dispute-related events. Refer to the API reference for fields you may see in a chargeback or dispute notification event response.
+
+## Dispute case status
+
+Dispute case status events are triggered when the state of a transaction's dispute case is updated. The following notification events are available for dispute case statuses:
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_RESOLVED_WITH_DISPUTE_CREDIT
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_CASE_CARDHOLDER_WON
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_CASE_CARDHOLDER_LOST
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_REJECTED
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_CANCELLED
+
+The following payload provides an example notification response from a PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED event:
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED
+
+Copy code snippet
+
+## Dispute credit status
+
+Dispute credit status events are triggered when the credit status of a dispute is updated for a provisional credit or dispute credit. The following notification events are available for dispute credit status events:
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_PROVISIONAL_CREDIT_ISSUED
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_PROVISIONAL_CREDIT_REVOKED
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_PROVISIONAL_CREDIT_WON
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CREDIT_ISSUED
+
+The following payload provides an example notification response from a PAYMENT_CARD_TRANSACTION_DISPUTE_CREDIT_STATUS_PROVISIONAL_CREDIT_ISSUED event:
+
+PAYMENT_CARD_TRANSACTION_DISPUTE_CREDIT_STATUS_PROVISIONAL_CREDIT_ISSUED
+
+Copy code snippet
+
+## Chargeback provisional credit status
+
+Chargeback provisional credit status events are triggered when a dispute case's provisional credit status is updated. The following notification events are available for chargeback provisional credit status events:
+
+PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED
+
+PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_REVOKED
+
+The following payload provides an example notification response from a PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED event:
+
+PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED
+
+Copy code snippet
+
+## Collaborative application decisioning
+
+When the collaborative application decisioning feature is enabled, you can subscribe to the following event informing you an application decision is requested:
+
+CARD_PRODUCT_APPLICATION_UNDERWRITING_DECISION_REQUESTED
+
+The following payload provides an example notification response from a CARD_PRODUCT_APPLICATION_UNDERWRITING_DECISION_REQUESTED event:
+
+CARD_PRODUCT_APPLICATION_UNDERWRITING_DECISION_REQUESTED
+
+Copy code snippet
+
+## Credit limit change request case status
+
+Credit limit change request notification events are triggered when the status of the case transitions states.  The following notification events are available for credit limit change case statuses:
+
+CREDIT_LIMIT_CHANGE_REQUEST_STATUS_CHANGED
+
+## Credit limit change request initiated
+
+The following payload is an example notification response from a CREDIT_LIMIT_CHANGE_REQUEST_STATUS_CHANGED event when an increase to the credit limit is initiated:
+
+CREDIT_LIMIT_CHANGE_REQUEST_STATUS_CHANGED
+
+Copy code snippet
+
+## Credit limit change request failed
+
+The following payload is an example notification response from a CREDIT_LIMIT_CHANGE_REQUEST_STATUS_CHANGED event when an increase to the credit limit fails:
+
+CREDIT_LIMIT_CHANGE_REQUEST_STATUS_CHANGED
+
+Copy code snippet
+
+## Digital wallet token status
+
+Digital wallet token notification events are triggered when a tokenized card is activated, suspended, or terminated. The following notification events are available for digital wallet token statuses:
+
+CARD_DIGITAL_WALLET_TOKEN_ACTIVATED
+
+CARD_DIGITAL_WALLET_TOKEN_SUSPENDED
+
+CARD_DIGITAL_WALLET_TOKEN_TERMINATED
+
+The following payload provides an example notification response from a CARD_DIGITAL_WALLET_TOKEN_ACTIVATED event:
+
+CARD_DIGITAL_WALLET_TOKEN_ACTIVATED
+
+Copy code snippet
+
+## Document upload session
+
+Document upload session events are sent when a new document upload session is requested.
+
+CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED
+
+The following payload provides an example notification response of a CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED event:
+
+CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED
+
+Copy code snippet
+
+## External bank account
+
+External bank account events are triggered when an external bank account is added or removed from an account holder. The following notification events are available for external bank account events:
+
+EXTERNAL_BANK_ACCOUNT_ADDED
+
+EXTERNAL_BANK_ACCOUNT_REMOVED
+
+LINK_VERIFIED_EXTERNAL_BANK_ACCOUNT_FAILED
+
+The following payloads are example responses for the following notifications events:
+
+EXTERNAL_BANK_ACCOUNT_REMOVED
+LINK_VERIFIED_EXTERNAL_BANK_ACCOUNT_FAILED
+
+EXTERNAL_BANK_ACCOUNT_REMOVED
+
+LINK_VERIFIED_EXTERNAL_BANK_ACCOUNT_FAILED
+
+Copy code snippet
+
+Copy code snippet
+
+## Fee transfer
+
+Fee transfer notifications are triggered when a fee has been charged or reversed for an account. The following notification events are available for fee transfer events:
+
+FEE_CHARGE_EVENT
+
+FEE_REVERSAL_EVENT
+
+Copy code snippet
+
+Copy code snippet
+
+## Financial account attributes
+
+Financial account attribute events are triggered when financial account attributes are added or removed. The following notification events are available for financial account attributes:
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_DELINQUENT
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_REMOVED_DELINQUENT
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_DELINQUENT_SUSPENDED
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_REMOVED_DELINQUENT_SUSPENDED
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_CHARGE_OFF
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_REMOVED_CHARGE_OFF
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_PROGRAM_OWNER_INITIATED_SUSPENSION
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_REMOVED_PROGRAM_OWNER_INITIATED_SUSPENSION
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_CLOSED_WITH_BALANCE
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_REMOVED_CLOSED_WITH_BALANCE
+
+The following payload provides an example notification event response for an FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_DELINQUENT event:
+
+FINANCIAL_ACCOUNT_ATTRIBUTE_ADDED_DELINQUENT
+
+Copy code snippet
+
+## Financial account status
+
+Financial account status events are triggered when a financial account transitions states. The following notification events are available for financial account statuses:
+
+ACCOUNT_STATUS_ACTIVE
+
+ACCOUNT_STATUS_UNDER_REVIEW
+
+ACCOUNT_STATUS_SUSPENDED
+
+ACCOUNT_STATUS_PENDING_CLOSURE
+
+ACCOUNT_STATUS_CLOSED
+
+The following payload provides an example notification event response for an ACCOUNT_STATUS_SUSPENDED event:
+
+ACCOUNT_STATUS_SUSPENDED
+
+Copy code snippet
+
+## Financial account statement
+
+Financial account statement events are triggered when a statement is ready for a financial account. You can subscribe to the following event to inform you when a statement is ready:
+
+FINANCIAL_ACCOUNT_STATEMENT_READY
+
+The following payload is an example notification response from a FINANCIAL_ACCOUNT_STATEMENT_READY event:
+
+FINANCIAL_ACCOUNT_STATEMENT_READY
+
+Copy code snippet
+
+## Internal transfer
+
+Internal transfer notification events are triggered when any internal Highnote transfer transitions states. Internal transfer types represent the direction of money movement within Highnote, including:
+
+From a funding financial account to a payment card financial account
+From a payment card financial account to a funding financial account
+Between financial accounts
+
+The following table includes some of the fields you may see in an internal transfer notification event response. Note that this table does not contain all response fields. For a full list of response fields, refer to the API Reference.
+
+memo
+
+internalTransferStatus
+
+## Internal transfer between financial accounts
+
+Internal transfer events are triggered to denote a transfer between Financial Accounts. Depending on the use case for your card program, these transfers can be configured for a variety of financial account types. The following notification events are supported:
+
+INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_PENDING
+
+INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_COMPLETED
+
+INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_FAILED
+
+The following payload is an example of a notification sent for the event, INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_PENDING:
+
+INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_PENDING
+
+Copy code snippet
+
+## Internal transfer from funding financial account
+
+Internal transfers from funding financial account events are triggered when the internal transfer transitions states. The following notification events are supported:
+
+INTERNAL_TRANSFER_FROM_FUNDING_FINANCIAL_ACCOUNT_TO_PAYMENT_CARD_FINANCIAL_ACCOUNT_PENDING
+
+INTERNAL_TRANSFER_FROM_FUNDING_FINANCIAL_ACCOUNT_TO_PAYMENT_CARD_FINANCIAL_ACCOUNT_COMPLETED
+
+INTERNAL_TRANSFER_FROM_FUNDING_FINANCIAL_ACCOUNT_TO_PAYMENT_CARD_FINANCIAL_ACCOUNT_FAILED
+
+The following payload is an example of a notification sent for the event, INTERNAL_TRANSFER_FROM_FUNDING_FINANCIAL_ACCOUNT_TO_PAYMENT_CARD_FINANCIAL_ACCOUNT_PENDING:
+
+INTERNAL_TRANSFER_FROM_FUNDING_FINANCIAL_ACCOUNT_TO_PAYMENT_CARD_FINANCIAL_ACCOUNT_PENDING
+
+Copy code snippet
+
+## Internal transfer from payment card financial account
+
+Internal transfer from payment card financial account events are triggered when an internal transfer transitions states. The following notification events are supported:
+
+INTERNAL_TRANSFER_FROM_PAYMENT_CARD_FINANCIAL_ACCOUNT_TO_FUNDING_FINANCIAL_ACCOUNT_PENDING
+
+INTERNAL_TRANSFER_FROM_PAYMENT_CARD_FINANCIAL_ACCOUNT_TO_FUNDING_FINANCIAL_ACCOUNT_COMPLETED
+
+INTERNAL_TRANSFER_FROM_PAYMENT_CARD_FINANCIAL_ACCOUNT_TO_FUNDING_FINANCIAL_ACCOUNT_FAILED
+
+The following payload is an example of a notification sent for the event, INTERNAL_TRANSFER_FROM_PAYMENT_CARD_FINANCIAL_ACCOUNT_TO_FUNDING_FINANCIAL_ACCOUNT_PENDING:
+
+INTERNAL_TRANSFER_FROM_PAYMENT_CARD_FINANCIAL_ACCOUNT_TO_FUNDING_FINANCIAL_ACCOUNT_PENDING
+
+Copy code snippet
+
+## Notification activation
+
+NOTIFICATION_ACTIVATION events are ignored if provided as a subscription event name when adding a webhook.
+
+NOTIFICATION_ACTIVATION
+
+Notification activation events are sent to your webhook to verify it's been set up correctly. This event will fire on the initial creation and when you attempt to reactivate a webhook.
+
+NOTIFICATION_ACTIVATION
+
+The following payload provides an example notification event response from a NOTIFICATION_ACTIVATION event:
+
+NOTIFICATION_ACTIVATION
+
+Copy code snippet
+
+## Payroll advance
+
+Payroll advance notification events are triggered when the following payroll advance events occur:
+
+Repayment completed
+Write-off occurs
+
+The following table provides an overview of some of the fields you may see in a payroll advance notification event response. Note that this table does not contain all response fields. For a full list of response fields, refer to the API Reference:
+
+employerFinancialAccountId
+
+financialAccountId
+
+payrollAdvance
+
+advanceAmount
+
+payrollAdvance
+
+amountApplied
+
+payrollAdvance
+
+amountBefore
+
+payrollAdvance
+
+balanceAfter
+
+amountApplied
+
+payrollAdvance
+
+## Payroll advance repayment status
+
+Payroll advance repayment status events are triggered when a payroll repayment is processed.
+
+PAYROLL_ADVANCE_REPAYMENT_COMPLETED
+
+The following response codes are returned from a complete payroll repayment status event:
+
+NOT_REPAID
+
+FULLY_REPAID
+
+PARTIALLY_REPAID
+
+WRITTEN_OFF
+
+AttemptCount
+
+The following payload provides an example response from a PAYROLL_ADVANCE_REPAYMENT_COMPLETED event with a PARTIALLY_REPAID status response:
+
+PAYROLL_ADVANCE_REPAYMENT_COMPLETED
+
+PARTIALLY_REPAID
+
+Copy code snippet
+
+## Payroll advance write off status
+
+A payroll advance write off status event is sent when a payroll advance amount is written off.
+
+PAYROLL_ADVANCE_WRITE_OFF_COMPLETED
+
+The following payload provides an example response body for a PAYROLL_ADVANCE_WRITE_OFF_COMPLETED event:
+
+PAYROLL_ADVANCE_WRITE_OFF_COMPLETED
+
+Copy code snippet
+
+## Payment card
+
+Payment card notification events are triggered for various payment card-related events.
+
+The following table provides an overview of some of the fields you may see in payment card notification event responses. Note that this table does not contain all response fields. For a full list of fields, see the API Reference:
+
+formFactor
+
+previousStatus
+
+bin
+
+additionalNetworkData
+
+partial
+
+paymentCardSnapshot
+
+transactionProcessingType
+
+## Payment card status
+
+Payment card status events are triggered when a payment card transitions states. The following notification events are available for payment card statuses:
+
+PAYMENT_CARD_ACTIVATED
+
+PAYMENT_CARD_SUSPENDED
+
+PAYMENT_CARD_UNSUSPENDED
+
+PAYMENT_CARD_CLOSED
+
+The following payload provides an example response body for a PAYMENT_CARD_ACTIVATED event:
+
+PAYMENT_CARD_ACTIVATED
+
+Copy code snippet
+
+## Payment card authorization
+
+Payment card authorization events are triggered when a transaction is authorized or transitions states. The following types of notification events are available for payment card authorizations:
+
+PAYMENT_CARD_AUTHORIZATION_APPROVED
+
+PAYMENT_CARD_AUTHORIZATION_DECLINED
+
+PAYMENT_CARD_AUTHORIZATION_REVERSED
+
+The following payload provides an example response body from a PAYMENT_CARD_AUTHORIZATION_APPROVED event:
+
+PAYMENT_CARD_AUTHORIZATION_APPROVED
+
+Copy code snippet
+
+## Payment card authorization and clear
+
+Payment card authorization and clear events are triggered when a transaction is authorized and cleared or transitions states. The following notification events are available for payment card authorization and clear events:
+
+PAYMENT_CARD_AUTHORIZATION_AND_CLEAR_APPROVED
+
+PAYMENT_CARD_AUTHORIZATION_AND_CLEAR_DECLINED
+
+The following payload provides an example of a PAYMENT_CARD_AUTHORIZATION_AND_CLEAR_APROVED event:
+
+PAYMENT_CARD_AUTHORIZATION_AND_CLEAR_APROVED
+
+Copy code snippet
+
+## Payment card cleared
+
+Payment card cleared events are triggered when a transaction made using a payment card is cleared.
+
+PAYMENT_CARD_CLEARED
+
+The following payload provides an example response body for a PAYMENT_CARD_CLEARED event:
+
+PAYMENT_CARD_CLEARED
+
+Copy code snippet
+
+## Payment card verification
+
+Payment card verification events are triggered when a verification is either approved or denied. The following notification events are available for payment card verification:
+
+PAYMENT_CARD_VERIFICATION_APPROVED
+
+PAYMENT_CARD_VERIFICATION_DECLINED
+
+The following payload provides an example response body for a PAYMENT_CARD_VERIFICATION_APPROVED event:
+
+PAYMENT_CARD_VERIFICATION_APPROVED
+
+Copy code snippet
+
+## Payment card transaction enhanced data
+
+The payment card transaction enhanced data event is received is enhanced data is received from the card network.
+
+PAYMENT_CARD_ENHANCED_DATA_RECEIVED
+
+The following payload provides an example response body for a PAYMENT_CARD_ENHANCED_DATA_RECEIVED event:
+
+PAYMENT_CARD_ENHANCED_DATA_RECEIVED
+
+Copy code snippet
+
+## Physical card order
+
+Physical card order notification events are triggered for various physical card order-related events.
+
+The following table provides an overview of some fields you may see in a physical card order notification event response. Note that this table does not contain all response fields. For a full list, see the API Reference:
+
+orderState
+
+cardCount
+
+groupOrderState
+
+## Physical card fulfillment
+
+Physical card fulfillment events are triggered when a physical payment card shipment fulfillment changes states. The following notification events are available for physical card fulfillment:
+
+PHYSICAL_PAYMENT_CARD_SHIPPED
+
+PHYSICAL_PAYMENT_CARD_SHIP_FAILED
+
+The following payload provides an example response body for a PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIPPED event:
+
+PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIPPED
+
+Copy code snippet
+
+## Physical card group order
+
+Physical card group order events are triggered when a group card order shipment ships or fails. The following notification events are available for physical card group orders:
+
+PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIPPED
+
+PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIP_FAILED
+
+The following payload provides an example response body for a PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIPPED event:
+
+PHYSICAL_PAYMENT_CARD_GROUP_ORDER_SHIPPED
+
+Copy code snippet
+
+## Unified funds transfer
+
+Unified Funds Transfers let Cardholders make near real-time domestic money movements between cards.
+
+UNIFIED_FUNDS_TRANSFER_INITIATED_EVENT
+
+UNIFIED_FUNDS_TRANSFER_COMPLETED_EVENT
+
+UNIFIED_FUNDS_TRANSFER_FAILED_EVENT
+

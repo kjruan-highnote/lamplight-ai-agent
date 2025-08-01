@@ -1,0 +1,227 @@
+Title: Add Cards to Digital Wallets
+URL: https://highnote.com/docs/guides/cards/digital-wallets
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+An approved tokenized card design
+
+## Overview
+
+Digital wallets enhance security by creating a token: a digital account number that is a substitute value for a customer's personal account number (PAN). This token is presented to the merchant rather than the PAN, so the merchant cannot see or retain the payment card’s information.
+
+You can provision payment cards to digital wallets such as Apple Pay, Google Wallet, and Samsung Pay. Payment cards are added to digital wallets in two ways:
+
+Manual entry: An account holder opens a digital wallet app on their phone and manually enters their card details
+Push provisioning: An account holder taps a button in your iOS or Android app and enters a provisioning flow native to the device
+
+This guide provides steps for creating a push provisioning implementation.
+
+## Apple Pay prerequisites
+
+You must complete the following steps before developing a push provisioning project. The Highnote team will assist with each step as you prepare for your push provisioning implementation:
+
+Your program will need to be in implementation or launched with a partner bank. During this process, your program undergoes due diligence with the partner bank, a BIN is assigned, and the tokenization request is prepared to be submitted to the network. You must complete this step before providing Apple Pay with your card program details.
+All Digital Wallet assets should be submitted and approved. You can find the list of assets here: Digital Wallet Designs
+Sign the Apple Pay Terms and Conditions and list Highnote as your program manager.
+Email applepayentitlements@apple.com and implementation-team@highnote.com with the following information:
+
+A request to enable Apple Pay push provisioning in your app
+Your App name as it appears on AppStore Connect
+Your Developer team ID
+Your ADAM ID (Example: 13254705253)
+Your Bundle ID (Example: com.company.appname)
+Application Launch URL (Example: myapp://apple_wallet)
+Whether you already have an app published to the App Store
+
+After receiving a response from the Apple Pay Entitlements team, you can expect to answer the following questions:
+
+Who is the sponsor bank you work with to offer your debit or credit product?
+Please provide an overview of your product and how you plan to use Apple Pay. For example, you can explain that your application provides users a method to add their card to Apple Pay directly using the Add to Wallet interface.
+Are you planning to offer both physical and virtual cards for customers? Answer yes or no depending on your card product details.
+What are your proposed use cases for in-app (push) provisioning? For example, you can explain you are adding the capability to add a card to Apple Pay directly from your application.
+Do you plan to use a third party in the development and/or management of Apple Pay? If yes, provide the third-party company name.
+In what country is your business headquarters located? Provide your headquarters' location.
+What is your Team Name? Provide the name of your company or division.
+
+After completing the previous steps, you can access Apple Pay's Wallet API documentation for more information on building your push provisioning implementation.
+
+## Google Wallet prerequisites
+
+Google requires you to complete the following steps before developing a push provisioning project. The Highnote team will assist with each step as you prepare for your push provisioning implementation:
+
+Apply for Google Wallet documentation access.
+Define package name for Activation Method. For example, com.grppl.android.shell.TheIssuer.
+Define action for Activation Method. For example, action.open_issuerapp.
+Define package name for App Launching. For example, com.grppl.android.shell.TheIssuer.
+Define action for App Launching. For example, action.open_issuerapp.
+Submit Google's Push Provisioning API Access request form.
+
+com.grppl.android.shell.TheIssuer
+
+action.open_issuerapp
+
+com.grppl.android.shell.TheIssuer
+
+action.open_issuerapp
+
+After submitting the request form, you will receive a response prompting you to provide more information to describe your company. The Highnote team will assist with providing answers to additional information requests. You can expect the following responses:
+
+Select the option that best describes your company. For example, you might select a financial company or card issuer operating under a BIN Sponsor.
+Does your company have a signed CTA with Google?
+Does your BIN/Sponsor or Program Manager have a signed CTA agreement with Google?
+Name of program manager: For this response, you would provide the answer of Highnote.
+App Package name
+Launch date
+Please select the appropriate network(s): Visa or Mastercard
+
+After completing the previous steps, you can complete Google's Push Provisioning API UX Review Request.
+
+## Next steps
+
+After completing the prerequisites for the digital wallets you wish to support, the Highnote team will secure payment network push provisioning approval and establish a kickoff meeting with your development team.
+
+Google provides a standard solution that your development team can utilize. See Google's SDK releases for more information.
+
+## Apple Pay push provisioning
+
+The Apple Pay push provisioning process will validate the following when an account holder adds a payment card to their Apple Wallet:
+
+The paymentCardId provided is valid
+The payment card has a status of ACTIVE
+The payment card is allowed to be provisioned
+
+paymentCardId
+
+ACTIVE
+
+If any of the above criteria fails validation, the request will be rejected. If all validations pass, the API will return the response required by Apple’s SDK for provisioning the card to the Apple Wallet.
+
+## User experience
+
+You will need to add an "Add to Apple Wallet" call to action in your iOS app that uses the mutation AddPaymentCardToApplePayByDevicePushProvisioning. Apple provides guidelines and assets for the button.
+
+AddPaymentCardToApplePayByDevicePushProvisioning
+
+## Apple Wallet provisioning experience
+
+The following graphic is an example of an Apple Pay push provisioning user interface (UI) experience:
+
+## Provisioning flow
+
+The following graphic displays the flow of data during the Apple Pay push provisioning process:
+
+## Google Wallet push provisioning
+
+The Google Wallet push provisioning process will validate the following:
+
+The paymentCardId provided is valid
+The payment card has a status of ACTIVE
+The payment card is allowed to be provisioned
+
+paymentCardId
+
+ACTIVE
+
+If any of the above criteria fails validation, the request will be rejected. If all validations pass, the API will return the response required by Google SDK for provisioning the card to the Google Wallet.
+
+## User experience
+
+You will need to add a "Save to Phone" call to action in your Android app that uses the mutation AddPaymentCardToGooglePayByDevicePushProvisioning. Google provides assets for the button.
+
+AddPaymentCardToGooglePayByDevicePushProvisioning
+
+## Google Wallet provisioning experience
+
+The following graphic is an example of a Google Wallet push provisioning user interface (UI) experience:
+
+## Provisioning flow
+
+The following graphic displays the flow of data during the Google Wallet push provisioning process:
+
+## Manage digital wallet tokens
+
+When a payment card is added to a digital wallet, a token provisioning request will be sent to the digital wallet, network, and Highnote. The request may go to the PENDING_VERIFICATION state, which will require your account holder to verify their identity. The following verification methods may be configured for your product:
+
+PENDING_VERIFICATION
+
+Email: A passcode will be sent by Highnote to the customer’s email, which they will enter into the digital wallet.
+SMS: A passcode will be sent by Highnote to the customer’s mobile phone, which they will enter into the digital wallet.
+Customer Service: The account holder will be able to view the phone number for customer service that they may call to complete verification.
+
+The following states are associated with a digital wallet token provisioning request:
+
+REQUESTED
+
+APPROVED
+
+ACTIVE
+
+DENIED
+
+PENDING_VERIFICATION
+
+## Find a token
+
+You can search for digital wallet tokens on a given payment card or a digital wallet token’s associated payment card using the following query:
+
+## Suspend token
+
+Account holders can suspend a token temporarily or a customer support agent may suspend a token if additional verification is required by the account holder.
+
+Suspended tokens may have the following reasons associated with the token:
+
+DEVICE_LOST
+
+DEVICE_STOLEN
+
+FRAUDULENT_TRANSACTIONS
+
+OTHER
+
+Use the following mutation to suspend a token:
+
+## Unsuspend token
+
+You may provide your customer support agents or your account holders the ability to reactivate or unsuspend a token after it has been suspended.
+
+Suspended tokens that have been unsuspended or reactivated may have the following reasons associated with the token:
+
+DEVICE_FOUND
+
+NON_FRAUDULENT_TRANSACTIONS
+
+OTHER
+
+Use the following mutation to unsuspend a token:
+
+## Terminate token
+
+A token may be terminated by your customer support agents or account holders. Once a token is terminated, the token is deleted and can no longer be used to transact. A new token must be created once it is terminated.
+
+Terminated tokens may have the following reasons associated with the token:
+
+ACCOUNT_HOLDER_DELETED
+
+DEVICE_LOST
+
+DEVICE_STOLEN
+
+FRAUDULENT_TRANSACTIONS
+
+OTHER
+
+Use the following mutation to terminate a token:
+
+## View token status and details
+
+Find the status of a token and its historical state transitions using the following query:
+
+## Simulate digital wallet token provisioning
+
+You can use Highnote's digital wallet token provisioning simulation to generate and activate a digital wallet token, and test token status events. For more information, see Simulate Digital Wallet Token Provisioning.
+

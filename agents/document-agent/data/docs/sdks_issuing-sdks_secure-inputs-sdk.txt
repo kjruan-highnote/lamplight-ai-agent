@@ -1,0 +1,268 @@
+Title: Secure Inputs SDK for PINs
+URL: https://highnote.com/docs/sdks/issuing-sdks/secure-inputs-sdk#si-sdk-script-tag
+==================================================
+
+Home
+
+## Overview
+
+The Highnote Secure Inputs SDK enables customers to securely set and update their PIN from your UI using iframes.
+This prevents PCI-scoped data from flowing through your servers or from being accessible to scripts running on your page.
+
+## Prerequisites
+
+A Highnote account
+A server-side integration using an API key
+Payment card ID
+
+## Installation
+
+The Highnote Secure Inputs SDK follows semver and can be installed using the following:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+## Install by package manager
+
+Installation steps are the same for both the PIN and tokenization Secure Inputs SDKs.
+
+The Secure Inputs SDK supports the following JavaScript package managers: npm, yarn, and pnpm.
+
+npm
+
+yarn
+
+pnpm
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Install by CDN
+
+To ensure stability and avoid potential issues caused by updates, replace @latest with a specific version number such as @1.0.0.
+
+@latest
+
+@1.0.0
+
+You can install Secure Inputs SDK directly from a content delivery network (CDN) such as JSDelivr.
+
+The SDK supports both traditional script tags and ECMAScript module imports.
+ESM imports require modern browsers.
+To support older browsers, use the traditional script tag approach with appropriate polyfills.
+
+## Script tag
+
+To install the Secure Inputs SDK by <script> tag, add the following to your HTML file:
+
+<script>
+
+Copy code snippet
+
+## ESM import
+
+To install the Secure Inputs SDK by ESM module, add the following to your HTML file:
+
+Copy code snippet
+
+## Usage
+
+To render secure input fields in your UI, configure elements to hold each field as follows:
+
+Prepare your HTML
+Fetch a client token
+Initialize secure inputs.
+
+## Prepare your HTML
+
+To use the Secure Inputs SDK, you must provide an element for the PIN field.
+
+The following code sample uses a div element to contain the iframe for the secure input field:
+
+div
+
+Copy code snippet
+
+## Fetch a client token
+
+To obtain a client token from your server for the secure inputs SDK, use the GeneratePaymentCardClientToken mutation.
+
+GeneratePaymentCardClientToken
+
+Refer to the following guidelines when generating a payment card client token:
+
+Provide the paymentCardId of the payment card that needs the PIN set or updated.
+The client token is only valid for 10 minutes, but can be used multiple times.
+Once a token expires, you must generate a new one.
+
+paymentCardId
+
+Use the following mutation to generate a payment card client token:
+
+## Initialize secure inputs
+
+The secure inputs library works by injecting an iframe into the PIN element to render the appropriate data. You can style the content inside each iframe by passing any combination of styling options.
+
+You can initialize the card viewer by using a renderFields function. This returns a Promise that contains a reference to the secureInputs instance. This is useful for lifecycle management and interactions such as field submission.
+
+renderFields
+
+secureInputs
+
+The following example shows how to initialize the Secure Inputs SDK:
+
+Copy code snippet
+
+## Error handling
+
+Note: The secure inputs SDK doesn’t render error messages or update your UI inside iframes when errors occur. You must introspect and handle errors accordingly.
+
+You can pass an onError handler to the renderFields call. This callback will be invoked whenever an error is raised from the integration.
+
+onError
+
+renderFields
+
+## Error types
+
+The following error types are supported for the secure inputs SDK:
+
+requestId
+
+requestId
+
+## Example errors
+
+The following code sample provides examples of secure inputs errors:
+
+Copy code snippet
+
+## Styling options
+
+The following styling options are available for use in elements for your secure inputs fields:
+
+color
+
+#55f5a3
+
+rgba(85,245,163,1)
+
+#springgreen
+
+cursor
+
+pointer
+
+none
+
+fontFamily
+
+sans-serif
+
+serif
+
+monospace
+
+fontSize
+
+12px
+
+1em
+
+1.1rem
+
+fontWeight
+
+bold
+
+normal
+
+letterSpacing
+
+normal
+
+.2rem
+
+lineHeight
+
+normal
+
+150%
+
+userSelect
+
+none
+
+auto
+
+inherit
+
+## iframe defaults
+
+Highnote injects card viewer iframes with the following defaults. Your CSS styling can override each of these:
+
+border: none
+width: 300px (browser default)
+height: 150px (browser default)
+
+border: none
+
+width: 300px
+
+height: 150px
+
+The document and body inside the frame will have transparent backgrounds and default to margin: 0, padding: 0
+
+margin: 0
+
+padding: 0
+
+## Custom fonts
+
+The Secure Inputs SDK only supports system fonts.
+
+## Layout
+
+The layout of payment card fields in the card viewer is customizable. Highnote injects iframes into the provided container elements, which will inherit the width of the container.
+
+You can customize the width and height of the container to accommodate your UI as needed.
+
+The following code sample provides an example of custom layout styling:
+
+Copy code snippet
+
+## Using the live environment
+
+By default, the card viewer library will make requests against the test environment. When you are ready to switch to the live environment, set the environment configuration option using the following function call:
+
+environment
+
+Copy code snippet
+
+## Lifecycle
+
+If you need to unmount payment card fields, use the unmount method on the returned reference. This is useful when you need to “restart” the integration, or navigate to a new view client-side. Using this will ensure the cleanup of any DOM and event handlers.
+
+unmount
+
+The following code sample provides an example function to unmount fields:
+
+Copy code snippet
+
+## Content security policy
+
+If your application enforces a content security policy, you must set the frame-src header to allow iframes from the Highnote domain:
+
+Copy code snippet
+

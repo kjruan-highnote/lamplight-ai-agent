@@ -1,0 +1,78 @@
+Title: Payment Card Revisions
+URL: https://highnote.com/docs/issuing/cards/payment-card-revisions
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Overview
+
+When a payment card is issued or updated, the action is recorded in Highnote as a revision. A revision record captures the snapshot of the PaymentCard object before the changes to it were applied. The following types of payment card actions result in a revision:
+
+Issue
+Reissue
+Activate/deactivate
+Suspend
+Terminate
+Update other attributes: currently, only card form factor and card usage
+
+You can use the Highnote API to view the revision on a payment card. The following revision data types are supported:
+
+ACTIVATION_REQUIRED
+
+ACTIVE
+
+SUSPENDED
+
+CLOSED
+
+PHYSICAL
+
+VIRTUAL
+
+MULTI_USE
+
+SINGLE_USE
+
+CREATED
+
+EXPIRED
+
+LOST
+
+STOLEN
+
+OTHER
+
+## Use cases
+
+Traceability and Troubleshooting: By tracking when these changes were made (with the updatedAt timestamp), organizations can quickly trace the origins of issues or unauthorized modifications.
+
+
+Compliance and Auditing: Maintaining a thorough record of all updates assists in compliance with financial regulations, providing auditors with a transparent view of the card's history.
+
+
+Security and Fraud Prevention: Historical logs of status changes are invaluable for detecting patterns that may indicate fraudulent activity.
+
+
+Operational Insights: Analysis of updates over time can reveal trends in card usage and lifecycle management, informing strategic decisions.
+
+Traceability and Troubleshooting: By tracking when these changes were made (with the updatedAt timestamp), organizations can quickly trace the origins of issues or unauthorized modifications.
+
+updatedAt
+
+Compliance and Auditing: Maintaining a thorough record of all updates assists in compliance with financial regulations, providing auditors with a transparent view of the card's history.
+
+Security and Fraud Prevention: Historical logs of status changes are invaluable for detecting patterns that may indicate fraudulent activity.
+
+Operational Insights: Analysis of updates over time can reveal trends in card usage and lifecycle management, informing strategic decisions.
+
+## Find payment card revisions
+
+You can use the following FindPaymentCardRevisionSnapshot query to find revisions associated with a payment card. Additionally, the revisions attribute can be included on queries that support the PaymentCard object.
+
+FindPaymentCardRevisionSnapshot
+
+revisions
+
+PaymentCard
+

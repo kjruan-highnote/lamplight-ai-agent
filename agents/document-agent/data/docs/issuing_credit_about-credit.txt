@@ -1,0 +1,59 @@
+Title: Credit Overview
+URL: https://highnote.com/docs/issuing/credit/about-credit
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+Credit products support different balance types:
+
+Purchase
+Buy Now, Pay Later (BNPL) Installments
+Cash Advance
+Balance transfer
+
+Credit plans provide flexible and configurable terms for credit card products and can define payment structure, interest rate, type, and accrual method, as well as pricing and policy terms per balance type.
+
+The structure of your credit plans should align with the value proposition and pricing strategy of your credit product. For example, your card product might offer purchase and cash advance credit plans with distinct interest rates, rate types, and accrual methods to serve different customer needs.
+
+Credit plans are linked to financial accounts and determine payment obligations on billing statements. While financial accounts can be assigned to various credit plans, the terms must consistently match what was disclosed to your account holders in their Cardholder Agreement.
+
+## Available plans
+
+Highnote currently supports purchase and post-purchase BNPL installment credit plans:
+
+Purchase credit plans form the foundation of Highnote's revolving credit card products. They let you offer your account holders the ability to make flexible payments (above the minimum) while maintaining access to their full credit line.
+
+
+Installment credit plans are Highnote's Buy Now Pay Later (BNPL) option. They let your account holders move cleared transactions from a flexible revolving balance into a structured payment plan with fixed installments.
+
+Purchase credit plans form the foundation of Highnote's revolving credit card products. They let you offer your account holders the ability to make flexible payments (above the minimum) while maintaining access to their full credit line.
+
+Installment credit plans are Highnote's Buy Now Pay Later (BNPL) option. They let your account holders move cleared transactions from a flexible revolving balance into a structured payment plan with fixed installments.
+
+## Installment offer flow
+
+The following diagram illustrates the flow of an installment plan from a cleared transaction event to a BNPL installment agreement:
+
+## Creating credit plans
+
+To create any credit plan:
+
+View the available credit plan templates.
+Create a credit plan.
+Create and attach fees if applicable (required for installment).
+Activate the credit plan.
+
+Installment plans require that you create a purchase plan first, then the installment plan with fee schedule, and then an agreement per cleared transaction.
+
+## Environments
+
+Highnote provides a test environment for you to test your APIs and integration of your products.
+
+Use the test environment  to create credit plans on REVOLVING card products and overall card product integration. In the live environment, Highnote creates credit plans for your card product.
+
+REVOLVING
+
+The following guides provide an overview for testing credit plans in the test environment.
+

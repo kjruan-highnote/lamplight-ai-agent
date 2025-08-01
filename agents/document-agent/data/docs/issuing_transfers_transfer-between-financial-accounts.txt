@@ -1,0 +1,46 @@
+Title: Transfer between Financial Accounts
+URL: https://highnote.com/docs/issuing/transfers/transfer-between-financial-accounts#failed-status-values
+==================================================
+
+Home
+
+## Overview
+
+You can transfer funds between Highnote accounts in real time. Transferring funds between Highnote accounts is used for various use cases:
+
+Rewards redemptions: Transfer funds from your product funding account to an account holder's financial account.
+Internal company transfers: Set up intra-company transfers between financial accounts for the same business account holder.
+Peer-to-peer transfers: You can enable peer-to-peer transfers of funds from one account holder's financial account to another.
+
+To enhance funds transfer management and organization, Highnote offers transfer purposes. For available transfer purposes, see TransferStatus in the API Reference.
+
+## Initiate internal transfer
+
+Use the following mutation to initiate a transfer between Highnote financial accounts:
+
+## Check internal transfer status
+
+You can query and display the status of internal transfers between financial accounts. The InitiateTransferBetweenFinancialAccounts mutation has the following statuses:
+
+InitiateTransferBetweenFinancialAccounts
+
+PENDING
+
+COMPLETED
+
+FAILED
+
+## Failed status values
+
+If a transfer returns a FAILED status, it returns a statusReason code, with one of the following values:
+
+FAILED
+
+statusReason
+
+ACCOUNT_CLOSED
+
+ACCOUNT_NOT_FOUND
+
+Use the following query to check the status of an internal transfer:
+

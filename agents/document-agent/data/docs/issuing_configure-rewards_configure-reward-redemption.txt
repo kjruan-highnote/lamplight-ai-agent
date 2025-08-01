@@ -1,0 +1,62 @@
+Title: Configure Reward Redemption
+URL: https://highnote.com/docs/issuing/configure-rewards/configure-reward-redemption
+==================================================
+
+Home
+
+## Overview
+
+After you create a reward earn rule, you can configure how to redeem rewards. You can do this by using redemption configurations. Each redemption configuration contains units for conversion. For example, you can redeem reward points for an equivalent statement credit. In addition to conversion units, you can configure redemption timelines. They dictate when an account holder can start redeeming rewards.
+
+## Create reward redemption configuration
+
+Note: Once your rewards program is approved, the Highnote team will assist with creating your reward redemptions in the live environment.
+
+Reward redemption configurations are used to create reward redemption configurations. You can create a single reward redemption configuration, or multiple configurations of the same type.
+
+For example, you can create one reward redemption configuration for 1x and another for 0.5x. Then, you can use these configurations to offer different redemption rules, with both remaining active at the same time. When redeeming rewards in this scenario, you will reference the REWARD_REDEMPTION_CONFIGURATION_ID for each reward redemption configuration.
+
+REWARD_REDEMPTION_CONFIGURATION_ID
+
+Use the following mutation to create a reward redemption configuration in the test environment. Use the rate input field to create your reward unit conversion rate:
+
+rate
+
+## Attach reward redemption to card product
+
+Note: Once your rewards program is approved, the Highnote team will assist with attaching your reward redemptions to your card product(s) in the live environment.
+
+You must attach redemption configurations to card products. This enables account holders to redeem rewards.
+
+Use the following mutation to attach a redemption configuration to a card product in the test environment:
+
+## Update reward redemption configuration
+
+The updated effectiveThrough date must be now or in the future.
+
+effectiveThrough
+
+If a reward redemption configuration needs deactivating, you can update the attachment's effectiveThrough date to end the configuration's availability. Use the following mutation to update the attachment between reward redemption configuration attachment in the test environment:
+
+effectiveThrough
+
+## Find reward redemption configuration
+
+You can query for a reward redemption configuration to display it in your website or application. You can query for a reward earn rule using the following methods:
+
+via reward redemption configuration ID
+via card product ID
+via organization ID
+
+## via reward redemption configuration ID
+
+Use the following query to find a reward redemption configuration using the redemption configuration ID:
+
+## via card product ID
+
+Use the following query to find a reward redemption configuration via card product ID:
+
+## via organization ID
+
+Use the following query to find a reward redemption configuration via organization ID:
+

@@ -1,0 +1,18 @@
+Title: Redeem Rewards
+URL: https://highnote.com/docs/issuing/configure-rewards/redeem-rewards
+==================================================
+
+Home
+
+## Overview
+
+Once an account holder earns reward points, they can redeem rewards. They can redeem rewards based on the redemption configurations you have added to your card product.
+
+At this time, rewards can be redeemed for statement credit.
+
+## Redeem rewards for statement credit
+
+Use the following mutation to redeem rewards for statement credit. If your rewards program has more than one reward redemption configuration, reference the correct REWARD_REDEMPTION_CONFIGURATION_ID to ensure the correct redemption rule is applied:
+
+REWARD_REDEMPTION_CONFIGURATION_ID
+

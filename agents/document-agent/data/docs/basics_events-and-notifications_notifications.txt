@@ -1,0 +1,310 @@
+Title: Notifications
+URL: https://highnote.com/docs/basics/events-and-notifications/notifications#setup-a-webhook
+==================================================
+
+Home / Basics / Events and Notifications
+
+## Overview
+
+Highnote supports notifications that let you monitor and respond to events in your Highnote integration. Common use cases are:
+
+Interacting with asynchronous onboarding flows
+Monitoring changes and alerts
+Transferring data into third-party systems
+
+## Key concepts
+
+Understanding the notification architecture helps you implement an efficient event monitoring system.  Here's a breakdown of the key concepts:
+
+Event types: Categories of events that occur within your Highnote integration. Examples include authorization events, card issuance events, and system notifications like webhook activation.
+
+
+Notification targets: Destinations that receive notifications, primarily webhook endpoints in Highnote's implementation. These are HTTP endpoints that receive event data when specific events occur.
+
+
+Subscriptions : Relationships between event types and notification targets. When you "subscribe" a target to an event type, you're configuring that target to receive notifications when events of that type occur.
+
+Event types: Categories of events that occur within your Highnote integration. Examples include authorization events, card issuance events, and system notifications like webhook activation.
+
+Notification targets: Destinations that receive notifications, primarily webhook endpoints in Highnote's implementation. These are HTTP endpoints that receive event data when specific events occur.
+
+Subscriptions : Relationships between event types and notification targets. When you "subscribe" a target to an event type, you're configuring that target to receive notifications when events of that type occur.
+
+## Change management
+
+Notification schemas can change over time. When new attributes are added, Highnote will notify you seven days before release. When a breaking change occurs, Highnote will notify you 90 days before release to ensure ample time for any necessary updates.
+
+To maintain uninterrupted service, we recommend building robust and resilient integrations that can adapt to these changes.
+
+## Webhooks
+
+Highnote notifications use webhooks to deliver events to your system. Refer to the following guidelines for using webhooks:
+
+Webhooks can be managed using the Highnote API or the dashboard
+You can have up to 50 active webhooks at a time
+You can configure specific events to be delivered to each webhook
+
+Notification events are sent as POST requests with JSON bodies. Highnote will send the following headers on each request:
+
+user-agent: HighnotePlatform/1.0.0
+highnote-signature: The result of computing an HMAC 256 signature of the request body
+highnote-replay: This will be sent in cases where the event is being manually re-delivered
+content-type: application/json
+
+user-agent
+
+HighnotePlatform/1.0.0
+
+highnote-signature
+
+highnote-replay
+
+content-type
+
+application/json
+
+## Best practices
+
+We recommend using the following best practices to ensure your webhooks remain secure and maintain functionality with your integration.
+
+## Rotate signing keys
+
+The signing key used to verify payloads is modifiable using the rotateNotificationTargetSigningKey mutation. Refer to the following guidelines for rotating signing keys:
+
+rotateNotificationTargetSigningKey
+
+We recommend rotating signing keys periodically or when you suspect a compromise to keep them secure.
+When rotating signing keys, multiple keys become active for the notification endpoint. The old key expires in 24 hours after rotating a signing key.
+Before the old key expires, signatures for all keys are sent in the notification payload.
+A notification target can have a maximum of five active keys at a time.
+
+Use the following mutation to rotate a signing secret:
+
+## Verify payloads
+
+You can ensure events pushed to your webhook are coming from Highnote by inspecting the highnote-signature HTTP header. The header contains a comma-separated list of signatures. Usually, the list will only contain one item unless you are rolling your signing key.
+
+highnote-signature
+
+To verify the signature with the payload you received refer to the following steps:
+
+Sign the received payload using your language-specific HMAC signing library and the signing key secret for your notification target.
+Once you have a local signature, extract the value of the highnote-signature and compare the two using a timing-safe equals operation.
+
+highnote-signature
+
+The following code sample displays how this process would look in node.js:
+
+Copy code snippet
+
+If there is equality between the signatures, verify the timestamp of the event is within a certain threshold. The signature timestamp can be found in the payload at $.extensions.signatureTimestamp, with the value being the number of milliseconds since Unix epoch.
+
+$.extensions.signatureTimestamp
+
+Copy code snippet
+
+## Handle duplicate events
+
+Webhook endpoints may receive duplicate events. To prevent processing duplicate events, you should implement idempotent event handling. This can be done by maintaining a log of all processed events and not processing events that have already been logged.
+
+## Process events asynchronously
+
+Asynchronous queues help you handle multiple events at a pace that fits your system's capacity.
+
+Set up your event handler to use an asynchronous queue for managing incoming notification events. Processing events synchronously can lead to scalability problems and overloading of your webhook endpoints, especially during high-traffic time periods.
+
+## Add a webhook
+
+Note: Adding an email to a webhook target is only supported in the live environment. If you attempt to add an email to a webhook in the test environment, you will get an AccessDeniedError.
+
+AccessDeniedError
+
+You can add webhooks using the addWebhookNotificationTarget mutation. For more information on this mutation, see addWebhookNotificationTarget in the API reference.
+
+addWebhookNotificationTarget
+
+The requirements for an HTTP webhook are:
+
+The endpoint must be served via HTTPS
+Must return a 2XX status code. All other status codes will be considered a delivery failure and the request will be retried
+
+2XX
+
+The following process outlines how a webhook is verified and activated:
+
+When a webhook is created, the status updates to PENDING_VERIFICATION.
+Highnote delivers a NOTIFICATION_ACTIVATION event to your webhook, which is a test event.
+Upon receiving a 2XX response to the test event, the status updates to ACTIVE.
+If the webhook does not return a 2XX response, the status remains in PENDING_VERIFICATION. You can attempt to activate the webhook using the activateNotificationTarget mutation.
+
+PENDING_VERIFICATION
+
+NOTIFICATION_ACTIVATION
+
+2XX
+
+ACTIVE
+
+2XX
+
+PENDING_VERIFICATION
+
+activateNotificationTarget
+
+This process is outlined in the following graphic:
+
+For testing, if you do not have a server, you can use webhook.site, requestbin, or pipedream. Do not use these services for your production webhooks.
+
+Use the following mutation to add a webhook. You can choose to add an email to your webhook target to receive deactivation emails by including the email field in your query. Adding an email to a webhook target is optional and only supported in the live environment:
+
+email
+
+## Update subscriptions
+
+Subscriptions are established when you create a webhook, but you can update an existing webhook with the following mutations:
+
+addSubscriptionsToNotificationTarget lets you add new event type subscriptions to an existing notification target.
+removeSubscriptionsFromNotificationTarget lets you remove event type subscriptions from an existing notification target.
+
+addSubscriptionsToNotificationTarget
+
+removeSubscriptionsFromNotificationTarget
+
+## Add subscriptions
+
+Use the following mutation to add one or more subscriptions to an existing webhook or other application notification target:
+
+## Remove subscriptions
+
+Use the following mutation to remove one or more subscriptions from an existing webhook or other application notification target:
+
+## Test updating subscriptions
+
+You can test the creation and updating of subscriptions with https://webhook.site:
+
+## Create a webhook with default subscription
+
+Go to https://webhook.site to automatically create a unique webhook URL for testing and copy it.
+Go to Add a webhook in these docs.
+Paste your webhook URL as the uri input.
+Note the input subscription to CARD_PRODUCT_APPLICATION_APPROVED.
+Run the mutation and copy the target id (prefixed by ntt_) from the results for safe keeping.
+Go to the Dashboard and find your new webhook under Developers > Notifications.
+
+uri
+
+CARD_PRODUCT_APPLICATION_APPROVED
+
+id
+
+ntt_
+
+You should see an active webhook that is subscribed to CARD_PRODUCT_APPLICATION_APPROVED.
+
+CARD_PRODUCT_APPLICATION_APPROVED
+
+## Add a subscription
+
+Go to Add subscriptions.
+Add your webhook URL id (prefixed by ntt_) as the input for the notification targetId.
+Note the list of new subscriptions: PAYMENT_CARD_AUTHORIZATION_DECLINED and PAYMENT_CARD_AUTHORIZATION_REVERSED.
+Run the mutation and view the dashboard to see the change.
+
+id
+
+ntt_
+
+targetId
+
+PAYMENT_CARD_AUTHORIZATION_DECLINED
+
+PAYMENT_CARD_AUTHORIZATION_REVERSED
+
+Your webhook should now be subscribed to CARD_PRODUCT_APPLICATION_APPROVED PAYMENT_CARD_AUTHORIZATION_DECLINED, and PAYMENT_CARD_AUTHORIZATION_REVERSED.
+
+CARD_PRODUCT_APPLICATION_APPROVED
+
+PAYMENT_CARD_AUTHORIZATION_DECLINED
+
+PAYMENT_CARD_AUTHORIZATION_REVERSED
+
+## Remove a subscription
+
+Go to Remove subscriptions .
+Add your webhook URL id (prefixed by ntt_) as the input for targetId.
+Unsubscribe from PAYMENT_CARD_AUTHORIZATION_DECLINED.
+Run the mutation and view the dashboard to see the change.
+
+id
+
+ntt_
+
+targetId
+
+PAYMENT_CARD_AUTHORIZATION_DECLINED
+
+Your webhook should no longer be subscribed to PAYMENT_CARD_AUTHORIZATION_DECLINED.
+
+PAYMENT_CARD_AUTHORIZATION_DECLINED
+
+## Retries and failures
+
+A notification delivery is considered a failure if:
+
+Highnote does not receive a 2xx HTTP status code in the response
+If there is no response within 10 seconds, which is considered a timeout
+
+Highnote handles notification failures and retries as follows:
+
+If a notification fails all attempts, we will disable the webhook target. If you have an email address configured for your webhook, you will receive an email notifying you of the deactivation. You must manually reactivate it through the API or dashboard. If your webhook endpoint is down or if you miss any events, you can retrieve them via the API.
+
+## View delivery attempts
+
+Use the following query to view delivery attempts. If no target is enabled for the event type, the deliveryAttempts value will be null:
+
+deliveryAttempts
+
+null
+
+## Retrieve failed notifications
+
+You can use the following query to retrieve failed notifications. This is useful when your webhook endpoint is down and, as a result, deactivated. For more information on retries and failures, see Retries and Failures.
+
+## Replay events
+
+Once you have retrieved any failed notification events, you can use the following mutation to replay them or  manually re-deliver events to your webhooks:
+
+## Rename a target
+
+You can update the name of a notification target without affecting the delivery of events using the following mutation:
+
+## Add email to existing target
+
+Note: Adding an email to a webhook target is only supported in the live environment. If you attempt to add an email to a webhook in the test environment, you will get an AccessDeniedError.
+
+AccessDeniedError
+
+Emails are used to receive deactivation emails. You can use the following mutation to add an email to an existing webhook target. Adding an email to a webhook target is optional and only supported in the live environment:
+
+## Remove email from existing target
+
+Note: Removing an email to a webhook target is only supported in the live environment. If you attempt to add an email to a webhook in the test environment, you will get an AccessDeniedError.
+
+AccessDeniedError
+
+You can use the following mutation to remove an email from a webhook target:
+
+## Delete a target
+
+Warning: Deleting a notification target may impact the functionality of your Highnote integration and cannot be reversed.
+
+Notification targets may be deleted. Deleting a target will stop the delivery of all events because the notification target will no longer exist. Use the following mutation to remove a notification target:
+
+## Expiration of deactivated targets
+
+Note: Once a target is deactivated, any attempts to send notifications to the target will return an error status.
+
+A webhook with a DEACTIVATED status for more than 30 days is considered expired. It will be deleted and no longer visible.
+
+DEACTIVATED
+

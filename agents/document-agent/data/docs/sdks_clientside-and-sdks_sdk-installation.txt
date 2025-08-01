@@ -1,0 +1,42 @@
+Title: Installation
+URL: https://highnote.com/docs/sdks/clientside-and-sdks/sdk-installation
+==================================================
+
+Home
+
+## Overview
+
+Highnote SDKs follow semver and can be installed using:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+Minimum requirements are:
+
+A Highnote account
+A server-side integration using an API key
+
+## Installation instructions
+
+Refer to the docs for each SDK on how to install:
+
+## Issuing
+
+Card Viewer SDK installation
+Document Upload SDK installation
+Risk Application SDK installation
+Secure Inputs SDK (for PINS) installation
+
+## Acquiring
+
+Checkout SDK installation
+Secure Inputs SDK (for Tokenization) installation
+

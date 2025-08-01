@@ -1,0 +1,76 @@
+Title: Add Funds to your Balance
+URL: https://highnote.com/docs/issuing/transfers/balance
+==================================================
+
+Home
+
+## Overview
+
+Card products have an underlying financial account called the product funding account. Like all financial accounts, the product funding account has its own associated set of ledgers. The ledgers for your product funding account differ based on your card product's vertical.
+
+Funding your product funding account differs for live and test environments:
+
+Live environment: Your product funding account has an account and routing number, and may be funded via wire transfer from an external bank account.
+Test environment: You can Simulate Funding your Balance via Wire Transfer to test your integration.
+
+Your product funding account's role depends on your card product vertical. The following table provides an overview of each card product vertical and its associated product funding account role:
+
+## Transfer methods
+
+The speed and cost of transfer methods varies. The following table outlines the transfer methods available for product funding accounts, and the speed of each method:
+
+## Find your product funding account ID
+
+Note: To fund your product funding account in the live environment, you will initiate a wire transfer outside of Highnote. This does not require knowing your product funding account ID.
+
+To fund your product funding account using an internal Highnote transfer or to simulate a wire transfer in the test environment, you must use your product funding account ID.
+
+You can use the following query to find your product funding account ID using the Highnote API. In the response payload, the ID in the ProductFundingFinancialAccountFeature field is your product funding account ID:
+
+ProductFundingFinancialAccountFeature
+
+## Simulate a wire transfer
+
+In the test environment, use the following mutation to simulate a wire transfer to fund your product funding account:
+
+## Find wire transfers
+
+After a wire transfer is initiated, you can use the Highnote API to find incoming and outgoing wire transfers. The direction of a wire transfer is defined as follows:
+
+Incoming: Money is coming into a Highnote financial account via wire transfer.
+Outgoing: Money is leaving a Highnote financial account via wire transfer.
+
+## Incoming wire transfers
+
+Use the following query to find an incoming wire transfer:
+
+## Outgoing wire transfers
+
+Use the following query to find an outgoing wire transfer:
+
+## Find wire transfer reversals
+
+Wire transfer reversals occur when a wire transfer has been reversed by Highnote's support team. In the event of a wire transfer reversal, a memo is left on the wire transfer to state the reason for the reversal. The direction of a wire transfer reversal is defined as follows:
+
+Incoming: An incoming wire transfer has been reversed by the Highnote support team.
+Outgoing: An outgoing wire transfer has been reversed by the Highnote support team.
+
+## Incoming wire transfer reversal
+
+Use the following query to find an incoming wire transfer reversal:
+
+## Outgoing wire transfer reversal
+
+Use the following query to find an outgoing wire transfer reversal:
+
+## Transfer funds from a financial account
+
+Use the following mutation to transfer funds from a Highnote financial account to your product funding account. For input variables, use the following IDs:
+
+toFinancialAccountId: Product funding account ID
+fromFinancialAccountId: Account holder's payment card financial account ID
+
+toFinancialAccountId
+
+fromFinancialAccountId
+

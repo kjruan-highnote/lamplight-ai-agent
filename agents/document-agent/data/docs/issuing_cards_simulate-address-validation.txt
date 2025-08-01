@@ -1,0 +1,60 @@
+Title: Simulate Address Validation
+URL: https://highnote.com/docs/issuing/cards/simulate-address-validation
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+An individual card order or group card order
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+Before submitting a physical card order, you can validate the card order's shipping address to ensure it is properly formatted and CASS-certified. For more information on shipping address validation, see Validate shipping address.
+
+Highnote provides a simulation for validating a shipping address in the test environment. This simulation can be used to test your card product's physical card order flow and notification events. This guide provides steps for simulating shipping address validation for card orders.
+
+## Simulate valid address
+
+Use the following mutation to simulate a successful address validation:
+
+## Simulate address with changes
+
+You can simulate an address with changes response by using the keyword changed in the streetAddress field of an address validation query.
+
+changed
+
+streetAddress
+
+Use the following mutation to simulate an AddressValidatedWithChangesResult response:
+
+AddressValidatedWithChangesResult
+
+## Simulate incomplete address
+
+You can simulate an incomplete address response by using the keyword incomplete in the streetAddress field of an address validation query.
+
+incomplete
+
+streetAddress
+
+Use the following mutation to simulate an AddressIncompleteResult response:
+
+AddressIncompleteResult
+
+## Simulate invalid address
+
+You can simulate an invalid address response by using the keyword invalid in the streetAddress field of an address validation query.
+
+invalid
+
+streetAddress
+
+Use the following mutation to simulate an AddressInvalidResult response:
+
+AddressInvalidResult
+

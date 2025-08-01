@@ -1,0 +1,79 @@
+Title: Configure Velocity Controls
+URL: https://highnote.com/docs/guides/auth-controls/velocity-controls
+==================================================
+
+Home / Issuing / Control Authorizations
+
+## Overview
+
+Spend rule & velocity control results may not be visible for up to 15 seconds after a Transaction Event. See Spend rule latency.
+
+Velocity controls allow time boundary constraints to be applied to a spend rule. The following example explains the difference between velocity controls and spend rules:
+
+A payment card has a spend rule to decline all authorizations over $1,000.
+For the same payment card, a velocity control is added to decline any authorizations that exceed $1,000 within a calendar week.
+This creates a velocity control that enforces a weekly spending limit of $1,000.
+
+The following graphic shows how a velocity control is created and applied at the card product and payment card levels:
+
+## Velocity control windows
+
+You can set velocity control time frames using several time windows. The following table describes available velocity control windows:
+
+## Limits
+
+You can add three spend rules to a velocity control. Additionally, velocity controls have limits at the card product, financial account, and payment card levels:
+
+Card product: Limit of 10 velocity controls per card product
+Financial account: Limit of 10 velocity controls per financial account
+Payment card: Limit of 10 velocity controls per payment card
+
+## Create velocity control
+
+Note: An amount spend rule, or cumulative rule, is required to create a velocity control.
+
+To create a velocity control, you must first create spend rules, and attach your spend rules to the velocity control. You can add up to three spend rules to a velocity control. Velocity controls authorize transactions based on whether the associated spend rule's conditions are met within the velocity control window.
+
+The following example uses multiple spend rules to create a velocity control for airline purchases:
+
+Create an amount limit spend rule for $1000.
+Create a MCC spend rule for airline purchases.
+Add both spend rules to a monthly velocity control.
+Your velocity control will limit only airline purchases to $1000 a month.
+
+Use the following mutation to create a velocity control:
+
+## Attach velocity control to a card product
+
+Velocity controls can be attached to a card product or individual payment card. Attaching a velocity control to a card product applies the spend rules and velocity control to all financial accounts and payment cards for your card product.
+
+Use the following mutation to create a velocity control for a card product:
+
+## Attach velocity control to a payment card
+
+Velocity controls can be attached to a card product or individual payment card. Velocity controls attached to a payment card only apply to that specific payment card.
+
+Use the following mutation to attach a velocity control to a payment card:
+
+## Detach velocity control from a card product
+
+Note: If you detach and re-attach a velocity, the balance on the "count" and "windows" of the velocity control will reset.
+
+Use the following mutation to detach a velocity control from a card product:
+
+## Detach velocity control from a payment card
+
+Note: If you detach and re-attach a velocity, the balance on the "count" and "windows" of the velocity control will reset.
+
+Use the following mutation to detach a velocity control from a payment card:
+
+## List velocity controls
+
+Use the following query to find all velocity controls for your organization:
+
+## Find velocity control balance
+
+Velocity controls track how much money has been spent within a certain window to help troubleshoot declined transactions. You can check the "balance" of a velocity control for a payment card or financial account. The balance reflects the total amount spent.
+
+Use the following query to find the velocity control balance on a financial account:
+

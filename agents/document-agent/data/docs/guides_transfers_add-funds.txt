@@ -1,0 +1,97 @@
+Title: Add Funds to an Account
+URL: https://highnote.com/docs/guides/transfers/add-funds
+==================================================
+
+Home
+
+## Overview
+
+Financial accounts hold payment card balances. The funding source for a financial account differs depending on your card product vertical.
+
+The following table provides an overview of the funding source for each card product vertical:
+
+## Transfer methods
+
+Note: Card product cancelation periods and risk and compliance reviews can impact transfer timelines.
+
+The following table outlines the different transfer methods used for funding a financial account, and their associated timelines:
+
+## Cutoff times
+
+Originated ACH transfers have specific cutoff times for processing. Initiating a transfer after the specified cutoff time may result in additional processing time.
+
+Originated next day ACH: If a transfer is initiated before 4 PM EST, it will be processed by the bank the following business day. If initiated after 4 PM EST, the transfer will be processed two business days from initiation.
+Originated same day ACH: If a transfer is initiated before 2 PM EST, the bank will process it the same day. If initiated after 2 PM EST, the transfer will be processed the following business day.
+
+All originated ACH transfer methods have a required three business day hold period once the transfer has been initiated and is processing.
+
+## Find financial account ID
+
+To retrieve a financial account ID, you can query the API using an application ID. Use the following query to find a financial account ID:
+
+## Add funds to a financial account
+
+To add funds to a Highnote financial account, use one of the following methods:
+
+Non-originated ACH: Use this method for API automation products
+Originated ACH: Use this method for debit card products
+Transfer from product funding account: Use this method for credit and charge card products
+
+## Non-originated ACH
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+In the live environment, non-originated ACH transfers are initiated by account holders. In the test environment, you can simulate a non-originated ACH transfer to fund a financial account using the following mutation:
+
+## Originated ACH
+
+To pull funds from an external bank account via an originated ACH transfer, your account holder must connect a verified external account.
+
+Once an account holder connects a verified external account, refer to the following guidelines for adding funds using originated ACH transfers:
+
+For the fromFinancialAccountId field, use the verified external account ID.
+For the toFinancialAccountId field, use the account holder financial account.
+Optional - Use a boolean to request the transfer to use same day ACH.
+
+fromFinancialAccountId
+
+toFinancialAccountId
+
+Use the following mutation to initiate an originated ACH transfer:
+
+## Transfer from product funding account
+
+Some prepaid card products may require using your product funding account to fund an account holder's financial account. Use the following input variables to ensure money is moving in the correct direction:
+
+toFinancialAccountId: Account holder's financial account ID
+fromFinancialAccountId: Product funding account ID
+
+toFinancialAccountId
+
+fromFinancialAccountId
+
+Use the following mutation to initiate a transfer from your product funding account:
+
+## Fund load review
+
+You can inform Highnote that a WireTransfer or Non originated fund load has been sent.
+Once the information has been reviewed, the funds will be applied to the FinancialAccount.
+
+## Request wire fund load to a financial account
+
+Call initiateAddWiredFundsToFinancialAccount with a FinancialAccount ID, memo, and amount to start a wire fund load request.
+
+initiateAddWiredFundsToFinancialAccount
+
+FinancialAccount ID
+
+memo
+
+amount
+
+You must specify a memo. This should be the same memo that appears in the bank account when the wire transfer occurs.
+
+## Query wire fund load request
+
+Use the following to retrieve a wire fund load request:
+

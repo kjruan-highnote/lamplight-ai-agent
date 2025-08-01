@@ -1,0 +1,55 @@
+Title: Standard Credit Purchase
+URL: https://highnote.com/docs/issuing/credit/create-credit-plans#manage-credit
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+Highnote's purchase credit plans are standard revolving credit card products. They let you offer your account holders the ability to make flexible payments (above the minimum) while maintaining access to their full credit line.
+
+To begin offering purchase plans on your card product, create and activate a purchase credit plan from a credit plan template.
+
+## View purchase credit plan templates
+
+Credit plans are created from credit plan templates.
+
+Use the following query to view credit plan templates available for your card product. This query includes an optional filter by balance type of PURCHASE.
+
+PURCHASE
+
+## Create purchase credit plan
+
+Once created, you cannot modify a credit plan. This prevents an unauthorized change of terms from occurring on any financial accounts.  Newly created standard purchase credit plans cannot be applied to previously booked financial accounts.
+
+From a credit plan template, you can create a credit plan and define the APR and percentage of the available credit limit. The assigned APR must fall within the minimum and maximum range defined on the template. Refer to the following guidance when defining credit limit usage:
+
+For credit plans with a PURCHASE balance type, you should allow the account holder to utilize 100% of their financial account's credit limit.
+
+
+For credit plans with other balance types, such as cash advances, you may choose to allow only a portion of the financial account’s credit limit to be utilized. For example, you could allow 25% utilization.
+
+For credit plans with a PURCHASE balance type, you should allow the account holder to utilize 100% of their financial account's credit limit.
+
+PURCHASE
+
+For credit plans with other balance types, such as cash advances, you may choose to allow only a portion of the financial account’s credit limit to be utilized. For example, you could allow 25% utilization.
+
+Use the following mutation in your test environment to create a credit plan:
+
+## Activate purchase credit plan
+
+Note: You can activate credit plans in the test environment. Highnote will activate your credit plans in the live environment.
+
+After creating a credit plan for your card product, you must activate it for the rates and terms to apply to new financial accounts. In the live environment, Highnote activates the credit plan on your behalf.
+
+When activating, you can optionally set an effective start and end date. If no values are provided for start and end date, the plan is effective when activated and usable until a new credit plan with the same balance type is activated on your card product.
+
+You cannot have two active credit plans that apply to the same balance type at the same time. However, a new credit plan can be activated and applied to newly issued financial accounts. If you have multiple credit plans, the account holder’s application date determines which credit plan to apply to the issued financial account based on the credit plan’s effective dates.
+
+Use the following mutation to activate a credit plan in your test environment:
+
+## View card product purchase credit plans
+
+You can view a paginated list of active and inactive purchase credit plans on your card product using the following query:
+

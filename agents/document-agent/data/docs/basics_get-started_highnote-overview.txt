@@ -1,5 +1,5 @@
 Title: Highnote Overview
-URL: https://highnote.com/docs/basics/get-started/highnote-overview
+URL: https://highnote.com/docs/basics/get-started/highnote-overview#test-and-live-environments
 ==================================================
 
 Home

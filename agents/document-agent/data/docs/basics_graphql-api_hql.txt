@@ -1,0 +1,192 @@
+Title: Highnote Query Language
+URL: https://highnote.com/docs/basics/graphql-api/hql
+==================================================
+
+Home / Basics / Highnote API
+
+## Overview
+
+The Highnote Query Language (HQL) v.1.0.0 provides programmatic search capabilities across Highnote entities using SQL-like syntax through the GraphQL API.
+
+Specifically, HQL enables complex searches that would normally require multiple standard GraphQL requests:
+
+transactionAmount > USD 500 AND createdAt >= '2024-01-01'
+
+accountId IN ('ac_ba22446a041287274d81af25bb83eeba46b1', 'ac_c022126bc2bb629545a988564e267d8982a5')
+
+customField='riskLevel:high'
+
+(accountStatus = 'ACTIVE' OR accountStatus = 'PENDING') AND productId = 'pd_4644868cd7b749fa82a4149d46d9827d'
+
+The API processes HQL queries through three main search contexts: Financial Accounts, Payment Transactions (acquiring), and Universal Transactions (issuing), each exposing context-specific searchable fields alongside common attributes.
+
+HQL operates through the searchQueryLanguage field within GraphQL filterBy inputs:
+
+searchQueryLanguage
+
+filterBy
+
+Copy code snippet
+
+## Limitations
+
+HQL is a standalone filter system that uses the searchQueryLanguage field within filterBy inputs. If provided with other standard filters, HQL takes precedence and the other filters are ignored.
+
+searchQueryLanguage
+
+filterBy
+
+Minimum API version: The minimum supported Search API version is VERSION_1.
+
+VERSION_1
+
+Rate limits:  See API Rate Limiting for details.
+
+Search latency: Highnote’s Search API has a latency period of up to two minutes.
+
+## HQL Conventions
+
+The Highnote Query Language uses the following conventions:
+
+A term is a keyword used to search on attributes related to an entity.
+An expression is <term> <operator> <value>. For example, transactionAmount > USD 100.
+A value with special characters must be escaped with single quotes. For example, Highnote identifiers include an underscore and should be represented as  'ac_c022b9c66de3299c4f06a03293106c65234b'.
+
+<term>
+
+<operator>
+
+<value>
+
+transactionAmount > USD 100
+
+'ac_c022b9c66de3299c4f06a03293106c65234b'
+
+## HQL Operators
+
+=
+
+accountId != 'ac_ba22446a041287274d81af25bb83eeba46b1'
+
+!=
+
+accountId != 'ac_ba22446a041287274d81af25bb83eeba46b1'
+
+>
+
+transactionAmount > USD 100
+
+>=
+
+transactionAmount >= USD 100
+
+<
+
+transactionAmount < USD 100
+
+<=
+
+transactionAmount <= USD 100
+
+IN
+
+accountId IN ('ac_ba22446a041287274d81af25bb83eeba46b1', 'ac_c022126bc2bb629545a988564e267d8982a5')
+
+NOT IN
+
+accountId NOT IN ('ac_og2234f70e5e4e384f1ca1f52b26aab8e7b5', 'ac_og22d44c3eb6e6f14929954ba278ffcd84ec)
+
+AND
+
+transactionAmount > USD 100 AND accountId = 'ac_ba22446a041287274d81af25bb83eeba46b1'
+
+OR
+
+accountId = 'ac_ba22446a041287274d81af25bb83eeba46b1' OR accountId = 'ac_c022126bc2bb629545a988564e267d8982a5'
+
+( )
+
+last4 = 1234 AND (accountId = ‘ac_ba22446a041287274d81af25bb83eeba46b1’ OR accountId = 'ac_c022126bc2bb629545a988564e267d8982a5')
+
+## Account Search
+
+An account search applies to FinancialAccount attributes.
+
+FinancialAccount
+
+Returns FinancialAccount.
+
+FinancialAccount
+
+FinancialAccount
+
+activeFeatures='DIRECT_DEPOSIT'
+
+ps_ah01
+
+ac_c022126bc2bb629545a988564e267d8982a5
+
+ps_ap0135e1c47a453c4656bb8da5fb2a60f976,
+
+customField='myCustomField:myCustomValue'
+
+## Acquiring Search
+
+An acquiring search applies to attributes of the following: PaymentTransaction, PaymentTransactionLifecycleStep, and PaymentTransactionEvent.
+
+PaymentTransaction
+
+PaymentTransactionLifecycleStep
+
+PaymentTransactionEvent
+
+Returns PaymentTransaction.
+
+PaymentTransaction
+
+PaymentTransaction
+
+Payment Order
+
+## Universal Transaction Search
+
+Searches on normalized values related to all Issuing Transaction Types as well as attributes specific to individual Issuing Transaction Types.
+
+Returns TransactionSearchResult.
+
+TransactionSearchResult
+
+COMPLETED
+
+PENDING
+
+FAILED
+
+amount
+
+WireTransfer.amount, TransactionEvent.approvedAmount
+
+TRANSACTION
+
+EVENT
+
+wireTransfer
+
+manualAdjustment
+
+achTransfer
+
+cardTransaction
+
+checkPayment
+
+disbursement
+
+aquiringPayment
+
+## HQL Examples
+
+Use the following query to list card product accounts, and then search by createdAt date.
+
+createdAt
+

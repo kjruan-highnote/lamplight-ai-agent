@@ -1,0 +1,153 @@
+Title: Deliver Statements
+URL: https://highnote.com/docs/issuing/credit/statements#generate-current-billing-statement
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+A card product, financial account, and payment card
+Optional - Real or simulated transactions
+
+## Overview
+
+Billing statements reflect money movement, balances, and fees for an account holder's financial account. Billing statements are often required for credit card products. This guide provides steps for generating and simulating billing statements using the Highnote API.
+
+## Generate billing statement
+
+Billing statements are typically available within 48 hours of the end of a billing cycle. The billing period and end date for credit card products may vary across accounts. To be notified when billing statements are ready for financial accounts, use the financial account statement notification.
+
+To generate a billing statement, query the FinancialAccountStatementSnapshot object as follows:
+
+FinancialAccountStatementSnapshot
+
+To generate billing statements with posted transactions and balances for a billing period: Query the FinancialAccountStatementSnapshot and use the latestClosedStatement.
+To generate billing statements with transactions for the current billing period and their upcoming due date: Query the FinancialAccountStatementSnapshot and use the currentOpenStatement.
+
+FinancialAccountStatementSnapshot
+
+latestClosedStatement
+
+FinancialAccountStatementSnapshot
+
+currentOpenStatement
+
+Refer to the appropriate statement snapshot type based on your card product:
+
+CommercialRevolvingCardFinancialAccountStatementSnapshot
+
+CreditPayInFullCardFinancialAccountStatementSnapshot
+
+ConsumerChargeCardFinancialAccountStatementSnapshot
+
+ConsumerRevolvingCardFinancialAccountStatementSnapshot
+
+## Billing period dates
+
+Payment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.
+
+When a balance is due, the currentAmountDue on the statement snapshot reflects payments or refunds made between the billing period end date and the due date.
+For revolving credit card products, it shows the minimum payment due minus any credits.
+Use currentAmountDue to display the account holder's balance on your website or application outside of their billing statements.
+
+currentAmountDue
+
+currentAmountDue
+
+The billing period start date, end date, and due date occur at midnight Eastern Time (EST/EDT) and are presented in Coordinated Universal Time (UTC). If you are presenting the date of these fields to account holders, refer to the following table to update the calendar day on your website or application for the applicable time zone:
+
+paymentDueOn
+
+periodStart
+
+periodEnd
+
+## Generate current billing statement
+
+Use the following query to generate the current billing statement for an account holder:
+
+## Find billing statement history
+
+To display billing statement history, you can look up past billing statements for up to 24 months. To filter data, you can search by periodStart or periodEnd of the billing period. If there is no data for a specific period, the query will return no results.
+
+periodStart
+
+periodEnd
+
+Use the following query to find billing statement history for a consumer revolving credit card. If you are querying for billing statement history for commercial or consumer charge, you must update the statement snapshot type for your card product:
+
+## Fetch statement details
+
+You can search for details on a billing statement using a statement ID. Billing statement details include the following:
+
+Information from financial events in the statement's billing cycle period
+Summary-level balances
+
+The following table provides an overview of data from the summary statement balance that can be retrieved from a billing statement. Use the objects in the field column in your query to return specific data:
+
+field
+
+startingPrimaryCreditBalance
+
+startingPrimaryDebitBalance
+
+periodPurchasesAmount
+
+periodRefundsAndPaymentsAmount
+
+periodFeeAmount
+
+periodInterestCharges
+
+endingPrimaryCreditBalance
+
+endingPrimaryDebitBalance
+
+pastDueAmount
+
+For consumer revolving credit card products, a statement includes detailed balances, interest charges, and transactions for each credit plan, categorized by balance type. It also includes a payOffWarning field, which shows the monthly payment amount, estimated days to pay off the balance, and total balance to be paid in the following scenarios:
+
+payOffWarning
+
+If the minimum payment amount is made monthly
+If the total balance is paid off over three years
+
+Use the following query to fetch statement details by ID:
+
+## Filter statement entries
+
+Statement entries are presented in a paginated format. You can filter these entries based on their posting date and by distinguishing between credit and debit transactions.
+
+The following query applies these filters to statement entries for a consumer revolving credit card product:
+
+## Simulate shifting the statement end period
+
+Note: This simulation feature is only compatible with credit card products at this time.
+
+In the test environment, you can end a financial account’s billing period early to simulate a billing statement. When performing this simulation, refer to the following guidelines:
+
+Set the new period at least 60 seconds in the future.
+If no periodBoundary is provided, the system defaults the statement’s endPeriod to 60 seconds from now.
+
+periodBoundary
+
+endPeriod
+
+To simulate changing a statement's end period for a consumer revolving credit card, use the following mutation:
+
+## Simulate rolling over to the next billing cycle
+
+Note: This simulation feature only works with credit card products at this time.
+
+In the test environment, you can transition a financial account’s billing period to the next cycle, simulating the end of one billing cycle and the start of another. To retrieve the simulated current amount due, refer to the appropriate statement snapshot type:
+
+CreditPayInFullCardFinancialAccountStatementSnapshot
+
+ConsumerChargeCardFinancialAccountStatementSnapshot
+
+ConsumerRevolvingCardFinancialAccountStatementSnapshot
+
+Use the following mutation to simulate rolling over the current statement period for a consumer revolving credit card:
+

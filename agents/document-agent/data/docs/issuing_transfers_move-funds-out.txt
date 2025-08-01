@@ -1,0 +1,56 @@
+Title: Move Funds Out of Highnote
+URL: https://highnote.com/docs/issuing/transfers/move-funds-out#initiating-a-funds-out-transfer-to-an-external-bank-account
+==================================================
+
+Home
+
+## Overview
+
+Account holders can move funds out of their financial account using both originated ACH and non-originated ACH transfers.
+
+This guide provides steps for moving funds out of Highnote using both transfer methods.
+
+## Transfer methods
+
+Note: Card product cancelation periods and risk and compliance reviews can impact transfer timelines.
+
+The following table outlines the different transfers methods for moving funds out of Highnote, and their associated timelines:
+
+## Cutoff times
+
+Originated ACH transfers have specific cutoff times for processing. Initiating a transfer after the specified cutoff time may result in additional processing time.
+
+Originated next day ACH: If a transfer is initiated before 4 PM EST, it will be processed by the bank the following business day. If initiated after 4 PM EST, the transfer will be processed two business days from initiation.
+Originated same day ACH: If a transfer is initiated before 2 PM EST it will be processed by the bank same day. If initiated after 2 PM EST, the transfer will be processed the following business day.
+
+All Originated ACH Debit transfers (funds pulling in) have a required three business day hold period once the transfer has been initiated and is processing.
+
+## Find financial account ID
+
+To retrieve a financial account ID, you can query the API using an application ID. Use the following query to find a financial account ID:
+
+## Move funds to an external account with originated ACH
+
+You can allow account holders to withdraw funds from a Highnote financial account to a verified external bank account using originated ACH.
+
+Once an external bank account has been connected, use the following IDs as input variables in the InitiateFundsWithdrawalACHTransfer mutation:
+
+InitiateFundsWithdrawalACHTransfer
+
+toFinancialAccount: Financial account ID of the external bank account
+fromFinancialAccount: Account holder's Highnote financial account ID
+
+toFinancialAccount
+
+fromFinancialAccount
+
+Use the following mutation to move funds to a verified external account:
+
+## Move funds to an external account with non-originated ACH
+
+If financial accounts for your card product have the DirectDepositFinancialAccountFeature enabled, account holders can use their virtual account and routing numbers to add their financial accounts to third-party services such as banks or payment apps.
+
+DirectDepositFinancialAccountFeature
+
+Account holders can initiate withdrawals and move funds out of their Highnote financial accounts using these third-party services.
+

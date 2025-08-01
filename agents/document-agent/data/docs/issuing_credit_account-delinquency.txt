@@ -1,0 +1,110 @@
+Title: Account Delinquency
+URL: https://highnote.com/docs/issuing/credit/account-delinquency
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+Note: The delinquency credit policy for your card product is set by the Highnote team during card product configuration.
+
+As account holders borrow against their lines of credit, receivables are created on their accounts. Receivables are purchases a customer has made on their account that they must pay back. These receivables are represented by the account holder's outstanding account balance. Receivables can become delinquent when the account holder has not made the minimum payment on their billing statement by the due date.
+
+An account holder’s financial account displays the following information for delinquencies:
+
+delinquencyStartedOn: The due date of the oldest, delinquent billing statement on the financial account
+totalDaysDelinquent: The number of days since the oldest, delinquent billing statement’s due date, as of today
+totalAmount: The total delinquent amount on the financial account, as of today
+totalNumberOfCycles: The number of billing cycles the financial account has been delinquent, as of today
+
+delinquencyStartedOn
+
+totalDaysDelinquent
+
+totalAmount
+
+totalNumberOfCycles
+
+Financial accounts also display billing cycles. A billing cycle displays the following information for delinquencies:
+
+daysDelinquent: The number of days delinquent for the billing cycle, as of today
+amount: The past due amount for the cycle’s billing statement, as of today
+state: The state of the billing cycle at the periodEnd
+
+daysDelinquent
+
+amount
+
+state
+
+periodEnd
+
+## Financial account attributes
+
+You can manage credit risk by notifying customers of delinquencies, performing collections, or suspending financial account authorizations. When a financial account’s totalDaysDelinquent meets or exceeds your card product’s delinquency policy, a financial account attribute will be added. Financial account attributes indicate the reason the financial account meets or exceeds your credit policy, so you can take action on the account.
+
+totalDaysDelinquent
+
+You can use the financial account attributes notification events to automate cardholder communications and send push alerts or notifications to account holders.
+
+The following table provides an overview of supported financial account attributes with test environment default settings. Settings in the live environment may vary depending on your card product's delinquency policy:
+
+DELINQUENT
+
+totalDaysDelinquent
+
+DELINQUENT_SUSPENDED
+
+SUSPENDED
+
+totalDaysDelinquent
+
+CHARGE_OFF
+
+CHARGE_OFF
+
+SUSPENDED
+
+totalDaysDelinquent
+
+When a payment is made and a financial account’s totalDaysDelinquent no longer exceeds your delinquency policy, Highnote will remove the financial account attributes and update the account to current.
+
+totalDaysDelinquent
+
+## Find delinquency status
+
+You can view the totalDaysDelinquent and totalAmount on an individual financial account. You can also view the daysDelinquent and amount delinquent for an individual billing statement.
+
+totalDaysDelinquent
+
+totalAmount
+
+daysDelinquent
+
+amount
+
+If the financial account is current or newly created and does not have a closed billing cycle, Highnote returns no delinquency data.
+
+You can use the following query to find a financial account's delinquency status:
+
+## Charge off account
+
+When a financial account's receivable balance is uncollectible based on your card product's credit policy, the balance is charged off as an expense. A credit card balance is typically charged off when the account holder has not met the billing statement's minimum payment for 120 to 180 days. In the live environment, this length of time will be determined by your card product's credit policy.
+
+When a charge-off occurs, the following events take place:
+
+The financial account receives a CHARGE_OFF attribute and its status is set to SUSPENDED.
+The Highnote team charges off the balance and closes the financial account based on your credit policy.
+Any unpaid balance, including the principal balance, fees, or interest charges are written off as an expense.
+The Highnote team provides your team with monthly reporting.
+
+CHARGE_OFF
+
+SUSPENDED
+
+You can subscribe to financial account attribute charge off events to receive notifications when a financial account has been charged off. We recommend notifying the account holder of their account closure when this occurs.
+
+## Simulate delinquency
+
+To simulate delinquency in the test environment, see Simulate Delinquency.
+

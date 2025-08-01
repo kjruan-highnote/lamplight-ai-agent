@@ -1,0 +1,43 @@
+Title: Financial Account Revisions
+URL: https://highnote.com/docs/issuing/onboard/financial-account-revisions
+==================================================
+
+Home / Issuing / Onboard Accounts
+
+## Overview
+
+The FinancialAccount object reveals financial account history, which provides a detailed chronological log of updates and activities.
+
+FinancialAccount
+
+This log captures key changes across various financial account fields, ensuring that you, your team, and account holders can troubleshoot and audit changes precisely. By maintaining a history of updates to critical fields, the API supports enhanced transparency, security, and operational efficiency.
+
+## Use cases
+
+Highnote’s Financial Account History feature supports the following use cases:
+
+Fraud Detection and Prevention: By monitoring updates to account status and owner information, you can quickly identify and respond to suspicious activities.
+
+
+Regulatory Compliance and Reporting: Detailed logs support compliance with financial regulations by providing auditable records of all account activities and changes.
+
+
+Customer Support and Account Management: Access to a comprehensive history of account updates and activities enables customer service representatives to efficiently resolve inquiries and issues, offering a superior customer experience.
+
+
+Financial Analysis and Product Development: Analysis of account activity and feature utilization can inform product improvements, tailored financial services, and targeted marketing strategies.
+
+Fraud Detection and Prevention: By monitoring updates to account status and owner information, you can quickly identify and respond to suspicious activities.
+
+Regulatory Compliance and Reporting: Detailed logs support compliance with financial regulations by providing auditable records of all account activities and changes.
+
+Customer Support and Account Management: Access to a comprehensive history of account updates and activities enables customer service representatives to efficiently resolve inquiries and issues, offering a superior customer experience.
+
+Financial Analysis and Product Development: Analysis of account activity and feature utilization can inform product improvements, tailored financial services, and targeted marketing strategies.
+
+## Find financial account revisions
+
+Use the following FindFinancialAccount query to find financial account history:
+
+FindFinancialAccount
+

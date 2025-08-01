@@ -1,0 +1,236 @@
+Title: Physical Cards
+URL: https://highnote.com/docs/issuing/design/physical#card-personalization-guidelines
+==================================================
+
+Home / Issuing / Card Design
+
+## Overview
+
+Highnote offers multiple options for designing and printing physical cards for account holders. You can choose from the following physical card options:
+
+On-demand cards: On-demand cards are traditional plastic cards. They have lower upfront costs, are printable on-demand, and support ordering one-off cards.
+Premium cards: Premium cards are premium plastic or metal cards. They are highly customizable, with unique printing and design options.
+
+The following table provides an overview of the differences between on-demand and premium cards:
+
+## Customization options
+
+On-demand and premium cards have different materials, printing, and design options. The following table outlines the differences in customization options for each card type:
+
+## Card art templates
+
+Card art templates are used to help guide you with your card design. Highnote provides specific card art templates based on your card product's card network, vertical (prepaid, debit, credit, etc.), and Partner Bank.
+
+Contact the Highnote implementations team for access to a card art template for your card product.
+
+## Design guidelines
+
+Card art must follow specific guidelines for approval by Highnote and Partner Banks. Some guidelines apply to all virtual cards, while others apply only to cards issued using Visa or Mastercard. Refer to general and card network-specific guidelines when designing card art.
+
+## Card design tips
+
+When designing your card art, we recommend keeping designs simple. Here are some general recommendations for card designs:
+
+Keep personalization on the back.
+Opt for simple, distraction-free backgrounds.
+Provide white space around your logo for readability.
+Premium cards allow you to move holograms and signature panels anywhere on the card.
+
+Personalization tips:
+
+Background tips:
+
+Logo tips:
+
+## General guidelines
+
+Keep the following general guidelines in mind when designing physical cards:
+
+On-demand cards are printed in Cyan, Magenta, Yellow, and Key (CMYK). Designing in RGB may cause inaccurate colors during printing.
+Premium cards are printed in CMYK or Pantone Matching System (PMS). Designing in RGB may cause inaccurate colors during printing.
+Black should be set to C=0, M=0, Y=0, K=100.
+The front and back of your card design may be either horizontal or vertical.
+The minimum type size is 6pt for optimal legibility.
+Avoid border designs that follow the edge of the card.
+Keep logos and text 3/32” away from the edges of the card and from required elements, for example, the card’s magnetic stripe, hologram, and signature panel.
+
+C=0, M=0, Y=0, K=100
+
+## Personalization
+
+Card personalization refers to a card’s dynamic content. Personalization may be on the front or back of the card, in any combination. Personalization includes:
+
+Cardholder name
+Business name (optional)
+Primary Account Number (16-digit card number)
+Expiration date
+
+## Typefaces
+
+The following typefaces are allowed for card personalization. Typefaces not listed here are prohibited:
+
+Arial
+Arial Narrow
+Century Gothic
+Courier New
+Forza Book
+Forza Medium
+Helvetica Neue LT Std
+OCR-B
+Myriad Pro
+Open Sans (Only supports uppercase letters)
+Open Sans Light
+Trade Gothic LT Std
+Univers LT Std 47 Condensed Light
+Univers LT Std 57 Condensed
+
+## On-demand card guidelines
+
+On-demand cards have specific guidelines that must be followed when designing and submitting card art. Refer to the following card art guidelines for on-demand cards:
+
+## Mastercard guidelines
+
+The following guidelines apply to card products issued on the Mastercard network:
+
+## Visa guidelines
+
+The following guidelines apply to card products issued on the Visa network:
+
+## Card personalization guidelines
+
+Card personalization refers to a card’s dynamic content. Personalization may be on the front or back of the card, in any combination. Personalization includes:
+
+Cardholder name
+Business name (optional)
+Primary Account Number (16-digit card number)
+Expiration date
+
+## Typefaces
+
+The following typefaces are supported for card personalization. Typefaces not listed here are prohibited:
+
+Arial
+Arial Narrow
+Century Gothic
+Courier New
+Forza Book
+Forza Medium
+Helvetica Neue LT Std
+OCR-B
+Myriad Pro
+Open Sans CAPS (only supports uppercase letters)
+Open Sans Light
+Trade Gothic LT Std
+Univers LT Std 47 Condensed Light
+Univers LT Std 57 Condensed
+
+## Design approval
+
+Card design is subject to approval by both Highnote and the sponsor bank as outlined in Marketing and Collateral. When you are ready to submit the final artwork, send files to collateral-review@highnote.com.
+
+Before submitting your design file, adhere to the following guidelines:
+
+## File formats
+
+We accept the following file formats for card art. If sending an editable file format, please also send a reference image with your intended design.
+
+Adobe Illustrator .eps or .ai
+Print quality .pdf
+High quality .jpg
+
+.eps
+
+.ai
+
+.pdf
+
+.jpg
+
+## Packaging materials
+
+You can design and customize packaging materials to send your cards to account holders. The following packaging material options are available for all card types:
+
+Mailers
+Burgopak sliders
+Customized packaging
+
+## Mailer
+
+Warning: Your bank partner may have special requirements, for example, around "Member FDIC" language. Also, some partners require that you include the term, "Powered by Hightnote".  Contact the Highnote Implementation team for help with your requirements.
+
+When using a mailer, cards are sent to account holders in envelopes within a trifold insert. You can customize mailers to match your brand. Refer to the following guidelines for customizing mailers:
+
+Mailers are printed on white paper stock with 3/16” whitespace on all edges
+Do not support bleeds
+Use vector and PDF file types
+White knockouts are added in the address area
+
+To create your mailer, contact the Highnote implementations teams for a mailer template.
+
+The following graphic is an example of the front of a mailer insert inside an envelope:
+
+The following graphic is an example of a full mailer insert:
+
+## Card ordering process
+
+The card ordering process involves submitting your card design and approving several proofs during the manufacturing process. The card ordering process differs depending on whether you are ordering an on-demand or premium card.
+
+## On-demand cards
+
+The typical card ordering process for on-demand cards is as follows:
+
+Finalized card design received from card program
+Design approved by card manufacturer
+Card program receives proof from card manufacturer
+Card program approves proof
+Card network approval
+Quality assurance (QA)
+Pre-product order notification sent
+Program live
+
+## Premium cards
+
+The typical card ordering process for premium cards is as follows:
+
+Finalized card design received from card program
+Receive and approve sales quote
+Receive and approve proof
+Submit proof
+Card manufacturing begins
+Card personalization begins
+Receive personalization proofs
+Approve proof
+Final approval
+
+## Lead and shipping timelines
+
+The following lead and shipping timelines are estimates only. Timelines are subject to change depending on material availability and shipping.
+
+Lead times refer to the timeline in which specific steps in the card order process take place. Shipping timelines are based on the shipping method used to ship cards to account holders. Lead and shipping timelines are subject to change.
+
+For more information on shipping methods for both on-demand and premium cards, see Shipping Methods.
+
+## On-demand cards
+
+Typical lead and shipping times for on-demand cards are as follows:
+
+Proof creation: Two days from receiving the card design in the correct format
+Brand approval: About two to five days from submission
+Card manufacturing: About one week after proof creation, cards are printed on same day on-demand
+Activation labels: One week
+Processing: 48-hour SLA after receiving the card file
+Expedited processing: You can use Same Day expedited processing to process cards if the card file is submitted by the cut off time of 8 AM Pacific Standard Time (PST). To use this option, you must use the SAME_DAY Shipping Enum. Additional fees apply to Same Day processing options. Contact support@highnote.com for more information.
+
+SAME_DAY
+
+## Premium cards
+
+Typical lead and shipping timelines for premium cards are as follows:
+
+Proof creation: Two days from receiving the card design in the correct format
+Brand approval: About two to five days from submission
+Card manufacturing: 6-12 weeks from brand approval
+Packaging materials: About eight weeks upon final proof approval
+Activation labels: About eight weeks plus shipping
+Processing: The day of or the next day after receiving the card file
+

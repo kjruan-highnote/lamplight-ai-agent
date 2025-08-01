@@ -1,0 +1,86 @@
+Title: Issue Cards
+URL: https://highnote.com/docs/guides/cards/issue#financial-account
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+Note: This guide provides an overview of issuing a financial account and virtual card product using the Highnote API. For instructions on issuing cards using the dashboard and an overview of payment cards, see Payment card basics.
+
+A Highnote account
+An API key or the API Explorer
+An account holder with approved application
+
+## Issue a financial account
+
+Warning: For security and compliance reasons, do not use the account holder's name when assigning a name to a financial account.
+
+name
+
+Once you have an account holder with an approved application, you can issue a financial account. Financial accounts hold funds for an account holder's payment card(s).
+
+Use the following mutation to issue a financial account, using the approved application's applicationId as an input:
+
+applicationId
+
+## Add account notes
+
+After issuing a financial account, you can use the following mutation to allow your agents to add notes to a financial account. Adding notes is useful for various internal servicing needs:
+
+## Find account notes by financial account
+
+Use the following query to display notes on a financial account:
+
+## Find account notes by account holder
+
+Use the following query to find account notes for all financial accounts for an account holder:
+
+## Payment card lineage
+
+When a new payment card is issued, a hierarchy of cards called a "lineage" is established. This lineage is made up of a Payment Account Reference (PAR) and a unique primary account number (PAN):
+
+Payment Account Reference (PAR): The highest level in the payment card lineage; a non-financial reference value assigned by the network to a lineage of payment cards
+Primary account number (PAN): Sits under a PAR in the payment card lineage; refers to the card number of the cardholder's payment card
+
+A cardholder can only have one active payment card (PAN) in an existing lineage at a time. This is important to note for issuing new cards, reissuing cards, and terminating cards.
+
+Refer to the following examples for each use case:
+
+## Issue a virtual card
+
+All payment cards start as virtual cards, with the option to issue physical or tokenized cards. After creating a financial account for the account holder, you can issue them a virtual card. Refer to the following guidelines when issuing virtual cards:
+
+If you are using card profiles, you can either specify the card profile for the virtual card or use the default card profile set. For more information on card profiles, see Manage Card Profiles.
+You can create and send a physical card or issue preprinted physical cards after you've issued a virtual card.
+
+The following mutation can be used to issue a virtual card associated with a card profile set. If you are issuing a virtual card without a card profile set, remove the cardProfileSetId input variable:
+
+cardProfileSetId
+
+## Activate a card
+
+You can either activate virtual cards at creation or provide an experience for account holders to activate their virtual cards from your app or website. The following graphic provides an overview of the card activation flow:
+
+Use the following mutation to activate a card:
+
+## Set a PIN
+
+Warning: Payment cards must be activated before you set the PIN.
+
+Prepaid cards have debit capabilities, so they must have a PIN set after activation. This allows access to ATMs and/or receive cashback at checkout.
+
+You must create an interface for the account holder to set their PIN after activating their payment card. Refer to the following guides to create a PIN management interface:
+
+For web-based integrations, Highnote recommends you set the PIN with the Secure Inputs SDK.
+For native iOS and Android-based integrations, and non-native PCI-compliant environments, you can securely set a PIN from the API with a Client Token.
+
+Use the following mutation to set a PIN:
+
+## Next steps
+
+When a virtual card is issued, you can print it is a physical card or issue a tokenized card. For more information, see the following guides:
+
+Print Physical Card
+Add Cards to Digital Wallets
+

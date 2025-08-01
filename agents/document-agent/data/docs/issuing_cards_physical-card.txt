@@ -1,0 +1,338 @@
+Title: Print Physical Cards
+URL: https://highnote.com/docs/issuing/cards/physical-card#validate-shipping-address
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+An API key or the API Explorer
+A virtual card
+
+## Overview
+
+Note: This guide provides an overview of printing personalized physical cards using the Highnote API. For instructions on printing physical cards using the dashboard, see Order physical cards.
+
+After you issue a virtual card, you can order physical cards for eligible, multi-use card products. The Highnote platform supports two kinds of physical cards:
+
+Personalized physical cards: Payment cards that are personalized for the account holder
+Preprinted physical cards: Generic cards that are not personalized for the account holder
+
+This guide provides an overview of printing personalized physical cards. For an overview of preprinted cards, see Issue Preprinted Physical Cards.
+
+## Individual card orders
+
+Individual physical card orders allow you to print a single physical card. Physical card orders are:
+
+Packaged with a card carrier
+Shipped to a single location
+Not connected to other orders at any time in the physical card order lifecycle
+
+Individual physical card orders are the most common order type across card products. For example, when issuing a card to a single account holder for a consumer debit product, you will use this order type.
+
+## Group card orders
+
+Group physical card orders allow you to request several physical cards at once. Note the following about group physical card orders:
+
+Packaged individually with a card carrier
+Shipped in bulk as a single shipment to one location
+
+Group physical card orders are essentially a set of individual card orders that are packaged into a single shipment during the last step of the physical card order lifecycle. For information on group card orders, see Print Cards in Bulk.
+
+## Card personalization
+
+Card personalization is dynamic information printed on a physical card that is unique to the cardholder. Line 1 and Line 2 represent the card personalization on a payment card:
+
+Line 1 is required and used for the cardholder's name. Examples of cardholders include account holders and authorized users.
+Line 2 is optional and can be used for any additional information. For example, a business account holder may use line 2 for the business name.
+
+## Card order lifecycle
+
+Warning: You can't cancel a card order after it has been sent to the printer.
+
+The following graphic shows the standard card order lifecycle, beginning with an order for a physical card and ending with a shipment received by the account holder:
+
+Each step in the card order lifecycle corresponds with a status. Refer to the following table for a description of each status in the card order lifecycle:
+
+NEW
+
+PENDING
+
+SENT_TO_PRINTER
+
+APPROVED
+
+SHIPPED
+
+CANCELED
+
+SHIP_FAILED
+
+## Fulfillment
+
+Highnote sends physical card fulfillment requests to the printer several times a day. The following fulfillment options are available as requestedShipDate input variables:
+
+requestedShipDate
+
+Select a custom shipping date in the future, in YYYY-MM-DD format
+Select SHIPPED_IMMEDIATELY
+
+YYYY-MM-DD
+
+SHIPPED_IMMEDIATELY
+
+When you request a card to be SHIPPED IMMEDIATELY, the order will be fulfilled within 72 hours and shipped via the courier of your choice.
+
+SHIPPED IMMEDIATELY
+
+## Shipping method
+
+Note: Tracking numbers are unavailable for cards shipped via USPS Ground.
+
+USPS is the only supported carrier for shipments to PO Boxes.
+
+You can choose various shipping methods for individual and group card orders. Shipping cost is based on the price outlined in your Highnote Master Services Agreement.
+
+For a general overview of the PaymentCardShippingMethod enum, see the API Reference.
+
+PaymentCardShippingMethod
+
+## Individual card orders
+
+Warning: USPS Priority Mail Express includes Signature Confirmation at no additional cost. If you do not wish to require Signature Confirmation, we recommend using another shipping method.
+
+The following table outlines the available couriers, shipping options, and expected shipping times for individual card orders:
+
+## Group card orders
+
+Warning: USPS Priority Mail Express includes Signature Confirmation at no additional cost. If you do not wish to require Signature Confirmation, we recommend using another shipping method.
+
+At this time, group card orders are only available for on-demand cards. The following table outlines the available couriers, shipping options, and expected shipping times for group card orders:
+
+## Return address
+
+Your return address is configured by the Highnote team when your card product is set up. To view or update your return address, send a request to support@highnote.com.
+
+Orders that cannot be delivered are returned to the return address on file with Highnote.
+
+## Validate shipping address
+
+Note: Validated address tokens are cached for 24 hours. If they are not used, they go away. If they are used, they are converted to a permanent validated address record which can be reused anytime.
+
+Before submitting a physical card order, you can validate the card order's shipping address using the validateAddress mutation. This mutation validates addresses using a CASS-certified service to ensure it is properly formatted to reduce possible shipping delays or returns.
+
+validateAddress
+
+The Highnote API returns an AddressValidationResult response with the following results:
+
+AddressValidationResult
+
+A validated address token
+An error message explaining why the address is invalid
+
+## Address validation responses
+
+When validating an address, the API will return a response that indicates whether the address is valid, incomplete, or invalid. Each response type has a corresponding "next step" to create a physical card order or re-validate a new address.
+
+Refer to the following table for an overview of address validation responses and their corresponding follow-up actions:
+
+AddressValidatedResult
+
+AddressValidatedWithChangesResult
+
+AddressIncompleteResult
+
+AddressInvalidResult
+
+## Components
+
+The Highnote API uses the following components to validate an address:
+
+STREET_ADDRESS
+
+EXTENDED_ADDRESS
+
+LOCALITY
+
+REGION
+
+POSTAL_CODE
+
+COUNTRY_CODE_ALPHA_3
+
+## Attributes
+
+When an address is validated, the API returns a list of attributes that you can use to determine whether to use the address for a shipment:
+
+PO_BOX
+
+BUSINESS
+
+RESIDENTIAL
+
+CMRA
+
+VACANT
+
+INACTIVE
+
+UNSECURED_LOCATION
+
+UNCONFIRMED_EXTENDED_ADDRESS
+
+## Example 1: Valid address
+
+Note: The query provided in this section is intended for use in the live environment. To simulate address validation responses, see Simulate Address Validation.
+
+In the following example, the address passed to the API is valid as is. The API returns the address and a valid address token:
+
+## Example 2: Address with missing components
+
+Note: The query provided in this section is intended for use in the live environment. To simulate address validation responses, see Simulate Address Validation.
+
+In the following example, the address is missing a component: the suite number. The API returns a message detailing why the address is invalid:
+
+## Example 3: Valid address with changes
+
+Note: The query provided in this section is intended for use in the live environment. To simulate address validation responses, see Simulate Address Validation.
+
+In the following example, the address passed is valid once the street address and postal code were changed. This is an example of an address that is valid with changes. The API returns the updated address and valid address token:
+
+## Example 4: Invalid address
+
+Note: The query provided in this section is intended for use in the live environment. To simulate address validation responses, see Simulate Address Validation.
+
+In the following example, the address is invalid. The API returns a message detailing which components are invalid and need updating before re-attempting address validation:
+
+## Simulate address validation
+
+To simulate address validation, see the Simulate Address Validation guide.
+
+## Create physical card order
+
+Note: You can only submit one order for a given payment card. If the order is canceled or fails, you can retry the order for the same card. If the order is successful and you need another physical card, you must issue a new payment card.
+
+After issuing a payment card, you can create an order for a physical card. When ordering a physical card, you can ship to the account holder's address on file or specify a different shipping address.
+
+Physical card orders require:
+
+Card personalization details
+Shipping address
+Requested ship date
+Shipping method and signature requirements
+
+## Create physical card order with token
+
+Note: Highnote recommends that you use this mutation when creating physical card order as it requires a response token from the validateAddress mutation. It does not accept the raw address itself (validated or not), nor does it perform a regular expression check to validate address format.
+
+Use the following mutation to create a physical card order with the response token from the validateAddress mutation.
+
+Call validateAddress to check if the shipping address is valid.
+Copy the response token representing the validated address.
+Call orderPhysicalPaymentCardWithValidatedAddress with the response token.
+
+validateAddress
+
+orderPhysicalPaymentCardWithValidatedAddress
+
+Note: For group orders with a validated address, see Print Physical Cards in Bulk.
+
+## Create physical card order with token or address
+
+Note: This mutation lets you use a validateAddress token or the validated address itself. For best results, Highnote recommends that you use the response token.
+
+Use the following mutation to create individual physical card orders.
+
+Call validateAddress to check if the shipping address is valid.
+Copy the response token representing the validated address or the address that you validated.
+Call orderPhysicalPaymentCard with either the token or the address.
+
+validateAddress
+
+orderPhysicalPaymentCard
+
+Note: For group card orders, see Print Physical Cards in Bulk.
+
+## Monitor order status
+
+Note: Orders shipped via USPS Ground do not return a tracking number.
+
+Once you have requested a physical card order you can use a query for updates on the order’s status. When the order has moved to SHIPPED status, you can query the tracking number to share with your customers.
+
+SHIPPED
+
+Use the following query to check the status of a physical card order:
+
+## Cancel a card order
+
+Orders can only be canceled if they have the NEW status, allowing you to cancel printing and shipment in the event a mistake was made. If you need to edit attributes such as shipping address or make changes after the order passes the NEW status, contact support@highnote.com and create a new physical card order.
+
+NEW
+
+NEW
+
+Use the following mutation to cancel a physical card order:
+
+## Order failures
+
+A SHIPMENT_FAILED status occurs when the physical card can not reach the provided address. When this occurs, you must contact the account holder for more information and create a new orderPhysicalPaymentCard request with updated information.
+
+SHIPMENT_FAILED
+
+orderPhysicalPaymentCard
+
+Use the following query to find the status of a physical card order:
+
+## Search physical card orders
+
+You can use the Highnote API to search for physical card orders for status tracking or display order history on your website or application. You can narrow search results using filters for physical card order information or payment card details.
+
+The following sections provide an overview of searching for individual card orders. For information on group orders, see Print Cards in Bulk.
+
+## Physical card order filters
+
+Physical card order filters allow you to narrow search results based on information related to individual card orders. These filters include the following:
+
+physicalPaymentCardOrderId
+
+cardProductId
+
+paymentCardOrderStatus
+
+groupOrderId
+
+shippingMethod
+
+## Payment card filters
+
+You can also narrow down search results using the paymentCardFilterBy input. These filters return data related to the payment card in the physical card order:
+
+paymentCardFilterBy
+
+accountHolderId
+
+paymentCardId
+
+bin
+
+last4
+
+paymentCardPersonalizationLine1
+
+paymentCardPersonalizationLine2
+
+paymentCardStatus
+
+paymentCardHolderId
+
+cardProfileSetId
+
+## Example search query
+
+The following query is an example search query that returns physical payment card orders for an organization, filtered using physical card order and payment card filters:
+
+## Simulate card order fulfillment
+
+To simulate card order fulfillment for individual card orders, see the Simulate card order fulfillment guide.
+

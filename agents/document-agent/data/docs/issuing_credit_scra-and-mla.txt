@@ -1,0 +1,27 @@
+Title: SCRA and MLA
+URL: https://highnote.com/docs/issuing/credit/scra-and-mla
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+Note: Highnote will assist with establishing policies and procedures to verify MLA eligibility and SCRA requests for your account holders.
+
+The Service Members Civil Relief Act (SCRA) and Military Lending Act (MLA) protect active-duty service members and their families from financial hardships and predatory lending practices:
+
+SCRA provides legal protections, such as interest rate caps and eviction protection.
+MLA restricts the interest rates and fees lenders charge protected individuals and families.
+
+Compliance with SCRA and MLA is mandatory for issuers and requires the following:
+
+Adjusting interest rates accordingly
+Providing protections in line with SCRA and MLA laws
+Verifying military status for account holders to ensure fair treatment and financial stability for service members
+
+Highnote applies SCRA and MLA benefits to your eligible account holders' financial accounts.
+
+## Lookup military status
+
+You can use the following query to find the military status on a financial account. This is essential to lookup if the financial account is eligible for SCRA or MLA benefits, and the effective dates to apply benefits.
+

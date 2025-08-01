@@ -1,0 +1,86 @@
+Title: Digital Wallets
+URL: https://highnote.com/docs/issuing/design/wallets
+==================================================
+
+Home / Issuing / Card Design
+
+## Overview
+
+Tokenized cards are provisioned to digital wallets such as Apple Pay or Google Wallet. Before a card product may be utilized with a digital wallet, you must work with Highnote to ensure all aspects of the program are in order, properly formatted, and approved to facilitate tokenization by the Partner Bank and payment network.
+
+## Card art templates
+
+Card art templates are used to help guide you with your card design. Highnote provides specific card art templates based on your card product's card network, vertical (prepaid, debit, credit, etc.), and Partner Bank.
+
+Contact the Highnote implementations team for access to a card art template for your card product.
+
+## Design guidelines
+
+Card art must follow specific guidelines for approval by Highnote and Partner Banks. Some guidelines apply to all virtual cards, while others apply only to cards issued using Visa or Mastercard. Refer to general and card network-specific guidelines when designing card art.
+
+## Card design tips
+
+When designing card art for tokenized cards, we recommend keeping designs simple. Refer to the following design tips for tokenized cards:
+
+Background
+
+PNG (up to 3MB) file type
+Hex color format
+1536 x 969 pixels
+
+Logo
+
+SVG (up to 1MB) or PNG (up to 3MB) file type
+Hex color format
+1372 x 283 pixels
+
+Icon
+
+PNG image
+Hex color format
+100 x 100 pixels
+
+## General guidelines
+
+Refer to the following general guidelines when designing tokenized cart art:
+
+Digital wallet providers will round corners of card art and icon images. Do not round the corners of these images as it will result in “double rounding”.
+Only absolute pixels, not the image resolution (e.g., 72ppi), are relevant.
+Card art should represent the physical card, but it must not be an actual picture of a physical card.
+Do not include shading or any three-dimensional elements in your tokenization assets.
+Card art must not include any of the following variable elements:
+
+Cardholder name
+PAN
+Expiration date
+Labels describing embossed/printed attributes
+Representations of magnetic stripe or EMV chip contacts
+Static pictures of dynamic elements such as holograms
+
+Cardholder name
+PAN
+Expiration date
+Labels describing embossed/printed attributes
+Representations of magnetic stripe or EMV chip contacts
+Static pictures of dynamic elements such as holograms
+
+## Mastercard guidelines
+
+The following guidelines apply to tokenized cards issued on the Mastercard network:
+
+## Visa guidelines
+
+The following guidelines apply to tokenized cards issued on the Visa network:
+
+## Design approval
+
+Card design is subject to approval by Highnote and the Partner Bank as outlined in Marketing and Collateral. When you are ready to submit final artwork, send your card art files to collateral-review@highnote.com.
+
+## Testing
+
+Following approval and authorization, Highnote will work alongside you to test your tokenized card before production. The testing process involves tokenizing allowed listed cards with each wallet provider you plan to support to ensure the tokenized cards and notifications appear as desired.
+
+## Launch
+
+After successful testing, you are ready to launch your tokenized card and enable digital wallet access for your customers!
+

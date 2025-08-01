@@ -1,0 +1,79 @@
+Title: API Rate Limiting
+URL: https://highnote.com/docs/basics/graphql-api/api-rate-limiting
+==================================================
+
+Home / Basics / Highnote API
+
+## Rate limits
+
+By default, the test environment has 50% of the rate limit of the live environment.
+
+To maintain optimal performance, an API rate limit limits the number of requests a client can make within a specific time frame. The Highnote platform has different rate limit types:
+
+Request
+Complexity
+
+Rate limiting is based on which type you hit first. Each type has a specific rate limit for each Auth/API type:
+
+## Complexity rate limits
+
+For more information on calculating request complexity, see Request Complexity.
+
+## Rate limited responses
+
+When an API request is rate limited, Highnote API returns a 429 TOO MANY REQUESTS status code.
+
+429 TOO MANY REQUESTS
+
+If you exceed the API rate limit, the cost field is not returned in your API response. Instead, the Highnote API uses a retryAfter field to show how long to wait before retrying.
+
+retryAfter
+
+## When request is not rate-limited
+
+The asOf parameter is the UTC timestamp for when this was calculated, to account for staleness during long requests.
+
+asOf
+
+The following example represents a response of a request that is not rate-limited:
+
+Copy code snippet
+
+## When request is rate limited
+
+The asOf parameter is the UTC timestamp for when this was calculated, to account for staleness during long requests.
+
+asOf
+
+The following example represents a response of a request that is rate-limited:
+
+Copy code snippet
+
+## Best practices
+
+Refer to the following best practices to avoid hitting rate limits:
+
+Avoid polling: Avoid polling the API for asynchronous updates by registering a webhook target to receive notification events. See Notifications.
+
+
+Use pagination: When querying for listed data, use pagination to limit the number of requested items.
+
+
+Implement exponential backoff: Implement retries with exponential backoff when an API request receives a 429 TOO MANY REQUESTS response. For help, see:
+
+Implementing Exponential Backoff
+Apollo Client Retry Link
+Exponential Backoff npm package
+
+Avoid polling: Avoid polling the API for asynchronous updates by registering a webhook target to receive notification events. See Notifications.
+
+Use pagination: When querying for listed data, use pagination to limit the number of requested items.
+
+Implement exponential backoff: Implement retries with exponential backoff when an API request receives a 429 TOO MANY REQUESTS response. For help, see:
+
+429 TOO MANY REQUESTS
+
+Implementing Exponential Backoff
+Apollo Client Retry Link
+Exponential Backoff npm package
+

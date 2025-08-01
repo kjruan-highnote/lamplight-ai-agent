@@ -1,0 +1,39 @@
+Title: Suspend an Account
+URL: https://highnote.com/docs/issuing/auth-controls/suspend-an-account
+==================================================
+
+Home / Issuing / Control Authorizations
+
+## Overview
+
+You can suspend a financial account for various risk management use cases not addressed by spend rules or velocity controls. Suspending a financial account does the following:
+
+Declines authorizations on all associated payment cards
+Blocks issuance or re-issuance of payment cards
+
+Suspending a financial account works by adding a PROGRAM_OWNER_INITIATED_SUSPENSION financial account attribute. To automate your integration, you can subscribe to financial account attribute events. This will notify you when a specific financial account attribute is added or removed, so you can trigger your suspension workflow.
+
+PROGRAM_OWNER_INITIATED_SUSPENSION
+
+## Suspend financial account
+
+Use the following mutation to suspend a financial account:
+
+## Remove account suspension
+
+Note: Other financial account attributes may exist on an account that could prevent it from moving to an ACTIVE status.
+
+ACTIVE
+
+After a financial account is reviewed, you can remove the PROGRAM_OWNER_INITIATED_SUSPENSION financial account attribute from the account using the following mutation. Removing this financial account attribute resumes authorizations and allows payment card issuance:
+
+PROGRAM_OWNER_INITIATED_SUSPENSION
+
+## Find financial account status and attributes
+
+Warning: Highnote strongly recommends not exposing fraud or risk-related accountAttributes to account holders, because this information can facilitate further risky behavior.
+
+accountAttributes
+
+Use the following query to find account status and attributes:
+

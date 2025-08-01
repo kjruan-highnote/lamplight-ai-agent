@@ -23,16 +23,31 @@ class HighnoteDocsScraper:
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
         })
         
+        # Sections to exclude from scraping
+        self.excluded_sections = {
+            '/docs/api-reference',
+            '/docs/explorer',
+            '/docs/reference'  # Additional API reference paths
+        }
+        
         # Ensure output directory exists
         os.makedirs(output_dir, exist_ok=True)
     
     def is_valid_docs_url(self, url: str) -> bool:
-        """Check if URL is within the docs section."""
+        """Check if URL is within the docs section and not excluded."""
         parsed = urlparse(url)
-        return (
-            parsed.netloc == 'highnote.com' and 
-            parsed.path.startswith('/docs')
-        )
+        
+        # Must be highnote.com docs
+        if not (parsed.netloc == 'highnote.com' and parsed.path.startswith('/docs')):
+            return False
+        
+        # Check if URL is in excluded sections
+        for excluded in self.excluded_sections:
+            if parsed.path.startswith(excluded):
+                logger.info(f"Excluding URL (API Reference/Explorer): {url}")
+                return False
+        
+        return True
     
     def extract_page_content(self, soup: BeautifulSoup, url: str) -> Optional[Dict]:
         """Extract structured content from a documentation page."""
@@ -103,12 +118,38 @@ class HighnoteDocsScraper:
         """Find all documentation links on the page."""
         links = set()
         
+        # Find all links in the page
         for link in soup.find_all('a', href=True):
             href = link['href']
             full_url = urljoin(base_url, href)
             
             if self.is_valid_docs_url(full_url) and full_url not in self.visited_urls:
                 links.add(full_url)
+        
+        # Also check for navigation menus, sidebars, and content areas
+        nav_selectors = [
+            'nav a[href]',
+            '.sidebar a[href]', 
+            '.navigation a[href]',
+            '.nav-menu a[href]',
+            '.docs-nav a[href]',
+            '.toc a[href]',
+            '[data-testid*="nav"] a[href]',
+            '[class*="nav"] a[href]',
+            '[class*="menu"] a[href]'
+        ]
+        
+        for selector in nav_selectors:
+            try:
+                for link in soup.select(selector):
+                    if link.get('href'):
+                        href = link['href']
+                        full_url = urljoin(base_url, href)
+                        
+                        if self.is_valid_docs_url(full_url) and full_url not in self.visited_urls:
+                            links.add(full_url)
+            except Exception as e:
+                logger.debug(f"Error with selector {selector}: {e}")
         
         return links
     
@@ -136,31 +177,47 @@ class HighnoteDocsScraper:
         
         return None
     
-    def scrape_all(self, max_pages: int = 100) -> List[Dict]:
-        """Scrape all documentation pages."""
-        to_visit = {self.base_url}
+    def scrape_all(self, max_pages: int = 500) -> List[Dict]:
+        """Scrape all documentation pages comprehensively."""
+        # Start with main docs page and key section entry points
+        to_visit = {
+            self.base_url,
+            "https://highnote.com/docs/basics",
+            "https://highnote.com/docs/issuing", 
+            "https://highnote.com/docs/acquiring",
+            "https://highnote.com/docs/sdks",
+            "https://highnote.com/docs/platform"
+        }
         
+        iteration = 0
         while to_visit and len(self.scraped_pages) < max_pages:
-            url = to_visit.pop()
+            iteration += 1
+            logger.info(f"Iteration {iteration}: {len(to_visit)} URLs to visit, {len(self.scraped_pages)} pages scraped")
             
-            if url in self.visited_urls:
-                continue
-            
-            content = self.scrape_page(url)
-            
-            if content:
-                # Find new links to visit
-                try:
-                    response = self.session.get(url, timeout=10)
-                    soup = BeautifulSoup(response.content, 'html.parser')
-                    new_links = self.find_doc_links(soup, url)
-                    to_visit.update(new_links)
-                except Exception as e:
-                    logger.error(f"Error finding links on {url}: {e}")
-            
-            # Be respectful with requests
-            time.sleep(1)
+            current_batch = list(to_visit)[:10]  # Process in batches
+            for url in current_batch:
+                to_visit.discard(url)
+                
+                if url in self.visited_urls:
+                    continue
+                
+                content = self.scrape_page(url)
+                
+                if content:
+                    # Find new links to visit
+                    try:
+                        response = self.session.get(url, timeout=10)
+                        soup = BeautifulSoup(response.content, 'html.parser')
+                        new_links = self.find_doc_links(soup, url)
+                        to_visit.update(new_links)
+                        logger.info(f"Found {len(new_links)} new links from {url}")
+                    except Exception as e:
+                        logger.error(f"Error finding links on {url}: {e}")
+                
+                # Be respectful with requests
+                time.sleep(0.5)
         
+        logger.info(f"Scraping complete: {len(self.scraped_pages)} pages scraped")
         return self.scraped_pages
     
     def save_to_json(self, filename: str = "scraped_docs.json"):
@@ -198,8 +255,15 @@ class HighnoteDocsScraper:
         logger.info(f"Saved {len(self.scraped_pages)} text files to {self.output_dir}")
 
 if __name__ == "__main__":
-    scraper = HighnoteDocsScraper()
-    pages = scraper.scrape_all(max_pages=50)  # Limit for initial testing
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Scrape Highnote documentation")
+    parser.add_argument("--max-pages", type=int, default=500, help="Maximum pages to scrape")
+    parser.add_argument("--output-dir", default="data/docs", help="Output directory")
+    args = parser.parse_args()
+    
+    scraper = HighnoteDocsScraper(output_dir=args.output_dir)
+    pages = scraper.scrape_all(max_pages=args.max_pages)
     scraper.save_to_json()
     scraper.save_to_text_files()
-    print(f"Scraped {len(pages)} pages")
+    print(f"Scraped {len(pages)} pages to {args.output_dir}")

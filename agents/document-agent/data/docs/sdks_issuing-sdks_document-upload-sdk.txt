@@ -1,0 +1,251 @@
+Title: Document Upload SDK
+URL: https://highnote.com/docs/sdks/issuing-sdks/document-upload-sdk#du-sdk-installation
+==================================================
+
+Home
+
+## Overview
+
+The Highnote Document Upload SDK lets you collect identity verification documents from account holders when a card product application enters manual review.
+
+## Prerequisites
+
+A Highnote account
+A server-side integration using an API key
+Document upload session ID
+An HTML selector for injecting a DOM element
+
+## Installation
+
+The Highnote Document Upload SDK follows semver and can be installed using the following:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+Copy code snippet
+
+## Install by package manager
+
+The Document Upload SDK supports the following JavaScript package managers: npm, yarn, and pnpm.
+
+npm
+
+yarn
+
+pnpm
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Install by CDN
+
+To ensure stability and avoid potential issues caused by updates, replace @latest with a specific version number such as @1.0.0.
+
+@latest
+
+@1.0.0
+
+You can install Document Upload SDK directly from a content delivery network (CDN) such as JSDelivr.
+
+The SDK supports both traditional script tags and ECMAScript module imports.
+ESM imports require modern browsers.
+To support older browsers, use the traditional script tag approach with appropriate polyfills.
+
+## Script tag
+
+To install the Document Upload SDK by <script> tag, add the following to your HTML file:
+
+<script>
+
+Copy code snippet
+
+## ESM import
+
+To install the Document Upload SDK by ESM module, add the following to your HTML file:
+
+Copy code snippet
+
+## Usage
+
+To use the Document Upload SDK, you must fetch a document upload session ID and set up elements for each field as follows:
+
+Prepare your HTML
+Fetch document upload session ID
+Fetch a client token
+Initialize document upload.
+
+## Prepare your HTML
+
+To prepare your HTML, you must provide an element to which to append the HTMLDivElement.
+The document upload library uses the HTMLDivElement to render the appropriate document upload widget.
+You can style the content inside the widget by passing any combination of styling options.
+
+HTMLDivElement
+
+HTMLDivElement
+
+The following code sample shows an example how you can prepare your HTML for the Document Upload SDK:
+
+Copy code snippet
+
+## Fetch document upload session ID
+
+If an account holder's card product application status is IN_REVIEW , they must provide specific documents for Customer Identification Program (CIP) verification.
+To use the Document Upload SDK for document collection, you must use a document upload session ID to start a secure document upload session.
+
+IN_REVIEW
+
+Use the following query to retrieve a card product application and fetch your document upload session ID:
+
+## Fetch a client token
+
+To get a client token from your server for the Document Upload SDK, use the generateDocumentUploadClientToken mutation.
+
+generateDocumentUploadClientToken
+
+Refer to the following guidelines when generating a payment card client token:
+
+Provide the documentUploadSessionId of the payment card you are rendering.
+The client token is only valid for 10 minutes, but can be used multiple times.
+Once a token expires, you must generate a new one to render payment card details.
+
+documentUploadSessionId
+
+Use the following mutation to generate a document upload client token:
+
+## Initialize document upload
+
+You can initialize the Document Upload SDK by calling an initializeDocumentUploadSdk function. This returns a Promise containing a reference to the documentUpload instance,  which includes helper methods to enact on the SDK such as unmount and endSession.
+
+initializeDocumentUploadSdk
+
+documentUpload
+
+unmount
+
+endSession
+
+The following code sample is an example of an initializeDocumentUploadSdk function:
+
+initializeDocumentUploadSdk
+
+Copy code snippet
+
+## Error handling
+
+The following error types are supported for the Document Upload SDK:
+
+requestId
+
+requestId
+
+Invalid client token.
+
+Invalid Document Upload Session ID.
+
+Invalid environment. Please provide test or live.
+
+The following code sample provides examples of document upload errors:
+
+Copy code snippet
+
+## Styling options
+
+The following styling options are available for use in elements for your document upload widget:
+
+<div>
+
+document-upload-component
+
+<div>
+
+inner-document-upload-component
+
+<div>
+
+<div>
+
+reloaded-document-upload-component
+
+<div>
+
+<div>
+
+<div>
+
+stagnant-document-upload-component
+
+<div>
+
+<input>
+
+file-upload-component
+
+<select>
+
+document-type
+
+<button>
+
+document-upload-button
+
+<h4>
+
+<p>
+
+## Using the live environment
+
+By default, the card viewer library makes requests against the test environment. When you are ready to switch to the live environment, set the environment configuration option using the following function call:
+
+Copy code snippet
+
+## Lifecycle
+
+When the Document Upload SDK initializes, it automatically renders the required document upload widget and closes the sessions once all requirements are met.
+You are required to handle onSuccess and onError behavior as you wish.
+The rendered widget contains two sections:
+
+onSuccess
+
+onError
+
+Documents uploaded: Includes documents already uploaded
+Documents required: Includes a drop-down of the required documents and a method for uploading them
+
+The widget guides the user through the document upload process with reloaded components triggered by an upload event on subsequent steps. When no more documents are left to be uploaded, the SDK will end the document upload session and submit uploads for review.
+
+## Interactions
+
+The Document Upload SDK supports the following interactions:
+
+Allows account holder to upload documentation
+Unmount the SDK
+End the document upload session
+
+## Upload document
+
+Once the SDK is initialized, the document upload widget provides the applicant with a list of uploaded documents and a dropdown menu with outstanding, required documents.
+
+The account holder can pick a document to upload and click on the Upload button. The applicant must be able to successfully upload all required documents until no document type options remain to select from the dropdown.
+
+## Unmount SDK
+
+The Document Upload SDK provides a call-back function for you to unmount the SDK. This allows you to decouple it with the client-token for a fresh start at any time.
+
+## End session
+
+Warning: This action will submit any uploaded documents for review.
+
+The Document Upload SDK provides a call-back function for you to end a document session at any time.
+

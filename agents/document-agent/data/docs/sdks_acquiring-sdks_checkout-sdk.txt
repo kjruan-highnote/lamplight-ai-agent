@@ -1,0 +1,214 @@
+Title: Checkout SDK
+URL: https://highnote.com/docs/sdks/acquiring-sdks/checkout-sdk#ch-sdk-script-tag
+==================================================
+
+Home
+
+## Overview
+
+Note: The checkout SDK is a drop-in solution with fewer customization options. For a more customizable solution, use the Secure Inputs for Tokenization SDK.
+
+The Highnote Checkout SDK is a checkout UI that you can embed in your application or website to accept payment card information.
+The Checkout SDK uses an iframe that prevents PCI-scoped data from flowing through your system or being accessible to scripts running on your page.
+
+## Prerequisites
+
+A Highnote account
+A server-side integration using an API key
+
+## Installation
+
+The Highnote Checkout SDK follows semver and can be installed using the following:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+## Install by package manager
+
+The Checkout SDK supports the following JavaScript package managers: npm, yarn, and pnpm.
+
+npm
+
+yarn
+
+pnpm
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Install by CDN
+
+You can install Checkout SDK directly from a content delivery network (CDN) such as JSDelivr.
+
+The SDK supports both traditional script tags and ECMAScript module imports.
+ESM imports require modern browsers.
+To support older browsers, use the traditional script tag approach with appropriate polyfills.
+
+## Script tag
+
+To install the Checkout SDK by <script> tag, add the following to your HTML file:
+
+<script>
+
+Copy code snippet
+
+## ESM import
+
+To install the Checkout SDK by ESM module, add the following to your HTML file:
+
+Copy code snippet
+
+## Usage
+
+To accept payment information, configure elements to hold each field of the checkout iframe as follows:
+
+Prepare your HTML.
+Fetch a client token.
+Initialize checkout.
+Charge payment method.
+
+## Prepare your HTML
+
+You must provide the Checkout SDK with an HTML selector for the element the checkout UI is rendered in.
+This element must be mounted before initializing the Checkout SDK.
+
+The following example uses a <div> element to mount the Checkout SDK iframe:
+
+<div>
+
+Copy code snippet
+
+## Fetch a client token
+
+Warning: A payment method tokenization client token can only be used one time.
+
+To obtain a client token from your server for the Checkout SDK, use the following generatePaymentMethodTokenizationClientToken mutation:
+
+generatePaymentMethodTokenizationClientToken
+
+## Initialize checkout
+
+You can initialize the Checkout SDK by using a renderCheckout function.
+This returns a Promise that contains an object with an unmount method that can be used to remove the checkout UI.
+The client token and selector you fetched previously must be passed to this function as part of the configuration.
+Invalid configuration values will return a CheckoutConfigInputError message.
+
+renderCheckout
+
+unmount
+
+CheckoutConfigInputError
+
+The onTokenizeSuccess method passes a payload object that contains a token field.
+This field is the PaymentMethodToken object.
+You can call your server endpoint with the payload.token to create an authorization using the chargePaymentMethodToken mutation.
+
+onTokenizeSuccess
+
+payload
+
+token
+
+PaymentMethodToken
+
+payload.token
+
+chargePaymentMethodToken
+
+Use the following code snippet to initialize checkout:
+
+Copy code snippet
+
+## Charge payment method
+
+To create an authorization using the payload.token, you must make a server-side call to the chargePaymentMethod mutation and pass the token ID returned when initializing checkout.
+
+payload.token
+
+chargePaymentMethod
+
+Use the following mutation to charge a payment method:
+
+## Error handling
+
+Refer to the following guidelines for handling Checkout SDK errors:
+
+Input validations are handled implicitly by the SDK and shown as errors inline.
+For tokenization errors, the checkout UI will show a default error state.
+Optional - Pass an onTokenizeError callback to the renderCheckout function if you want to perform custom error handling.
+
+onTokenizeError
+
+renderCheckout
+
+## Error types
+
+The following error types are supported for the Secure Inputs SDK for tokenization:
+
+requestId
+
+requestId
+
+## Checkout form
+
+The checkout form uses the following default fields:
+
+Card number
+Expiration date
+CVV/CVC
+Postal code
+
+Default fields are required to tokenize a payment method and always rendered.
+
+## Additional fields
+
+To add additional fields to the checkout form, you can use the additionalFormSections object. These fields are optional:
+
+additionalFormSections
+
+cardHolderName
+billingAddress
+
+cardHolderName
+
+billingAddress
+
+## Example
+
+The following code snippet is an example configuration for a checkout form:
+
+Copy code snippet
+
+## Using the live environment
+
+By default, the library will make requests against the test environment. When you are ready to switch to 'live', set the environment configuration option:
+
+Copy code snippet
+
+## Lifecycle
+
+If you need to unmount payment card fields, use the unmount method on the returned reference. This is useful when you are finished with tokenization, need to "restart" the integration, or navigate to a new view client-side. Using this will ensure the cleanup of any DOM and event handlers.
+
+unmount
+
+The following code sample provides an example function to unmount fields:
+
+Copy code snippet
+
+## Content security policy
+
+If your application enforces a content security policy, you must set the frame-src header to allow iframes from the Highnote domain:
+
+Copy code snippet
+

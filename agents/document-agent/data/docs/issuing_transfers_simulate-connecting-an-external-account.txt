@@ -1,0 +1,46 @@
+Title: Simulate Connecting an External Account
+URL: https://highnote.com/docs/issuing/transfers/simulate-connecting-an-external-account
+==================================================
+
+Home
+
+## Prerequisites
+
+A Highnote account
+An API key or API Explorer
+A financial account
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+External bank accounts are used to transfer funds into and out of a Highnote financial account. Highnote has partnered with Plaid and Finicity to offer secure options for connecting an external bank account. For more information, see Connect External Accounts.
+
+This guide provides steps for simulating connecting an external bank account to a Highnote financial account.
+
+## Simulate connecting an external account with Finicity
+
+Use the following mutation to simulate connecting an external bank account with Finicity:
+
+## Simulate connecting an external account with Plaid
+
+Use the following mutation to simulate connecting an external account with Plaid:
+
+## Simulate connecting a non-verified account
+
+Non-verified external accounts are used to transfer funds out of a Highnote financial account. You can't move funds into Highnote from a non-verified external account.
+
+Use the following mutation with test routing and account numbers to simulate connecting a non-verified external account:
+
+Test routing number: 091000019
+Test account number: Any 5 digit number
+
+## Automate your integration
+
+To automate your integration, subscribe to external bank account notification events.
+
+The details provided in the payloads from these events can be used for the following use cases:
+
+Automate your application or website's transaction processing workflows
+Create account holder notifications and alerts
+

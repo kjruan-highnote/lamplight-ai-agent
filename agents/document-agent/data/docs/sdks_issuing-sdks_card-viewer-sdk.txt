@@ -1,0 +1,331 @@
+Title: Card Viewer SDK
+URL: https://highnote.com/docs/sdks/issuing-sdks/card-viewer-sdk#cv-sdk-esm-import
+==================================================
+
+Home
+
+## Overview
+
+The Highnote Card Viewer SDK lets you embed sensitive card data into your UI using iframes.
+This prevents PCI-scoped data from flowing through your servers or from being accessible to scripts running on your page.
+
+## Prerequisites
+
+A Highnote account
+A server-side integration using an API key
+Payment card ID
+
+## Installation
+
+The Highnote Card Viewer SDK follows semver and can be installed using the following:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+## Install by package manager
+
+The Card Viewer SDK supports the following JavaScript package managers: npm, yarn, and pnpm.
+
+npm
+
+yarn
+
+pnpm
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Install by CDN
+
+To ensure stability and avoid potential issues caused by updates, replace @latest with a specific version number such as @1.0.0.
+
+@latest
+
+@1.0.0
+
+You can install the Card Viewer SDK directly from a content delivery network (CDN) such as JSDelivr.
+
+The SDK supports both traditional script tags and ECMAScript module imports.
+ESM imports require modern browsers.
+To support older browsers, use the traditional script tag approach with appropriate polyfills.
+
+## Script tag
+
+To install the Card Viewer SDK by <script> tag, add the following to your HTML file:
+
+<script>
+
+Copy code snippet
+
+## ESM import
+
+To install the Card Viewer SDK by ESM module, add the following to your HTML file:
+
+Copy code snippet
+
+## Usage
+
+To render card details in your UI, you must set up elements to hold each field as follows:
+
+Prepare your HTML with card detail elements.
+Fetch a client token.
+Initialize card viewer.
+
+## Prepare your HTML
+
+To use the Card Viewer SDK, provide an element for each field you want to render in an iframe. The following example uses Card number, CVV, Expiration date.
+
+Copy code snippet
+
+## Fetch a client token
+
+To obtain a client token from your server for the Card Viewer SDK, use the generatePaymentCardClientToken mutation.
+
+generatePaymentCardClientToken
+
+Refer to the following guidelines when generating a payment card client token:
+
+Provide the paymentCardId of the payment card you are rendering.
+The client token is only valid for 10 minutes, but can be used multiple times.
+Once a token expires, you must generate a new one to render payment card details.
+
+paymentCardId
+
+Use the following mutation to generate a payment card client token:
+
+## Initialize card viewer
+
+The card viewer library works by injecting an iframe into each provided element to render the appropriate data. You can style the content inside each iframe by passing any combination of styling options.
+
+You can initialize the card viewer by using a renderFields function. This returns a Promise that contains a reference to the cardViewer instance. This is useful for lifecycle management and interactions such as card number masking.
+
+renderFields
+
+cardViewer
+
+The following example shows how to initialize the card viewer:
+
+Copy code snippet
+
+## Error handling
+
+Note: The card viewer doesn’t render error messages or update your UI inside iframes when errors occur. You must introspect and handle errors accordingly.
+
+When initializing the card viewer, you can pass an onError handler to the renderFields function. This callback is invoked whenever an error is raised from the integration.
+
+onError
+
+renderFields
+
+## Error types
+
+The following error types are supported for the Card Viewer SDK:
+
+requestId
+
+requestId
+
+## Example errors
+
+The following code sample provides examples of card viewer errors:
+
+Copy code snippet
+
+## Styling options
+
+The following styling options are available for use in elements for your card viewer:
+
+color
+
+#55f5a3
+
+rgba(85,245,163,1)
+
+#springgreen
+
+cursor
+
+pointer
+
+none
+
+fontFamily
+
+sans-serif
+
+serif
+
+monospace
+
+fontSize
+
+12px
+
+1em
+
+1.1rem
+
+fontWeight
+
+bold
+
+normal
+
+letterSpacing
+
+normal
+
+.2rem
+
+lineHeight
+
+normal
+
+150%
+
+userSelect
+
+none
+
+auto
+
+inherit
+
+## iframe defaults
+
+Highnote injects card viewer iframes with the following defaults. Your CSS styling can override each of these:
+
+border: none
+width: 300px (browser default)
+height: 150px (browser default)
+
+border: none
+
+width: 300px
+
+height: 150px
+
+The document and body inside the frame will have transparent backgrounds and default to margin: 0, padding: 0.
+
+margin: 0
+
+padding: 0
+
+## Custom fonts
+
+The Card Viewer SDK only supports system fonts.
+
+## Layout
+
+The layout of payment card fields in the card viewer is customizable. Highnote injects iframes into the provided container elements, which will inherit the width of the container.
+
+You can customize the width and height of the container to accommodate your UI as needed.
+
+The following code sample provides an example of custom layout styling:
+
+Copy code snippet
+
+## Using the live environment
+
+By default, the card viewer library will make requests against the test environment. When you are ready to switch to the live environment, set the environment configuration option using the following function call:
+
+environment
+
+Copy code snippet
+
+## Lifecycle
+
+The Card Viewer SDK has a lifecycle that consists of a loading state, which resolves with payment card details. You can also unmount payment card details as needed.
+
+## Loading state
+
+When rendering card viewer fields, the library writes the required iframes into your UI and renders them in a loading state. While in the loading state, the fields will be populated with placeholder characters:
+
+Card number: •••• •••• •••• ••••
+CVV: •••
+Expiration Date: ••/••
+
+•••• •••• •••• ••••
+
+•••
+
+••/••
+
+You can't change these values. Once the configuration has been validated and the fields rendered, the library will request the card details from the Highnote API and replace the loading values with the corresponding data.
+
+## Unmount fields
+
+If you need to unmount payment card fields, use the unmount method on the returned reference. This is useful when you need to “restart” the integration, or navigate to a new view client-side. Using this will ensure the cleanup of any DOM and event handlers.
+
+unmount
+
+The following code sample provides an example function to unmount fields:
+
+Copy code snippet
+
+## Interactions
+
+The Card Viewer SDK supports the following end-user interactions:
+
+Account holders can toggle sensitive data via card number masking
+Account holders can copy their payment card details to their clipboard to complete payments
+
+## Card number masking
+
+By default, the payment card number will be masked (•••• •••• •••• ••••). Only the last four digits will be shown when the card number is available.
+
+•••• •••• •••• ••••
+
+You can toggle the masking on and off using the toggleCardNumberMask method on the returned card viewer reference.
+
+toggleCardNumberMask
+
+The following code sample is an example of a card number masking configuration:
+
+Copy code snippet
+
+## Copy to clipboard
+
+By default, users can select and copy payment card detail values to their clipboard. You can use the enableClipboard configuration property to toggle the "copy to clipboard" feature on or off.
+
+enableClipboard
+
+When enabled, clicking the card number, expiration date, or CVV field will copy the underlying value to the account holder's clipboard. This results in a copy event.
+
+In addition to the copy event, two callback functions allow customization when a user copies or fails to copy a value:
+
+onCopyToClipboardSuccess
+
+field
+
+__typename
+
+COPY_TO_CLIPBOARD_SUCCESS
+
+onError
+
+COPY_TO_CLIPBOARD_ERROR
+
+The following code sample is an example of a copy to clipboard configuration:
+
+Copy code snippet
+
+## Content security policy
+
+If your application enforces a content security policy, you must set the frame-src header to allow iframes from the Highnote domain:
+
+frame-src
+
+Copy code snippet
+

@@ -1,0 +1,99 @@
+Title: AP Automation
+URL: https://highnote.com/docs/issuing/templates/ap-automation
+==================================================
+
+Home / Issuing / Quick Start Templates
+
+## Overview
+
+AP automation card products allow you to issue cards to employees using a financial account owned by your business. AP automation cards are virtual payment cards that you can make available on your application or website. They are typically issued for specific transactions, controlled by spend rules and/or collaborative authorization.
+
+The following graphic provides an overview of how an AP automation card product funds a virtual payment card:
+
+This guide provides an overview of creating and setting up an AP automation card product in your test environment.
+
+## Create a card product
+
+Use the following mutation to create an AP automation card product. Use AP_INVOICE_AUTOMATION as the vertical input variable:
+
+AP_INVOICE_AUTOMATION
+
+vertical
+
+## Fund your card program
+
+AP automation card products use a product funding account to send funds to financial accounts. In the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified external bank account.
+
+Funding your product funding account requires the following steps:
+
+Retrieve the product funding account ID.
+Initiate a wire transfer to the product funding account.
+
+## Find product funding account ID
+
+Use the following query to find your product funding account ID:
+
+## Initiate a wire transfer
+
+Using the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:
+
+toFinancialAccountId
+
+## Enable on-demand funding
+
+AP automation card products use on-demand funding to fund account holder financial accounts. When you create an AP automation card product, your product funding account is used as the source account for on-demand funding.
+
+On-demand funding has an optional feature called pseudo balance. Pseudo balance lets you set a spending limit on a financial account to ensure account holders cannot spend over a specific amount. When a transaction is initiated for a financial account with a pseudo balance, Highnote checks the PSEUDO_BALANCE ledger to approve or decline the authorization. If the pseudo balance feature is not enabled, Highnote checks the balance of your product funding account during authorization.
+
+PSEUDO_BALANCE
+
+Use the following mutation to enable on-demand funding and use a boolean value to enable pseudo balance:
+
+## Issue financial account
+
+This mutation requires an applicationId. Contact your Highnote Implementation team for support.
+
+applicationId
+
+Financial accounts for AP automation card products must have an on-demand funding source. The on-demand funding source is what enables the transfer of funds from your product funding account to the account holder's financial account.
+
+Use the following mutation to issue a financial account with an on-demand funding source:
+
+## Initiate pseudo balance update
+
+If you have pseudo balance enabled for your AP automation card product, you must initiate a pseudo balance update after issuing a financial account. This sets the pseudo balance, or spending limit, for the financial account.
+
+Use the following guides for initiating and reviewing pseudo balance Updates:
+
+Initiate Pseudo Balance Update
+Check Status of Pseudo Balance Update
+
+## Issue payment card
+
+AP automation cards are virtual cards that can be made available on your application or website. Use the following mutation to issue a virtual card:
+
+## Display payment card data
+
+Warning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.
+
+There are two methods for displaying payment card data on your website or application:
+
+Fetching the data from the Highnote API
+Use the Card Viewer SDK to ensure PCI compliance
+
+To fetch payment card data from the API, use the following query:
+
+## Simulate transactions
+
+After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.
+
+For more information on simulating transactions, see Simulate Transactions.
+
+## Expand your integration
+
+After configuring your card product and simulating transactions, you can use the following features to further expand your integration:
+
+Create authorization controls to manage spending.
+Create a rewards program for your card product.
+Setup notifications to automate your integration.
+

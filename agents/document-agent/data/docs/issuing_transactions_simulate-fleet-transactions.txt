@@ -1,0 +1,144 @@
+Title: Simulate Fleet Transactions
+URL: https://highnote.com/docs/issuing/transactions/simulate-fleet-transactions
+==================================================
+
+Home / Issuing / Handle Transactions
+
+## Prerequisites
+
+Review Transaction Lifecycle guide
+A Highnote account
+An API key or the API Explorer
+A fleet card product, financial account, and payment card
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+Fleet transactions include enhanced data processing during clearing and settling. You can use the Highnote API to simulate fleet transactions in the test environment. Simulating fleet transactions helps test the following use cases and card product settings:
+
+Different merchants
+Different merchant category codes (MCCs)
+Enhanced data
+Authorization advice
+Spend rules and velocity controls
+Collaborative authorization flow
+
+This guide provides steps for simulating fleet transactions using the Highnote API.
+
+## Simulate an authorization
+
+In the test environment, authorizations are approved or declined based on your card product logic and authorization controls. Highnote offers two types of authorization controls for fleet payment cards:
+
+Controls baked into the EMV chip in the physical card
+Controls enforced through Spend Rules and Velocity Controls
+
+EMV chip controls have a product restriction code encoded into the EMV chip to allow fuel purchases and other approved products. The product restriction code may also prevent purchasing non-fleet items, such as food, at fuel stops.
+
+## MCC-based authorization controls
+
+Fleet cards can be restricted to specific purchase types using MCC-based authorization controls. For an overview of MCC-based spend controls, see Configure Spend Rules.
+
+Purchase types are defined as follows for Visa and Mastercard:
+
+All fleet cards must accept fleet/fuel MCCs. It is optional to configure your authorization controls to accept maintenance MCCs. The following tables provide an overview of fleet/fuel and maintenance MCCs for reference:
+
+## via Visa
+
+Use the following query to simulate a fleet authorization with Visa:
+
+## via Mastercard
+
+Use the following query to simulate a fleet authorization with Mastercard:
+
+## Simulate authorization advice
+
+For purchases at Automated Fuel Dispensers (AFDs), the full transaction amount may not be known at authorization. Instead, a $1 or estimated amount is sent for authorization at the time of purchase, and authorization advice is sent to confirm the total amount at a later time.
+
+Simulating authorization advice is optional. Visa supports a real-time clearing program, which does not require authorization advice. We recommend skipping simulating authorization advice in the following scenarios:
+
+Simulating a real-time clearing event
+Simulating an in-store pre-pay transaction
+Simulating a transaction where the merchant incorrectly did not send authorization advice
+
+## via Visa
+
+Use the following mutation to simulate authorization advice with Visa:
+
+## via Mastercard
+
+Use the following query to simulate authorization advice with Mastercard:
+
+## Simulate clearing
+
+Fleet transactions follow the standard authorization and clearing data flow and include enhanced data specific to the fleet vertical via specialized clearing messages. Visa and Mastercard outline three levels of data for fleet transactions, but they provide the data at different times during the transaction lifecycle. Depending on your card product's card network, your system may receive fleet-specific Level 2 and Level 3 data.
+
+## Level 1 data
+
+Level 1 data contains standard payment network transaction data provided by merchants. This data includes:
+
+Merchant details
+Point of Service details
+Billing zip code
+Total purchase amount
+Purchase date
+
+Level 1 data is the same for all transaction types and merchants. No enhanced data is captured or provided at this level.
+
+## Level 2 data
+
+Level 2 data contains enhanced data captured at the point of sale. Level 2 data is always sent at the time a transaction clears. Level 2 transactions have different MCCs based on whether the payment card is used at an Automated Fuel Dispenser or in-store:
+
+Automated Fuel Dispenser MCC: 5542
+In-store MCC: 5541
+
+Refer to the API Reference for more information on Visa Level 2 Purchase Data Fields.
+
+## via Visa
+
+Visa sends Level 1 and Level 2 data together clearing events. Use the following mutation to simulate clearing with Visa:
+
+## via Mastercard
+
+Mastercard only sends Level 1 data in clearing events. Use the following query to simulate a clearing with Mastercard:
+
+## Simulate Level 3 enhanced data
+
+Level 3 data contains enhanced transaction data and is generally used to send specific data related to non-fuel products and services. Level 3 enhanced data transactions use the same MCCs as Level 1 and 2 data for AFD and in-store MCCs:
+
+Automated Fuel Dispenser MCC: 5542
+In-store MCC: 5541
+
+You can set up a Notification Event to alert you when Level 3 enhanced data has been added to a transaction.
+
+## via Visa
+
+Visa Level 3 data is typically sent between 24 to 48 hours after the transaction takes place. Merchants are not required to report enhanced data for fuel-only transactions.
+
+Level 3 data typically follows an invoice structure with invoice summary information and invoice line item detail information. Refer to the API Reference for more information on Visa Level 3 Enhanced Data Fields.
+
+Use the following mutation to simulate Visa fleet enhanced data:
+
+## via Mastercard
+
+Mastercard defines enhanced data as Level 2 and Level 3 data. Mastercard Level 2 and Level 3 data is sent at the end of the business day (EST).
+
+Level 3 data typically follows an invoice structure with invoice summary information and invoice line item detail information. Refer to the API Reference for more information on Mastercard Enhanced Data Fields.
+
+Use the following mutation to simulate Mastercard fleet enhanced data:
+
+## Automate your integration
+
+To automate your integration, subscribe to the following notification events:
+
+Payment card authorization
+Payment authorization and clear
+Payment card cleared
+Payment card verification
+Payment card transaction enhanced data
+
+The details provided in the payloads from these events can be used for the following use cases:
+
+Automate your application or website's transaction processing workflows
+Create account holder notifications and alerts
+

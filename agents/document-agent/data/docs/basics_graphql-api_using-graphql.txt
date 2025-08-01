@@ -1,0 +1,321 @@
+Title: Intro to GraphQL
+URL: https://highnote.com/docs/basics/graphql-api/using-graphql
+==================================================
+
+Home / Basics / Highnote API
+
+## What is GraphQL?
+
+GraphQL is a query language for APIs that lets clients request only the data they need. GraphQL APIs offer several benefits over REST APIs:
+
+Reduced data transfer: Specify the exact data you need
+Simplified client code: Simplify and easily maintain code without relying on multiple endpoints or parsing logic
+Powerful querying: Use nested queries, filtering, sorting, and pagination to find the data you need
+
+Highnote uses a GraphQL API to provide a flexible, modern, and secure integration experience. This guide prepares those who are new to GraphQL on using the Highnote API. For a deeper dive, see Using the Highnote API.
+
+## How it works
+
+GraphQL operates on a defined type system called a schema. The schema describes the types of data available. Unlike REST APIs, where each endpoint typically corresponds to a specific resource and returns fixed datasets, GraphQL has a single endpoint that allows clients to specify the data they need using queries. Fetching data from a single endpoint allows clients to use single requests with specific fields to get all the data they need, reducing over-fetching and under-fetching data.
+
+When a client sends a query, the server checks it against a schema defining the available data types. Then, it uses resolver functions to gather the requested data from different sources. These functions work simultaneously, making data retrieval efficient. Finally, the server returns the collected data to the client in a single JSON object.
+
+## Key concepts
+
+The following sections break down GraphQL's key concepts to help you understand how a GraphQL API works and how to interact with it.
+
+## Operations
+
+GraphQL uses the term operations to define request types. The following three operations are used in GraphQL for sending requests:
+
+Query: Fetches data
+Mutation: Writes data
+Subscription: Receives real-time updates
+
+The Highnote API does not currently use subscriptions.
+
+## Type system
+
+GraphQL uses a type system called a schema to describe what data can be queried. The building blocks of a schema are object types. Objects represent data you can fetch, with each object having fields. These fields are the specific pieces of data you can request.
+
+For example, the following code sample defines a CardProduct object type with two fields, id and name:
+
+CardProduct
+
+id
+
+Copy code snippet
+
+## Arguments
+
+Every field on a GraphQL object can have zero or more arguments. Arguments work like filters for additional information to help refine the data you request.
+
+For example, the CardProduct object in the Highnote API has several arguments for different fields. In the following code sample, the accounts field has first and after arguments that help refine the queried data:
+
+CardProduct
+
+accounts
+
+first
+
+after
+
+Copy code snippet
+
+## Queries and mutations
+
+Queries and mutations are special objects that define the entry point of a GraphQL query. As noted in this guide, queries and mutations are operations that fetch or write data.
+
+Refer to the following pages of Highnote API Reference for available queries and mutations:
+
+Query
+Mutation
+
+## Scalars
+
+A GraphQL object type has a name and fields, but those fields have to resolve to produce concrete data. This is where scalar types come in.
+
+If we use the CardProduct object code sample to execute a query, the returned data would look something like this:
+
+CardProduct
+
+Copy code snippet
+
+In this example, the id and name fields have resolved to scalar types in the query's response.
+
+id
+
+name
+
+GraphQL uses the following default scalar types:
+
+Int: A signed 32-bit integer
+Float: A signed double-precision fractional value as specified by IEEE 754
+String: A UTF-8 character sequence
+Boolean: true or false
+ID: Represents a unique identifier
+
+Int
+
+Float
+
+String
+
+Boolean
+
+true
+
+false
+
+ID
+
+GraphQL also allows for custom scalar types. For a complete list of the Highnote API's scalars, see Scalars in the API Reference.
+
+## Enums
+
+Enumeration types, also called enums, are a special kind of scalar restricted to a specific set of values. Enums allow you to:
+
+Validate that any arguments of this type are one of the allowed fields
+Facilitate communication through the schema that a field will always be one of a finite set of values
+
+For example, in the Highnote API, a CardFormFactor enum is restricted to the following values:
+
+CardFormFactor
+
+VIRTUAL
+PHYSICAL
+
+VIRTUAL
+
+PHYSICAL
+
+For a complete list of the Highnote API’s enums, see Enums in the API Reference.
+
+## Interfaces
+
+Interfaces define a set of fields that other types must include to be considered that type. Interfaces are useful when you want to return an object or set of objects of several different types. This allows you to query for objects of other specific types as long as they share those required fields defined in the interface.
+
+For example, Highnote’s API has an interface named CardProductFeature representing card product features. Any type that implements CardProductFeature must have the interface’s exact fields:
+
+CardProductFeature
+
+CardProductFeature
+
+Copy code snippet
+
+For a complete list of the Highnote API’s interfaces, see Interface in the API Reference.
+
+## Unions
+
+Union types are another way to define possible return types for a field. Unlike interfaces, they don’t have shared fields. When you query a field that uses a union type, you must use a special fragment to specify which fields you want depending on the returned type.
+
+For example, Highnote’s API has a union named CardProductApplication that represents different card product application types. When you return a CardProductApplication union type in the Highnote API, you will retrieve the following possible types:
+
+CardProductApplication
+
+CardProductApplication
+
+AccountHolderCardProductApplication
+AuthorizedUserCardProductApplication
+
+AccountHolderCardProductApplication
+
+AuthorizedUserCardProductApplication
+
+For a complete list of the Highnote API’s unions, see Unions in the API Reference.
+
+## Inputs
+
+Input types define the structure of the data you’re sending. Input types are valuable for mutations where you want to pass in a whole object.
+
+For example, if you are building a mutation for a card product application, you can use the CardProductApplicationFilterInput to input data to filter CardProductApplication data.
+
+CardProductApplicationFilterInput
+
+CardProductApplication
+
+For a complete list of the Highnote API’s inputs, see Inputs in the API Reference.
+
+## Introspection
+
+Highnote’s API has an introspection system that allows authenticated users to fully introspect the API. We recommend using the Highnote API Explorer to test the API’s introspection system in the test environment.
+
+You can paste the following code sample into the Query section of the API Explorer to try out introspection:
+
+Copy code snippet
+
+## Node queries and global IDs
+
+The Highnote API uses node queries and global IDs to look up individual objects. A node query is defined as a pattern that allows clients to pass a global ID without specifying the entity it represents.
+
+In the following code sample, the node query is fetching an id for either the CardProduct or PaymentCard objects:
+
+id
+
+CardProduct
+
+PaymentCard
+
+Copy code snippet
+
+Be sure to define the id variable, e.g.,
+
+id
+
+Copy code snippet
+
+When the query is resolved, the response looks something like this:
+
+Copy code snippet
+
+## Pagination
+
+To reduce the payload and improve response times, limit the number of records returned.
+
+The Highnote API automatically paginates data following the Relay Cursor Connections Specification. Relay uses the edges field to obtain its list:  cursor specifies the position in the list, and node contains the requested fields.
+
+cursor
+
+node
+
+For example, the following ListCardProducts query finds an organization’s card products and lists the id, name, usage, and vertical for each card product.  The edge and cursor fields define how the data is displayed.
+
+ListCardProducts
+
+id
+
+name
+
+usage
+
+vertical
+
+edge
+
+cursor
+
+The $first and $after variables let the Highnote API know which records to return. You can adjust these variables to return as much or as little data as possible.
+
+$first
+
+$after
+
+$first: Specifies maximum number of items to fetch at once (Integer, default 20).
+$after: Specifies where in the list the cursor should start fetching (String).
+
+$first
+
+$after
+
+For example, to retrieve the first 10 card products, set $first to 10. To retrieve the next 10 card products, set $after to the cursor of the last item from the previous page.
+
+$first
+
+10
+
+$after
+
+Copy code snippet
+
+## Making requests
+
+The Highnote API serves data as JSON over HTTP(s). GraphQL does not use HTTP verbs (GET, PUT, etc.) or have multiple endpoints per resource. Instead, you make POST requests to a single endpoint using specific queries or mutations.
+
+GET
+
+PUT
+
+POST
+
+Requests to the Highnote API should contain the following:
+
+query or mutation: The operation of the request
+Optional - variables: A JSON payload used to pass dynamic data in a request
+Optional - operationName: Specifies an action in the case multiple queries are sent
+
+query
+
+mutation
+
+variables
+
+operationName
+
+In the following example, we use the ping query to showcase a request to the Highnote API:
+
+Copy code snippet
+
+This request will return data in a JSON payload that looks like this:
+
+Copy code snippet
+
+For more information on using the Highnote API to make requests, see Using the Highnote API.
+
+## Clients and codegen
+
+The GraphQL ecosystem is dynamic and strongly enhances developers' and integrators' experiences. As a result, GraphQL supports innovation and modern approaches to development. When using the Highnote API, we recommend the following desktop clients, extensions, and codegens.
+
+## Desktop clients
+
+When developing with GraphQL APIs, using a GUI tool that leverages introspection to provide documentation and type hints is helpful. Some of the tools we recommend using include:
+
+Insomnia
+GraphQL Playground
+GraphiQL
+Postman
+
+## Editor plugins and browser extensions
+
+We recommend the following plugins for various IDEs to make your development experience more seamless:
+
+GraphQL Developer Tools (Chrome)
+Altair (Chrome, Firefox)
+GraphQL DevTools (Firefox)
+VSCode GraphQL
+vim-graphql
+JS GraphQL (IntelliJ, WebStorm)
+
+## Codegen tools
+
+We recommend using GraphQL Code Generator to generate TypeScript definitions and SDKs for use with GraphQL.
+

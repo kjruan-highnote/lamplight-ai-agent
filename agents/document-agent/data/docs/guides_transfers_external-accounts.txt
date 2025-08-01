@@ -1,0 +1,455 @@
+Title: Connect External Accounts
+URL: https://highnote.com/docs/guides/transfers/external-accounts
+==================================================
+
+Home
+
+## Overview
+
+Account holders can connect external bank accounts to Highnote for making ACH funds transfers. Highnote has partnered with Plaid and Finicity as secure, NACHA-compliant options to verify and link external accounts.
+
+## External account types
+
+Fund-in transfers into Highnote require external account verification.
+
+You can transfer funds into or out of Highnote from an external bank account.
+
+Fund-in transfers: A funds transfer from an external account to a Highnote financial account. Fund-in transfers require external account verification via Plaid or Finicity.
+Fund-out transfers: A funds transfer from a Highnote financial account to an external account. Fund-out transfers do not require verification of the external account and can only be initiated on card products with a cash deposit (ex: debit and secured debit cards).
+
+There are two types of Highnote external financial accounts:
+
+ExternalFinancialBankAccount
+
+NonVerifiedExternalUSFinancialBankAccount
+
+## Plaid integration
+
+Contact your Highnote sales representative to learn more about available Plaid products and pricing for your program.
+
+The Highnote platform offers two ways for subscribers to securely integrate with Plaid's services:
+
+Connect verified account with Highnote: For subscribers who prefer to delegate their Plaid relationship to Highnote, by SDK or no-code hosted URL. In this model, Highnote works with Plaid on behalf of subscribers to securely verify end user bank accounts.
+
+
+Connect verified account with Plaid: For subscribers who prefer a direct relationship with Plaid. In this model, subscribers use Plaid to authenticate end user bank accounts in their applications and securely pass verification details to Highnote.
+
+Connect verified account with Highnote: For subscribers who prefer to delegate their Plaid relationship to Highnote, by SDK or no-code hosted URL. In this model, Highnote works with Plaid on behalf of subscribers to securely verify end user bank accounts.
+
+Connect verified account with Plaid: For subscribers who prefer a direct relationship with Plaid. In this model, subscribers use Plaid to authenticate end user bank accounts in their applications and securely pass verification details to Highnote.
+
+## Test your Plaid workflows
+
+Highnote only supports SAVINGS and CHECKING account types at this time.
+
+SAVINGS
+
+CHECKING
+
+You can test your Plaid workflows with dummy data from Plaid. Some banks, such as Chase, are supported with restrictions. Refer to the Plaid documentation for support:
+
+Plaid Sandbox Overview
+OAuth Guide
+
+Some Chase Bank restrictions from the linked references:
+
+Must have full Production access for at least one product and have also completed the OAuth registration process
+Chase has an additional waiting period; it may take up to two weeks after Production approval for Chase Production access to be granted. You must also complete the Security Questionnaire.
+
+## Connect verified account with Highnote
+
+Delegating your Plaid relationship to Highnote reduces your compliance requirements because Highnote provides and manages a secure vault. Additionally, using the no-code hosted URL solution removes your need for frontend SDK development.
+
+As a subscriber, you can simplify your Plaid integration by enabling Highnote to securely retrieve external account information on your behalf. With a persistent access_token, Highnote verifies end user bank accounts and then initiates and manages the ACH transfer for you.
+
+access_token
+
+You have two integration options: Plaid SDK or a no-code hosted URL.
+
+## SDK integration
+
+Refer to the Plaid Link documentation on SDK integration for more guidance.
+
+To connect a verified account with Highnote via SDK:
+
+Step 0: Complete Highnote's Plaid Onboarding form.
+Step 1: Integrate Plaid Link with your application.
+Step 2: Create a link_token with the Highnote API (e.g., flow: IOS_SDK).
+Step 3: Initiate Plaid Link by using the link_token to retrieve a public_token.
+Step 4: Link an external bank account by sending the public_token to Highnote.
+Step 5: View the status of your external account link.
+
+link_token
+
+flow: IOS_SDK
+
+link_token
+
+public_token
+
+public_token
+
+## Hosted URL (no-code) integration
+
+Refer to the Plaid Hosted Link documentation for more guidance.
+
+To connect a verified Plaid account with Highnote via the no-code hosted link solution:
+
+Step 0: Complete Highnote's Plaid Onboarding form.
+Step 1: Integrate Plaid Hosted URL with your application.
+Step 2: Create a hosted_link_url with the Highnote API (and flow: WEB_HOSTED).
+Skip steps 3 and 4
+Step 5: View the status of your external account link.
+
+hosted_link_url
+
+flow: WEB_HOSTED
+
+## Step 0. Complete Plaid onboarding form
+
+All users should complete Highnote's Plaid Onboarding form:
+
+Company / Application Details
+
+Company email, name, URL
+Legal name and address
+Assets Under Management (amount and currency)
+Application (or company) name and icon
+
+Integration Details
+
+Note: Highnote supports Plaid's Auth, Balance, and Identity payment products by default.
+
+Plaid Link configuration: Customizable or Plaid default
+Integration flow: Hosted URL (no-code) or SDK
+SDKs to integrate: Web, iOS, Android, React Native, Mobile webview.
+Redirect URI. When integrating via SDK, this is redirect_uri or package_name (which is the redirectUri used in Step 2):
+
+Web SDK: Web SDK redirect URI
+Apple iOS: Universal Link redirect URI
+Android, React Native: Android package name
+
+redirect_uri
+
+package_name
+
+redirectUri
+
+Web SDK: Web SDK redirect URI
+Apple iOS: Universal Link redirect URI
+Android, React Native: Android package name
+
+Note: Highnote requires a redirect URI per SDK integration even if the mutation input variable redirectUri is optional.
+
+redirectUri
+
+Contacts
+
+Technical Contact name and email
+Billing Contact  name and email
+Customer Support email, and optionally phone, URL, link update URL
+
+What's Possible
+
+userError
+
+## Step 1. Integrate Plaid Link
+
+Both SDK and hosted URL integrations require that the subscriber integrate their application with Plaid.
+
+Plaid SDK Integration
+
+SDK users should refer to the Plaid Link documentation to integrate Plaid Link into your application.
+
+No-code Hosted URL Integration
+
+Hosted URL users should refer to the Plaid Hosted Link documentation to integrate Plaid Link into your application.
+
+## Step 2. Create link token or hosted URL
+
+SDK integrations use this mutation to create a link_token. Hosted integrations use this same mutation to create a hosted_link_url. Same mutation, different flow input variable.
+
+link_token
+
+hosted_link_url
+
+flow
+
+Plaid SDK Integration
+
+SDK users must create a Highnote link_token with flow set to your chosen SDK. Use this token to initiate Plaid Link (in the next step) and generate a public_token in Plaid.
+
+link_token
+
+flow
+
+public_token
+
+In the Test environment, Highnote gives you a link_token to generate a public_token in Plaid’s Sandbox environment. Your card product must be configured by Highnote for the Plaid integration.
+
+link_token
+
+public_token
+
+No-code Hosted URL Integration
+
+Hosted URL users must create a Highnote hosted_link_url with flow set to WEB_HOSTED. You can send the generated URL to an end user to start the Hosted Link session.
+
+hosted_link_url
+
+flow
+
+WEB_HOSTED
+
+Use the following mutation to generate either an SDK link_token or a hosted_link_url for an account holder (or end user):
+
+link_token
+
+hosted_link_url
+
+## Step 3. (SDK only) Initialize Plaid Link
+
+SDK users (and only SDK users) must generate a public_token in Plaid, with the link_token (from Step 2), to initialize Plaid Link. Plaid Link provides a temporary public_token in the onSuccess callback.
+
+public_token
+
+link_token
+
+public_token
+
+onSuccess
+
+The details for passing the link_token varies by platform. See the page for your specific platform integration: web, iOS, Android, React Native, or mobile webview.
+
+link_token
+
+In Highnote's Test environment, you can create a public_token in all three of Plaid’s API environments:
+
+public_token
+
+Plaid Sandbox: Test simulated users
+Plaid Limited Production: Test live users
+Plaid Production: Production environment for when you're ready to go live and have valid Highnote live environment API keys.
+
+## Step 4. (SDK only) Link external account with public token
+
+SDK users (and only SDK users) should call the ProvisionAccountHolder mutation to link an external bank account with Plaid's ephemeral public_token. Highnote will create a persistent access_token and use it to call various Plaid products for the account holder.
+
+ProvisionAccountHolder
+
+public_token
+
+access_token
+
+In the Test environment, provide the public_token you received from Plaid’s Sandbox environment or one of the simulated values below.
+
+public_token
+
+## Step 5. View link status
+
+Both SDK and hosted URL users can monitor the status of external bank accounts to check whether or not the account holder was able to successfully add or remove an account.
+
+You can either subscribe to external bank account events with a webhook, or poll with the following query.
+
+## Connect verified account with Plaid
+
+As a subscriber, you can integrate with Highnote while maintaining your direct relationship with Plaid. You authenticate end-user bank accounts in your applications with Plaid, and then securely pass verification details to Highnote with  processor_token.
+
+processor_token
+
+Refer to the Plaid documentation, Add Highnote to your app.
+
+To connect a verified account with Plaid:
+
+Step 0: Set up your Plaid account and sign up for Plaid API keys.
+Step 1: Enable your Plaid account for Highnote integration on the Plaid dashboard.
+Step 2: Create a link_token in Plaid.
+Step 3: Get Plaid's Highnote processor_token by exchanging it with the link_token.
+Step 4: Link an external bank account by sending the processor_token to Highnote.
+Step 5: Test your Plaid connections.
+
+link_token
+
+processor_token
+
+link_token
+
+processor_token
+
+## Step 0. Set up your Plaid account
+
+This step is a prerequisite to connecting a verified account with Plaid.
+
+Create a business or developer Plaid account. On the Plaid dashboard, go to the Keys tab and create Plaid API keys.
+
+## Step 1. Enable Plaid account for Highnote
+
+If a user has multiple bank accounts, the accounts array from Plaid may contain information from all of them. Highnote requires only one bank account. To ensure the accounts array always contains only one, go to the Plaid dashboard and set Account Select to "enabled for one account".
+
+accounts
+
+accounts
+
+Follow the Plaid docs to enable your Plaid account for Highnote integration. On the Plaid dashboard:
+
+Go to the Integrations tab, click enable Highnote.
+Go to the Application tab, complete your application profile.
+Go to the Link tab, select the use cases you want to use with Highnote.
+
+## Step 2. Create a Plaid link token
+
+Follow the Plaid docs to create a one-time Plaid link_token. You will use this token to exchange it for a "Highnote" processor_token to send to Highnote.
+
+link_token
+
+processor_token
+
+## Step 3. Get Plaid's Highnote processor token
+
+Follow the Plaid docs to exchange your link_token for Plaid's "Highnote" processor_token.
+
+link_token
+
+processor_token
+
+## Step 4. Link external account with processor token
+
+Processor token errors must be resolved with Plaid. Refer to Plaid Errors.
+
+Use the AddExternalBankAccountVerifiedThroughPlaid mutation to link an external bank account with Plaid's processor_token. Highnote retrieves the account number, routing number, and account type from Plaid, and links the information to the associated account holder for future payment usage.
+
+AddExternalBankAccountVerifiedThroughPlaid
+
+processor_token
+
+If the response includes a processor token error, get a new processor_token from Plaid and reattempt adding the external bank account. All processor token errors must be resolved with Plaid. In some cases, your customer may need to resubmit their bank account credentials for you to retrieve a new processor_token. See the Plaid docs for a list of possible Plaid-related errors.
+
+processor_token
+
+processor_token
+
+Use the following mutation to add an external bank account using Plaid:
+
+## Step 5. Test Plaid connections
+
+To test Plaid, you will need to use your processor_tokens. You can create Highnote processor_tokens in all three of Plaid’s API environments:
+
+processor_tokens
+
+processor_tokens
+
+Plaid Sandbox: Test simulated users
+Plaid Development: Test live users
+Plaid Production: Production environment for when you're ready to go live and have valid Highnote live environment API keys
+
+## Connect verified account with Finicity
+
+With a Finicity integration, account holders can connect verified external bank accounts within your app or website. Once an external bank account is verified, you can use Highnote to transfer money between the account holder’s external bank account and their financial account. This integration was built with security in mind and it eliminates the need for you to store sensitive information from your account holder’s external bank accounts.
+
+## Set up your Finicity account
+
+Before integrating with Finicity, you must sign up for an account and create an access token:
+
+Sign up for Finicity API keys.
+Once you have Finicity API keys, create a Finicity Access Token to onboard your account holders.
+Once the Access Token is shared with Highnote, it is used to securely retrieve account and routing numbers from Finicity.
+
+Access Token
+
+## Test Finicity connections
+
+Note: Highnote's Finicity partner ID is 2445583993914. When testing, input this value as the thirdPartyPartnerId.
+
+thirdPartyPartnerId
+
+You can test Finicity API keys in a live environment, using their preset test profiles to test for all scenarios. Finicity has also set up mock FinBanks to simulate testing against live financial institutions.
+
+To begin testing, you must first set up your Finicity test environment. After setting up your test environment, refer to the following steps:
+
+Generate Finicity-App-Token.
+Create a test customer in Finicity's System.
+Generate Connect URL and simulate customer linking bank accounts to Finicity .
+Refresh customer accounts.
+Generate 3rd party API access token information to send to Highnote. Use the following POST request to https://api.finicity.com/aggregation/v1/partners/accessKey:
+
+https://api.finicity.com/aggregation/v1/partners/accessKey
+
+## Headers
+
+Copy code snippet
+
+## Body (raw, JSON)
+
+Copy code snippet
+
+## Sample response payload
+
+Copy code snippet
+
+## Link external bank account
+
+With a Finicity Access Token, you can call the Highnote API with the following mappings to link an external bank account:
+
+Access Token
+
+moneyTransferDetails -> ACH_DETAILS
+availableBalanceLive -> CURRENT_BALANCE
+accountOwner -> ACH_OWNER_DETAILS
+
+moneyTransferDetails
+
+ACH_DETAILS
+
+availableBalanceLive
+
+CURRENT_BALANCE
+
+accountOwner
+
+ACH_OWNER_DETAILS
+
+Use the following mutation to add an external bank account with Finicity:
+
+## Connect non-verified account
+
+Note: A bank account number can be de-tokenized if it has been added using the addNonVerifiedExternalFinancialBankAccount mutation. For bank accounts connected and verified via the addExternalBankAccountFromToken mutation, the bank account number cannot be de-tokenized for security purposes.
+
+addNonVerifiedExternalFinancialBankAccount
+
+addExternalBankAccountFromToken
+
+External bank accounts that have not been verified by a third-party service such as Plaid or Finicity are considered to be "non-verified". Funds may only be sent to a non-verified external bank account from a Highnote financial account. Non-verified accounts may not be used to move funds into Highnote. The most common use case for non-verified external bank accounts is to return funds to an account holder in the event of account closure.
+
+When connecting an external bank account, your account holder must provide the following external account information:
+
+Routing number
+Account number
+Account type: Checking or savings
+
+Optionally, a nickname can be assigned to the non-verified account for reference.
+
+Use the following mutation to add a non-verified external bank account:
+
+## Disconnect external account
+
+Note: The same mutation is used to disconnect verified and non-verified external bank accounts.
+
+You can use the CloseExternalFinancialBankAccount to provide the following experiences for disconnecting an external account:
+
+CloseExternalFinancialBankAccount
+
+Provide an interface for account holders to disconnect external accounts from your app or website
+Provide an interface for your organization's support team to disconnect external accounts
+
+Note the following guidelines for disconnecting an external bank account:
+
+When the external bank account is disconnected, all scheduled payments associated with the external bank account will be canceled. If the Highnote financial account associated with the external bank account has a pending payment, the account can't be disconnected until the pending payment(s) settles.
+Once disconnected, the customer will need to re-verify their identity to reconnect a verified bank account to their Highnote financial account.
+If the customer is disconnecting or reconnecting a non-verified bank account, they do not need to re-verify their identity.
+
+Use the following mutation to disconnect a verified or non-verified external bank account:
+
+## List external accounts
+
+You can view and present a list of an account holder's external bank accounts using the following query:
+

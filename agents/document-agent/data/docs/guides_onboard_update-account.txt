@@ -1,0 +1,236 @@
+Title: Update Account Information
+URL: https://highnote.com/docs/guides/onboard/update-account
+==================================================
+
+Home / Issuing / Onboard Accounts
+
+## Account holder update notifications
+
+When account holder information is updated, Highnote may need to request documents to verify the account holder's identity. To automate your integration and stay notified of identity verification requests, subscribe to the following notification events:
+
+Account holder identity documents requested notification events: Stay notified when an identity verification is requested for an account holder update to kickoff your document upload workflow
+Account holder information update notification events: Stay notified when an account holder update is successfully applied to an account
+
+When using an account holder identity documents request event, the DocumentUploadSession referenced by the event can be queried as a node using the IdentityVerificationDocumentUploadSession type, and can also be interacted with via existing mutations to startDocumentUploadSession, createDocumentUploadLink and endDocumentUploadSession. For more information on collecting documents for identity verification, see Collect documents for identity verification.
+
+DocumentUploadSession
+
+IdentityVerificationDocumentUploadSession
+
+startDocumentUploadSession
+
+createDocumentUploadLink
+
+endDocumentUploadSession
+
+## Update person account holder
+
+Note: If an account holder's application is pending, you can't update their account holder information. To request changes to a pending application, contact support@highnote.com.
+
+This guide provides steps for updating account holder information using the Highnote API. For steps on updating account holder information using the dashboard, see Manage account holders.
+
+You can use the Highnote API to update the following account holder information:
+
+Address
+Phone number
+Email
+
+Other account holder information such as Social Security Number (SSN), date of birth, or account holder name must be updated by the Highnote team to ensure compliance with Know Your Customer or Know Your Business (KYC-KYB).
+
+## Address
+
+Account holders have two billing addresses, one at the account holder level and another associated with an account holder's payment card. Refer to the following table for an overview of each billing address object:
+
+PaymentCardDeliveryDetails
+
+When updating an account holder's address, you must update the billingAddress and billingAddressOnCard. Updating both addresses ensures data accuracy across account holder and payment card objects. The updateUSPersonAccountHolder mutation uses the following input fields to update both addresses:
+
+billingAddress
+
+billingAddressOnCard
+
+updateUSPersonAccountHolder
+
+billingAddressInput: The account level billing address
+accountHolderId: The global ID for the account holder
+updatePaymentCardBillingAddress: Boolean field used to update the billingAddressOnCard; must set the value to true
+
+billingAddressInput
+
+accountHolderId
+
+updatePaymentCardBillingAddress
+
+billingAddressOnCard
+
+true
+
+When updating an account holder's address, note the following requirements:
+
+The new address must be a US-based physical address and can’t be a PO box.
+The full address must be provided with the update, even if only a partial update is needed. For example, if the street address changes and the zip code remains the same, the full address is still needed for the update.
+
+Use the following mutation to update an account holder's billingAddress and billingAddressOnCard:
+
+billingAddress
+
+billingAddressOnCard
+
+## Phone number
+
+When updating an account holder's phone number, note the following:
+
+The new phone number must include the country code.
+Only one phone number can be associated with an account holder.
+Updating the account holder's phone number replaces the current one, regardless of the phone type in the update request. For example, this means the account holder can only have a home or office phone number listed and not both.
+
+Use the following query to update an account holder's phone number:
+
+## Email
+
+When updating an account holder’s email, note the following:
+
+The new email must be a valid email address.
+We recommend you send an email to your account holder using the old email address to notify them of the email update and mitigate potential fraud risks.
+
+Use the following query to update an account holder's email:
+
+## Credit risk attributes
+
+You can update the credit risk attributes for a person account holder. These credit risk attributes include the following:
+
+Annual income
+Debt obligations
+Employment status
+
+Use the following mutation to update a person account holder's credit risk attributes:
+
+## Update business account holder
+
+Note: If an account holder's application is pending, you can't update their account holder information. To request changes to account holder information on a pending application, contact support@highnote.com.
+
+This guide provides steps for updating account holder information using the Highnote API. For steps on updating account holder information using the dashboard, see Manage account holders.
+
+You can allow business account holders to update their address, phone number, and website. Other account holder information such as Social Security Number (SSN) or Employer Identification Number (EIN), date of birth, or account holder name must be updated by the Highnote team to ensure compliance with Know Your Customer or Know Your Business (KYC-KYB).
+
+## Address
+
+An account holder has two billing addresses, one at the account holder level and another associated with an account holder's payment card. Refer to the following table for an overview of each billing address object:
+
+billingAddress
+
+PaymentCardDeliveryDetails
+
+billingAddressOnCard
+
+When updating an account holder's address, you must update the billingAddress and billingAddressOnCard. Updating both addresses ensures data accuracy across account holder and payment card objects. The updateUSPersonAccountHolder mutation uses the following input fields to update both addresses:
+
+billingAddress
+
+billingAddressOnCard
+
+updateUSPersonAccountHolder
+
+billingAddressInput: The account level billing address
+accountHolderId: The global ID for the account holder
+updatePaymentCardBillingAddress: Boolean field used to update the billingAddressOnCard; must set the value to true
+
+billingAddressInput
+
+accountHolderId
+
+updatePaymentCardBillingAddress
+
+billingAddressOnCard
+
+true
+
+When updating an account holder's address, note the following requirements:
+
+The new address must be a US-based physical address and can’t be a PO box.
+The full address must be provided with the update, even if only a partial update is needed. For example, if the street address changes and the zip code remains the same, the full address is still needed for the update.
+
+Use the following mutation to update an account holder's billingAddress and billingAddressOnCard:
+
+billingAddress
+
+billingAddressOnCard
+
+## Phone number
+
+When updating an account holder's phone number, note the following:
+
+The new phone number must include the country code.
+Only one phone number can be associated with an account holder.
+Updating the account holder's phone number replaces the current one, regardless of the phone type in the update request. For example, this means the account holder can only have a home or office phone number listed and not both.
+
+Use the following query to update a business account holder's phone number:
+
+## Website
+
+Use the following query to update a business account holder's website URL:
+
+## Update business associated person
+
+Business account holders may need to update the information of the primary authorized person and/or beneficial owner(s). You can provide the ability for account holders to update the address, phone number, and email of the primary authorized person and/or beneficial owner(s). Other account holder information, such as Social Security Number (SSN), date of birth, or name, may need to be manually reviewed by an agent to ensure compliance with Know Your Customer (KYC) or Know Your Business (KYB).
+
+## Address
+
+When updating a business associated person's address, note the following requirements:
+
+The new address must be a U.S. physical address and cannot be a PO box.
+The full address must be provided with the update, even if only a partial update is needed. For example, if the street address changes and the zip code remains the same, the full address is still needed for the update.
+
+Use the following query to update a business associated person's address:
+
+## Phone number
+
+When updating a business associated person's phone number, note the following:
+
+The new phone number must include the country code.
+Only one phone number can be associated with an account holder.
+Updating the account holder’s phone number replaces the current one, regardless of the phone type in the update request. For example, this means the account holder can only have a home or office phone number listed and not both.
+
+Use the following query to update a business associated person's phone number:
+
+## Email
+
+When updating a business associated person's email, note the following:
+
+The new email must be a valid email address.
+We recommend you send an email to your account holder using the old email address to notify them of the email update and mitigate potential fraud risks.
+
+Use the following query to update a business associated person's email:
+
+## Update authorized user
+
+You can provide the ability for authorized users to update their address, phone number, and email. Other information, such as Social Security Number (SSN), date of birth, or name may need to be manually reviewed by a Highnote agent to ensure compliance with Know Your Customer (KYC) or Know Your Business (KYB).
+
+## Address
+
+When updating an authorized user’s address, note the following requirements:
+
+The new address must be a U.S. physical address and cannot be a PO box.
+The full address must be provided with the update, even if only a partial update is needed. For example, if the street address changes and the zip code remains the same, the full address is still needed for the update.
+
+Use the following query to update an authorized user’s address:
+
+## Phone number
+
+When updating an authorized user's phone number, note the following:
+
+The new phone number must include the country code.
+Only one phone number can be associated with an account holder.
+Updating the authorized user’s phone number replaces the current one, regardless of the phone type in the update request. For example, this means the account holder can only have a home or office phone number listed and not both.
+
+Use the following query to update an authorized user's phone number:
+
+## Email
+
+When updating an authorized user's email, note the following:
+
+The new email must be a valid email address.
+We recommend you send an email to your authorized user using the old email address to notify them of the email update and mitigate potential fraud risks.
+
+Use the following query to update an authorized user's email:
+

@@ -1,0 +1,40 @@
+2025-08-01 15:56:52,941 - __main__ - INFO - Initializing with standard chunking strategy...
+2025-08-01 15:56:52,944 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-01 15:56:52,944 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-01 15:56:52,945 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-01 15:56:53,164 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-01 15:56:53,335 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-01 15:56:53,561 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-01 15:56:53,748 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-01 15:56:53,937 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-01 15:56:53,939 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-01 15:56:53,943 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-01 15:56:54,026 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-01 15:56:54,026 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-01 15:56:56,993 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-01 15:56:56,993 - __main__ - INFO - Standard schema agent initialized successfully
+2025-08-01 15:56:57,033 - __main__ - INFO - Starting API server on 0.0.0.0:8000
+2025-08-01 15:56:57,034 - __main__ - INFO - Authentication enabled: False
+2025-08-01 15:56:57,034 - __main__ - INFO - Allowed origins: ['*']
+2025-08-01 15:56:57,109 - api - INFO - Initializing with standard chunking strategy...
+2025-08-01 15:56:57,111 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-01 15:56:57,111 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-01 15:56:57,111 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-01 15:56:57,239 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-01 15:56:57,346 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-01 15:56:57,489 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-01 15:56:57,611 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-01 15:56:57,751 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-01 15:56:57,753 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-01 15:56:57,755 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-01 15:56:57,757 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-01 15:56:57,757 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-01 15:57:00,128 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-01 15:57:00,129 - api - INFO - Standard schema agent initialized successfully
+INFO:     Started server process [58934]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50257 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50264 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50264 - "GET /health HTTP/1.1" 200 OK

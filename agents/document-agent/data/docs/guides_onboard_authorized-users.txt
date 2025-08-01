@@ -1,0 +1,84 @@
+Title: Onboard Authorized Users
+URL: https://highnote.com/docs/guides/onboard/authorized-users
+==================================================
+
+Home / Issuing / Onboard Accounts
+
+## Prerequisites
+
+A Highnote account
+An API key, the API Explorer or the dashboard
+An account holder with approved application
+Authorized users feature enabled by the Highnote Support team. Contact support@highnote.com to have this feature enabled.
+
+## Overview
+
+Note: At this time, only commercial card products support authorized users.
+
+Authorized users allow you to add cardholders who don't require the same access level as the primary account holder. The capability differences between authorized users and account holders provide structure for many use cases. For more information on capabilities and use cases, see the Authorized users support guide.
+
+On the Highnote platform, each authorized user is recognized as a separate entity. This means, for instance, that a business account holder can issue cards to various employees as authorized users. Regardless of whether these employees are associated with multiple cards under the same account or have a shared user profile in your system, each one is assigned a unique ID.
+
+The following graphic shows the relationship of a single card product with an authorized user who has multiple applications and payment cards:
+
+## Use cases
+
+For an overview of basic authorized user use cases, see the Authorized users support guide.
+
+Another use case for authorized users involves commercial cards with categorized spending. This use case is more technical and requires using the API to pass specific financial account IDs. Configure this use case in the following way:
+
+Create individual financial accounts using a business account holder's application. Each financial account represents a different spending category. For example, you might have separate financial accounts for gas, groceries, and office supplies.
+Onboard authorized users under the business account holder.
+Open an application for the authorized user and pass the financialAccountId of the spend category financial account.
+Issue cards to authorized users.
+
+financialAccountId
+
+In this use case, each authorized user must be onboarded individually. If authorized users need access to multiple spending categories, they must apply to each financial account separately. One authorized user account may have several applications, financial accounts, and cards; each representing a different spend category.
+
+## Onboard an authorized user
+
+Note: Authorized users must be 18 or older and 100 or younger (to combat fraud and elder financial abuse); and their first names must be at least one character.
+
+Client tokens can be used when onboarding authorized users for enhanced security.
+
+Before adding authorized users, you must onboard an account holder with an approved application. When creating a new authorized user, you will pass the accountHolderId to establish the relationship with the account holder. For extra security, you can generate a client token and tokenize authorized user information on your client before passing the data to Highnote.
+
+accountHolderId
+
+When using the following mutation to create an authorized user, the following inputs are required:
+
+name
+email
+phoneNumber
+billingAddress
+dateOfBirth
+
+name
+
+email
+
+phoneNumber
+
+billingAddress
+
+dateOfBirth
+
+## Open application for authorized user
+
+After creating an authorized user, you must open an authorized user application and present your cardholder agreements. You can subscribe to notification events for updates on the application status.
+
+Use the following mutation to open an authorized user application:
+
+## Issue payment card
+
+Note: If you choose to issue physical cards, during card personalization, the authorized user's first and last name are required for line 1. For more information on issuing physical cards, see the Print Physical Cards guide.
+
+Once an authorized user has an approved application, you can issue a payment card to the authorized user.
+
+Use the following query to issue a payment card to an authorized user:
+
+## Find authorized user
+
+Once an authorized user has been created, you can find authorized details, including associated applications and payment cards. Use the following query to find authorized user details:
+

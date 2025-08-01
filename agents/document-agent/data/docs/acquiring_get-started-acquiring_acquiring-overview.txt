@@ -1,0 +1,108 @@
+Title: Acquiring Overview
+URL: https://highnote.com/docs/acquiring/get-started-acquiring/acquiring-overview#pci-compliance
+==================================================
+
+Home
+
+## Overview
+
+Highnote gives you full control over accepting and disbursing payments, regardless of payment method. Whether you want to accept one-time payments online, set up recurring payments, or process digital wallet payments, the Highnote API enables seamless and dependable payment processing directly from your website or mobile application.
+
+## PCI compliance
+
+To accept online payments, you must create a payment form for your website or application that lets customers input their sensitive data securely.
+
+To maintain PCI SAQ-A compliance, we recommend building your payment form with the Highnote Secure Inputs SDK, which uses client tokens for its GraphQL API requests.
+
+## Acquiring sequence flow with tokenization
+
+To maintain PCI SAQ-A compliance, you must tokenize customer data.
+
+Tokenizing customer data ensures that PCI data does not cross your server. Highnote's Secure Inputs SDK handles the input of customer PCI payment card data and submits it to Highnote’s API directly. This workflow keeps you PCI SAQ-A compliant.
+
+The following graphic outlines the acquiring sequence flow with tokenization:
+
+## Acquiring sequence flow without tokenization
+
+Merchants that are PCI SAQ-D compliant and securely store PCI data already, can choose to bypass tokenization by directly charging payment card data.
+
+The following graphic outlines the acquiring sequence flow without tokenization:
+
+## Key concepts
+
+Highnote acquiring APIs use the following foundational objects to manage your payments:
+
+CardPaymentAuthorizedEvent
+
+CardPaymentReversedEvent
+
+## Payment transaction states
+
+Highnote's Acquiring product follows a payment transaction lifecycle that provides information about each step. For each step in the payment transaction lifecycle, there are corresponding financial transaction events that take place.
+
+The following graphic outlines the payment transaction states in Highnote's acquiring flow:
+
+## Card transaction lifecycle
+
+A typical card payment transaction has the following steps. Financial transaction events associated with each step are done synchronously in the Highnote platform:
+
+PaymentMethod
+
+PaymentMethod
+
+## GraphQL summary responses
+
+To keep Highnote's Acquiring API response time low, we return Summary objects from our mutations. These summary objects contain simplified data about your request. Refer to the Card transaction lifecycle.
+
+Summary
+
+The Highnote GraphQL API supports idempotency. See Highnote API Idempotency for details.
+
+## Query for CardAuthorizationStepSummary
+
+To get a full version of a summary object, you can query for the CardAuthorizationStepSummary and then query for the CardAuthorizationStep.
+
+CardAuthorizationStepSummary
+
+CardAuthorizationStep
+
+Use the following query to return a CardAuthorizationStepSummary:
+
+CardAuthorizationStepSummary
+
+## Query for CardCaptureStepSummary
+
+Use the following query to return a CardCaptureStepSummary:
+
+CardCaptureStepSummary
+
+## Amount precision
+
+The Highnote Acquiring Amount object is more precise than that of Highnote Issuance. For example, transactions have an interchange fee of 1.5%. Given a transaction of $1.10, the interchange fee is $0.0165.
+
+Amount
+
+1.5%
+
+$1.10
+
+$0.0165
+
+Copy code snippet
+
+To properly express this particular value, Amount should display with 4 decimal places.
+
+Amount
+
+Highnote Acquiring’s Amount object provides a decimalPlaces value that can be used to determine how many significant digits should be displayed.
+
+Amount
+
+decimalPlaces
+
+## Amount precision example
+
+In this example, 4 decimal places are configured so the value to display should be 0.0165
+
+0.0165
+

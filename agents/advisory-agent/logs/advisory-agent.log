@@ -1,0 +1,32 @@
+/Users/kevinruan/Downloads/lamplight-ai-agent/agents/advisory-agent/src/api.py:72: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+/Users/kevinruan/Downloads/lamplight-ai-agent/agents/advisory-agent/src/api.py:99: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2025-08-01 15:57:01,792 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
+2025-08-01 15:57:01,793 - __main__ - INFO - Authentication enabled: False
+2025-08-01 15:57:01,793 - __main__ - INFO - Schema agent: http://localhost:8000
+2025-08-01 15:57:01,793 - __main__ - INFO - Document agent: http://localhost:8001
+INFO:     Started server process [59029]
+INFO:     Waiting for application startup.
+2025-08-01 15:57:01,836 - api - INFO - Initializing advisory agent router...
+2025-08-01 15:57:01,836 - api - INFO - Advisory agent router initialized successfully
+2025-08-01 15:57:01,836 - api - INFO - Schema agent URL: http://localhost:8000
+2025-08-01 15:57:01,836 - api - INFO - Document agent URL: http://localhost:8001
+2025-08-01 15:57:01,851 - api - INFO - schema_agent: healthy
+2025-08-01 15:57:01,851 - api - INFO - doc_agent: healthy
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50268 - "GET /health HTTP/1.1" 200 OK
+2025-08-01 15:58:08,179 - api - INFO - Processing question: How do I set up card design and virtual card profiles in Highnote?...
+2025-08-01 15:58:08,183 - src.agent_router - INFO - Routing query: 'How do I set up card design and virtual card profi...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:50366 - "POST /chat HTTP/1.1" 200 OK

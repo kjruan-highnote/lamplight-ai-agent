@@ -1,0 +1,203 @@
+Title: Risk Application SDK
+URL: https://highnote.com/docs/sdks/acquiring-sdks/risk-application-sdk#step-3-initialize-sdk-client-side
+==================================================
+
+Home
+
+## Overview
+
+To integrate the Risk Application SDK, your organization must be configured on Highnote's systems. Please contact your Highnote representative for support.
+
+The Highnote Risk Application SDK strengthens your ability to mitigate fraud when onboarding users.
+
+The SDK is meant to be used when an applicant enters their personal information in the process of creating a Highnote account holder. To measure a user's fraud risk level, the SDK analyzes their device, biometric, and behavioral data, plus the validity of their identity information.
+
+## Prerequisites
+
+A Highnote account
+A server-side integration using an API key
+
+## Installation
+
+The Highnote Risk Application SDK follows semver and can be installed using the following:
+
+JavaScript package manager: npm, yarn, or pnpm
+Content Delivery Network (CDN) via traditional <script> tag or ECMAScript module.
+
+npm
+
+yarn
+
+pnpm
+
+<script>
+
+## Install by package manager
+
+The Risk Application SDK supports the following JavaScript package managers: npm, yarn, and pnpm.
+
+npm
+
+yarn
+
+pnpm
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Install by CDN
+
+To ensure stability and avoid potential issues caused by updates, replace @latest with a specific version number such as @1.0.0.
+
+@latest
+
+@1.0.0
+
+You can install Risk Application SDK directly from a content delivery network (CDN) such as JSDelivr.
+
+The SDK supports both traditional script tags and ECMAScript module imports.
+ESM imports require modern browsers.
+To support older browsers, use the traditional script tag approach with appropriate polyfills.
+
+## Script tag
+
+To install the Risk Application SDK by <script> tag, add the following to your HTML file:
+
+<script>
+
+Copy code snippet
+
+## ESM import
+
+To install the Risk Application SDK by ESM module, add the following to your HTML file:
+
+Copy code snippet
+
+## Usage
+
+To set up and use the Risk Application SDK:
+
+Step 1: Generate a server-side session token with your Highnote API key.
+
+
+Step 2: Prepare your HTML to automatically extract account holder application data.
+
+
+Step 3: Initialize the SDK by passing the session token in the HTML payload.
+
+
+Step 4: Create an account holder with the returned SDK client token.
+
+Step 1: Generate a server-side session token with your Highnote API key.
+
+Step 2: Prepare your HTML to automatically extract account holder application data.
+
+Step 3: Initialize the SDK by passing the session token in the HTML payload.
+
+Step 4: Create an account holder with the returned SDK client token.
+
+## Step 1. Generate session token
+
+To generate a session token, your organization must be configured on Highnote's systems. Please contact your Highnote representative for support.
+
+Using your Highnote API key, generate a session token on the application's backend server.
+Your application extracts the session token value from the response, then passes it in the HTML payload to the client-side environment.
+This token authorizes the client-side SDK to communicate with Highnote's systems for a specific application session.
+
+On your server, call the following mutation to return a sessionToken:
+
+sessionToken
+
+## Step 2. Prepare your HTML
+
+The Risk Application SDK relies on specific conventions within the HTML form to automatically extract account holder application data. The SDK leverages standard DOM attributes, particularly name and id, on input elements to identify and collect the relevant data points. For a smooth integration, it is important that you adhere to established HTML practices.
+
+name
+
+id
+
+## Autocomplete
+
+Highnote requires that you use the HTML autocomplete attribute for the following fields:
+
+autocomplete
+
+Copy code snippet
+
+## Content Security Policy
+
+If your application enforces a Content Security Policy (CSP), you must set the frame-src directive header to enable iFrames from the Sardine domain:
+
+frame-src
+
+Copy code snippet
+
+## HTML example
+
+The following example demonstrates the required HTML setup:
+
+Copy code snippet
+
+## Step 3. Initialize SDK client-side
+
+To initialize the SDK, import the initializeRiskApplicationSdk library and pass the session token value. The SDK returns a client token which you can use to create an account holder in Step 4.
+
+initializeRiskApplicationSdk
+
+Copy code snippet
+
+## Step 4. Create account holder
+
+To create a Person or Business account holder, refer to the Highnote Quick Start Templates.
+
+Use the client token returned by the RiskApplicationSdkReturn object in Step 3. The client token must be in your Authorization header with the value as Bearer token, and it is active for 30 minutes (rather than the typical 10).
+
+RiskApplicationSdkReturn
+
+## Error handling
+
+The following error types are supported for the Risk Application SDK:
+
+autocomplete
+
+AccessDeniedError
+
+UserError
+
+## Simulating risk level
+
+In the test environment, you can trigger varying fraud risk levels using the Person Account Holder’s email.
+
+Highnote defines an application as APPROVED, IN_REVIEW, or DENIED based on the assessed fraud risk level and the applicant’s identity verification.  Identity checks are not performed on the application if the risk score results in a DENIED decision.
+
+APPROVED
+
+IN_REVIEW
+
+DENIED
+
+DENIED
+
+APPROVED
+
+IN_REVIEW
+
+IN_REVIEW
+
+IN_REVIEW
+
+Using simulated values on the Account Holder’s information may result in a different application outcomes based on verification of the applicant’s identity.  For more, see the Simulate Application Review guide.
+
+## Using the live environment
+
+By default, the SDK makes requests against the test environment. When you are ready to switch to live, set the environment configuration option:
+
+Copy code snippet
+
+## Query organization permissions
+
+You can look up the features on your Organization to see if the Risk Application SDK has been enabled.
+

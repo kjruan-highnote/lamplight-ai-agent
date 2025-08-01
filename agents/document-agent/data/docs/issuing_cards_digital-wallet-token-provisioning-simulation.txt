@@ -1,0 +1,55 @@
+Title: Simulate Digital Wallet Token Provisioning
+URL: https://highnote.com/docs/issuing/cards/digital-wallet-token-provisioning-simulation
+==================================================
+
+Home / Issuing / Issue Cards
+
+## Prerequisites
+
+A Highnote account
+An API key or API Explorer
+An active payment card
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+Highnote provides a simulation tool for generating digital wallet tokens. Using this simulation, you can test the following:
+
+Generate a digital wallet token
+Activate a digital wallet token
+
+These tests can be used to test your integration and notification events. This guide provides steps for using the digital wallet token provisioning simulation.
+
+## Generate a digital wallet token
+
+Generating a digital wallet token requires using the following SimulateCardDigitalWalletTokenActivation mutation. This mutation creates a digital wallet token with a status of REQUESTED.
+
+SimulateCardDigitalWalletTokenActivation
+
+REQUESTED
+
+## Activate a digital wallet token
+
+Use the following SimulateCardDigitalWalletTokenActivated mutation to updated a digital wallet token status from REQUESTED to ACTIVE:
+
+SimulateCardDigitalWalletTokenActivated
+
+REQUESTED
+
+ACTIVE
+
+## View token status and details
+
+Find the status of a token and its historical state transitions using the following query:
+
+## Automate your integration
+
+To automate your integration, subscribe to digital wallet token status notification events.
+
+The details provided in the payloads from digital wallet token status events can be used for the following use cases:
+
+Automate your application or website's token provisioning workflows
+Create account holder notifications and alerts
+Create status views in your application or website
+

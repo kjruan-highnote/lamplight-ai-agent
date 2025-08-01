@@ -1,0 +1,27 @@
+Title: Events
+URL: https://highnote.com/docs/basics/events-and-notifications/events
+==================================================
+
+Home / Basics / Events and Notifications
+
+## Overview
+
+The Highnote platform tracks all events across your platform, allowing you to fetch, monitor, and replay events. Events are also used to create notifications. Note the following about events:
+
+All events are stored for 30 days.
+Events can be replayed to trigger failed notifications. For more information, see Replay Events.
+
+You can view events using the Highnote API or dashboard. This guide provides an overview of fetching and viewing events using the Highnote API. For an overview of monitoring events using the dashboard, see Monitor events.
+
+## Fetch all events
+
+You can fetch all events using the following notificationEvents query. This returns a paginated list of results, defaulting to 20 entries:
+
+notificationEvents
+
+## Fetch individual events
+
+You can fetch individual events using the following query and the notification event id as an input:
+
+id
+

@@ -1,0 +1,151 @@
+Title: Onboard an Account
+URL: https://highnote.com/docs/guides/onboard/onboard-account
+==================================================
+
+Home / Issuing / Onboard Accounts
+
+## Prerequisites
+
+A Highnote account
+Access to the Highnote API, API Explorer, or dashboard
+
+## Overview
+
+Note: This guide provides steps for creating a card product, onboarding an account holder, and opening an application using the Highnote API. For information on creating a card product using the dashboard, see the  Create a card product support guide.
+
+Card products are a broad category that includes various components such as applications, financial accounts, payment cards, and bank accounts, along with their associated transactions. There are two main types of card products:
+
+Commercial: Used by US business account holders
+Consumer: Used by US person account holders
+
+For more information on each vertical, see the Quick Start Templates.
+
+## Create your card product
+
+Note: Highnote will help create your card product in the live environment.
+
+You can create card products using the Highnote API in the test environment. This is encouraged for configuring your card product to fit your needs and testing your integration.
+
+The following mutation can be used to create a card product in your test environment using the Highnote API. There are several types of card product verticals you can offer. Replace the usage and vertical input variables with your card product's corresponding values.
+
+usage
+
+vertical
+
+## Onboard an account holder
+
+Warning: Account holder first names must be at least one character.
+
+Once your card product is created, the next step is to create an account holder. Account holders open applications for card products and receive financial accounts. This guide provides steps to onboard an account holder using the Highnote API.
+
+For a general overview of account holders and steps for onboarding an account holder using the dashboard, see Account holder basics.
+
+## Onboard a US business account holder
+
+Note: For enhanced security, you can use client tokens when onboarding account holders. For more information, see Client Tokens.
+
+A USBusinessAccountHolder is an account holder that uses a commercial card product. There are several different components that make up a US business account holder's details:
+
+USBusinessAccountHolder
+
+Business details: Includes business name, identification number (EIN), business type, business phone, physical address, legal entity address, business description, and website
+Primary authorized person: Person authorized to act on behalf of the business; if a primary authorized person owns or controls at least 25% of the business, they are also automatically added as a beneficial owner
+Beneficial owners: Person who owns or controls at least 25% of the business
+
+You can use the following mutation to create a USBusinessAccountHolder:
+
+USBusinessAccountHolder
+
+## Onboard a US person account holder
+
+Note: For enhanced security, you can use client tokens when onboarding account holders. For more information, see Client Tokens.
+
+A USPersonAccountHolder is an account holder that uses a consumer card product. This type of account holder has account details that include the account holder's name, address, contact information, date of birth, and social security number (SSN).
+
+USPersonAccountHolder
+
+You can use the following mutation to create a USPersonAccountHolder:
+
+USPersonAccountHolder
+
+## Required fields
+
+When creating an account holder onboarding form or experience for your app or website, there are several required fields an account holder must complete. These required fields are essential for running identity checks and ensuring the account holder qualifies for your card product.
+
+For a list of required fields for account holders, review the Create Account Holder section of the Design Your Card Experience guide.
+
+## Provision an account holder
+
+Provisioning an account holder lets you take multiple actions on an account in a single call. Rather than calling a mutation to create an application, then calling a mutation to issue a financial account once the application is approved, and then calling a mutation to issue a payment card once the financial account is created, you can provide the inputs to all of these actions in one step.
+
+Using the provisionAccountHolder mutation reduces your implementation and development effort of orchestrating API calls; the workflow systemically orchestrates the next call to action once the previous action is successfully completed.
+
+provisionAccountHolder
+
+The inputs to the actions of CREATE_APPLICATION, ISSUE_FINANCIAL_ACCOUNT, and ISSUE_PAYMENT_CARD must all be provided to provision the business or person account holder.
+
+CREATE_APPLICATION
+
+ISSUE_FINANCIAL_ACCOUNT
+
+ISSUE_PAYMENT_CARD
+
+Use the following mutation to provision an account holder’s application, financial account, and payment card:
+
+## Check provisioning status
+
+Use the following query to lookup the overall status of account holder provisioning as well as the status of the individual actions:
+
+## Open an application
+
+With an account holder created, you can open an application for your card product. When an application is opened, you must present your compliance agreements and record the timestamp the account holder consents to the agreements. Once an application is submitted, it is reviewed by the Highnote team in an asynchronous process. We recommend displaying a view for the account holder that lets them know their application is being reviewed. This process is outlined in the following graphic:
+
+During the review process, Highnote runs the following verification checks:
+
+Know Your Customer (KYC)
+Know Your Business (KYB)
+Office of Foreign Assets Control (OFAC) screening
+First and third-party fraud risk
+
+You can use the following mutation to create an account holder application for a card product. For this example mutation, include the following IDs as input variables:
+
+ACCOUNT_HOLDER_ID
+CARD_PRODUCT_ID
+Required only for business account holders - PRIMARY_AUTHORIZED_PERSON_ID
+
+ACCOUNT_HOLDER_ID
+
+CARD_PRODUCT_ID
+
+PRIMARY_AUTHORIZED_PERSON_ID
+
+These IDs are in the Onboard an Account Holder mutation response or can be found on the account holder page of the dashboard.
+
+## Check application status
+
+The following graphic displays the application status lifecycle, from opening an application to decisioning:
+
+After an application is submitted, the returned applicationState displays one of the following statuses:
+
+applicationState
+
+You can monitor an open application's status using the APPLICATION_ID created in the response to the open application query. Use the following query to check the application status:
+
+APPLICATION_ID
+
+## Add account notes
+
+After issuing a financial account, you can use the following mutation to allow your agents to add notes to a financial account. Adding notes is useful for various internal servicing needs:
+
+## Next steps: Issue cards
+
+After onboarding an account, you can issue a card to the account holder. This process involves the following steps:
+
+Issue a financial account to the account holder
+Issue a virtual card
+Optional - Issue a physical card
+Activate the card
+Optional - Set a PIN
+
+For more details on next steps, see Issue Cards.
+
