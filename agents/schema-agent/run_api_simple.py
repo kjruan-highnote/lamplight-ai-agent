@@ -20,7 +20,7 @@ os.environ['PORT'] = '8000'
 # Import and run the API
 if __name__ == "__main__":
     import uvicorn
-    from agent.api import app
+    from src.api import app
     
     print("Starting GraphQL Schema QA API")
     print("No authentication required")

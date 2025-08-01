@@ -1,4 +1,4 @@
-from agent.retriever import Retriever
+from src.retriever import Retriever
 import ollama
 import sys
 import datetime

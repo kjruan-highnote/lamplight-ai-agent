@@ -53,7 +53,7 @@ class ScheduleConfig:
 class SchemaUpdateScheduler:
     """Handles scheduled schema updates."""
     
-    def __init__(self, config_path: str = "config.json", schedule_config_path: str = "schedule_config.json"):
+    def __init__(self, config_path: str = "config/config.json", schedule_config_path: str = "schedule_config/config.json"):
         self.config_path = config_path
         self.schedule_config_path = schedule_config_path
         self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
@@ -362,8 +362,8 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="Schema Update Scheduler")
-    parser.add_argument("--config", default="config.json", help="Update configuration file")
-    parser.add_argument("--schedule-config", default="schedule_config.json", help="Schedule configuration file")
+    parser.add_argument("--config", default="config/config.json", help="Update configuration file")
+    parser.add_argument("--schedule-config", default="schedule_config/config.json", help="Schedule configuration file")
     parser.add_argument("--host", default="0.0.0.0", help="Web server host")
     parser.add_argument("--port", type=int, default=5001, help="Web server port")
     parser.add_argument("--debug", action="store_true", help="Enable debug mode")

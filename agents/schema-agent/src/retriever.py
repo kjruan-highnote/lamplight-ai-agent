@@ -5,10 +5,10 @@ import numpy as np
 from pathlib import Path
 from typing import List, Tuple, Optional, Set, Dict
 from difflib import SequenceMatcher
-from agent.embedder import Embedder
-from agent.schema_analyzer import SchemaAnalyzer
-from agent.pattern_generator import PatternGenerator
-from agent.relevance_scorer import RelevanceScorer
+from src.embedder import Embedder
+from src.schema_analyzer import SchemaAnalyzer
+from src.pattern_generator import PatternGenerator
+from src.relevance_scorer import RelevanceScorer
 
 class Retriever:
     def __init__(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json", 
@@ -45,7 +45,7 @@ class Retriever:
     def _load_question_patterns(self) -> Dict[str, List[str]]:
         """Load generated question patterns from file."""
         try:
-            patterns = PatternGenerator.load_patterns("question_patterns.json")
+            patterns = PatternGenerator.load_patterns("data/question_patterns.json")
             pattern_dict = {}
             
             for pattern in patterns:

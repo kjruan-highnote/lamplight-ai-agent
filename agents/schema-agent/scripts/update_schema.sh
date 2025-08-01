@@ -6,7 +6,7 @@
 set -e
 
 # Default configuration
-CONFIG_FILE="config.json"
+CONFIG_FILE="config/config.json"
 LOG_FILE="logs/schema_update.log"
 
 # Colors for output
@@ -41,7 +41,7 @@ Usage: $0 [OPTIONS]
 Automated GraphQL Schema Update Pipeline
 
 OPTIONS:
-    -c, --config FILE       Configuration file (default: config.json)
+    -c, --config FILE       Configuration file (default: config/config.json)
     -e, --endpoint URL      GraphQL endpoint URL
     -t, --token TOKEN       Authentication token
     -f, --file FILE         Load schema from file instead of endpoint
@@ -74,7 +74,7 @@ ENVIRONMENT VARIABLES:
     UPDATE_CONFIG         Path to configuration file
 
 CONFIGURATION:
-    Create a config.json file with your settings:
+    Create a config/config.json file with your settings:
     {
         "graphql_endpoint": "https://api.example.com/graphql",
         "graphql_token": "your-token-here",
@@ -115,7 +115,7 @@ validate_config() {
     
     if [[ -z "$ENDPOINT" && -z "$SCHEMA_FILE" && ! -f "$CONFIG_FILE" ]]; then
         print_error "Either --endpoint, --file, or config file must be provided"
-        print_status "Create config.json or use command line options"
+        print_status "Create config/config.json or use command line options"
         exit 1
     fi
 }

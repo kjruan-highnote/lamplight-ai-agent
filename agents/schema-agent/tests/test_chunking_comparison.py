@@ -5,8 +5,8 @@ Test script to compare old vs new chunking approaches for GraphQL schema retriev
 
 import time
 from pathlib import Path
-from agent.retriever import Retriever
-from agent.llm_agent import LLMQA
+from src.retriever import Retriever
+from src.llm_agent import LLMQA
 
 def test_retrieval_comparison():
     """Compare retrieval quality between old and new chunking approaches."""

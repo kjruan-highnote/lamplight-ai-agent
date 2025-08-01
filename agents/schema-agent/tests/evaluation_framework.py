@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Any
 from dataclasses import dataclass
 import re
-from agent.retriever import Retriever
+from src.retriever import Retriever
 
 
 @dataclass
@@ -28,7 +28,7 @@ class EvaluationFramework:
     """Framework for evaluating RAG system performance."""
     
     def __init__(self, schema_path: str = "schema/highnote.graphql", 
-                 patterns_path: str = "question_patterns.json"):
+                 patterns_path: str = "data/question_patterns.json"):
         self.schema_path = Path(schema_path)
         self.patterns_path = Path(patterns_path)
         self.logger = logging.getLogger(__name__)
@@ -424,7 +424,7 @@ if __name__ == "__main__":
         print()
     
     # Run actual evaluation
-    from agent.retriever import Retriever
+    from src.retriever import Retriever
     retriever = Retriever()
     
     print("Running evaluation...")

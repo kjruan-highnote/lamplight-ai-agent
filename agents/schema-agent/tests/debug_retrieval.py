@@ -10,7 +10,7 @@ from pathlib import Path
 current_dir = Path(__file__).parent.absolute()
 sys.path.insert(0, str(current_dir))
 
-from agent.retriever import Retriever
+from src.retriever import Retriever
 
 def test_retrieval():
     print("Testing retrieval system")

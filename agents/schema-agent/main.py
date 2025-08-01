@@ -1,5 +1,5 @@
 import argparse
-from agent.llm_agent import LLMQA
+from src.llm_agent import LLMQA
 
 def main():
     parser = argparse.ArgumentParser(

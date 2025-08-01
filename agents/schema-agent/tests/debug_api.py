@@ -41,11 +41,11 @@ try:
     print(" OK")
     
     print("   - agent.llm_agent...", end="")
-    from agent.llm_agent import LLMQA
+    from src.llm_agent import LLMQA
     print(" OK")
     
     print("   - agent.api...", end="")
-    from agent.api import app
+    from src.api import app
     print(" OK")
     
 except Exception as e:

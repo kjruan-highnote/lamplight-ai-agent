@@ -10,7 +10,7 @@ from pathlib import Path
 current_dir = Path(__file__).parent.absolute()
 sys.path.insert(0, str(current_dir))
 
-from agent.embedder import Embedder
+from src.embedder import Embedder
 
 def test_scores():
     print("Testing similarity scores")

@@ -157,7 +157,7 @@ class CloudStorageManager:
             local_path.mkdir(parents=True, exist_ok=True)
             
             # List all blobs in chunks folder
-            blobs = self.client.list_blobs(self.bucket_name, prefix="chunks/")
+            blobs = self.client.list_blobs(self.bucket_name, prefix="data/chunks/")
             
             downloaded_count = 0
             for blob in blobs:
@@ -204,7 +204,7 @@ class CloudStorageManager:
             
             uploaded_count = 0
             for graphql_file in local_path.glob("*.graphql"):
-                remote_path = f"chunks/{graphql_file.name}"
+                remote_path = f"data/chunks/{graphql_file.name}"
                 
                 try:
                     blob = self.bucket.blob(remote_path)
@@ -272,7 +272,7 @@ class CloudStorageManager:
             try:
                 # Count files in each folder
                 embeddings_count = sum(1 for _ in self.client.list_blobs(self.bucket_name, prefix="embeddings/"))
-                chunks_count = sum(1 for _ in self.client.list_blobs(self.bucket_name, prefix="chunks/"))
+                chunks_count = sum(1 for _ in self.client.list_blobs(self.bucket_name, prefix="data/chunks/"))
                 
                 stats.update({
                     "embeddings_files": embeddings_count,

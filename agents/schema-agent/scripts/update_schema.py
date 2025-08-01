@@ -10,7 +10,7 @@ This script automatically:
 5. Optionally syncs to cloud storage
 
 Usage:
-    python update_schema.py --config config.json
+    python update_schema.py --config config/config.json
     python update_schema.py --endpoint https://api.example.com/graphql --token your-token
     python update_schema.py --from-file schema.graphql
 """
@@ -32,9 +32,9 @@ from dataclasses import dataclass
 # Add current directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from agent.chunker import chunk_schema
-from agent.embedder import Embedder
-from agent.cloud_storage import cloud_storage
+from src.chunker import chunk_schema
+from src.embedder import Embedder
+from src.cloud_storage import cloud_storage
 
 # Configure logging
 logging.basicConfig(
@@ -446,13 +446,13 @@ Examples:
     python update_schema.py --from-file schema.graphql
     
     # Use configuration file
-    python update_schema.py --config config.json
+    python update_schema.py --config config/config.json
     
     # Dry run to see what would happen
-    python update_schema.py --config config.json --dry-run
+    python update_schema.py --config config/config.json --dry-run
     
     # Force update even if schema hasn't changed
-    python update_schema.py --config config.json --force
+    python update_schema.py --config config/config.json --force
         """
     )
     

@@ -1,6 +1,6 @@
 {
-  "graphql_endpoint": "https://sandbox.highnoteplatform.com/graphql",
-  "graphql_token": "YOUR_TOKEN_HERE",
+  "graphql_endpoint": "https://api.us.test.highnote.com/graphql",
+  "graphql_token": "sk_test_9tyYMz11ra2m96TfaT9Xye1MeHqRcAHsSLLi6XxVZXg8e953cL7Baevxxm8ac6tDXupcoMDpdVSH92h9Z2",
   "output_dir": "schema",
   "chunks_dir": "chunks", 
   "embeddings_dir": "embeddings",

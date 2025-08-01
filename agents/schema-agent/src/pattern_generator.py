@@ -357,7 +357,7 @@ class PatternGenerator:
             )
         ]
     
-    def save_patterns(self, patterns: List[QuestionPattern], output_path: str = "question_patterns.json"):
+    def save_patterns(self, patterns: List[QuestionPattern], output_path: str = "data/question_patterns.json"):
         """Save patterns to JSON file."""
         pattern_data = []
         for pattern in patterns:
@@ -376,7 +376,7 @@ class PatternGenerator:
         return output_file
     
     @staticmethod
-    def load_patterns(pattern_path: str = "question_patterns.json") -> List[QuestionPattern]:
+    def load_patterns(pattern_path: str = "data/question_patterns.json") -> List[QuestionPattern]:
         """Load patterns from JSON file."""
         pattern_file = Path(pattern_path)
         if not pattern_file.exists():

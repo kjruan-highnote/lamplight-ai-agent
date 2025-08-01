@@ -513,7 +513,7 @@ if __name__ == "__main__":
     
     # Run evaluation
     print("\nRunning evaluation...")
-    from agent.retriever import Retriever
+    from src.retriever import Retriever
     retriever = Retriever()
     
     results = framework.evaluate_retrieval_system(retriever)
