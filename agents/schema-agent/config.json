@@ -1,0 +1,13 @@
+{
+  "graphql_endpoint": "https://sandbox.highnoteplatform.com/graphql",
+  "graphql_token": "YOUR_TOKEN_HERE",
+  "output_dir": "schema",
+  "chunks_dir": "chunks", 
+  "embeddings_dir": "embeddings",
+  "backup_dir": "backups",
+  "force_update": false,
+  "dry_run": false,
+  "sync_to_cloud": true,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "batch_size": 16
+}

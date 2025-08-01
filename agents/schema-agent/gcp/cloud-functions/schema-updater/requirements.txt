@@ -1,0 +1,8 @@
+functions-framework==3.*
+google-cloud-storage
+requests
+graphql-core
+sentence-transformers
+faiss-cpu
+numpy
+tqdm

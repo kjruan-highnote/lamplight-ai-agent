@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-agent
+  labels:
+    app: schema-agent
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: schema-agent
+  template:
+    metadata:
+      labels:
+        app: schema-agent
+    spec:
+      containers:
+      - name: schema-agent
+        image: gcr.io/YOUR_PROJECT_ID/schema-agent:latest
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: HOST
+          value: "0.0.0.0"
+        - name: PORT
+          value: "8000"
+        - name: ENABLE_AUTH
+          value: "false"
+        - name: ALLOWED_ORIGINS
+          value: "*"
+        - name: MAX_QUESTION_LENGTH
+          value: "1000"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+        # Optional: Mount persistent volume for embeddings
+        # volumeMounts:
+        # - name: embeddings-storage
+        #   mountPath: /app/embeddings
+      # Optional: Persistent storage for embeddings
+      # volumes:
+      # - name: embeddings-storage
+      #   persistentVolumeClaim:
+      #     claimName: embeddings-pvc

@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "simple_schedule": "every 6 hours",
+  "webhook_enabled": true,
+  "webhook_secret": "your-webhook-secret-here",
+  "status_endpoint": true,
+  "max_concurrent_updates": 1
+}
