@@ -11,7 +11,7 @@ from src.pattern_generator import PatternGenerator
 from src.relevance_scorer import RelevanceScorer
 
 class Retriever:
-    def __init__(self, index_path="embeddings/index.faiss", metadata_path="embeddings/metadata.json", 
+    def __init__(self, index_path="./data/embeddings/index.faiss", metadata_path="./data/embeddings/metadata.json", 
                  model_name="sentence-transformers/all-MiniLM-L6-v2", min_similarity_score=-0.5):
         """
         Initialize the retriever.

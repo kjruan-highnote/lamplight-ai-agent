@@ -103,7 +103,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="GraphQL chunker using graphql-core, with full docstring support.")
     parser.add_argument("--schema", required=True, help="Path to GraphQL SDL schema file")
-    parser.add_argument("--out", default="chunks", help="Output directory for chunks")
+    parser.add_argument("--out", default="./data/chunks", help="Output directory for chunks")
     args = parser.parse_args()
 
     chunk_schema(args.schema, args.out)

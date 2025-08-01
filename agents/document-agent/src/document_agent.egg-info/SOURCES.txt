@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+src/doc_chunker.py
+src/embedder.py
+src/embedder_chroma.py
+src/retriever.py
+src/retriever_chroma.py
+src/web_scraper.py
+src/document_agent.egg-info/PKG-INFO
+src/document_agent.egg-info/SOURCES.txt
+src/document_agent.egg-info/dependency_links.txt
+src/document_agent.egg-info/requires.txt
+src/document_agent.egg-info/top_level.txt

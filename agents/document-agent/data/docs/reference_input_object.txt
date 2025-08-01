@@ -1,0 +1,8 @@
+Title: Input Object
+URL: https://highnote.com/docs/reference/input_object
+==================================================
+
+## Input Object
+
+The input type is a special object type that groups a set of arguments together. This is particularly valuable in the case of mutations, where you might want to pass in a whole object to be created. In the Highnote API we also use inputs for filtering in queries.
+

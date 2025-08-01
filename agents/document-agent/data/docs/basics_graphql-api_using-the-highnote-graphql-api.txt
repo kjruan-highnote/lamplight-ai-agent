@@ -1,0 +1,228 @@
+Title: Using the Highnote API
+URL: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+==================================================
+
+Home / Basics / Highnote API
+
+## Before you start
+
+This guide uses a simple cURL command to demonstrate how to query the Highnote API. Our command sends a ping query:
+
+ping
+
+Copy code snippet
+
+A slash \ represents a newline. Also, options can be represented in single-dash format (which you may see throughout the Highnote docs):
+
+\
+
+Copy code snippet
+
+If successful, the ping query returns the following JSON payload (with the rateLimit info removed for simplicity):
+
+JSON
+
+rateLimit
+
+Copy code snippet
+
+## Headers
+
+The Highnote API requires the following headers:
+
+Content-Type
+Authorization
+
+Content-Type
+
+Authorization
+
+## Content type
+
+The Highnote API accepts and returns JSON,  so you must pass a Content-Type header with the value of application/json:
+
+JSON
+
+Content-Type
+
+application/json
+
+Copy code snippet
+
+## Authorization
+
+The Highnote API uses Basic authentication which requires a base64-encoded API key (that is set as the username and does not require a password).
+
+To create a base64-encoded API key:
+
+Create an API key in the Highnote Dashboard. This key is ASCII-encoded. See Creating and Managing API Keys.
+
+
+Convert your API key from ASCII to base64:
+Copy code snippet
+
+
+Pass your base64-encoded key with the Authorization header using the Basic scheme:
+Copy code snippet
+
+Create an API key in the Highnote Dashboard. This key is ASCII-encoded. See Creating and Managing API Keys.
+
+Convert your API key from ASCII to base64:
+
+Copy code snippet
+
+Pass your base64-encoded key with the Authorization header using the Basic scheme:
+
+Authorization
+
+Basic
+
+Copy code snippet
+
+Note: Requests with missing or invalid credentials return a 401 Unauthorized response code.
+
+401 Unauthorized
+
+## Request body
+
+The Highnote API accepts POST requests with JSON payloads. Requests include:
+
+POST
+
+JSON
+
+query
+
+mutation
+
+variables
+
+In our ping query example, the request body is on line 4:
+
+ping
+
+Copy code snippet
+
+The following code snippet makes the same simple query.  To run the query, sign in and expand "Variables", then watch the requestId change with each call.
+
+requestId
+
+## Operation name
+
+You can add an operation name (conventionally in PascalCase); for example, we can name our query PingPong:
+
+PingPong
+
+Copy code snippet
+
+## Variables
+
+The ping query doesn't take any arguments, so we cannot use it to test variables; but we can test the node query which does accept them.
+
+ping
+
+node
+
+Query that tries to get a node with id = node_123abc (and which probably returns null):
+
+node_123abc
+
+null
+
+Copy code snippet
+
+Query with the operation name, GetNode
+
+GetNode
+
+Copy code snippet
+
+Query with a variable for the id:
+
+id
+
+Copy code snippet
+
+The following code snippets makes the same query:
+
+## Multiple requests
+
+You can make multiple GraphQL requests in one by providing a single query value with multiple calls as a string, for example, ping and organizations:
+
+query
+
+ping
+
+organizations
+
+Copy code snippet
+
+## Request URL
+
+The Highnote API has a unique URL for its live and test environments. Both environments use a graphql endpoint but with a different subdomain.
+
+graphql
+
+Our sample ping query has a request URL on line 5 for the test environment.
+
+ping
+
+Copy code snippet
+
+Copy code snippet
+
+Copy code snippet
+
+## Status codes
+
+Unlike REST, GraphQL often returns a 200 OK status code even when there are errors. For error handling, the response includes an errors object with detailed information for troubleshooting.  For mutations, request the userError type on the union type for specific details about the failure. See error handling for more information.
+
+200 OK
+
+errors
+
+userError
+
+There are a few non 200 status codes that Highnote’s GraphQL API returns for the following cases:
+
+200
+
+200 OK
+
+400 Bad Request
+
+errors
+
+401 Unauthorized
+
+5xx
+
+## Response body
+
+You can format the response body in pretty JSON by installing install jq and editing the URL in your cURL command as follows: https://api.us.test.highnote.com/graphql | jq -C '.'
+
+JSON
+
+https://api.us.test.highnote.com/graphql | jq -C '.'
+
+The response body of a query contains the data requested from the API endpoint. A Highnote API response body contains the following in JSON format:
+
+JSON
+
+data
+
+errors
+
+extensions
+
+requestId
+
+rateLimit
+
+References:
+
+For info on the requestId, see Troubleshooting with request ID.
+For info on responses and formats, see the GraphQL spec.
+
+requestId
+

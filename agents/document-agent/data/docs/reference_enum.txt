@@ -1,0 +1,8 @@
+Title: Enum
+URL: https://highnote.com/docs/reference/enum
+==================================================
+
+## Enum
+
+An Enum (Enumeration) type is a special kind of scalar that is restricted to a particular set of allowed values.
+

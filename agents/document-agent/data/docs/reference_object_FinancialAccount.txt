@@ -1,0 +1,8 @@
+Title: Object
+URL: https://highnote.com/docs/reference/object/FinancialAccount
+==================================================
+
+## Object
+
+Objects are a fundamental component of GraphQL schemas. They organize data you can request and receive from a service into types. They contain a collection of fields, each of which has its own type.
+

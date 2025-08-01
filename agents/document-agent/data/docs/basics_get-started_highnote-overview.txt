@@ -1,0 +1,40 @@
+Title: Highnote Overview
+URL: https://highnote.com/docs/basics/get-started/highnote-overview
+==================================================
+
+Home
+
+## What is Highnote?
+
+Highnote is a modern card issuance platform that provides card issuing and complete end-to-end card program management. We enable businesses to create and manage payment cards, including virtual cards, physical cards, and tokenized mobile payments.
+
+Partnering with Highnote relieves you of managing significant compliance and operational requirements. These include KYC-KYB, regulatory compliance, transaction monitoring, cardholder support, physical card printing and shipping, setting up BINs on a choice of card networks and sponsor banks, daily reconciliation and settlement, and seamless money movement between the bank accounts.
+
+## Test and live environments
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+The Highnote platform has two environments, test and live. Both environments house your card products, enabling you to build your integration and test the API:
+
+Test environment: For building your Highnote integration with the Highnote API, simulating capabilities and transactions, and training your team on how to use Highnote.
+
+
+Live environment: For actively issuing payment cards and running transactions with your launched card product. The live environment provides an easy-to-use interface to support your live card products.
+
+Test environment: For building your Highnote integration with the Highnote API, simulating capabilities and transactions, and training your team on how to use Highnote.
+
+Live environment: For actively issuing payment cards and running transactions with your launched card product. The live environment provides an easy-to-use interface to support your live card products.
+
+You can interact with both environments using the Highnote API or dashboard. Highnote's API guides explain how to use the API to interact with both environments. For dashboard guides, see the Highnote Support Guides.
+
+## Next steps
+
+Use the following steps to create an account and review Highnote’s getting started content:
+
+Create an account and explore the dashboard.
+Learn about the Highnote API.
+Test the API.
+Learn about the Highnote SDKs.
+Learn about Highnote Issuing.
+To learn about the dashboard, review the Highnote Support Guides.
+

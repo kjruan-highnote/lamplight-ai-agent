@@ -1,0 +1,6 @@
+Title: Highnote GraphQL API Explorer
+URL: https://highnote.com/docs/explorer/default
+==================================================
+
+Sign in to your Test Environment to use the API Explorer.
+

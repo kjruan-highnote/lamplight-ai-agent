@@ -1,0 +1,43 @@
+[project]
+name = "document-agent"
+version = "0.1.0"
+description = "Highnote documentation-aware AI agent"
+authors = [{name = "Lamplight AI"}]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.4.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "numpy>=1.24.0",
+    "chromadb>=0.4.0",
+    "sentence-transformers>=2.2.2",
+    "ollama>=0.1.7",
+    "python-dotenv>=1.0.0",
+    "slowapi>=0.1.9",
+    "aiofiles>=23.2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+line_length = 100

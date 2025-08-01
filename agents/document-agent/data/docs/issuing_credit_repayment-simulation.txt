@@ -1,0 +1,64 @@
+Title: Simulate Repayments
+URL: https://highnote.com/docs/issuing/credit/repayment-simulation
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Prerequisites
+
+A Highnote account
+An API key or API Explorer
+A financial account with simulated transactions and an outstanding balance
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+Credit and charge card products use ACH transfers to drive repayments on the Highnote platform. For more information on repayments, see Schedule Repayments.
+
+Simulating repayments in the test environment requires the following steps:
+
+Creating a payment.
+Updating the status of the transfer.
+Processing a transfer.
+
+This guide provides steps for simulating repayments in the test environment.
+
+## Create a one-time payment
+
+Note: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.
+
+One-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0.
+
+OUTSTANDING_BALANCE
+
+In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:
+
+findScheduledTransferEvent
+
+## Update the transfer status
+
+In the test environment, you can change the status of a fund in transfer from NEW to PROCESSING using the transfer ID. The simulation will allow you to view the impacts to ledgers from initiating a transfer:
+
+NEW
+
+PROCESSING
+
+## Process a transfer
+
+In the test environment, you can change the status of a fund in transfer from PROCESSING to PROCESSED using the transfer ID. The simulation will allow you to view the impacts to ledgers from processing a transfer:
+
+PROCESSING
+
+PROCESSED
+
+## Automate your integration
+
+To automate your integration, subscribe to ACH funds deposit notification events.
+
+The details provided in the payloads from this event can be used for the following use cases:
+
+Automate your application or website's repayment workflows
+Create account holder notifications or alerts
+Create status views in your application or website
+

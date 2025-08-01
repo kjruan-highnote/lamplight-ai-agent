@@ -1,0 +1,86 @@
+Title: Schedule Repayments
+URL: https://highnote.com/docs/issuing/credit/repayments
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Overview
+
+This guide covers how to set up one-time and recurring payment schedules for account holders.
+
+The Automated Clearing House (ACH) is an electronic funds transfer network that facilitates interbank transfers. Highnote utilizes ACH to send money from an account holder’s external bank account to their Highnote financial account when scheduling payments. The movement of funds using ACH typically takes three to five business days.
+
+For credit card products, it's important to provide cardholders with the ability to make payments toward outstanding balances or debts. The following payment options are available:
+
+Recurring payments
+One-time payments
+
+## Repayment rules
+
+The rules for repayments on credit products, and loading funds on prepaid products, are as follows:
+
+CLOSED
+
+ACTIVE
+
+## Payment schedules
+
+Refer to the following guidelines when creating payment schedules.
+
+Scheduling payments
+
+To avoid a late payment, initiate the payment on or before the due date.
+
+Payment stages
+
+On-time payments
+
+Depending on your program's credit policies, the available credit on a financial account may not be released until a payment has posted.
+
+## Tips to avoid late payments
+
+Communicate the following to help your cardholders avoid late payments, fees, or impacts to their credit:
+
+Plan ahead: Schedule payments at least 3-5 business days before the due date to account for processing time.
+Consider bank holidays: Be mindful of weekends and bank holidays, as these can delay payment processing.
+Monitor pending credits: Check your account to ensure the pending credit is recorded after initiating a payment.
+
+## Create recurring payment schedule
+
+Note: Scheduled payments are initiated by the account holder. You can not schedule payments for account holders in the live environment.
+
+Recurring payments occur on a set frequency and can be scheduled based on the outstanding balance or current amount due. In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment on the current date.
+
+Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the transfer status:
+
+findScheduledTransferEvent
+
+## Create a one-time payment
+
+Note: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.
+
+One-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0.
+
+OUTSTANDING_BALANCE
+
+In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:
+
+findScheduledTransferEvent
+
+## Cancel a payment schedule
+
+Note: Payments must be canceled by 9:00 AM EST the day the payment is scheduled to ensure the payment is not initiated. If a cancellation is attempted on a recurring payment that has already been initiated, all future payments on the recurring schedule will be canceled.
+
+Both one-time and recurring payment schedules can be canceled.
+To change a payment schedule (e.g., date, amount, or external bank account), you must first cancel the original scheduled payment and then create a new one-time or recurring payment schedule.
+
+Use the following mutation to cancel a payment:
+
+## Find a scheduled payment
+
+Use the following query to find a scheduled payment. You can use this query to display scheduled payments in your website or application:
+
+## Simulate repayments
+
+To simulate repayments in the test environment, see Simulate Repayments.
+

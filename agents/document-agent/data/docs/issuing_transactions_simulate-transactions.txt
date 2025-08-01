@@ -1,0 +1,96 @@
+Title: Simulate Transactions
+URL: https://highnote.com/docs/issuing/transactions/simulate-transactions
+==================================================
+
+Home / Issuing / Handle Transactions
+
+## Prerequisites
+
+Note: This guide can be used for any card product, except fleet card products. To simulate transactions for fleet card products, see Simulate Fleet Transactions.
+
+Review Transaction Lifecycle guide
+A Highnote account
+An API Key or the API Explorer
+A card product, financial account, and payment card
+
+## Overview
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+You can use the Highnote API to simulate transactions in the test environment. Simulating transactions helps test the following use cases and card product settings:
+
+Transactions at different merchant types
+Different transaction amounts
+International transactions
+Spend rules and velocity controls
+Collaborative authorization flow
+
+This guide provides steps for simulating transactions using the Highnote API. For steps on simulating transactions in the dashboard, see Simulate authorizations.
+
+## Simulate an authorization
+
+Simulated authorizations use the same logic as real authorizations from card networks such as Mastercard and Visa. In the test environment, authorizations are approved or declined based on your card product logic and authorization controls.
+
+Use the following mutation to simulate an authorization in your test environment:
+
+## Simulate a clearing event
+
+Once a transaction clears, funds are transferred to the merchant from the account holder's financial account. Clearing occurs in one of the following ways:
+
+With an authorization, immediately after
+In batches after authorizations are approved
+
+Use the following mutation to simulate clearing. For partial clearings, set the value input variable to an amount less than the original transaction, for example:
+
+value
+
+Copy code snippet
+
+## Simulate an authorization and clear
+
+Some transactions send authorization and clearing events in a single message. Use the following mutation to simulate an authorization and clearing event:
+
+## Simulate a reversal
+
+An authorization can be reversed if it has not cleared. Reversing an authorization releases funds from "pending" status and returns the funds to the account holder.
+
+Specifically:
+
+You can do a full or partial reversal.
+You cannot reverse after a partial clearing, nor clear after a partial reversal.
+
+Use the following mutation to simulate a reversal. Full reversals are the default.  For partial reversals, set the value input variable to an amount less than the original authorization, for example:
+
+value
+
+Copy code snippet
+
+## Simulate a refund
+
+Note: You cannot simulate refunds linked to a previous transaction. Simulating a refund results in a new transaction with its own id and transactionEvent.
+
+id
+
+transactionEvent
+
+Refunds can be simulated for cleared transactions. When simulating a refund, you can refund the total or partial amount of the original transaction.
+
+When you use the simulateRefund mutation, you will receive a ClearingEvent in response. Use the following mutation to simulate a refund:
+
+simulateRefund
+
+ClearingEvent
+
+## Automate your integration
+
+To automate your integration, subscribe to the following notification events:
+
+Payment card authorization
+Payment authorization and clear
+Payment card cleared
+
+The details provided in the payloads from these events can be used for the following use cases:
+
+Automate your application or website's transaction processing workflows
+Create account holder notifications and alerts
+

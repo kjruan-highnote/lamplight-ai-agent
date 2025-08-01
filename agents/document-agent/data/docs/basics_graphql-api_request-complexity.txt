@@ -1,0 +1,63 @@
+Title: Request Complexity
+URL: https://highnote.com/docs/basics/graphql-api/request-complexity
+==================================================
+
+Home / Basics / Highnote API
+
+## Overview
+
+Request complexity refers to the computational cost and resource usage of executing a GraphQL query. Because GraphQL lets clients request deeply nested and complex data structures in a single query, complexity must be managed to avoid overloading the server.
+
+## Scoring complexity
+
+Common factors that increase complexity are operation, depth, and type. For example:
+
+Operation: Mutations are often more complex than queries due to data writes and consistency requirements.
+Depth: Deeply nested queries are more complex than shallow ones.
+Type: Objects with multiple fields or relationships to other objects are more complex than primitive types such as scalars.
+
+Highnote manages the complexity of its GraphQL API with complexity scoring, rate limiting, and pagination.
+
+## Type and pattern costs
+
+Query operation types are scored as follows:
+
+Query: Query cost is based on the types and fields requested.
+Mutation: Mutations have a base cost of 10, plus any additional costs based on the types and fields requested.
+
+Other types and patterns are scored as follows:
+
+Note: The fields cursor and pageInfo are intrinsic to the connection pattern and have no separate complexity cost.
+
+cursor
+
+pageInfo
+
+## Simple example
+
+The following example demonstrates a simple request complexity calculation:
+
+Copy code snippet
+
+Copy code snippet
+
+## Nested example
+
+The following example demonstrates a more complex request complexity calculation that includes nested connection objects to illustrate how pagination cost can multiply:
+
+Copy code snippet
+
+Copy code snippet
+
+## Testing request costs
+
+The asOf parameter is the UTC timestamp for when this was calculated, to account for staleness during long requests.
+
+asOf
+
+Every Highnote GraphQL API response includes the request cost under the extensions field. We recommend that you test the cost of your queries in the API Explorer.
+
+The following example represents a request cost response in an API request that is not rate-limited:
+
+Copy code snippet
+

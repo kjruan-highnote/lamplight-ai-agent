@@ -157,9 +157,9 @@ class Embedder:
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Embed SDL chunks for semantic search.")
-    parser.add_argument("--chunks", default="chunks", help="Directory containing SDL chunks")
-    parser.add_argument("--out_index", default="embeddings/index.faiss", help="Path to FAISS index file")
-    parser.add_argument("--out_meta", default="embeddings/metadata.json", help="Path to metadata JSON file")
+    parser.add_argument("--chunks", default="./data/chunks", help="Directory containing SDL chunks")
+    parser.add_argument("--out_index", default="./data/embeddings/index.faiss", help="Path to FAISS index file")
+    parser.add_argument("--out_meta", default="./data/embeddings/metadata.json", help="Path to metadata JSON file")
     parser.add_argument("--query", help="Optional: Ask a question after loading the index")
     parser.add_argument("--force", action="store_true", help="Force rebuild the index even if it exists")
     parser.add_argument("--batch_size", type=int, default=16, help="Batch size for embedding")

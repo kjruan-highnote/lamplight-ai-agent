@@ -1,0 +1,69 @@
+Metadata-Version: 2.4
+Name: document-agent
+Version: 0.1.0
+Summary: Highnote documentation-aware AI agent
+Author: Lamplight AI
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: uvicorn[standard]>=0.24.0
+Requires-Dist: pydantic>=2.4.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: beautifulsoup4>=4.12.0
+Requires-Dist: lxml>=4.9.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: chromadb>=0.4.0
+Requires-Dist: sentence-transformers>=2.2.2
+Requires-Dist: ollama>=0.1.7
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: slowapi>=0.1.9
+Requires-Dist: aiofiles>=23.2.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+
+# Document Agent
+
+AI-powered agent for answering questions about Highnote documentation.
+
+## Architecture
+
+- **Web Scraper**: Crawls https://highnote.com/docs
+- **Document Chunker**: Semantic chunking by documentation sections
+- **Embedder**: Creates vector embeddings for documentation content
+- **Retriever**: FAISS-based similarity search
+- **LLM Agent**: Ollama-based question answering
+- **API**: FastAPI server with streaming support
+
+## Setup
+
+1. Install dependencies:
+```bash
+pip install -e .
+```
+
+2. Scrape documentation:
+```bash
+python scripts/scrape_docs.py
+```
+
+3. Build embeddings:
+```bash
+python scripts/build_embeddings.py
+```
+
+4. Start server:
+```bash
+python src/api.py
+```
+
+## Usage
+
+```bash
+curl -X POST "http://localhost:8001/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "How do I create a card product?"}'
+```

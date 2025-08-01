@@ -1,0 +1,59 @@
+Title: Simulate Billing Statements
+URL: https://highnote.com/docs/issuing/credit/billing-statement-simulation
+==================================================
+
+Home / Issuing / Manage Credit
+
+## Prerequisites
+
+A Highnote account
+An API key or API Explorer
+A credit or charge card product
+A financial account with a generated billing statement
+Optional - Simulated transactions
+
+## Overview
+
+Billing statements reflect money movement, balances, and fees on an account holder's financial account. This guide provides steps for simulating the following actions for billing statements:
+
+Shifting the billing statement end period
+Rolling the billing statement over to the next billing cycle
+
+## Simulate shifting the statement end period
+
+Note: This simulation feature is only compatible with credit card products at this time.
+
+In the test environment, you can end a financial account’s billing period early to simulate a billing statement. When performing this simulation, refer to the following guidelines:
+
+Set the new period at least 60 seconds in the future.
+If no periodBoundary is provided, the system defaults the statement’s endPeriod to 60 seconds from now.
+
+periodBoundary
+
+endPeriod
+
+To simulate changing a statement's end period for a consumer revolving credit card, use the following mutation:
+
+## Simulate rolling over to the next billing cycle
+
+Note: This simulation feature only works with credit card products at this time.
+
+In the test environment, you can transition a financial account’s billing period to the next cycle, simulating the end of one billing cycle and the start of another. To retrieve the simulated current amount due, refer to the appropriate statement snapshot type:
+
+CreditPayInFullCardFinancialAccountStatementSnapshot
+
+ConsumerChargeCardFinancialAccountStatementSnapshot
+
+ConsumerRevolvingCardFinancialAccountStatementSnapshot
+
+Use the following mutation to simulate rolling over the current statement period for a consumer revolving credit card:
+
+## Automate your integration
+
+To automate your integration, subscribe to the financial account statement notification event.
+
+The details provided in the payloads from this event can be used for the following use cases:
+
+Automate your application or website's transaction processing workflow
+Create account holder notifications and alerts
+

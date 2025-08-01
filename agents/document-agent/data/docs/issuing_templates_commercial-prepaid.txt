@@ -1,0 +1,109 @@
+Title: Commercial Prepaid
+URL: https://highnote.com/docs/issuing/templates/commercial-prepaid
+==================================================
+
+Home / Issuing / Quick Start Templates
+
+## Overview
+
+Commercial prepaid card products allow businesses to cover general business and employee expenses, track purchases and set limits, facilitate gig economy on-demand disbursements, or execute gift card donations. Commercial prepaid card products have the following features:
+
+Debit card capabilities
+A predefined amount of funds
+Funded from a designated bank account
+
+Commercial prepaid cards require funding through a bank account. When additional funds are needed, a transfer is initiated to the account holder's financial account in Highnote, making the funds ready for use.
+
+This guide provides an overview of creating and setting up a commercial prepaid card product in the test environment.
+
+## Create a card product
+
+Use the following mutation to create a commercial prepaid card product. Use COMMERCIAL_PREPAID as the vertical input variable:
+
+COMMERCIAL_PREPAID
+
+vertical
+
+## Create an account holder
+
+Commercial prepaid cards are used by US business account holders. Use the following mutation to create a US business account holder:
+
+## Open an application
+
+After creating an account holder, you can open an application to onboard them to your card product. Opening an application triggers identity verification processes. You can participate in the application decisioning process using Collaborative Application Decisioning.
+
+In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.
+
+Use the following mutation to open an application for an account holder:
+
+## Issue a financial account
+
+Financial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application.
+
+id
+
+Financial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.
+
+externalId
+
+externalId
+
+Use the following mutation to issue a financial account for an application:
+
+## Issue a payment card
+
+Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.
+
+Use the following mutation to issue a virtual card:
+
+## Physical cards
+
+By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.
+
+## Digital wallets
+
+Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.
+
+## Non-originated ACH
+
+Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.
+
+In the live environment, non-originated ACH transfers are initiated by account holders. In the test environment, you can simulate a non-originated ACH transfer to fund a financial account using the following mutation:
+
+## Display account and routing number
+
+Prepaid cards have the DIRECT_DEPOSIT feature enabled by default. Financial accounts with the DIRECT_DEPOSIT feature have an associated account and routing number that can be used to transfer funds into the account from outside Highnote.
+
+DIRECT_DEPOSIT
+
+DIRECT_DEPOSIT
+
+To display the account and routing number in your website or application, you can fetch them from the API by generating a Client Token and using that token to view the restricted details. The following graphic shows an example of what fetching an account and routing number looks like:
+
+Use the following query to view direct deposit information:
+
+## Display payment card data
+
+Warning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.
+
+There are two methods for displaying payment card data on your website or application:
+
+Fetching the data from the Highnote API
+Use the Card Viewer SDK to ensure PCI compliance
+
+To fetch payment card data from the API, use the following query:
+
+## Simulate transactions
+
+After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.
+
+For more information on simulating transactions, see Simulate Transactions.
+
+## Expand your integration
+
+After configuring your card product and simulating transactions, you can use the following features to further expand your integration:
+
+Create authorization controls to manage spending.
+Create a rewards program for your card product.
+Set up notifications to automate your integration.
+

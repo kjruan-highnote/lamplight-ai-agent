@@ -1,0 +1,56 @@
+Title: Highnote Documentation
+URL: https://highnote.com/docs
+==================================================
+
+## Highnote Documentation
+
+Explore our guides, resources, and examples to build with Highnote.
+
+## Consumer Credit
+
+Issue lines of credit to individuals with APR interest terms.
+
+## Commercial Credit
+
+Issue lines of credit to businesses with APR interest terms.
+
+## Commercial Debit/Prepaid
+
+Issue cards to businesses funded from a bank account.
+
+## Consumer Debit/Prepaid
+
+Issue cards to individuals funded from a bank account.
+
+## Commercial Charge
+
+Issue lines of credit to businesses with pay-in-full repayment terms.
+
+## Consumer Charge
+
+Issue lines of credit to individuals with pay-in-full repayment terms.
+
+## Fleet
+
+Allow companies to purchase fuel and vehicle related services.
+
+## Consumer Payroll
+
+Issue cards that allow employees to receive paychecks on a card.
+
+## AP Automation
+
+Issue debit cards funded by a financial account.
+
+## Welcome!
+
+GraphQL is a query language for APIs that allows clients to request the exact data they need and nothing more. The Highnote API uses GraphQL to provide a flexible, modern, and secure integration experience.
+
+## API Changelog
+
+Keep track of changes and updates to the Highnote API.
+
+## Product Updates
+
+View product and feature updates to the Highnote platform.
+

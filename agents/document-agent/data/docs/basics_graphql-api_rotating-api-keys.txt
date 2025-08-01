@@ -1,0 +1,21 @@
+Title: Rotate API Keys
+URL: https://highnote.com/docs/basics/graphql-api/rotating-api-keys
+==================================================
+
+Home / Basics / Highnote API
+
+## Before you start
+
+We strongly recommend rotating your Highnote API keys every 90 days. The practice of rotating API keys helps mitigate risk associated with unauthorized access and misuse of sensitive data or services.
+
+## Rotate your API keys
+
+To rotate your API keys, create new keys and revoke old ones:
+
+Login to the Highnote dashboard.
+Click Developers from the left-hand navigation menu.
+On the API Keys tab, click Create API Key and follow the prompts. Create multiple API keys if needed.
+Copy and store your new API key in a secure place.
+Update your applications to use your new API key.
+Delete old API keys by clicking Revoke API Key in the Highnote dashboard.
+

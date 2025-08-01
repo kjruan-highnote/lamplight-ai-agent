@@ -1,0 +1,1027 @@
+[
+  {
+    "url": "https://highnote.com/docs",
+    "title": "Highnote Documentation",
+    "sections": [
+      {
+        "heading": "Highnote Documentation",
+        "content": "Explore our guides, resources, and examples to build with Highnote.\n\n",
+        "level": 1
+      },
+      {
+        "heading": "Consumer Credit",
+        "content": "Issue lines of credit to individuals with APR interest terms.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Commercial Credit",
+        "content": "Issue lines of credit to businesses with APR interest terms.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Commercial Debit/Prepaid",
+        "content": "Issue cards to businesses funded from a bank account.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Consumer Debit/Prepaid",
+        "content": "Issue cards to individuals funded from a bank account.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Commercial Charge",
+        "content": "Issue lines of credit to businesses with pay-in-full repayment terms.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Consumer Charge",
+        "content": "Issue lines of credit to individuals with pay-in-full repayment terms.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Fleet",
+        "content": "Allow companies to purchase fuel and vehicle related services.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Consumer Payroll",
+        "content": "Issue cards that allow employees to receive paychecks on a card.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "AP Automation",
+        "content": "Issue debit cards funded by a financial account.\n\n",
+        "level": 4
+      },
+      {
+        "heading": "Welcome!",
+        "content": "GraphQL is a query language for APIs that allows clients to request the exact data they need and nothing more. The Highnote API uses GraphQL to provide a flexible, modern, and secure integration experience.\n\n",
+        "level": 3
+      },
+      {
+        "heading": "API Changelog",
+        "content": "Keep track of changes and updates to the Highnote API.\n\n",
+        "level": 3
+      },
+      {
+        "heading": "Product Updates",
+        "content": "View product and feature updates to the Highnote platform.\n\n",
+        "level": 3
+      }
+    ],
+    "full_text": "Highnote DocumentationExplore our guides, resources, and examples to build with Highnote.Start Issuing CardsorStart Accepting PaymentsBasicsHighnote OverviewUsing the Highnote APIUsing the DashboardIssuingIssuing OverviewOnboard an Account HolderCard DesignAcquiringAcquiring OverviewAccept Online PaymentsSimulate PaymentsFor DevelopersAPI ReferenceAPI ExplorerSDKsIssuing Quick Start TemplatesConsumer CreditIssue lines of credit to individuals with APR interest terms.Commercial CreditIssue lines of credit to businesses with APR interest terms.Commercial Debit/PrepaidIssue cards to businesses funded from a bank account.Consumer Debit/PrepaidIssue cards to individuals funded from a bank account.Commercial ChargeIssue lines of credit to businesses with pay-in-full repayment terms.Consumer ChargeIssue lines of credit to individuals with pay-in-full repayment terms.FleetAllow companies to purchase fuel and vehicle related services.Consumer PayrollIssue cards that allow employees to receive paychecks on a card.AP AutomationIssue debit cards funded by a financial account.New to GraphQL?Welcome!GraphQL is a query language for APIs that allows clients to request the exact data they need and nothing more. The Highnote API uses GraphQL to provide a flexible, modern, and secure integration experience.Stay in sync with Highnote updatesAPI ChangelogKeep track of changes and updates to the Highnote API.Product UpdatesView product and feature updates to the Highnote platform.",
+    "scraped_at": 1754074792.733361
+  },
+  {
+    "url": "https://highnote.com/docs/acquiring/accept-payments/accept-online-payments",
+    "title": "Online Payments",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Acquiring / Accept Payments\n\n"
+      },
+      {
+        "heading": "Payment methods",
+        "content": "Highnote accepts online payments through the following payment networks:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Secure Inputs SDK",
+        "content": "To maintain PCI SAQ-A compliance, we recommend using Highnote\u2019s Secure Inputs SDK to build your payment form. The Secure Inputs SDK uses client tokens to request the Highnote API on your behalf. Secure Inputs will prevent PCI data from being sent through your server.\n\nFollow the Secure Inputs SDK setup guide and add the following SDK snippet to your payment form:\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Payments process",
+        "content": "Once a customer completes your payment form and the Secure Inputs SDK has returned a PaymentMethod, you can process the payment.\n\nPaymentMethod\n\nFor consumer purchases, the payment process uses the following steps:\n\nAuthorization: The customer's payment details are verified with the issuer, and the funds are reserved.\nCancel: If the payment won\u2019t continue past this point, reverse the authorization transaction so funds can be released.\nCapture: The reserved funds are transferred to your merchant settlement financial account after the customer's successful authorization.\nRefund: The reserved funds are transferred from your merchant settlement financial account back to the customer\u2019s account.\nDisburse:  The funds due to each merchant account is calculated and moved from Highnote\u2019s ledger to the merchant settlement account, including fees and reserve amounts.\n\nThese steps are outlined as follows:\n\nIn most cases, transactions can be authorized and captured in a single step. However, there are some scenarios where an authorization request may need to be done first. This is particularly true for transactions involving tips or delayed/partial shipments. Once the amount is finalized, a capture request can then be executed.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Authorize a payment card",
+        "content": "A payment transaction begins with the authorization of a payment card. You can use authorizations to capture transactions at the point of sale or schedule to capture the payment later for transactions with an authorization request.\n\nThere are two methods for authorizing a payment card:\n\nFor merchants who are not PCI SAQ-D compliant, use Highnote's Secure Inputs SDK to tokenize a payment card.\nFor merchants who are already PCI SAQ-D,  you can use a mutation to authorize a payment card.\n\nUse the following mutation to verify the customer\u2019s payment details and authorize a payment card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Charge a payment card",
+        "content": "After authorizing a payment card, you can use the following mutation to charge the customer's card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel a payment",
+        "content": "A payment can only be canceled before Highnote captures the payment. When a payment is canceled before capture, no money has moved out of the cardholder's account, resulting in the funds being returned to their account balance.\n\nPayments can be canceled by the cardholder, merchant, issuing bank, acquiring bank, or payment network. Payment cancellations are common in the following use cases:\n\nUndelivered goods or services\nDuplicate transactions\nFraud transactions\nThe customer asks for a cancellation before goods are shipped\n\nFull and partial payment cancellations are supported for all card networks except American Express. For an overview of use cases for partial cancellations, see Cancel a partial amount.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel full amount",
+        "content": "To process a full cancellation, use the following mutation and ensure the value input variable is equal to the full amount of the authorization:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel partial amount",
+        "content": "Note: Partial cancellations are not supported for American Express.\n\nPartial cancellations are common in the following use cases:\n\nA customer returns items from their purchase, but not the entire purchase.\nA customer cancels a service and is refunded the unused portion of the service.\nAn error was made in the initial billing, such as overcharging a service or product.\nOnly one part of an order was fulfilled or delivered, and the other part is reversed as a refund.\n\nTo process a partial cancellation, use the following mutation and enter the partial amount in the value input variable field:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture a payment",
+        "content": "Capturing a payment transaction moves funds from the customer\u2019s account to your merchant account. Full and partial captures are supported for all card networks except for American Express.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture full amount",
+        "content": "To capture a full amount, use the following mutation and ensure the value input variable field reflects the full amount of the original authorization:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture partial amount",
+        "content": "Note: Partial captures are not supported for American Express.\n\nPartial captures are common in the following use cases:\n\nA customer places a pre-order or makes a deposit, and only a portion of the total authorization is captured upfront.\nA customer\u2019s order is split into multiple shipments and the merchant captures payments separately for each one.\nA merchant offers flexible payment terms, with partial captures collected at an agreed-upon schedule.\nAn item from a customer\u2019s order is back-ordered and the business captures a payment for only the available items.\n\nTo capture a partial amount, use the following mutation and enter a partial amount in the value input variable field:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund a payment",
+        "content": "Note: Refunds can only be issued against captured and disbursed transactions.\n\nRefunds are issued after a payment has been captured and funds have been disbursed. Highnote supports full and partial refunds. Multiple partial refunds can be done if the total of the refunds does not exceed the captured amount.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund full amount",
+        "content": "Use the following mutation to refund the full amount of a payment transaction:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund partial amount",
+        "content": "To refund a partial amount, ensure the amount value provided in the RefundPaymentTransaction mutation does not exceed the authorizedAmount.\n\namount\n\nRefundPaymentTransaction\n\nauthorizedAmount\n\nUse the following mutation to refund a partial amount of a payment transaction. In the response payload, note the difference between the authorizedAmount and refundedAmount:\n\nauthorizedAmount\n\nrefundedAmount\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find all payment transactions",
+        "content": "Use the following query to create a list view of all payment transactions:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find a payment transaction",
+        "content": "Use the following query to find a single payment transaction:\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Acquiring / Accept PaymentsOnline PaymentsPayment methodsClick to CopyHighnote accepts online payments through the following payment networks: Payment NetworkRailPayment InstrumentVisaCredit and debitCardMastercardCredit and debitCardAmerican ExpressCreditCardDiscoverCreditCardSecure Inputs SDKClick to CopyTo maintain PCI SAQ-A compliance, we recommend using Highnote\u2019s Secure Inputs SDK to build your payment form. The Secure Inputs SDK uses client tokens to request the Highnote API on your behalf. Secure Inputs will prevent PCI data from being sent through your server. Follow the Secure Inputs SDK setup guide and add the following SDK snippet to your payment form:Secure InputsCopy code snippetPayments processClick to CopyOnce a customer completes your payment form and the Secure Inputs SDK has returned a PaymentMethod, you can process the payment. For consumer purchases, the payment process uses the following steps: Authorization: The customer's payment details are verified with the issuer, and the funds are reserved. Cancel: If the payment won\u2019t continue past this point, reverse the authorization transaction so funds can be released. Capture: The reserved funds are transferred to your merchant settlement financial account after the customer's successful authorization. Refund: The reserved funds are transferred from your merchant settlement financial account back to the customer\u2019s account. Disburse: The funds due to each merchant account is calculated and moved from Highnote\u2019s ledger to the merchant settlement account, including fees and reserve amounts. These steps are outlined as follows: In most cases, transactions can be authorized and captured in a single step. However, there are some scenarios where an authorization request may need to be done first. This is particularly true for transactions involving tips or delayed/partial shipments. Once the amount is finalized, a capture request can then be executed.Authorize a payment cardClick to CopyA payment transaction begins with the authorization of a payment card. You can use authorizations to capture transactions at the point of sale or schedule to capture the payment later for transactions with an authorization request. There are two methods for authorizing a payment card: For merchants who are not PCI SAQ-D compliant, use Highnote's Secure Inputs SDK to tokenize a payment card. For merchants who are already PCI SAQ-D, you can use a mutation to authorize a payment card. Use the following mutation to verify the customer\u2019s payment details and authorize a payment card:Charge a payment cardClick to CopyAfter authorizing a payment card, you can use the following mutation to charge the customer's card:Cancel a paymentClick to CopyA payment can only be canceled before Highnote captures the payment. When a payment is canceled before capture, no money has moved out of the cardholder's account, resulting in the funds being returned to their account balance. Payments can be canceled by the cardholder, merchant, issuing bank, acquiring bank, or payment network. Payment cancellations are common in the following use cases: Undelivered goods or services Duplicate transactions Fraud transactions The customer asks for a cancellation before goods are shipped Full and partial payment cancellations are supported for all card networks except American Express. For an overview of use cases for partial cancellations, see Cancel a partial amount.Cancel full amountClick to CopyTo process a full cancellation, use the following mutation and ensure the value input variable is equal to the full amount of the authorization:Cancel partial amountClick to CopyNote: Partial cancellations are not supported for American Express.Partial cancellations are common in the following use cases: A customer returns items from their purchase, but not the entire purchase. A customer cancels a service and is refunded the unused portion of the service. An error was made in the initial billing, such as overcharging a service or product. Only one part of an order was fulfilled or delivered, and the other part is reversed as a refund. To process a partial cancellation, use the following mutation and enter the partial amount in the value input variable field:Capture a paymentClick to CopyCapturing a payment transaction moves funds from the customer\u2019s account to your merchant account. Full and partial captures are supported for all card networks except for American Express.Capture full amountClick to CopyTo capture a full amount, use the following mutation and ensure the value input variable field reflects the full amount of the original authorization:Capture partial amountClick to CopyNote: Partial captures are not supported for American Express.Partial captures are common in the following use cases: A customer places a pre-order or makes a deposit, and only a portion of the total authorization is captured upfront. A customer\u2019s order is split into multiple shipments and the merchant captures payments separately for each one. A merchant offers flexible payment terms, with partial captures collected at an agreed-upon schedule. An item from a customer\u2019s order is back-ordered and the business captures a payment for only the available items. To capture a partial amount, use the following mutation and enter a partial amount in the value input variable field:Refund a paymentClick to CopyNote: Refunds can only be issued against captured and disbursed transactions.Refunds are issued after a payment has been captured and funds have been disbursed. Highnote supports full and partial refunds. Multiple partial refunds can be done if the total of the refunds does not exceed the captured amount.Refund full amountClick to CopyUse the following mutation to refund the full amount of a payment transaction:Refund partial amountClick to CopyTo refund a partial amount, ensure the amount value provided in the RefundPaymentTransaction mutation does not exceed the authorizedAmount. Use the following mutation to refund a partial amount of a payment transaction. In the response payload, note the difference between the authorizedAmount and refundedAmount:Find all payment transactionsClick to CopyUse the following query to create a list view of all payment transactions:Find a payment transactionClick to CopyUse the following query to find a single payment transaction:",
+    "scraped_at": 1754074793.966176
+  },
+  {
+    "url": "https://highnote.com/docs/explorer/default",
+    "title": "Highnote GraphQL API Explorer",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Sign in to your Test Environment to use the API Explorer.\n\n"
+      }
+    ],
+    "full_text": "Sign in to your Test Environment to use the API Explorer.Sign in",
+    "scraped_at": 1754074795.2021382
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/templates/consumer-charge",
+    "title": "Consumer Charge",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Quick Start Templates\n\n"
+      },
+      {
+        "heading": "Overview",
+        "content": "Consumer charge cards do not charge interest and require account holders to pay their statement balance in full by the due date of each billing cycle.\n\nHighnote supports the following types of consumer charge cards:\n\nThis guide provides an overview of creating and setting up an unsecured consumer charge card product using the Highnote API in the test environment. In the live environment, the Highnote team will assist with creating your card product.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create card product",
+        "content": "Note: To enable secure deposits or use the credit processing-only model, contact support@highnote.com.\n\nUse the following mutation to create an unsecured consumer charge card product in the test environment. Use CONSUMER_CREDIT as the vertical input variable:\n\nCONSUMER_CREDIT\n\nvertical\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Add charge feature",
+        "content": "After creating a CONSUMER_CREDIT card product, use the following mutation to add the CHARGE feature. This feature enables pay-in-full terms for account holders.\n\nCONSUMER_CREDIT\n\nCHARGE\n\n",
+        "level": 2
+      },
+      {
+        "heading": "View credit features",
+        "content": "In the test environment, credit and charge card products are automatically assigned credit features and settings. These features and settings are similar to a live program's credit policies, which are configured by the Highnote team during program setup.\n\nThe following table outlines the default features and settings for consumer credit card products in the test environment:\n\ndelinquentInDays\n\ntotalDaysDelinquent\n\nsuspendedInDays\n\ntotalDaysDelinquent\n\nchargeOffInDays\n\ntotalDaysDelinquent\n\nminimumPayment\n\npercentage\n\nthresholdAmount\n\nUse the following query to view credit features for your credit card product in the test environment:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Fund your card program",
+        "content": "Unsecured consumer charge card products use a product funding account to issue lines of credit. The product funding account is where you deposit the capital that you or your debt facility provide to back lines of credit.\n\nIn the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified bank account.\n\nFunding your product funding account requires the following steps:\n\nRetrieve the product funding account ID.\nInitiate a wire transfer to the product funding account.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find product funding account ID",
+        "content": "Use the following query to find your product funding account ID:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Initiate a wire transfer",
+        "content": "Using the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:\n\ntoFinancialAccountId\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create an account holder",
+        "content": "Note: Your credit policy will dictate what data will be required to issue a line of credit in the live environment. Some credit policies require more data than the totalAnnualIncome and currentDebtObligations.\n\ntotalAnnualIncome\n\ncurrentDebtObligations\n\nBefore issuing a line of credit, you should collect totalAnnualIncome and currentDebtObligations from your applicants. These fields are inputs for the personCreditRiskAttributes object.\n\ntotalAnnualIncome\n\ncurrentDebtObligations\n\npersonCreditRiskAttributes\n\nThere are two recommended methods for collecting this information:\n\nCollect from the account holder when they are completing their application.\nUpdate the account holder with the necessary details after they've submitted their application.\n\nUse the following mutation to create an account holder for a consumer credit card product. Provide personCreditRiskAttributes as necessary:\n\npersonCreditRiskAttributes\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Account holder applications",
+        "content": "Application approval for credit card products in the live environment uses one of the following workflows:\n\nHighnote runs your credit policy for you and approves or denies applications based on your credit policy.\nYou participate in collaborative application decisioning to provide a recommended approval or denied application response.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Enable collaborative application decisioning",
+        "content": "By default, in the test environment, you can simulate credit application decisions with various values. These simulation values are used when onboarding an account holder. Use this default setting if Highnote will be executing your credit policy on your behalf. For more information, see the Simulate Underwriting Decision guide.\n\nAlternatively, you or your underwriter can use collaborative application decisioning. This feature allows you to recommend an approval or denial based on your credit policy. For more information, see Collaborative Application Decisioning.\n\nEnable collaborative application decisioning in the Highnote dashboard, or using the API with the following mutation:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Open an application",
+        "content": "When an account holder application is submitted, it triggers an application decision request. If you use collaborative application decisioning, you can respond with a recommended APPROVED or DENIED decision.\n\nAPPROVED\n\nDENIED\n\nIn some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.\n\nUse the following mutation to open an application for an account holder:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate application decision",
+        "content": "The test environment does not run identity verification checks on applications. During testing, you can simulate application approvals or denials using simulation values. These simulation values product tags that result in the following application statuses:\n\nAPPROVED\nIN_REVIEW\nDENIED\n\nAPPROVED\n\nIN_REVIEW\n\nDENIED\n\nFor more information on using this simulation, see Simulate Underwriting Decision.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a financial account",
+        "content": "Financial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application.\n\nid\n\nFinancial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.\n\nexternalId\n\nexternalId\n\nUse the following mutation to issue a financial account for an application:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Set credit limit",
+        "content": "Note: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.\n\nYou can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders.\n\nfinancialAccountId\n\nUse the following mutation to set a credit limit:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a payment card",
+        "content": "Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.\n\nUse the following mutation to issue a virtual card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Physical cards",
+        "content": "By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Digital wallets",
+        "content": "Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Schedule repayments",
+        "content": "Charge card products account holders to repay their balance in full. An account holder needs to connect a verified external bank account to Highnote to schedule a repayment. Once a verified account is linked, the account holder can use ACH transfers to schedule payments.\n\nHighnote supports the following types of payment schedules:\n\nRecurring payments\nOne-time payments\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Connect a verified external bank account",
+        "content": "Account holders must have a verified external bank account connected to Highnote to schedule repayments. For more information on connecting external accounts, see Connect External Accounts.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create a payment schedule",
+        "content": "Payment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.\n\nYou can establish one-time or recurring payment schedules, enabling your customers to schedule payments on their monthly due date or a customized calendar day. Recurring payment schedules are based on a point-in-time balance, such as an outstanding balance, and the ACH transfer amount will be calculated on the scheduled date.\n\nSee the scheduled repayments guide for more information on managing, viewing, and canceling payment schedules.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Generate a billing statement",
+        "content": "Billing statement data is created on financial accounts and becomes available at the end of a billing cycle. For charge and credit card products, the billing period end date may vary across financial accounts on your portfolio. Statement data is typically available within 48 hours of a billing period end date.\n\nFor more information on generating a billing statement, see Generate Current Billing Statement.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate transactions",
+        "content": "After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.\n\nFor more information on simulating transactions, see Simulate Transactions.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate delinquency",
+        "content": "Highnote's delinquency simulator lets you view a financial account's current delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with understanding delinquency scenarios and testing notification events.\n\nUse the Simulate Delinquency guide for more information on using the Highnote API to simulate delinquency in the test environment.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Expand your integration",
+        "content": "After configuring your card product and simulating transactions, you can use the following features to further expand your integration:\n\nCreate authorization controls to manage spending.\nCreate a rewards program for your card product.\nSetup notifications to automate your integration.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Quick Start TemplatesConsumer ChargeOverviewClick to CopyConsumer charge cards do not charge interest and require account holders to pay their statement balance in full by the due date of each billing cycle. Highnote supports the following types of consumer charge cards: ConfigurationDescriptionUnsecured charge card productsThese credit card products are not backed by an account holder deposit and require adequate capital to fund lines of credit. You can provide capital on your behalf or through a debt facility.Secured charge card productsThese credit card products are backed by an account holder's secure deposit.Credit processing-only modelThis model uses the Highnote platform to fund charge and credit products on-demand, bypassing full ledger capabilities and repayment services. For more information on this model, contact support@highnote.com. This guide provides an overview of creating and setting up an unsecured consumer charge card product using the Highnote API in the test environment. In the live environment, the Highnote team will assist with creating your card product.Create card productClick to CopyNote: To enable secure deposits or use the credit processing-only model, contact support@highnote.com.Use the following mutation to create an unsecured consumer charge card product in the test environment. Use CONSUMER_CREDIT as the vertical input variable:Add charge featureClick to CopyAfter creating a CONSUMER_CREDIT card product, use the following mutation to add the CHARGE feature. This feature enables pay-in-full terms for account holders.View credit featuresClick to CopyIn the test environment, credit and charge card products are automatically assigned credit features and settings. These features and settings are similar to a live program's credit policies, which are configured by the Highnote team during program setup. The following table outlines the default features and settings for consumer credit card products in the test environment: Credit policyDescriptionTest Environment Default SettingdelinquentInDaysThis setting controls your test environment's delinquency policy.Delinquent when totalDaysDelinquent >= 30 dayssuspendedInDaysThis setting controls your test environment's policy for account suspension.Suspended when totalDaysDelinquent >= 90 dayschargeOffInDaysThis setting controls your test environment's charge-off policy.Balance charged off when totalDaysDelinquent >= 180 daysminimumPaymentThis setting controls the minimum payment for account holders. The minimum payment is the greater of $25 of 1% of the statement balance, plus interest charges, fees, and any past amount due. If the balance is less than $25, the minimum payment is equal to the statement balance.Minimum payment is percentage = 1%, thresholdAmount = $25 Use the following query to view credit features for your credit card product in the test environment:Fund your card programClick to CopyUnsecured consumer charge card products use a product funding account to issue lines of credit. The product funding account is where you deposit the capital that you or your debt facility provide to back lines of credit. In the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified bank account. Funding your product funding account requires the following steps: Retrieve the product funding account ID. Initiate a wire transfer to the product funding account. Find product funding account IDClick to CopyUse the following query to find your product funding account ID:Initiate a wire transferClick to CopyUsing the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:Create an account holderClick to CopyNote: Your credit policy will dictate what data will be required to issue a line of credit in the live environment. Some credit policies require more data than the totalAnnualIncome and currentDebtObligations.Before issuing a line of credit, you should collect totalAnnualIncome and currentDebtObligations from your applicants. These fields are inputs for the personCreditRiskAttributes object. There are two recommended methods for collecting this information: Collect from the account holder when they are completing their application. Update the account holder with the necessary details after they've submitted their application. Use the following mutation to create an account holder for a consumer credit card product. Provide personCreditRiskAttributes as necessary:Account holder applicationsClick to CopyApplication approval for credit card products in the live environment uses one of the following workflows: Highnote runs your credit policy for you and approves or denies applications based on your credit policy. You participate in collaborative application decisioning to provide a recommended approval or denied application response. Enable collaborative application decisioningClick to CopyBy default, in the test environment, you can simulate credit application decisions with various values. These simulation values are used when onboarding an account holder. Use this default setting if Highnote will be executing your credit policy on your behalf. For more information, see the Simulate Underwriting Decision guide. Alternatively, you or your underwriter can use collaborative application decisioning. This feature allows you to recommend an approval or denial based on your credit policy. For more information, see Collaborative Application Decisioning. Enable collaborative application decisioning in the Highnote dashboard, or using the API with the following mutation:Open an applicationClick to CopyWhen an account holder application is submitted, it triggers an application decision request. If you use collaborative application decisioning, you can respond with a recommended APPROVED or DENIED decision. In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review. Use the following mutation to open an application for an account holder:Simulate application decisionClick to CopyThe test environment does not run identity verification checks on applications. During testing, you can simulate application approvals or denials using simulation values. These simulation values product tags that result in the following application statuses: APPROVED IN_REVIEW DENIED For more information on using this simulation, see Simulate Underwriting Decision.Issue a financial accountClick to CopyFinancial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application. Financial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one. Use the following mutation to issue a financial account for an application:Set credit limitClick to CopyNote: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.You can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders. Use the following mutation to set a credit limit:Issue a payment cardClick to CopyOnce you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed. Use the following mutation to issue a virtual card:Physical cardsClick to CopyBy default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.Digital walletsClick to CopyHighnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.Schedule repaymentsClick to CopyCharge card products account holders to repay their balance in full. An account holder needs to connect a verified external bank account to Highnote to schedule a repayment. Once a verified account is linked, the account holder can use ACH transfers to schedule payments. Highnote supports the following types of payment schedules: Recurring payments One-time payments Connect a verified external bank accountClick to CopyAccount holders must have a verified external bank account connected to Highnote to schedule repayments. For more information on connecting external accounts, see Connect External Accounts.Create a payment scheduleClick to CopyPayment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.You can establish one-time or recurring payment schedules, enabling your customers to schedule payments on their monthly due date or a customized calendar day. Recurring payment schedules are based on a point-in-time balance, such as an outstanding balance, and the ACH transfer amount will be calculated on the scheduled date. See the scheduled repayments guide for more information on managing, viewing, and canceling payment schedules.Generate a billing statementClick to CopyBilling statement data is created on financial accounts and becomes available at the end of a billing cycle. For charge and credit card products, the billing period end date may vary across financial accounts on your portfolio. Statement data is typically available within 48 hours of a billing period end date. For more information on generating a billing statement, see Generate Current Billing Statement.Simulate transactionsClick to CopyAfter configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings. For more information on simulating transactions, see Simulate Transactions.Simulate delinquency Click to CopyHighnote's delinquency simulator lets you view a financial account's current delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with understanding delinquency scenarios and testing notification events. Use the Simulate Delinquency guide for more information on using the Highnote API to simulate delinquency in the test environment.Expand your integrationClick to CopyAfter configuring your card product and simulating transactions, you can use the following features to further expand your integration: Create authorization controls to manage spending. Create a rewards program for your card product. Setup notifications to automate your integration.",
+    "scraped_at": 1754074796.490749
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/credit/repayments",
+    "title": "Schedule Repayments",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Manage Credit\n\n"
+      },
+      {
+        "heading": "Overview",
+        "content": "This guide covers how to set up one-time and recurring payment schedules for account holders.\n\nThe Automated Clearing House (ACH) is an electronic funds transfer network that facilitates interbank transfers. Highnote utilizes ACH to send money from an account holder\u2019s external bank account to their Highnote financial account when scheduling payments. The movement of funds using ACH typically takes three to five business days.\n\nFor credit card products, it's important to provide cardholders with the ability to make payments toward outstanding balances or debts. The following payment options are available:\n\nRecurring payments\nOne-time payments\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Repayment rules",
+        "content": "The rules for repayments on credit products, and loading funds on prepaid products, are as follows:\n\nCLOSED\n\nACTIVE\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Payment schedules",
+        "content": "Refer to the following guidelines when creating payment schedules.\n\nScheduling payments\n\nTo avoid a late payment, initiate the payment on or before the due date.\n\nPayment stages\n\nOn-time payments\n\nDepending on your program's credit policies, the available credit on a financial account may not be released until a payment has posted.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Tips to avoid late payments",
+        "content": "Communicate the following to help your cardholders avoid late payments, fees, or impacts to their credit:\n\nPlan ahead: Schedule payments at least 3-5 business days before the due date to account for processing time.\nConsider bank holidays: Be mindful of weekends and bank holidays, as these can delay payment processing.\nMonitor pending credits: Check your account to ensure the pending credit is recorded after initiating a payment.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create recurring payment schedule",
+        "content": "Note: Scheduled payments are initiated by the account holder. You can not schedule payments for account holders in the live environment.\n\nRecurring payments occur on a set frequency and can be scheduled based on the outstanding balance or current amount due. In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment on the current date.\n\nUse the findScheduledTransferEvent query to find a transfer event ID and simulate changing the transfer status:\n\nfindScheduledTransferEvent\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create a one-time payment",
+        "content": "Note: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.\n\nOne-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0.\n\nOUTSTANDING_BALANCE\n\nIn the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:\n\nfindScheduledTransferEvent\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel a payment schedule",
+        "content": "Note: Payments must be canceled by 9:00 AM EST the day the payment is scheduled to ensure the payment is not initiated. If a cancellation is attempted on a recurring payment that has already been initiated, all future payments on the recurring schedule will be canceled.\n\nBoth one-time and recurring payment schedules can be canceled.\nTo change a payment schedule (e.g., date, amount, or external bank account), you must first cancel the original scheduled payment and then create a new one-time or recurring payment schedule.\n\nUse the following mutation to cancel a payment:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find a scheduled payment",
+        "content": "Use the following query to find a scheduled payment. You can use this query to display scheduled payments in your website or application:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate repayments",
+        "content": "To simulate repayments in the test environment, see Simulate Repayments.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Manage CreditSchedule RepaymentsOverviewClick to CopyThis guide covers how to set up one-time and recurring payment schedules for account holders. The Automated Clearing House (ACH) is an electronic funds transfer network that facilitates interbank transfers. Highnote utilizes ACH to send money from an account holder\u2019s external bank account to their Highnote financial account when scheduling payments. The movement of funds using ACH typically takes three to five business days. For credit card products, it's important to provide cardholders with the ability to make payments toward outstanding balances or debts. The following payment options are available: Recurring payments One-time payments Repayment rulesClick to CopyThe rules for repayments on credit products, and loading funds on prepaid products, are as follows: ProductFinancial Account StatusCreditCan repay with a financial account in any state excpet CLOSEDPrepaid / DebitCan only load funds with a financial account in the ACTIVE statePayment schedulesClick to CopyRefer to the following guidelines when creating payment schedules. Scheduling payments To avoid a late payment, initiate the payment on or before the due date. ScheduledInitiatedProcessedBefore 3 PM ETSame calendar daySame calendar dayBefore 11 PM ETSame calendar dayNext business dayWeekends & bank holidaysSame calendar dayNext business day Payment stages StageResultInitiationA pending credit is recorded on the account holder's financial accountProcessingThe payment clears in 3-5 business days after processingPostingThe payment posts to the financial account after the funds have cleared On-time payments Depending on your program's credit policies, the available credit on a financial account may not be released until a payment has posted.Tips to avoid late paymentsClick to CopyCommunicate the following to help your cardholders avoid late payments, fees, or impacts to their credit: Plan ahead: Schedule payments at least 3-5 business days before the due date to account for processing time. Consider bank holidays: Be mindful of weekends and bank holidays, as these can delay payment processing. Monitor pending credits: Check your account to ensure the pending credit is recorded after initiating a payment. Create recurring payment scheduleClick to CopyNote: Scheduled payments are initiated by the account holder. You can not schedule payments for account holders in the live environment.Recurring payments occur on a set frequency and can be scheduled based on the outstanding balance or current amount due. In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment on the current date. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the transfer status:Create a one-time paymentClick to CopyNote: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.One-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0. In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:Cancel a payment scheduleClick to CopyNote: Payments must be canceled by 9:00 AM EST the day the payment is scheduled to ensure the payment is not initiated. If a cancellation is attempted on a recurring payment that has already been initiated, all future payments on the recurring schedule will be canceled.Both one-time and recurring payment schedules can be canceled. To change a payment schedule (e.g., date, amount, or external bank account), you must first cancel the original scheduled payment and then create a new one-time or recurring payment schedule. Use the following mutation to cancel a payment:Find a scheduled paymentClick to CopyUse the following query to find a scheduled payment. You can use this query to display scheduled payments in your website or application:Simulate repaymentsClick to CopyTo simulate repayments in the test environment, see Simulate Repayments.",
+    "scraped_at": 1754074797.725728
+  },
+  {
+    "url": "https://highnote.com/docs/acquiring/accept-payments/accept-online-payments#cancel-partial-amount",
+    "title": "Online Payments",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Acquiring / Accept Payments\n\n"
+      },
+      {
+        "heading": "Payment methods",
+        "content": "Highnote accepts online payments through the following payment networks:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Secure Inputs SDK",
+        "content": "To maintain PCI SAQ-A compliance, we recommend using Highnote\u2019s Secure Inputs SDK to build your payment form. The Secure Inputs SDK uses client tokens to request the Highnote API on your behalf. Secure Inputs will prevent PCI data from being sent through your server.\n\nFollow the Secure Inputs SDK setup guide and add the following SDK snippet to your payment form:\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Payments process",
+        "content": "Once a customer completes your payment form and the Secure Inputs SDK has returned a PaymentMethod, you can process the payment.\n\nPaymentMethod\n\nFor consumer purchases, the payment process uses the following steps:\n\nAuthorization: The customer's payment details are verified with the issuer, and the funds are reserved.\nCancel: If the payment won\u2019t continue past this point, reverse the authorization transaction so funds can be released.\nCapture: The reserved funds are transferred to your merchant settlement financial account after the customer's successful authorization.\nRefund: The reserved funds are transferred from your merchant settlement financial account back to the customer\u2019s account.\nDisburse:  The funds due to each merchant account is calculated and moved from Highnote\u2019s ledger to the merchant settlement account, including fees and reserve amounts.\n\nThese steps are outlined as follows:\n\nIn most cases, transactions can be authorized and captured in a single step. However, there are some scenarios where an authorization request may need to be done first. This is particularly true for transactions involving tips or delayed/partial shipments. Once the amount is finalized, a capture request can then be executed.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Authorize a payment card",
+        "content": "A payment transaction begins with the authorization of a payment card. You can use authorizations to capture transactions at the point of sale or schedule to capture the payment later for transactions with an authorization request.\n\nThere are two methods for authorizing a payment card:\n\nFor merchants who are not PCI SAQ-D compliant, use Highnote's Secure Inputs SDK to tokenize a payment card.\nFor merchants who are already PCI SAQ-D,  you can use a mutation to authorize a payment card.\n\nUse the following mutation to verify the customer\u2019s payment details and authorize a payment card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Charge a payment card",
+        "content": "After authorizing a payment card, you can use the following mutation to charge the customer's card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel a payment",
+        "content": "A payment can only be canceled before Highnote captures the payment. When a payment is canceled before capture, no money has moved out of the cardholder's account, resulting in the funds being returned to their account balance.\n\nPayments can be canceled by the cardholder, merchant, issuing bank, acquiring bank, or payment network. Payment cancellations are common in the following use cases:\n\nUndelivered goods or services\nDuplicate transactions\nFraud transactions\nThe customer asks for a cancellation before goods are shipped\n\nFull and partial payment cancellations are supported for all card networks except American Express. For an overview of use cases for partial cancellations, see Cancel a partial amount.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel full amount",
+        "content": "To process a full cancellation, use the following mutation and ensure the value input variable is equal to the full amount of the authorization:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Cancel partial amount",
+        "content": "Note: Partial cancellations are not supported for American Express.\n\nPartial cancellations are common in the following use cases:\n\nA customer returns items from their purchase, but not the entire purchase.\nA customer cancels a service and is refunded the unused portion of the service.\nAn error was made in the initial billing, such as overcharging a service or product.\nOnly one part of an order was fulfilled or delivered, and the other part is reversed as a refund.\n\nTo process a partial cancellation, use the following mutation and enter the partial amount in the value input variable field:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture a payment",
+        "content": "Capturing a payment transaction moves funds from the customer\u2019s account to your merchant account. Full and partial captures are supported for all card networks except for American Express.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture full amount",
+        "content": "To capture a full amount, use the following mutation and ensure the value input variable field reflects the full amount of the original authorization:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Capture partial amount",
+        "content": "Note: Partial captures are not supported for American Express.\n\nPartial captures are common in the following use cases:\n\nA customer places a pre-order or makes a deposit, and only a portion of the total authorization is captured upfront.\nA customer\u2019s order is split into multiple shipments and the merchant captures payments separately for each one.\nA merchant offers flexible payment terms, with partial captures collected at an agreed-upon schedule.\nAn item from a customer\u2019s order is back-ordered and the business captures a payment for only the available items.\n\nTo capture a partial amount, use the following mutation and enter a partial amount in the value input variable field:\n\nvalue\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund a payment",
+        "content": "Note: Refunds can only be issued against captured and disbursed transactions.\n\nRefunds are issued after a payment has been captured and funds have been disbursed. Highnote supports full and partial refunds. Multiple partial refunds can be done if the total of the refunds does not exceed the captured amount.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund full amount",
+        "content": "Use the following mutation to refund the full amount of a payment transaction:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Refund partial amount",
+        "content": "To refund a partial amount, ensure the amount value provided in the RefundPaymentTransaction mutation does not exceed the authorizedAmount.\n\namount\n\nRefundPaymentTransaction\n\nauthorizedAmount\n\nUse the following mutation to refund a partial amount of a payment transaction. In the response payload, note the difference between the authorizedAmount and refundedAmount:\n\nauthorizedAmount\n\nrefundedAmount\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find all payment transactions",
+        "content": "Use the following query to create a list view of all payment transactions:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find a payment transaction",
+        "content": "Use the following query to find a single payment transaction:\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Acquiring / Accept PaymentsOnline PaymentsPayment methodsClick to CopyHighnote accepts online payments through the following payment networks: Payment NetworkRailPayment InstrumentVisaCredit and debitCardMastercardCredit and debitCardAmerican ExpressCreditCardDiscoverCreditCardSecure Inputs SDKClick to CopyTo maintain PCI SAQ-A compliance, we recommend using Highnote\u2019s Secure Inputs SDK to build your payment form. The Secure Inputs SDK uses client tokens to request the Highnote API on your behalf. Secure Inputs will prevent PCI data from being sent through your server. Follow the Secure Inputs SDK setup guide and add the following SDK snippet to your payment form:Secure InputsCopy code snippetPayments processClick to CopyOnce a customer completes your payment form and the Secure Inputs SDK has returned a PaymentMethod, you can process the payment. For consumer purchases, the payment process uses the following steps: Authorization: The customer's payment details are verified with the issuer, and the funds are reserved. Cancel: If the payment won\u2019t continue past this point, reverse the authorization transaction so funds can be released. Capture: The reserved funds are transferred to your merchant settlement financial account after the customer's successful authorization. Refund: The reserved funds are transferred from your merchant settlement financial account back to the customer\u2019s account. Disburse: The funds due to each merchant account is calculated and moved from Highnote\u2019s ledger to the merchant settlement account, including fees and reserve amounts. These steps are outlined as follows: In most cases, transactions can be authorized and captured in a single step. However, there are some scenarios where an authorization request may need to be done first. This is particularly true for transactions involving tips or delayed/partial shipments. Once the amount is finalized, a capture request can then be executed.Authorize a payment cardClick to CopyA payment transaction begins with the authorization of a payment card. You can use authorizations to capture transactions at the point of sale or schedule to capture the payment later for transactions with an authorization request. There are two methods for authorizing a payment card: For merchants who are not PCI SAQ-D compliant, use Highnote's Secure Inputs SDK to tokenize a payment card. For merchants who are already PCI SAQ-D, you can use a mutation to authorize a payment card. Use the following mutation to verify the customer\u2019s payment details and authorize a payment card:Charge a payment cardClick to CopyAfter authorizing a payment card, you can use the following mutation to charge the customer's card:Cancel a paymentClick to CopyA payment can only be canceled before Highnote captures the payment. When a payment is canceled before capture, no money has moved out of the cardholder's account, resulting in the funds being returned to their account balance. Payments can be canceled by the cardholder, merchant, issuing bank, acquiring bank, or payment network. Payment cancellations are common in the following use cases: Undelivered goods or services Duplicate transactions Fraud transactions The customer asks for a cancellation before goods are shipped Full and partial payment cancellations are supported for all card networks except American Express. For an overview of use cases for partial cancellations, see Cancel a partial amount.Cancel full amountClick to CopyTo process a full cancellation, use the following mutation and ensure the value input variable is equal to the full amount of the authorization:Cancel partial amountClick to CopyNote: Partial cancellations are not supported for American Express.Partial cancellations are common in the following use cases: A customer returns items from their purchase, but not the entire purchase. A customer cancels a service and is refunded the unused portion of the service. An error was made in the initial billing, such as overcharging a service or product. Only one part of an order was fulfilled or delivered, and the other part is reversed as a refund. To process a partial cancellation, use the following mutation and enter the partial amount in the value input variable field:Capture a paymentClick to CopyCapturing a payment transaction moves funds from the customer\u2019s account to your merchant account. Full and partial captures are supported for all card networks except for American Express.Capture full amountClick to CopyTo capture a full amount, use the following mutation and ensure the value input variable field reflects the full amount of the original authorization:Capture partial amountClick to CopyNote: Partial captures are not supported for American Express.Partial captures are common in the following use cases: A customer places a pre-order or makes a deposit, and only a portion of the total authorization is captured upfront. A customer\u2019s order is split into multiple shipments and the merchant captures payments separately for each one. A merchant offers flexible payment terms, with partial captures collected at an agreed-upon schedule. An item from a customer\u2019s order is back-ordered and the business captures a payment for only the available items. To capture a partial amount, use the following mutation and enter a partial amount in the value input variable field:Refund a paymentClick to CopyNote: Refunds can only be issued against captured and disbursed transactions.Refunds are issued after a payment has been captured and funds have been disbursed. Highnote supports full and partial refunds. Multiple partial refunds can be done if the total of the refunds does not exceed the captured amount.Refund full amountClick to CopyUse the following mutation to refund the full amount of a payment transaction:Refund partial amountClick to CopyTo refund a partial amount, ensure the amount value provided in the RefundPaymentTransaction mutation does not exceed the authorizedAmount. Use the following mutation to refund a partial amount of a payment transaction. In the response payload, note the difference between the authorizedAmount and refundedAmount:Find all payment transactionsClick to CopyUse the following query to create a list view of all payment transactions:Find a payment transactionClick to CopyUse the following query to find a single payment transaction:",
+    "scraped_at": 1754074798.8521469
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/templates/commercial-prepaid",
+    "title": "Commercial Prepaid",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Quick Start Templates\n\n"
+      },
+      {
+        "heading": "Overview",
+        "content": "Commercial prepaid card products allow businesses to cover general business and employee expenses, track purchases and set limits, facilitate gig economy on-demand disbursements, or execute gift card donations. Commercial prepaid card products have the following features:\n\nDebit card capabilities\nA predefined amount of funds\nFunded from a designated bank account\n\nCommercial prepaid cards require funding through a bank account. When additional funds are needed, a transfer is initiated to the account holder's financial account in Highnote, making the funds ready for use.\n\nThis guide provides an overview of creating and setting up a commercial prepaid card product in the test environment.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create a card product",
+        "content": "Use the following mutation to create a commercial prepaid card product. Use COMMERCIAL_PREPAID as the vertical input variable:\n\nCOMMERCIAL_PREPAID\n\nvertical\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create an account holder",
+        "content": "Commercial prepaid cards are used by US business account holders. Use the following mutation to create a US business account holder:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Open an application",
+        "content": "After creating an account holder, you can open an application to onboard them to your card product. Opening an application triggers identity verification processes. You can participate in the application decisioning process using Collaborative Application Decisioning.\n\nIn some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.\n\nUse the following mutation to open an application for an account holder:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a financial account",
+        "content": "Financial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application.\n\nid\n\nFinancial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.\n\nexternalId\n\nexternalId\n\nUse the following mutation to issue a financial account for an application:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a payment card",
+        "content": "Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.\n\nUse the following mutation to issue a virtual card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Physical cards",
+        "content": "By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Digital wallets",
+        "content": "Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Non-originated ACH",
+        "content": "Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.\n\nIn the live environment, non-originated ACH transfers are initiated by account holders. In the test environment, you can simulate a non-originated ACH transfer to fund a financial account using the following mutation:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Display account and routing number",
+        "content": "Prepaid cards have the DIRECT_DEPOSIT feature enabled by default. Financial accounts with the DIRECT_DEPOSIT feature have an associated account and routing number that can be used to transfer funds into the account from outside Highnote.\n\nDIRECT_DEPOSIT\n\nDIRECT_DEPOSIT\n\nTo display the account and routing number in your website or application, you can fetch them from the API by generating a Client Token and using that token to view the restricted details. The following graphic shows an example of what fetching an account and routing number looks like:\n\nUse the following query to view direct deposit information:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Display payment card data",
+        "content": "Warning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.\n\nThere are two methods for displaying payment card data on your website or application:\n\nFetching the data from the Highnote API\nUse the Card Viewer SDK to ensure PCI compliance\n\nTo fetch payment card data from the API, use the following query:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate transactions",
+        "content": "After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.\n\nFor more information on simulating transactions, see Simulate Transactions.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Expand your integration",
+        "content": "After configuring your card product and simulating transactions, you can use the following features to further expand your integration:\n\nCreate authorization controls to manage spending.\nCreate a rewards program for your card product.\nSet up notifications to automate your integration.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Quick Start TemplatesCommercial PrepaidOverview Click to CopyCommercial prepaid card products allow businesses to cover general business and employee expenses, track purchases and set limits, facilitate gig economy on-demand disbursements, or execute gift card donations. Commercial prepaid card products have the following features: Debit card capabilities A predefined amount of funds Funded from a designated bank account Commercial prepaid cards require funding through a bank account. When additional funds are needed, a transfer is initiated to the account holder's financial account in Highnote, making the funds ready for use. This guide provides an overview of creating and setting up a commercial prepaid card product in the test environment.Create a card productClick to CopyUse the following mutation to create a commercial prepaid card product. Use COMMERCIAL_PREPAID as the vertical input variable:Create an account holderClick to CopyCommercial prepaid cards are used by US business account holders. Use the following mutation to create a US business account holder:Open an applicationClick to CopyAfter creating an account holder, you can open an application to onboard them to your card product. Opening an application triggers identity verification processes. You can participate in the application decisioning process using Collaborative Application Decisioning. In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review. Use the following mutation to open an application for an account holder:Issue a financial accountClick to CopyFinancial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application. Financial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one. Use the following mutation to issue a financial account for an application:Issue a payment cardClick to CopyOnce you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed. Use the following mutation to issue a virtual card:Physical cardsClick to CopyBy default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.Digital walletsClick to CopyHighnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.Non-originated ACHClick to CopyDo not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.In the live environment, non-originated ACH transfers are initiated by account holders. In the test environment, you can simulate a non-originated ACH transfer to fund a financial account using the following mutation:Display account and routing numberClick to CopyPrepaid cards have the DIRECT_DEPOSIT feature enabled by default. Financial accounts with the DIRECT_DEPOSIT feature have an associated account and routing number that can be used to transfer funds into the account from outside Highnote. To display the account and routing number in your website or application, you can fetch them from the API by generating a Client Token and using that token to view the restricted details. The following graphic shows an example of what fetching an account and routing number looks like: Use the following query to view direct deposit information:Display payment card dataClick to CopyWarning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.There are two methods for displaying payment card data on your website or application: Fetching the data from the Highnote API Use the Card Viewer SDK to ensure PCI compliance To fetch payment card data from the API, use the following query:Simulate transactionsClick to CopyAfter configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings. For more information on simulating transactions, see Simulate Transactions.Expand your integrationClick to CopyAfter configuring your card product and simulating transactions, you can use the following features to further expand your integration: Create authorization controls to manage spending. Create a rewards program for your card product. Set up notifications to automate your integration.",
+    "scraped_at": 1754074800.109077
+  },
+  {
+    "url": "https://highnote.com/docs/reference/object/FinancialAccount",
+    "title": "Object",
+    "sections": [
+      {
+        "heading": "Object",
+        "content": "Objects are a fundamental component of GraphQL schemas. They organize data you can request and receive from a service into types. They contain a collection of fields, each of which has its own type.\n\n",
+        "level": 1
+      }
+    ],
+    "full_text": "ObjectObjects are a fundamental component of GraphQL schemas. They organize data you can request and receive from a service into types. They contain a collection of fields, each of which has its own type.",
+    "scraped_at": 1754074801.457835
+  },
+  {
+    "url": "https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api",
+    "title": "Using the Highnote API",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Basics / Highnote API\n\n"
+      },
+      {
+        "heading": "Before you start",
+        "content": "This guide uses a simple cURL command to demonstrate how to query the Highnote API. Our command sends a ping query:\n\nping\n\nCopy code snippet\n\nA slash \\ represents a newline. Also, options can be represented in single-dash format (which you may see throughout the Highnote docs):\n\n\\\n\nCopy code snippet\n\nIf successful, the ping query returns the following JSON payload (with the rateLimit info removed for simplicity):\n\nJSON\n\nrateLimit\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Headers",
+        "content": "The Highnote API requires the following headers:\n\nContent-Type\nAuthorization\n\nContent-Type\n\nAuthorization\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Content type",
+        "content": "The Highnote API accepts and returns JSON,  so you must pass a Content-Type header with the value of application/json:\n\nJSON\n\nContent-Type\n\napplication/json\n\nCopy code snippet\n\n",
+        "level": 3
+      },
+      {
+        "heading": "Authorization",
+        "content": "The Highnote API uses Basic authentication which requires a base64-encoded API key (that is set as the username and does not require a password).\n\nTo create a base64-encoded API key:\n\nCreate an API key in the Highnote Dashboard. This key is ASCII-encoded. See Creating and Managing API Keys.\n\n\nConvert your API key from ASCII to base64:\nCopy code snippet\n\n\nPass your base64-encoded key with the Authorization header using the Basic scheme:\nCopy code snippet\n\nCreate an API key in the Highnote Dashboard. This key is ASCII-encoded. See Creating and Managing API Keys.\n\nConvert your API key from ASCII to base64:\n\nCopy code snippet\n\nPass your base64-encoded key with the Authorization header using the Basic scheme:\n\nAuthorization\n\nBasic\n\nCopy code snippet\n\nNote: Requests with missing or invalid credentials return a 401 Unauthorized response code.\n\n401 Unauthorized\n\n",
+        "level": 3
+      },
+      {
+        "heading": "Request body",
+        "content": "The Highnote API accepts POST requests with JSON payloads. Requests include:\n\nPOST\n\nJSON\n\nquery\n\nmutation\n\nvariables\n\nIn our ping query example, the request body is on line 4:\n\nping\n\nCopy code snippet\n\nThe following code snippet makes the same simple query.  To run the query, sign in and expand \"Variables\", then watch the requestId change with each call.\n\nrequestId\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Operation name",
+        "content": "You can add an operation name (conventionally in PascalCase); for example, we can name our query PingPong:\n\nPingPong\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Variables",
+        "content": "The ping query doesn't take any arguments, so we cannot use it to test variables; but we can test the node query which does accept them.\n\nping\n\nnode\n\nQuery that tries to get a node with id = node_123abc (and which probably returns null):\n\nnode_123abc\n\nnull\n\nCopy code snippet\n\nQuery with the operation name, GetNode\n\nGetNode\n\nCopy code snippet\n\nQuery with a variable for the id:\n\nid\n\nCopy code snippet\n\nThe following code snippets makes the same query:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Multiple requests",
+        "content": "You can make multiple GraphQL requests in one by providing a single query value with multiple calls as a string, for example, ping and organizations:\n\nquery\n\nping\n\norganizations\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Request URL",
+        "content": "The Highnote API has a unique URL for its live and test environments. Both environments use a graphql endpoint but with a different subdomain.\n\ngraphql\n\nOur sample ping query has a request URL on line 5 for the test environment.\n\nping\n\nCopy code snippet\n\nCopy code snippet\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Status codes",
+        "content": "Unlike REST, GraphQL often returns a 200 OK status code even when there are errors. For error handling, the response includes an errors object with detailed information for troubleshooting.  For mutations, request the userError type on the union type for specific details about the failure. See error handling for more information.\n\n200 OK\n\nerrors\n\nuserError\n\nThere are a few non 200 status codes that Highnote\u2019s GraphQL API returns for the following cases:\n\n200\n\n200 OK\n\n400 Bad Request\n\nerrors\n\n401 Unauthorized\n\n5xx\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Response body",
+        "content": "You can format the response body in pretty JSON by installing install jq and editing the URL in your cURL command as follows: https://api.us.test.highnote.com/graphql | jq -C '.'\n\nJSON\n\nhttps://api.us.test.highnote.com/graphql | jq -C '.'\n\nThe response body of a query contains the data requested from the API endpoint. A Highnote API response body contains the following in JSON format:\n\nJSON\n\ndata\n\nerrors\n\nextensions\n\nrequestId\n\nrateLimit\n\nReferences:\n\nFor info on the requestId, see Troubleshooting with request ID.\nFor info on responses and formats, see the GraphQL spec.\n\nrequestId\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Basics / Highnote APIUsing the Highnote APIBefore you startClick to CopyThis guide uses a simple cURL command to demonstrate how to query the Highnote API. Our command sends a ping query: Copy code snippet A slash \\ represents a newline. Also, options can be represented in single-dash format (which you may see throughout the Highnote docs): Copy code snippet If successful, the ping query returns the following JSON payload (with the rateLimit info removed for simplicity): Copy code snippetHeadersClick to CopyThe Highnote API requires the following headers: Content-Type Authorization Content type The Highnote API accepts and returns JSON, so you must pass a Content-Type header with the value of application/json: Copy code snippet Authorization The Highnote API uses Basic authentication which requires a base64-encoded API key (that is set as the username and does not require a password). To create a base64-encoded API key: Create an API key in the Highnote Dashboard. This key is ASCII-encoded. See Creating and Managing API Keys. Convert your API key from ASCII to base64: Copy code snippet Pass your base64-encoded key with the Authorization header using the Basic scheme: Copy code snippet Note: Requests with missing or invalid credentials return a 401 Unauthorized response code.Request bodyClick to CopyThe Highnote API accepts POST requests with JSON payloads. Requests include: FieldDescriptionquery or mutation (required)Defines the request operationvariables (optional)JSON payload passing dynamic data in a requestOperation name (optional)Name of the request, esp. useful when running many In our ping query example, the request body is on line 4: Copy code snippet The following code snippet makes the same simple query. To run the query, sign in and expand \"Variables\", then watch the requestId change with each call.Operation nameClick to CopyYou can add an operation name (conventionally in PascalCase); for example, we can name our query PingPong: Copy code snippetVariablesClick to CopyThe ping query doesn't take any arguments, so we cannot use it to test variables; but we can test the node query which does accept them. Query that tries to get a node with id = node_123abc (and which probably returns null): Copy code snippet Query with the operation name, GetNode Copy code snippet Query with a variable for the id: Copy code snippet The following code snippets makes the same query:Multiple requestsClick to CopyYou can make multiple GraphQL requests in one by providing a single query value with multiple calls as a string, for example, ping and organizations: Copy code snippetRequest URLClick to CopyThe Highnote API has a unique URL for its live and test environments. Both environments use a graphql endpoint but with a different subdomain. Our sample ping query has a request URL on line 5 for the test environment. Copy code snippetTest Environment Request URLCopy code snippetLive Environment Request URLCopy code snippetStatus codesClick to CopyUnlike REST, GraphQL often returns a 200 OK status code even when there are errors. For error handling, the response includes an errors object with detailed information for troubleshooting. For mutations, request the userError type on the union type for specific details about the failure. See error handling for more information. There are a few non 200 status codes that Highnote\u2019s GraphQL API returns for the following cases: Status CodeScenario200 OKGraphQL request was successful or validation/logic errors occurred. See error handling for more information.400 Bad RequestGraphQL validation failed, usually because of malformed input or selection sets. In this case, the errors collection will be on the response body.401 UnauthorizedCredentials are invalid.5xxSomething is wrong on the Highnote side.Response bodyClick to CopyYou can format the response body in pretty JSON by installing install jq and editing the URL in your cURL command as follows: https://api.us.test.highnote.com/graphql | jq -C '.'The response body of a query contains the data requested from the API endpoint. A Highnote API response body contains the following in JSON format: FieldDescriptiondataResult of the given operation(s). Reflects the shape of your selection on the query.errorsReturns if the GraphQL engine fails to parse or validate the given request.extensionsMap of data custom to a GraphQL implementation. The Highnote API includes a requestId for debugging and rateLimit info which we have been removing for simplicity. References: For info on the requestId, see Troubleshooting with request ID. For info on responses and formats, see the GraphQL spec.",
+    "scraped_at": 1754074802.6255412
+  },
+  {
+    "url": "https://highnote.com/docs/sdks/clientside-and-sdks/secure-input-sdk",
+    "title": null,
+    "sections": [],
+    "full_text": "",
+    "scraped_at": 1754074804.0907252
+  },
+  {
+    "url": "https://highnote.com/docs/reference/enum",
+    "title": "Enum",
+    "sections": [
+      {
+        "heading": "Enum",
+        "content": "An Enum (Enumeration) type is a special kind of scalar that is restricted to a particular set of allowed values.\n\n",
+        "level": 1
+      }
+    ],
+    "full_text": "EnumAn Enum (Enumeration) type is a special kind of scalar that is restricted to a particular set of allowed values.",
+    "scraped_at": 1754074805.534812
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/credit/repayment-simulation",
+    "title": "Simulate Repayments",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Manage Credit\n\n"
+      },
+      {
+        "heading": "Prerequisites",
+        "content": "A Highnote account\nAn API key or API Explorer\nA financial account with simulated transactions and an outstanding balance\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Overview",
+        "content": "Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.\n\nCredit and charge card products use ACH transfers to drive repayments on the Highnote platform. For more information on repayments, see Schedule Repayments.\n\nSimulating repayments in the test environment requires the following steps:\n\nCreating a payment.\nUpdating the status of the transfer.\nProcessing a transfer.\n\nThis guide provides steps for simulating repayments in the test environment.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create a one-time payment",
+        "content": "Note: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.\n\nOne-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0.\n\nOUTSTANDING_BALANCE\n\nIn the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:\n\nfindScheduledTransferEvent\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Update the transfer status",
+        "content": "In the test environment, you can change the status of a fund in transfer from NEW to PROCESSING using the transfer ID. The simulation will allow you to view the impacts to ledgers from initiating a transfer:\n\nNEW\n\nPROCESSING\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Process a transfer",
+        "content": "In the test environment, you can change the status of a fund in transfer from PROCESSING to PROCESSED using the transfer ID. The simulation will allow you to view the impacts to ledgers from processing a transfer:\n\nPROCESSING\n\nPROCESSED\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Automate your integration",
+        "content": "To automate your integration, subscribe to ACH funds deposit notification events.\n\nThe details provided in the payloads from this event can be used for the following use cases:\n\nAutomate your application or website's repayment workflows\nCreate account holder notifications or alerts\nCreate status views in your application or website\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Manage CreditSimulate RepaymentsPrerequisitesClick to Copy A Highnote account An API key or API Explorer A financial account with simulated transactions and an outstanding balance OverviewClick to CopyDo not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.Credit and charge card products use ACH transfers to drive repayments on the Highnote platform. For more information on repayments, see Schedule Repayments. Simulating repayments in the test environment requires the following steps: Creating a payment. Updating the status of the transfer. Processing a transfer. This guide provides steps for simulating repayments in the test environment.Create a one-time paymentClick to CopyNote: Scheduled payments are initiated by the account holder. You can not schedule a payment for an account holder in the live environment.One-time payments can be scheduled based on a balance amount or a custom amount. A scheduled payment will not be initiated if the financial account has an OUTSTANDING_BALANCE less than or equal to $0. In the test environment, a transfer ID is generated within 5 minutes of scheduling a payment for today. Use the findScheduledTransferEvent query to find a transfer event ID and simulate changing the status of the transfer:Update the transfer statusClick to CopyIn the test environment, you can change the status of a fund in transfer from NEW to PROCESSING using the transfer ID. The simulation will allow you to view the impacts to ledgers from initiating a transfer:Process a transferClick to CopyIn the test environment, you can change the status of a fund in transfer from PROCESSING to PROCESSED using the transfer ID. The simulation will allow you to view the impacts to ledgers from processing a transfer:Automate your integrationClick to CopyTo automate your integration, subscribe to ACH funds deposit notification events. The details provided in the payloads from this event can be used for the following use cases: Automate your application or website's repayment workflows Create account holder notifications or alerts Create status views in your application or website",
+    "scraped_at": 1754074806.9006379
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/transactions/simulate-transactions",
+    "title": "Simulate Transactions",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Handle Transactions\n\n"
+      },
+      {
+        "heading": "Prerequisites",
+        "content": "Note: This guide can be used for any card product, except fleet card products. To simulate transactions for fleet card products, see Simulate Fleet Transactions.\n\nReview Transaction Lifecycle guide\nA Highnote account\nAn API Key or the API Explorer\nA card product, financial account, and payment card\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Overview",
+        "content": "Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.\n\nYou can use the Highnote API to simulate transactions in the test environment. Simulating transactions helps test the following use cases and card product settings:\n\nTransactions at different merchant types\nDifferent transaction amounts\nInternational transactions\nSpend rules and velocity controls\nCollaborative authorization flow\n\nThis guide provides steps for simulating transactions using the Highnote API. For steps on simulating transactions in the dashboard, see Simulate authorizations.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate an authorization",
+        "content": "Simulated authorizations use the same logic as real authorizations from card networks such as Mastercard and Visa. In the test environment, authorizations are approved or declined based on your card product logic and authorization controls.\n\nUse the following mutation to simulate an authorization in your test environment:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate a clearing event",
+        "content": "Once a transaction clears, funds are transferred to the merchant from the account holder's financial account. Clearing occurs in one of the following ways:\n\nWith an authorization, immediately after\nIn batches after authorizations are approved\n\nUse the following mutation to simulate clearing. For partial clearings, set the value input variable to an amount less than the original transaction, for example:\n\nvalue\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate an authorization and clear",
+        "content": "Some transactions send authorization and clearing events in a single message. Use the following mutation to simulate an authorization and clearing event:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate a reversal",
+        "content": "An authorization can be reversed if it has not cleared. Reversing an authorization releases funds from \"pending\" status and returns the funds to the account holder.\n\nSpecifically:\n\nYou can do a full or partial reversal.\nYou cannot reverse after a partial clearing, nor clear after a partial reversal.\n\nUse the following mutation to simulate a reversal. Full reversals are the default.  For partial reversals, set the value input variable to an amount less than the original authorization, for example:\n\nvalue\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate a refund",
+        "content": "Note: You cannot simulate refunds linked to a previous transaction. Simulating a refund results in a new transaction with its own id and transactionEvent.\n\nid\n\ntransactionEvent\n\nRefunds can be simulated for cleared transactions. When simulating a refund, you can refund the total or partial amount of the original transaction.\n\nWhen you use the simulateRefund mutation, you will receive a ClearingEvent in response. Use the following mutation to simulate a refund:\n\nsimulateRefund\n\nClearingEvent\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Automate your integration",
+        "content": "To automate your integration, subscribe to the following notification events:\n\nPayment card authorization\nPayment authorization and clear\nPayment card cleared\n\nThe details provided in the payloads from these events can be used for the following use cases:\n\nAutomate your application or website's transaction processing workflows\nCreate account holder notifications and alerts\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Handle TransactionsSimulate TransactionsPrerequisitesClick to CopyNote: This guide can be used for any card product, except fleet card products. To simulate transactions for fleet card products, see Simulate Fleet Transactions. Review Transaction Lifecycle guide A Highnote account An API Key or the API Explorer A card product, financial account, and payment card OverviewClick to CopyDo not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.You can use the Highnote API to simulate transactions in the test environment. Simulating transactions helps test the following use cases and card product settings: Transactions at different merchant types Different transaction amounts International transactions Spend rules and velocity controls Collaborative authorization flow This guide provides steps for simulating transactions using the Highnote API. For steps on simulating transactions in the dashboard, see Simulate authorizations.Simulate an authorizationClick to CopySimulated authorizations use the same logic as real authorizations from card networks such as Mastercard and Visa. In the test environment, authorizations are approved or declined based on your card product logic and authorization controls. Use the following mutation to simulate an authorization in your test environment:Simulate a clearing eventClick to CopyOnce a transaction clears, funds are transferred to the merchant from the account holder's financial account. Clearing occurs in one of the following ways: With an authorization, immediately after In batches after authorizations are approved Use the following mutation to simulate clearing. For partial clearings, set the value input variable to an amount less than the original transaction, for example: Copy code snippetSimulate an authorization and clearClick to CopySome transactions send authorization and clearing events in a single message. Use the following mutation to simulate an authorization and clearing event:Simulate a reversalClick to CopyAn authorization can be reversed if it has not cleared. Reversing an authorization releases funds from \"pending\" status and returns the funds to the account holder. Specifically: You can do a full or partial reversal. You cannot reverse after a partial clearing, nor clear after a partial reversal. Use the following mutation to simulate a reversal. Full reversals are the default. For partial reversals, set the value input variable to an amount less than the original authorization, for example: Copy code snippetSimulate a refundClick to CopyNote: You cannot simulate refunds linked to a previous transaction. Simulating a refund results in a new transaction with its own id and transactionEvent.Refunds can be simulated for cleared transactions. When simulating a refund, you can refund the total or partial amount of the original transaction. When you use the simulateRefund mutation, you will receive a ClearingEvent in response. Use the following mutation to simulate a refund:Automate your integrationClick to CopyTo automate your integration, subscribe to the following notification events: Payment card authorization Payment authorization and clear Payment card cleared The details provided in the payloads from these events can be used for the following use cases: Automate your application or website's transaction processing workflows Create account holder notifications and alerts",
+    "scraped_at": 1754074808.172721
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/templates/commercial-charge",
+    "title": "Commercial Charge",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Quick Start Templates\n\n"
+      },
+      {
+        "heading": "Overview",
+        "content": "Commercial charge cards do not charge interest and require account holders to pay their statement balance in full by the due date of each billing cycle.\n\nHighnote supports the following types of commercial charge cards:\n\nThe following graphic provides an overview of the process for issuing a commercial charge card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create card product",
+        "content": "Highnote supports unsecured and secured commercial charge card products. This guide provides an overview of creating an unsecured commercial charge card product.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Unsecured commercial charge",
+        "content": "Use the following mutation to create a commercial charge card product in the test environment. When creating your card product, use COMMERCIAL_CREDIT as the vertical input variable:\n\nCOMMERCIAL_CREDIT\n\nvertical\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Secured commercial charge",
+        "content": "You can create a secured commercial charge card product using Highnote's secured deposit feature. This feature is enabled for your card product by the Highnote team and requires cardholders to provide collateral in the form of a secure deposit to back their line of credit.\n\nFor more information on enabling this feature and integration steps, see Create Secured Deposit Offer.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Add charge feature",
+        "content": "After creating a COMMERCIAL_CREDIT card product, use the following mutation to add the CHARGE feature. This feature enables pay-in-full terms for cardholders:\n\nCOMMERCIAL_CREDIT\n\nCHARGE\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Fund your card program",
+        "content": "Unsecured commercial charge card products use a product funding account to issue lines of credit. The product funding account is where you deposit the capital that you or your debt facility provide to back lines of credit.\n\nIn the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified bank account.\n\nFunding your product funding account requires the following steps:\n\nRetrieve the product funding account ID.\nInitiate a wire transfer to the product funding account.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Find product funding account ID",
+        "content": "Use the following query to find your product funding account ID:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Initiate a wire transfer",
+        "content": "Note: A transfer's memo field displays information about a given transfer. You can edit a transfer's memo field in the test environment. In the live environment, you can't edit this field.\n\nUsing the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:\n\ntoFinancialAccountId\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create an account holder",
+        "content": "Commercial charge card products are used by business account holders. US business account holders must provide business details and a primary authorized person, with the option to add beneficial owners. For more information on onboarding US business account holders, see Onboard a US business account holder.\n\nBefore issuing a line of credit, you may want to collect creditRiskAttribute inputs in the credit application. These fields can be used to simulate credit line assignment or adverse action reasons. For more information on these simulations, see the following guides:\n\ncreditRiskAttribute\n\nSimulate Credit Line Assignment\nSimulate Adverse Action Declines\n\nUse the following mutation to create a business account holder:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Account holder applications",
+        "content": "Application approval for credit card products in the live environment uses one of the following workflows:\n\nHighnote runs your credit policy for you and approves or denies applications based on your credit policy.\nYou participate in collaborative application decisioning to provide a recommended approval or denied application response.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Enable collaborative application decisioning",
+        "content": "By default, in the test environment, you can simulate credit application decisions with various values. These simulation values are used when onboarding an account holder. Use this default setting if Highnote will be executing your credit policy on your behalf. For more information, see the Simulate Underwriting Decision guide.\n\nAlternatively, you or your underwriter can use collaborative application decisioning. This feature allows you to recommend an approval or denial based on your credit policy. For more information, see Collaborative Application Decisioning.\n\nEnable collaborative application decisioning in the Highnote dashboard, or using the API with the following mutation:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Open an application",
+        "content": "When an account holder application is submitted, it triggers an application decision request. If you use collaborative application decisioning, you can respond with a recommended APPROVED or DENIED decision.\n\nAPPROVED\n\nDENIED\n\nIn some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.\n\nUse the following mutation to open an application for an account holder:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate application decision",
+        "content": "The test environment does not run identity verification checks on applications. During testing, you can simulate application approvals or denials using simulation values. These simulation values product tags that result in the following application statuses:\n\nAPPROVED\nIN_REVIEW\nDENIED\n\nAPPROVED\n\nIN_REVIEW\n\nDENIED\n\nFor more information on using this simulation, see Simulate Underwriting Decision.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a financial account",
+        "content": "Financial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application.\n\nid\n\nFinancial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.\n\nexternalId\n\nexternalId\n\nUse the following mutation to issue a financial account for an application:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Set credit limit",
+        "content": "Note: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.\n\nYou can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders.\n\nfinancialAccountId\n\nUse the following mutation to set a credit limit:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Issue a payment card",
+        "content": "Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.\n\nUse the following mutation to issue a virtual card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Physical cards",
+        "content": "By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Digital wallets",
+        "content": "Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Display payment card data",
+        "content": "Warning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.\n\nThere are two methods for displaying payment card data on your website or application:\n\nFetching the data from the Highnote API\nUse the Card Viewer SDK to ensure PCI compliance\n\nTo fetch payment card data from the API, use the following query:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Schedule repayments",
+        "content": "Charge card products account holders to repay their balance in full. An account holder needs to connect a verified external bank account to Highnote to schedule a repayment. Once a verified account is linked, the account holder can use ACH transfers to schedule payments.\n\nHighnote supports the following types of payment schedules:\n\nRecurring payments\nOne-time payments\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Connect a verified external bank account",
+        "content": "Account holders must have a verified external bank account connected to Highnote to schedule repayments. For more information on connecting external accounts, see Connect External Accounts.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Create a payment schedule",
+        "content": "Payment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.\n\nYou can establish one-time or recurring payment schedules, enabling your customers to schedule payments on their monthly due date or a customized calendar day. Recurring payment schedules are based on a point-in-time balance, such as an outstanding balance, and the ACH transfer amount will be calculated on the scheduled date.\n\nSee the scheduled repayments guide for more information on managing, viewing, and canceling payment schedules.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Generate a billing statement",
+        "content": "Billing statement data is created on financial accounts and becomes available at the end of a billing cycle. For charge and credit card products, the billing period end date may vary across financial accounts on your portfolio. Statement data is typically available within 48 hours of a billing period end date.\n\nFor more information on generating a billing statement, see Generate Current Billing Statement.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate transactions",
+        "content": "After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.\n\nFor more information on simulating transactions, see Simulate Transactions.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate delinquency",
+        "content": "Highnote's delinquency simulator lets you view a financial account's current delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with understanding delinquency scenarios and testing notification events.\n\nUse the Simulate Delinquency guide for more information on using the Highnote API to simulate delinquency in the test environment.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Expand your integration",
+        "content": "After configuring your card product and simulating transactions, you can use the following features to further expand your integration:\n\nCreate authorization controls to manage spending.\nCreate a rewards program for your card product.\nSetup notifications to automate your integration.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Quick Start TemplatesCommercial ChargeOverviewClick to CopyCommercial charge cards do not charge interest and require account holders to pay their statement balance in full by the due date of each billing cycle. Highnote supports the following types of commercial charge cards: ConfigurationDescriptionUnsecuredOffer a line of credit without requiring collateral. This configuration requires you or a debt facility to provide sufficient capital based on the lines of credit extended to your cardholders.SecuredOffer a line of credit backed by an account holder's secure deposit. The following graphic provides an overview of the process for issuing a commercial charge card: Create card productClick to CopyHighnote supports unsecured and secured commercial charge card products. This guide provides an overview of creating an unsecured commercial charge card product.Unsecured commercial chargeClick to CopyUse the following mutation to create a commercial charge card product in the test environment. When creating your card product, use COMMERCIAL_CREDIT as the vertical input variable:Secured commercial chargeClick to CopyYou can create a secured commercial charge card product using Highnote's secured deposit feature. This feature is enabled for your card product by the Highnote team and requires cardholders to provide collateral in the form of a secure deposit to back their line of credit. For more information on enabling this feature and integration steps, see Create Secured Deposit Offer.Add charge featureClick to CopyAfter creating a COMMERCIAL_CREDIT card product, use the following mutation to add the CHARGE feature. This feature enables pay-in-full terms for cardholders:Fund your card programClick to CopyUnsecured commercial charge card products use a product funding account to issue lines of credit. The product funding account is where you deposit the capital that you or your debt facility provide to back lines of credit. In the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified bank account. Funding your product funding account requires the following steps: Retrieve the product funding account ID. Initiate a wire transfer to the product funding account. Find product funding account IDClick to CopyUse the following query to find your product funding account ID:Initiate a wire transferClick to CopyNote: A transfer's memo field displays information about a given transfer. You can edit a transfer's memo field in the test environment. In the live environment, you can't edit this field.Using the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:Create an account holderClick to CopyCommercial charge card products are used by business account holders. US business account holders must provide business details and a primary authorized person, with the option to add beneficial owners. For more information on onboarding US business account holders, see Onboard a US business account holder. Before issuing a line of credit, you may want to collect creditRiskAttribute inputs in the credit application. These fields can be used to simulate credit line assignment or adverse action reasons. For more information on these simulations, see the following guides: Simulate Credit Line Assignment Simulate Adverse Action Declines Use the following mutation to create a business account holder:Account holder applicationsClick to CopyApplication approval for credit card products in the live environment uses one of the following workflows: Highnote runs your credit policy for you and approves or denies applications based on your credit policy. You participate in collaborative application decisioning to provide a recommended approval or denied application response. Enable collaborative application decisioningClick to CopyBy default, in the test environment, you can simulate credit application decisions with various values. These simulation values are used when onboarding an account holder. Use this default setting if Highnote will be executing your credit policy on your behalf. For more information, see the Simulate Underwriting Decision guide. Alternatively, you or your underwriter can use collaborative application decisioning. This feature allows you to recommend an approval or denial based on your credit policy. For more information, see Collaborative Application Decisioning. Enable collaborative application decisioning in the Highnote dashboard, or using the API with the following mutation:Open an applicationClick to CopyWhen an account holder application is submitted, it triggers an application decision request. If you use collaborative application decisioning, you can respond with a recommended APPROVED or DENIED decision. In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review. Use the following mutation to open an application for an account holder:Simulate application decisionClick to CopyThe test environment does not run identity verification checks on applications. During testing, you can simulate application approvals or denials using simulation values. These simulation values product tags that result in the following application statuses: APPROVED IN_REVIEW DENIED For more information on using this simulation, see Simulate Underwriting Decision.Issue a financial accountClick to CopyFinancial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application. Financial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one. Use the following mutation to issue a financial account for an application:Set credit limitClick to CopyNote: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.You can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders. Use the following mutation to set a credit limit:Issue a payment cardClick to CopyOnce you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed. Use the following mutation to issue a virtual card:Physical cardsClick to CopyBy default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.Digital walletsClick to CopyHighnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.Display payment card dataClick to CopyWarning: Highnote recommends using the Card Viewer SDK to securely display payment card data and and reduce PCI non-compliance.There are two methods for displaying payment card data on your website or application: Fetching the data from the Highnote API Use the Card Viewer SDK to ensure PCI compliance To fetch payment card data from the API, use the following query:Schedule repaymentsClick to CopyCharge card products account holders to repay their balance in full. An account holder needs to connect a verified external bank account to Highnote to schedule a repayment. Once a verified account is linked, the account holder can use ACH transfers to schedule payments. Highnote supports the following types of payment schedules: Recurring payments One-time payments Connect a verified external bank accountClick to CopyAccount holders must have a verified external bank account connected to Highnote to schedule repayments. For more information on connecting external accounts, see Connect External Accounts.Create a payment scheduleClick to CopyPayment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.You can establish one-time or recurring payment schedules, enabling your customers to schedule payments on their monthly due date or a customized calendar day. Recurring payment schedules are based on a point-in-time balance, such as an outstanding balance, and the ACH transfer amount will be calculated on the scheduled date. See the scheduled repayments guide for more information on managing, viewing, and canceling payment schedules.Generate a billing statementClick to CopyBilling statement data is created on financial accounts and becomes available at the end of a billing cycle. For charge and credit card products, the billing period end date may vary across financial accounts on your portfolio. Statement data is typically available within 48 hours of a billing period end date. For more information on generating a billing statement, see Generate Current Billing Statement.Simulate transactionsClick to CopyAfter configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings. For more information on simulating transactions, see Simulate Transactions.Simulate delinquency Click to CopyHighnote's delinquency simulator lets you view a financial account's current delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with understanding delinquency scenarios and testing notification events. Use the Simulate Delinquency guide for more information on using the Highnote API to simulate delinquency in the test environment.Expand your integrationClick to CopyAfter configuring your card product and simulating transactions, you can use the following features to further expand your integration: Create authorization controls to manage spending. Create a rewards program for your card product. Setup notifications to automate your integration.",
+    "scraped_at": 1754074809.532688
+  },
+  {
+    "url": "https://highnote.com/docs/reference/enum/FinancialAccountStatus",
+    "title": "Enum",
+    "sections": [
+      {
+        "heading": "Enum",
+        "content": "An Enum (Enumeration) type is a special kind of scalar that is restricted to a particular set of allowed values.\n\n",
+        "level": 1
+      }
+    ],
+    "full_text": "EnumAn Enum (Enumeration) type is a special kind of scalar that is restricted to a particular set of allowed values.",
+    "scraped_at": 1754074810.944939
+  },
+  {
+    "url": "https://highnote.com/docs/basics/graphql-api/request-complexity",
+    "title": "Request Complexity",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Basics / Highnote API\n\n"
+      },
+      {
+        "heading": "Overview",
+        "content": "Request complexity refers to the computational cost and resource usage of executing a GraphQL query. Because GraphQL lets clients request deeply nested and complex data structures in a single query, complexity must be managed to avoid overloading the server.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Scoring complexity",
+        "content": "Common factors that increase complexity are operation, depth, and type. For example:\n\nOperation: Mutations are often more complex than queries due to data writes and consistency requirements.\nDepth: Deeply nested queries are more complex than shallow ones.\nType: Objects with multiple fields or relationships to other objects are more complex than primitive types such as scalars.\n\nHighnote manages the complexity of its GraphQL API with complexity scoring, rate limiting, and pagination.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Type and pattern costs",
+        "content": "Query operation types are scored as follows:\n\nQuery: Query cost is based on the types and fields requested.\nMutation: Mutations have a base cost of 10, plus any additional costs based on the types and fields requested.\n\nOther types and patterns are scored as follows:\n\nNote: The fields cursor and pageInfo are intrinsic to the connection pattern and have no separate complexity cost.\n\ncursor\n\npageInfo\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simple example",
+        "content": "The following example demonstrates a simple request complexity calculation:\n\nCopy code snippet\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Nested example",
+        "content": "The following example demonstrates a more complex request complexity calculation that includes nested connection objects to illustrate how pagination cost can multiply:\n\nCopy code snippet\n\nCopy code snippet\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Testing request costs",
+        "content": "The asOf parameter is the UTC timestamp for when this was calculated, to account for staleness during long requests.\n\nasOf\n\nEvery Highnote GraphQL API response includes the request cost under the extensions field. We recommend that you test the cost of your queries in the API Explorer.\n\nThe following example represents a request cost response in an API request that is not rate-limited:\n\nCopy code snippet\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Basics / Highnote APIRequest ComplexityOverviewClick to CopyRequest complexity refers to the computational cost and resource usage of executing a GraphQL query. Because GraphQL lets clients request deeply nested and complex data structures in a single query, complexity must be managed to avoid overloading the server.Scoring complexityClick to CopyCommon factors that increase complexity are operation, depth, and type. For example: Operation: Mutations are often more complex than queries due to data writes and consistency requirements. Depth: Deeply nested queries are more complex than shallow ones. Type: Objects with multiple fields or relationships to other objects are more complex than primitive types such as scalars. Highnote manages the complexity of its GraphQL API with complexity scoring, rate limiting, and pagination.Type and pattern costsClick to CopyQuery operation types are scored as follows: Query: Query cost is based on the types and fields requested. Mutation: Mutations have a base cost of 10, plus any additional costs based on the types and fields requested. Other types and patterns are scored as follows: Type / PatternDescriptionCostObjectType with a defined set of fields (e.g., a User with id, name, email fields)1 pointInterfaceTemplate type that defines required fields other types must implement. Uses maximum type complexity (where only the most expensive type requested is counted).1 pointUnionType that can be one of several object types. Uses maximum type complexity.1 pointScalarPrimitive type like String, Int, Boolean. Cost is accounted for in the object it belongs to.0 pointsEnumUser-defined type with a fixed set of allowed values. Cost is accounted for in the object it belongs to.0 pointsConnectionPattern for pagination, typically implemented as an object type with edges and nodes. Defines how different types of data are connected and how they can be queried.2 points + number of objects requested Note: The fields cursor and pageInfo are intrinsic to the connection pattern and have no separate complexity cost.Simple exampleClick to CopyThe following example demonstrates a simple request complexity calculation:Example 1Copy code snippetRequest CalculationCopy code snippetNested exampleClick to CopyThe following example demonstrates a more complex request complexity calculation that includes nested connection objects to illustrate how pagination cost can multiply:Example 2Copy code snippetRequest CalculationCopy code snippetTesting request costsClick to CopyThe asOf parameter is the UTC timestamp for when this was calculated, to account for staleness during long requests.Every Highnote GraphQL API response includes the request cost under the extensions field. We recommend that you test the cost of your queries in the API Explorer. The following example represents a request cost response in an API request that is not rate-limited:Query Cost ResponseCopy code snippet",
+    "scraped_at": 1754074812.2088141
+  },
+  {
+    "url": "https://highnote.com/docs/issuing/credit/billing-statement-simulation",
+    "title": "Simulate Billing Statements",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Issuing / Manage Credit\n\n"
+      },
+      {
+        "heading": "Prerequisites",
+        "content": "A Highnote account\nAn API key or API Explorer\nA credit or charge card product\nA financial account with a generated billing statement\nOptional - Simulated transactions\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Overview",
+        "content": "Billing statements reflect money movement, balances, and fees on an account holder's financial account. This guide provides steps for simulating the following actions for billing statements:\n\nShifting the billing statement end period\nRolling the billing statement over to the next billing cycle\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate shifting the statement end period",
+        "content": "Note: This simulation feature is only compatible with credit card products at this time.\n\nIn the test environment, you can end a financial account\u2019s billing period early to simulate a billing statement. When performing this simulation, refer to the following guidelines:\n\nSet the new period at least 60 seconds in the future.\nIf no periodBoundary is provided, the system defaults the statement\u2019s endPeriod to 60 seconds from now.\n\nperiodBoundary\n\nendPeriod\n\nTo simulate changing a statement's end period for a consumer revolving credit card, use the following mutation:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Simulate rolling over to the next billing cycle",
+        "content": "Note: This simulation feature only works with credit card products at this time.\n\nIn the test environment, you can transition a financial account\u2019s billing period to the next cycle, simulating the end of one billing cycle and the start of another. To retrieve the simulated current amount due, refer to the appropriate statement snapshot type:\n\nCreditPayInFullCardFinancialAccountStatementSnapshot\n\nConsumerChargeCardFinancialAccountStatementSnapshot\n\nConsumerRevolvingCardFinancialAccountStatementSnapshot\n\nUse the following mutation to simulate rolling over the current statement period for a consumer revolving credit card:\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Automate your integration",
+        "content": "To automate your integration, subscribe to the financial account statement notification event.\n\nThe details provided in the payloads from this event can be used for the following use cases:\n\nAutomate your application or website's transaction processing workflow\nCreate account holder notifications and alerts\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Issuing / Manage CreditSimulate Billing StatementsPrerequisitesClick to Copy A Highnote account An API key or API Explorer A credit or charge card product A financial account with a generated billing statement Optional - Simulated transactions OverviewClick to CopyBilling statements reflect money movement, balances, and fees on an account holder's financial account. This guide provides steps for simulating the following actions for billing statements: Shifting the billing statement end period Rolling the billing statement over to the next billing cycle Simulate shifting the statement end periodClick to CopyNote: This simulation feature is only compatible with credit card products at this time.In the test environment, you can end a financial account\u2019s billing period early to simulate a billing statement. When performing this simulation, refer to the following guidelines: Set the new period at least 60 seconds in the future. If no periodBoundary is provided, the system defaults the statement\u2019s endPeriod to 60 seconds from now. To simulate changing a statement's end period for a consumer revolving credit card, use the following mutation:Simulate rolling over to the next billing cycleClick to CopyNote: This simulation feature only works with credit card products at this time.In the test environment, you can transition a financial account\u2019s billing period to the next cycle, simulating the end of one billing cycle and the start of another. To retrieve the simulated current amount due, refer to the appropriate statement snapshot type: Card product typeStatement snapshotCommercial chargeCreditPayInFullCardFinancialAccountStatementSnapshotConsumer chargeConsumerChargeCardFinancialAccountStatementSnapshotConsumer revolving creditConsumerRevolvingCardFinancialAccountStatementSnapshot Use the following mutation to simulate rolling over the current statement period for a consumer revolving credit card:Automate your integrationClick to CopyTo automate your integration, subscribe to the financial account statement notification event. The details provided in the payloads from this event can be used for the following use cases: Automate your application or website's transaction processing workflow Create account holder notifications and alerts",
+    "scraped_at": 1754074813.457907
+  },
+  {
+    "url": "https://highnote.com/docs/reference/input_object",
+    "title": "Input Object",
+    "sections": [
+      {
+        "heading": "Input Object",
+        "content": "The input type is a special object type that groups a set of arguments together. This is particularly valuable in the case of mutations, where you might want to pass in a whole object to be created. In the Highnote API we also use inputs for filtering in queries.\n\n",
+        "level": 1
+      }
+    ],
+    "full_text": "Input ObjectThe input type is a special object type that groups a set of arguments together. This is particularly valuable in the case of mutations, where you might want to pass in a whole object to be created. In the Highnote API we also use inputs for filtering in queries.",
+    "scraped_at": 1754074814.9346292
+  },
+  {
+    "url": "https://highnote.com/docs/basics/get-started/highnote-overview",
+    "title": "Highnote Overview",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home\n\n"
+      },
+      {
+        "heading": "What is Highnote?",
+        "content": "Highnote is a modern card issuance platform that provides card issuing and complete end-to-end card program management. We enable businesses to create and manage payment cards, including virtual cards, physical cards, and tokenized mobile payments.\n\nPartnering with Highnote relieves you of managing significant compliance and operational requirements. These include KYC-KYB, regulatory compliance, transaction monitoring, cardholder support, physical card printing and shipping, setting up BINs on a choice of card networks and sponsor banks, daily reconciliation and settlement, and seamless money movement between the bank accounts.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Test and live environments",
+        "content": "Do not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.\n\nThe Highnote platform has two environments, test and live. Both environments house your card products, enabling you to build your integration and test the API:\n\nTest environment: For building your Highnote integration with the Highnote API, simulating capabilities and transactions, and training your team on how to use Highnote.\n\n\nLive environment: For actively issuing payment cards and running transactions with your launched card product. The live environment provides an easy-to-use interface to support your live card products.\n\nTest environment: For building your Highnote integration with the Highnote API, simulating capabilities and transactions, and training your team on how to use Highnote.\n\nLive environment: For actively issuing payment cards and running transactions with your launched card product. The live environment provides an easy-to-use interface to support your live card products.\n\nYou can interact with both environments using the Highnote API or dashboard. Highnote's API guides explain how to use the API to interact with both environments. For dashboard guides, see the Highnote Support Guides.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Next steps",
+        "content": "Use the following steps to create an account and review Highnote\u2019s getting started content:\n\nCreate an account and explore the dashboard.\nLearn about the Highnote API.\nTest the API.\nLearn about the Highnote SDKs.\nLearn about Highnote Issuing.\nTo learn about the dashboard, review the Highnote Support Guides.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home Highnote OverviewWhat is Highnote?Click to CopyHighnote is a modern card issuance platform that provides card issuing and complete end-to-end card program management. We enable businesses to create and manage payment cards, including virtual cards, physical cards, and tokenized mobile payments. Partnering with Highnote relieves you of managing significant compliance and operational requirements. These include KYC-KYB, regulatory compliance, transaction monitoring, cardholder support, physical card printing and shipping, setting up BINs on a choice of card networks and sponsor banks, daily reconciliation and settlement, and seamless money movement between the bank accounts.Test and live environmentsClick to CopyDo not enter production data in the test environment. The Highnote test environment is for exploring features and training. Use only dummy or test data.The Highnote platform has two environments, test and live. Both environments house your card products, enabling you to build your integration and test the API: Test environment: For building your Highnote integration with the Highnote API, simulating capabilities and transactions, and training your team on how to use Highnote. Live environment: For actively issuing payment cards and running transactions with your launched card product. The live environment provides an easy-to-use interface to support your live card products. You can interact with both environments using the Highnote API or dashboard. Highnote's API guides explain how to use the API to interact with both environments. For dashboard guides, see the Highnote Support Guides.Next stepsClick to CopyUse the following steps to create an account and review Highnote\u2019s getting started content: Create an account and explore the dashboard. Learn about the Highnote API. Test the API. Learn about the Highnote SDKs. Learn about Highnote Issuing. To learn about the dashboard, review the Highnote Support Guides.",
+    "scraped_at": 1754074816.070074
+  },
+  {
+    "url": "https://highnote.com/docs/basics/graphql-api/rotating-api-keys",
+    "title": "Rotate API Keys",
+    "sections": [
+      {
+        "heading": "",
+        "content": "Home / Basics / Highnote API\n\n"
+      },
+      {
+        "heading": "Before you start",
+        "content": "We strongly recommend rotating your Highnote API keys every 90 days. The practice of rotating API keys helps mitigate risk associated with unauthorized access and misuse of sensitive data or services.\n\n",
+        "level": 2
+      },
+      {
+        "heading": "Rotate your API keys",
+        "content": "To rotate your API keys, create new keys and revoke old ones:\n\nLogin to the Highnote dashboard.\nClick Developers from the left-hand navigation menu.\nOn the API Keys tab, click Create API Key and follow the prompts. Create multiple API keys if needed.\nCopy and store your new API key in a secure place.\nUpdate your applications to use your new API key.\nDelete old API keys by clicking Revoke API Key in the Highnote dashboard.\n\n",
+        "level": 2
+      }
+    ],
+    "full_text": "Home / Basics / Highnote APIRotate API KeysBefore you startClick to CopyWe strongly recommend rotating your Highnote API keys every 90 days. The practice of rotating API keys helps mitigate risk associated with unauthorized access and misuse of sensitive data or services.Rotate your API keysClick to CopyTo rotate your API keys, create new keys and revoke old ones: Login to the Highnote dashboard. Click Developers from the left-hand navigation menu. On the API Keys tab, click Create API Key and follow the prompts. Create multiple API keys if needed. Copy and store your new API key in a secure place. Update your applications to use your new API key. Delete old API keys by clicking Revoke API Key in the Highnote dashboard.",
+    "scraped_at": 1754074817.303384
+  }
+]

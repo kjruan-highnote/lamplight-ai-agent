@@ -1,0 +1,144 @@
+Title: Online Payments
+URL: https://highnote.com/docs/acquiring/accept-payments/accept-online-payments#cancel-partial-amount
+==================================================
+
+Home / Acquiring / Accept Payments
+
+## Payment methods
+
+Highnote accepts online payments through the following payment networks:
+
+## Secure Inputs SDK
+
+To maintain PCI SAQ-A compliance, we recommend using Highnote’s Secure Inputs SDK to build your payment form. The Secure Inputs SDK uses client tokens to request the Highnote API on your behalf. Secure Inputs will prevent PCI data from being sent through your server.
+
+Follow the Secure Inputs SDK setup guide and add the following SDK snippet to your payment form:
+
+Copy code snippet
+
+## Payments process
+
+Once a customer completes your payment form and the Secure Inputs SDK has returned a PaymentMethod, you can process the payment.
+
+PaymentMethod
+
+For consumer purchases, the payment process uses the following steps:
+
+Authorization: The customer's payment details are verified with the issuer, and the funds are reserved.
+Cancel: If the payment won’t continue past this point, reverse the authorization transaction so funds can be released.
+Capture: The reserved funds are transferred to your merchant settlement financial account after the customer's successful authorization.
+Refund: The reserved funds are transferred from your merchant settlement financial account back to the customer’s account.
+Disburse:  The funds due to each merchant account is calculated and moved from Highnote’s ledger to the merchant settlement account, including fees and reserve amounts.
+
+These steps are outlined as follows:
+
+In most cases, transactions can be authorized and captured in a single step. However, there are some scenarios where an authorization request may need to be done first. This is particularly true for transactions involving tips or delayed/partial shipments. Once the amount is finalized, a capture request can then be executed.
+
+## Authorize a payment card
+
+A payment transaction begins with the authorization of a payment card. You can use authorizations to capture transactions at the point of sale or schedule to capture the payment later for transactions with an authorization request.
+
+There are two methods for authorizing a payment card:
+
+For merchants who are not PCI SAQ-D compliant, use Highnote's Secure Inputs SDK to tokenize a payment card.
+For merchants who are already PCI SAQ-D,  you can use a mutation to authorize a payment card.
+
+Use the following mutation to verify the customer’s payment details and authorize a payment card:
+
+## Charge a payment card
+
+After authorizing a payment card, you can use the following mutation to charge the customer's card:
+
+## Cancel a payment
+
+A payment can only be canceled before Highnote captures the payment. When a payment is canceled before capture, no money has moved out of the cardholder's account, resulting in the funds being returned to their account balance.
+
+Payments can be canceled by the cardholder, merchant, issuing bank, acquiring bank, or payment network. Payment cancellations are common in the following use cases:
+
+Undelivered goods or services
+Duplicate transactions
+Fraud transactions
+The customer asks for a cancellation before goods are shipped
+
+Full and partial payment cancellations are supported for all card networks except American Express. For an overview of use cases for partial cancellations, see Cancel a partial amount.
+
+## Cancel full amount
+
+To process a full cancellation, use the following mutation and ensure the value input variable is equal to the full amount of the authorization:
+
+value
+
+## Cancel partial amount
+
+Note: Partial cancellations are not supported for American Express.
+
+Partial cancellations are common in the following use cases:
+
+A customer returns items from their purchase, but not the entire purchase.
+A customer cancels a service and is refunded the unused portion of the service.
+An error was made in the initial billing, such as overcharging a service or product.
+Only one part of an order was fulfilled or delivered, and the other part is reversed as a refund.
+
+To process a partial cancellation, use the following mutation and enter the partial amount in the value input variable field:
+
+value
+
+## Capture a payment
+
+Capturing a payment transaction moves funds from the customer’s account to your merchant account. Full and partial captures are supported for all card networks except for American Express.
+
+## Capture full amount
+
+To capture a full amount, use the following mutation and ensure the value input variable field reflects the full amount of the original authorization:
+
+value
+
+## Capture partial amount
+
+Note: Partial captures are not supported for American Express.
+
+Partial captures are common in the following use cases:
+
+A customer places a pre-order or makes a deposit, and only a portion of the total authorization is captured upfront.
+A customer’s order is split into multiple shipments and the merchant captures payments separately for each one.
+A merchant offers flexible payment terms, with partial captures collected at an agreed-upon schedule.
+An item from a customer’s order is back-ordered and the business captures a payment for only the available items.
+
+To capture a partial amount, use the following mutation and enter a partial amount in the value input variable field:
+
+value
+
+## Refund a payment
+
+Note: Refunds can only be issued against captured and disbursed transactions.
+
+Refunds are issued after a payment has been captured and funds have been disbursed. Highnote supports full and partial refunds. Multiple partial refunds can be done if the total of the refunds does not exceed the captured amount.
+
+## Refund full amount
+
+Use the following mutation to refund the full amount of a payment transaction:
+
+## Refund partial amount
+
+To refund a partial amount, ensure the amount value provided in the RefundPaymentTransaction mutation does not exceed the authorizedAmount.
+
+amount
+
+RefundPaymentTransaction
+
+authorizedAmount
+
+Use the following mutation to refund a partial amount of a payment transaction. In the response payload, note the difference between the authorizedAmount and refundedAmount:
+
+authorizedAmount
+
+refundedAmount
+
+## Find all payment transactions
+
+Use the following query to create a list view of all payment transactions:
+
+## Find a payment transaction
+
+Use the following query to find a single payment transaction:
+

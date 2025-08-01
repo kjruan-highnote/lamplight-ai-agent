@@ -1,0 +1,232 @@
+Title: Consumer Charge
+URL: https://highnote.com/docs/issuing/templates/consumer-charge
+==================================================
+
+Home / Issuing / Quick Start Templates
+
+## Overview
+
+Consumer charge cards do not charge interest and require account holders to pay their statement balance in full by the due date of each billing cycle.
+
+Highnote supports the following types of consumer charge cards:
+
+This guide provides an overview of creating and setting up an unsecured consumer charge card product using the Highnote API in the test environment. In the live environment, the Highnote team will assist with creating your card product.
+
+## Create card product
+
+Note: To enable secure deposits or use the credit processing-only model, contact support@highnote.com.
+
+Use the following mutation to create an unsecured consumer charge card product in the test environment. Use CONSUMER_CREDIT as the vertical input variable:
+
+CONSUMER_CREDIT
+
+vertical
+
+## Add charge feature
+
+After creating a CONSUMER_CREDIT card product, use the following mutation to add the CHARGE feature. This feature enables pay-in-full terms for account holders.
+
+CONSUMER_CREDIT
+
+CHARGE
+
+## View credit features
+
+In the test environment, credit and charge card products are automatically assigned credit features and settings. These features and settings are similar to a live program's credit policies, which are configured by the Highnote team during program setup.
+
+The following table outlines the default features and settings for consumer credit card products in the test environment:
+
+delinquentInDays
+
+totalDaysDelinquent
+
+suspendedInDays
+
+totalDaysDelinquent
+
+chargeOffInDays
+
+totalDaysDelinquent
+
+minimumPayment
+
+percentage
+
+thresholdAmount
+
+Use the following query to view credit features for your credit card product in the test environment:
+
+## Fund your card program
+
+Unsecured consumer charge card products use a product funding account to issue lines of credit. The product funding account is where you deposit the capital that you or your debt facility provide to back lines of credit.
+
+In the test environment, you can simulate depositing funds into your product funding account. Simulating deposits doesn't require connecting a verified bank account.
+
+Funding your product funding account requires the following steps:
+
+Retrieve the product funding account ID.
+Initiate a wire transfer to the product funding account.
+
+## Find product funding account ID
+
+Use the following query to find your product funding account ID:
+
+## Initiate a wire transfer
+
+Using the following mutation, simulate a wire transfer in the test environment using the product funding account ID as the toFinancialAccountId input variable:
+
+toFinancialAccountId
+
+## Create an account holder
+
+Note: Your credit policy will dictate what data will be required to issue a line of credit in the live environment. Some credit policies require more data than the totalAnnualIncome and currentDebtObligations.
+
+totalAnnualIncome
+
+currentDebtObligations
+
+Before issuing a line of credit, you should collect totalAnnualIncome and currentDebtObligations from your applicants. These fields are inputs for the personCreditRiskAttributes object.
+
+totalAnnualIncome
+
+currentDebtObligations
+
+personCreditRiskAttributes
+
+There are two recommended methods for collecting this information:
+
+Collect from the account holder when they are completing their application.
+Update the account holder with the necessary details after they've submitted their application.
+
+Use the following mutation to create an account holder for a consumer credit card product. Provide personCreditRiskAttributes as necessary:
+
+personCreditRiskAttributes
+
+## Account holder applications
+
+Application approval for credit card products in the live environment uses one of the following workflows:
+
+Highnote runs your credit policy for you and approves or denies applications based on your credit policy.
+You participate in collaborative application decisioning to provide a recommended approval or denied application response.
+
+## Enable collaborative application decisioning
+
+By default, in the test environment, you can simulate credit application decisions with various values. These simulation values are used when onboarding an account holder. Use this default setting if Highnote will be executing your credit policy on your behalf. For more information, see the Simulate Underwriting Decision guide.
+
+Alternatively, you or your underwriter can use collaborative application decisioning. This feature allows you to recommend an approval or denial based on your credit policy. For more information, see Collaborative Application Decisioning.
+
+Enable collaborative application decisioning in the Highnote dashboard, or using the API with the following mutation:
+
+## Open an application
+
+When an account holder application is submitted, it triggers an application decision request. If you use collaborative application decisioning, you can respond with a recommended APPROVED or DENIED decision.
+
+APPROVED
+
+DENIED
+
+In some cases, additional documents may be required to approve an application. For more information on collecting additional documents, see Request Documents for Application Review.
+
+Use the following mutation to open an application for an account holder:
+
+## Simulate application decision
+
+The test environment does not run identity verification checks on applications. During testing, you can simulate application approvals or denials using simulation values. These simulation values product tags that result in the following application statuses:
+
+APPROVED
+IN_REVIEW
+DENIED
+
+APPROVED
+
+IN_REVIEW
+
+DENIED
+
+For more information on using this simulation, see Simulate Underwriting Decision.
+
+## Issue a financial account
+
+Financial accounts hold the balance for payment cards. To create a new financial account, pass the id of a verified application.
+
+id
+
+Financial accounts have an externalId variable field that allows you to tie the Financial account to an entity in your system. If you do not pass in an externalId, Highnote will generate one.
+
+externalId
+
+externalId
+
+Use the following mutation to issue a financial account for an application:
+
+## Set credit limit
+
+Note: Setting or updating a credit limit is an asynchronous process with the Highnote team to ensure your ledger balances and validations are in check.
+
+You can set a financial account's credit limit by providing the financialAccountId and the credit limit you want to assign to the financial account. Your product funding financial account must have funds equal to or exceeding any credit limit you extend to your account holders.
+
+financialAccountId
+
+Use the following mutation to set a credit limit:
+
+## Issue a payment card
+
+Once you have created a financial account, you can issue a payment card. By default, all payment cards start as virtual cards. After you issue a virtual card, you can create a physical card order if needed.
+
+Use the following mutation to issue a virtual card:
+
+## Physical cards
+
+By default, all payment cards start as virtual cards. Highnote also supports issuing personalized payment cards to account holders. For more information on issuing physical cards, see Print Physical Cards.
+
+## Digital wallets
+
+Highnote supports issuing tokenized cards. Account holders can add tokenized cards to digital wallets like Apple and Google Pay. For more information, see Add Cards to Digital Wallets.
+
+## Schedule repayments
+
+Charge card products account holders to repay their balance in full. An account holder needs to connect a verified external bank account to Highnote to schedule a repayment. Once a verified account is linked, the account holder can use ACH transfers to schedule payments.
+
+Highnote supports the following types of payment schedules:
+
+Recurring payments
+One-time payments
+
+## Connect a verified external bank account
+
+Account holders must have a verified external bank account connected to Highnote to schedule repayments. For more information on connecting external accounts, see Connect External Accounts.
+
+## Create a payment schedule
+
+Payment due dates are determined by (1) the financial account's creation date, and (2) the card product's grace period.
+
+You can establish one-time or recurring payment schedules, enabling your customers to schedule payments on their monthly due date or a customized calendar day. Recurring payment schedules are based on a point-in-time balance, such as an outstanding balance, and the ACH transfer amount will be calculated on the scheduled date.
+
+See the scheduled repayments guide for more information on managing, viewing, and canceling payment schedules.
+
+## Generate a billing statement
+
+Billing statement data is created on financial accounts and becomes available at the end of a billing cycle. For charge and credit card products, the billing period end date may vary across financial accounts on your portfolio. Statement data is typically available within 48 hours of a billing period end date.
+
+For more information on generating a billing statement, see Generate Current Billing Statement.
+
+## Simulate transactions
+
+After configuring your card product, we recommend simulating transactions. Simulating transactions is useful for testing your card program's configuration and settings.
+
+For more information on simulating transactions, see Simulate Transactions.
+
+## Simulate delinquency
+
+Highnote's delinquency simulator lets you view a financial account's current delinquency status and receivables by simulating past purchase and payment scenarios. In the test environment, this helps with understanding delinquency scenarios and testing notification events.
+
+Use the Simulate Delinquency guide for more information on using the Highnote API to simulate delinquency in the test environment.
+
+## Expand your integration
+
+After configuring your card product and simulating transactions, you can use the following features to further expand your integration:
+
+Create authorization controls to manage spending.
+Create a rewards program for your card product.
+Setup notifications to automate your integration.
+

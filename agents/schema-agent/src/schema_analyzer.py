@@ -58,8 +58,8 @@ class SchemaVocabulary:
 class SchemaAnalyzer:
     """Self-learning GraphQL schema analyzer."""
     
-    def __init__(self, metadata_path: str = "embeddings/metadata.json", 
-                 cache_path: str = "schema_vocabulary_cache.pkl"):
+    def __init__(self, metadata_path: str = "./data/embeddings/metadata.json", 
+                 cache_path: str = "./cache/schema_vocabulary_cache.pkl"):
         self.metadata_path = Path(metadata_path)
         self.cache_path = Path(cache_path)
         self.logger = logging.getLogger(__name__)
