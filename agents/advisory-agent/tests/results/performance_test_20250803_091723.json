@@ -1,0 +1,204 @@
+{
+  "timestamp": "2025-08-03T09:17:23.970279",
+  "configuration": {
+    "base_url": "http://localhost:8002",
+    "timeout": 30,
+    "test_cases_count": 3
+  },
+  "statistics": {
+    "summary": {
+      "total_tests": 3,
+      "successful": 1,
+      "failed": 2,
+      "success_rate": 33.33333333333333
+    },
+    "response_times": {
+      "min": 5898.066997528076,
+      "max": 6761.198043823242,
+      "mean": 6253.527641296387,
+      "median": 6101.317882537842,
+      "p95": 7289.1021728515625,
+      "p99": 7394.682998657227
+    },
+    "by_category": {
+      "schema": {
+        "total": 3,
+        "successful": 1,
+        "success_rate": 33.33333333333333,
+        "avg_response_time": 6253.527641296387
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 2,
+        "successful": 1,
+        "success_rate": 50.0,
+        "avg_response_time": 6329.632520675659
+      },
+      "medium": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 6101.317882537842
+      }
+    },
+    "by_agent": {
+      "schema_only": 1,
+      "doc_only": 2,
+      "both": 0,
+      "none": 0
+    },
+    "routing_accuracy": {
+      "correct": 1,
+      "total": 3,
+      "accuracy": 33.33333333333333
+    },
+    "keyword_coverage": {
+      "total_expected": 10,
+      "total_found": 6,
+      "coverage": 60.0
+    },
+    "failures": [
+      {
+        "test_id": "schema_005",
+        "question": "What are the possible values for FinancialAccountStatus enum?",
+        "category": "schema",
+        "difficulty": "easy",
+        "error": null,
+        "keywords_missing": [
+          "OPEN",
+          "CLOSED"
+        ],
+        "response_time_ms": 6761.198043823242
+      },
+      {
+        "test_id": "schema_004",
+        "question": "What mutations are available for creating account holders?",
+        "category": "schema",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "createUSPersonAccountHolder",
+          "createUSBusinessAccountHolder"
+        ],
+        "response_time_ms": 6101.317882537842
+      }
+    ]
+  },
+  "results": [
+    {
+      "test_id": "schema_005",
+      "success": false,
+      "response_time_ms": 6761.198043823242,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 687,
+      "keywords_found": [
+        "enum",
+        "FinancialAccountStatus"
+      ],
+      "keywords_missing": [
+        "OPEN",
+        "CLOSED"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I don't have enough information to answer the question about possible values for FinancialAccountStatus enum. It appears that the documentation context provided consists of multiple chunks with differ..."
+    },
+    {
+      "test_id": "schema_004",
+      "success": false,
+      "response_time_ms": 6101.317882537842,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 478,
+      "keywords_found": [
+        "mutation"
+      ],
+      "keywords_missing": [
+        "createUSPersonAccountHolder",
+        "createUSBusinessAccountHolder"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "Based on the provided documentation context, I can answer that the available mutations for creating account holders are:\n\n* `createAccountHolder` (Source: chunk_105)\nThis mutation allows you to create..."
+    },
+    {
+      "test_id": "schema_001",
+      "success": true,
+      "response_time_ms": 5898.066997528076,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 184,
+      "keywords_found": [
+        "String",
+        "ping",
+        "Query"
+      ],
+      "keywords_missing": [],
+      "query_type": "schema",
+      "confidence": 0.9375,
+      "error": null,
+      "response_preview": "What is the type of the field `ping` in the Query type?\n\nAnswer: The type of the field `ping` in the Query type is `String!`. (Source: 000_queries_ping.graphql)\n\n*Source: Schema Agent*"
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "schema_005",
+      "category": "schema",
+      "question": "What are the possible values for FinancialAccountStatus enum?",
+      "expected_keywords": [
+        "OPEN",
+        "CLOSED",
+        "enum",
+        "FinancialAccountStatus"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": [
+        "enum",
+        "status",
+        "financial"
+      ]
+    },
+    {
+      "id": "schema_004",
+      "category": "schema",
+      "question": "What mutations are available for creating account holders?",
+      "expected_keywords": [
+        "createUSPersonAccountHolder",
+        "createUSBusinessAccountHolder",
+        "mutation"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "mutation",
+        "account",
+        "create"
+      ]
+    },
+    {
+      "id": "schema_001",
+      "category": "schema",
+      "question": "What is the type of the ping field in the Query type?",
+      "expected_keywords": [
+        "String",
+        "ping",
+        "Query"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": [
+        "basic",
+        "query",
+        "type"
+      ]
+    }
+  ]
+}

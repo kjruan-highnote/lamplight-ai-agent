@@ -1,0 +1,499 @@
+{
+  "timestamp": "2025-08-03T09:19:22.918992",
+  "configuration": {
+    "base_url": "http://localhost:8002",
+    "timeout": 30,
+    "test_cases_count": 10
+  },
+  "statistics": {
+    "summary": {
+      "total_tests": 10,
+      "successful": 7,
+      "failed": 3,
+      "success_rate": 70.0
+    },
+    "response_times": {
+      "min": 4217.807769775391,
+      "max": 25787.227153778076,
+      "mean": 10659.921407699585,
+      "median": 9399.187684059143,
+      "p95": 31368.367993831635,
+      "p99": 36825.483481884
+    },
+    "by_category": {
+      "documentation": {
+        "total": 7,
+        "successful": 6,
+        "success_rate": 85.71428571428571,
+        "avg_response_time": 8511.378696986607
+      },
+      "mixed": {
+        "total": 3,
+        "successful": 1,
+        "success_rate": 33.33333333333333,
+        "avg_response_time": 15673.187732696533
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 4,
+        "successful": 3,
+        "success_rate": 75.0,
+        "avg_response_time": 7149.553537368774
+      },
+      "medium": {
+        "total": 3,
+        "successful": 3,
+        "success_rate": 100.0,
+        "avg_response_time": 10327.14557647705
+      },
+      "hard": {
+        "total": 3,
+        "successful": 1,
+        "success_rate": 33.33333333333333,
+        "avg_response_time": 15673.187732696533
+      }
+    },
+    "by_agent": {
+      "schema_only": 1,
+      "doc_only": 8,
+      "both": 1,
+      "none": 0
+    },
+    "routing_accuracy": {
+      "correct": 7,
+      "total": 10,
+      "accuracy": 70.0
+    },
+    "keyword_coverage": {
+      "total_expected": 41,
+      "total_found": 34,
+      "coverage": 82.92682926829268
+    },
+    "failures": [
+      {
+        "test_id": "edge_002",
+        "question": "What are the rate limits for the GraphQL API?",
+        "category": "documentation",
+        "difficulty": "easy",
+        "error": null,
+        "keywords_missing": [
+          "request"
+        ],
+        "response_time_ms": 5260.714054107666
+      },
+      {
+        "test_id": "mixed_005",
+        "question": "How do I use collaborative authorization with the approveTransaction mutation?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [],
+        "response_time_ms": 12380.131959915161
+      },
+      {
+        "test_id": "mixed_015",
+        "question": "How do I implement transaction disputes and chargebacks via the API?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "mutation"
+        ],
+        "response_time_ms": 8852.204084396362
+      }
+    ]
+  },
+  "results": [
+    {
+      "test_id": "doc_011",
+      "success": true,
+      "response_time_ms": 13384.691953659058,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 1395,
+      "keywords_found": [
+        "billing",
+        "statement",
+        "cycle",
+        "credit"
+      ],
+      "keywords_missing": [],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "To answer your question about how the billing statement cycle works for credit cards in Highnote, I'll summarize what I found in the documentation:\n\nAccording to the documentation (Sources 1-5), the b..."
+    },
+    {
+      "test_id": "doc_001",
+      "success": true,
+      "response_time_ms": 5996.549844741821,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 741,
+      "keywords_found": [
+        "onboard",
+        "account"
+      ],
+      "keywords_missing": [
+        "application",
+        "KYC"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I'd be happy to help! Based on the provided documentation context, I can answer your question about how to onboard a new account holder.\n\nTo onboard a new account holder in Highnote, you can follow th..."
+    },
+    {
+      "test_id": "doc_006",
+      "success": true,
+      "response_time_ms": 13378.937005996704,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 1235,
+      "keywords_found": [
+        "PCI",
+        "compliance",
+        "security",
+        "data"
+      ],
+      "keywords_missing": [],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "Based on the provided documentation context, here are some best practices for PCI compliance:\n\n1. To maintain PCI SAQ-A compliance, we recommend building your payment form with the Highnote Secure Inp..."
+    },
+    {
+      "test_id": "complex_003",
+      "success": true,
+      "response_time_ms": 4217.807769775391,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 454,
+      "keywords_found": [
+        "simulation",
+        "test",
+        "endpoint",
+        "environment"
+      ],
+      "keywords_missing": [],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "Based on the provided documentation context, I can tell you that there are several available simulation endpoints for testing:\n\n* Simulate collaborative authorization\n* Simulate delinquency\n* Simulate..."
+    },
+    {
+      "test_id": "doc_007",
+      "success": true,
+      "response_time_ms": 9946.171283721924,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 957,
+      "keywords_found": [
+        "add",
+        "funds"
+      ],
+      "keywords_missing": [
+        "transfer",
+        "ACH"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "To add funds to a financial account, you can use the following GraphQL mutation:\n\n```\nmutation {\n  issueFinancialAccount(id: \"your_verified_application_id\") {\n    financialAccount {\n      id\n      bal..."
+    },
+    {
+      "test_id": "edge_002",
+      "success": false,
+      "response_time_ms": 5260.714054107666,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 149,
+      "keywords_found": [
+        "rate",
+        "limit",
+        "API"
+      ],
+      "keywords_missing": [
+        "request"
+      ],
+      "query_type": "schema",
+      "confidence": 0.6666666666666666,
+      "error": null,
+      "response_preview": "I don't know based on the provided schema context. The rate limits for the GraphQL API are not specified in the given schema.\n\n*Source: Schema Agent*"
+    },
+    {
+      "test_id": "doc_012",
+      "success": true,
+      "response_time_ms": 7394.7789669036865,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 438,
+      "keywords_found": [
+        "template",
+        "consumer",
+        "commercial"
+      ],
+      "keywords_missing": [
+        "prepaid"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "According to the provided documentation context (Sources 1-5), the different card product templates available in Highnote are:\n\n* Commercial: Used by US business account holders\n* Consumer: Used by US..."
+    },
+    {
+      "test_id": "complex_001",
+      "success": true,
+      "response_time_ms": 25787.227153778076,
+      "agents_used": [
+        "schema-agent",
+        "document-agent"
+      ],
+      "response_length": 2225,
+      "keywords_found": [
+        "application",
+        "card",
+        "issuance",
+        "mutation",
+        "webhook"
+      ],
+      "keywords_missing": [],
+      "query_type": "unknown",
+      "confidence": 0.0,
+      "error": null,
+      "response_preview": "Based on both the GraphQL schema and documentation:\n\n**Schema Information:**\nI don't know based on the provided schema context. The question is about the complete flow from application creation to car..."
+    },
+    {
+      "test_id": "mixed_005",
+      "success": false,
+      "response_time_ms": 12380.131959915161,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 1341,
+      "keywords_found": [
+        "collaborative",
+        "authorization",
+        "approve",
+        "mutation"
+      ],
+      "keywords_missing": [],
+      "query_type": "documentation",
+      "confidence": 0.7272727272727273,
+      "error": null,
+      "response_preview": "To use collaborative authorization with the approveTransaction mutation in Highnote, you can follow these steps:\n\n1. Register a collaborative authorization endpoint using the `approveTransaction` muta..."
+    },
+    {
+      "test_id": "mixed_015",
+      "success": false,
+      "response_time_ms": 8852.204084396362,
+      "agents_used": [
+        "document-agent"
+      ],
+      "response_length": 1082,
+      "keywords_found": [
+        "dispute",
+        "chargeback",
+        "transaction"
+      ],
+      "keywords_missing": [
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I can help with that!\n\nTo implement transaction disputes and chargebacks via the Highnote API, follow these steps:\n\n1. First, refer to the API reference (Source 1-5) for fields you may see in a charge..."
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "doc_011",
+      "category": "documentation",
+      "question": "How does the billing statement cycle work for credit cards?",
+      "expected_keywords": [
+        "billing",
+        "statement",
+        "cycle",
+        "credit"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": [
+        "billing",
+        "statement",
+        "credit"
+      ]
+    },
+    {
+      "id": "doc_001",
+      "category": "documentation",
+      "question": "How do I onboard a new account holder?",
+      "expected_keywords": [
+        "onboard",
+        "account",
+        "application",
+        "KYC"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": [
+        "onboarding",
+        "account",
+        "process"
+      ]
+    },
+    {
+      "id": "doc_006",
+      "category": "documentation",
+      "question": "What are the best practices for PCI compliance?",
+      "expected_keywords": [
+        "PCI",
+        "compliance",
+        "security",
+        "data"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": [
+        "PCI",
+        "compliance",
+        "security"
+      ]
+    },
+    {
+      "id": "complex_003",
+      "category": "documentation",
+      "question": "What are all the available simulation endpoints for testing?",
+      "expected_keywords": [
+        "simulation",
+        "test",
+        "endpoint",
+        "environment"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": [
+        "simulation",
+        "testing",
+        "endpoints"
+      ]
+    },
+    {
+      "id": "doc_007",
+      "category": "documentation",
+      "question": "How do I add funds to a financial account?",
+      "expected_keywords": [
+        "add",
+        "funds",
+        "transfer",
+        "ACH"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": [
+        "funds",
+        "transfer",
+        "ACH"
+      ]
+    },
+    {
+      "id": "edge_002",
+      "category": "documentation",
+      "question": "What are the rate limits for the GraphQL API?",
+      "expected_keywords": [
+        "rate",
+        "limit",
+        "API",
+        "request"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": [
+        "rate-limit",
+        "API",
+        "limits"
+      ]
+    },
+    {
+      "id": "doc_012",
+      "category": "documentation",
+      "question": "What are the different card product templates available?",
+      "expected_keywords": [
+        "template",
+        "consumer",
+        "commercial",
+        "prepaid"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": [
+        "template",
+        "card",
+        "product"
+      ]
+    },
+    {
+      "id": "complex_001",
+      "category": "mixed",
+      "question": "Explain the complete flow from application creation to card issuance including all mutations and webhooks",
+      "expected_keywords": [
+        "application",
+        "card",
+        "issuance",
+        "mutation",
+        "webhook"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "flow",
+        "complete",
+        "card-issuance"
+      ]
+    },
+    {
+      "id": "mixed_005",
+      "category": "mixed",
+      "question": "How do I use collaborative authorization with the approveTransaction mutation?",
+      "expected_keywords": [
+        "collaborative",
+        "authorization",
+        "approve",
+        "mutation"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "authorization",
+        "collaborative",
+        "API"
+      ]
+    },
+    {
+      "id": "mixed_015",
+      "category": "mixed",
+      "question": "How do I implement transaction disputes and chargebacks via the API?",
+      "expected_keywords": [
+        "dispute",
+        "chargeback",
+        "transaction",
+        "mutation"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "dispute",
+        "chargeback",
+        "API"
+      ]
+    }
+  ]
+}

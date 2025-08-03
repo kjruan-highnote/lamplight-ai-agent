@@ -12,35 +12,86 @@
         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
         
   @app.on_event("shutdown")
-2025-08-01 16:12:21,850 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
-2025-08-01 16:12:21,851 - __main__ - INFO - Authentication enabled: False
-2025-08-01 16:12:21,851 - __main__ - INFO - Schema agent: http://localhost:8000
-2025-08-01 16:12:21,851 - __main__ - INFO - Document agent: http://localhost:8001
-INFO:     Started server process [62820]
+2025-08-03 09:12:35,566 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
+2025-08-03 09:12:35,566 - __main__ - INFO - Authentication enabled: False
+2025-08-03 09:12:35,566 - __main__ - INFO - Schema agent: http://localhost:8000
+2025-08-03 09:12:35,566 - __main__ - INFO - Document agent: http://localhost:8001
+INFO:     Started server process [31589]
 INFO:     Waiting for application startup.
-2025-08-01 16:12:21,889 - api - INFO - Initializing advisory agent router...
-2025-08-01 16:12:21,889 - api - INFO - Advisory agent router initialized successfully
-2025-08-01 16:12:21,889 - api - INFO - Schema agent URL: http://localhost:8000
-2025-08-01 16:12:21,889 - api - INFO - Document agent URL: http://localhost:8001
-2025-08-01 16:12:21,901 - api - INFO - schema_agent: healthy
-2025-08-01 16:12:21,901 - api - INFO - doc_agent: healthy
+2025-08-03 09:12:35,596 - api - INFO - Initializing advisory agent router...
+2025-08-03 09:12:35,596 - api - INFO - Advisory agent router initialized successfully
+2025-08-03 09:12:35,596 - api - INFO - Schema agent URL: http://localhost:8000
+2025-08-03 09:12:35,596 - api - INFO - Document agent URL: http://localhost:8001
+2025-08-03 09:12:35,606 - api - INFO - schema_agent: healthy
+2025-08-03 09:12:35,606 - api - INFO - doc_agent: healthy
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
-INFO:     127.0.0.1:51447 - "GET /health HTTP/1.1" 200 OK
-2025-08-01 16:12:28,565 - api - INFO - Processing question: How do I create a card product and what GraphQL mutation do I use?...
-2025-08-01 16:12:28,566 - src.agent_router - INFO - Routing query: 'How do I create a card product and what GraphQL mu...' -> Type: documentation, Schema: False, Docs: True
-INFO:     127.0.0.1:51482 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51548 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51576 - "POST /analyze HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:51578 - "POST /query HTTP/1.1" 404 Not Found
-2025-08-01 16:13:58,333 - api - INFO - Processing question: How do I create a card?...
-2025-08-01 16:13:58,334 - src.agent_router - INFO - Routing query: 'How do I create a card?...' -> Type: documentation, Schema: False, Docs: True
-INFO:     127.0.0.1:51581 - "POST /chat HTTP/1.1" 200 OK
-2025-08-01 16:16:28,597 - api - INFO - Processing question: How do I create a card using GraphQL mutation?...
-2025-08-01 16:16:28,598 - src.agent_router - INFO - Routing query: 'How do I create a card using GraphQL mutation?...' -> Type: documentation, Schema: True, Docs: True
-INFO:     127.0.0.1:51686 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51724 - "GET /routing/test?question=How%20do%20I%20create%20a%20card? HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51745 - "GET /routing/test?question=What%20GraphQL%20mutation%20creates%20a%20card? HTTP/1.1" 200 OK
-2025-08-01 16:22:13,303 - api - INFO - Processing question: What are the key features of Highnote?...
-2025-08-01 16:22:13,303 - src.agent_router - INFO - Routing query: 'What are the key features of Highnote?...' -> Type: documentation, Schema: False, Docs: True
-INFO:     127.0.0.1:52036 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56195 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56325 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:13:28,432 - api - INFO - Processing question: What are the required fields for CreateAccountHolderCardProductApplicationInput?...
+2025-08-03 09:13:28,433 - src.agent_router - INFO - Routing query: 'What are the required fields for CreateAccountHold...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56325 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:13:34,963 - api - INFO - Processing question: How do I onboard a new account holder?...
+2025-08-03 09:13:34,963 - src.agent_router - INFO - Routing query: 'How do I onboard a new account holder?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56325 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:13:40,237 - api - INFO - Processing question: How does the billing statement cycle work for credit cards?...
+2025-08-03 09:13:40,237 - src.agent_router - INFO - Routing query: 'How does the billing statement cycle work for cred...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56325 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:13:48,877 - api - INFO - Processing question: What mutations are available for generating client tokens?...
+2025-08-03 09:13:48,877 - src.agent_router - INFO - Routing query: 'What mutations are available for generating client...' -> Type: mixed, Schema: True, Docs: True
+INFO:     127.0.0.1:56325 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:14:08,147 - api - INFO - Processing question: How do velocity controls work for cards?...
+2025-08-03 09:14:08,149 - src.agent_router - INFO - Routing query: 'How do velocity controls work for cards?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56325 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:14:24,028 - api - INFO - Processing question: What API calls are needed to simulate a wire transfer in test?...
+2025-08-03 09:14:24,029 - src.agent_router - INFO - Routing query: 'What API calls are needed to simulate a wire trans...' -> Type: mixed, Schema: True, Docs: True
+2025-08-03 09:14:54,732 - api - INFO - Processing question: What are the required fields for onboarding a business and which mutation should I use?...
+2025-08-03 09:14:54,733 - src.agent_router - INFO - Routing query: 'What are the required fields for onboarding a busi...' -> Type: schema, Schema: True, Docs: False
+2025-08-03 09:14:54,801 - src.agent_router - ERROR - Error querying schema agent: 
+INFO:     127.0.0.1:56354 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:15:05,455 - api - INFO - Processing question: How do I implement the full KYC flow with document upload using the API?...
+2025-08-03 09:15:05,456 - src.agent_router - INFO - Routing query: 'How do I implement the full KYC flow with document...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56354 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:15:22,268 - api - INFO - Processing question: What is collaborative authorization and when should I use it?...
+2025-08-03 09:15:22,269 - src.agent_router - INFO - Routing query: 'What is collaborative authorization and when shoul...' -> Type: mixed, Schema: True, Docs: True
+INFO:     127.0.0.1:56434 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:17:04,807 - api - INFO - Processing question: What are the possible values for FinancialAccountStatus enum?...
+2025-08-03 09:17:04,807 - src.agent_router - INFO - Routing query: 'What are the possible values for FinancialAccountS...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56434 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:17:11,772 - api - INFO - Processing question: What mutations are available for creating account holders?...
+2025-08-03 09:17:11,773 - src.agent_router - INFO - Routing query: 'What mutations are available for creating account ...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56434 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:17:18,073 - api - INFO - Processing question: What is the type of the ping field in the Query type?...
+2025-08-03 09:17:18,073 - src.agent_router - INFO - Routing query: 'What is the type of the ping field in the Query ty...' -> Type: schema, Schema: True, Docs: False
+INFO:     127.0.0.1:56434 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56470 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:17:34,493 - api - INFO - Processing question: How does the billing statement cycle work for credit cards?...
+2025-08-03 09:17:34,493 - src.agent_router - INFO - Routing query: 'How does the billing statement cycle work for cred...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:17:48,086 - api - INFO - Processing question: How do I onboard a new account holder?...
+2025-08-03 09:17:48,088 - src.agent_router - INFO - Routing query: 'How do I onboard a new account holder?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:17:54,290 - api - INFO - Processing question: What are the best practices for PCI compliance?...
+2025-08-03 09:17:54,290 - src.agent_router - INFO - Routing query: 'What are the best practices for PCI compliance?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:07,867 - api - INFO - Processing question: What are all the available simulation endpoints for testing?...
+2025-08-03 09:18:07,867 - src.agent_router - INFO - Routing query: 'What are all the available simulation endpoints fo...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:12,287 - api - INFO - Processing question: How do I add funds to a financial account?...
+2025-08-03 09:18:12,288 - src.agent_router - INFO - Routing query: 'How do I add funds to a financial account?...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:22,437 - api - INFO - Processing question: What are the rate limits for the GraphQL API?...
+2025-08-03 09:18:22,438 - src.agent_router - INFO - Routing query: 'What are the rate limits for the GraphQL API?...' -> Type: schema, Schema: True, Docs: False
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:27,898 - api - INFO - Processing question: What are the different card product templates available?...
+2025-08-03 09:18:27,899 - src.agent_router - INFO - Routing query: 'What are the different card product templates avai...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:35,497 - api - INFO - Processing question: Explain the complete flow from application creation to card issuance including all mutations and web...
+2025-08-03 09:18:35,499 - src.agent_router - INFO - Routing query: 'Explain the complete flow from application creatio...' -> Type: unknown, Schema: True, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:19:01,486 - api - INFO - Processing question: How do I use collaborative authorization with the approveTransaction mutation?...
+2025-08-03 09:19:01,487 - src.agent_router - INFO - Routing query: 'How do I use collaborative authorization with the ...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:19:14,068 - api - INFO - Processing question: How do I implement transaction disputes and chargebacks via the API?...
+2025-08-03 09:19:14,069 - src.agent_router - INFO - Routing query: 'How do I implement transaction disputes and charge...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:56470 - "POST /chat HTTP/1.1" 200 OK

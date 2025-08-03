@@ -1,0 +1,547 @@
+{
+  "timestamp": "2025-08-03T09:08:42.828518",
+  "configuration": {
+    "base_url": "http://localhost:8002",
+    "timeout": 30,
+    "test_cases_count": 10
+  },
+  "statistics": {
+    "summary": {
+      "total_tests": 10,
+      "successful": 2,
+      "failed": 8,
+      "success_rate": 20.0
+    },
+    "response_times": {
+      "min": 2.971172332763672,
+      "max": 11512.615203857422,
+      "mean": 2728.894829750061,
+      "median": 7.034063339233398,
+      "p95": 11687.251794338226,
+      "p99": 11858.007571697235
+    },
+    "by_category": {
+      "schema": {
+        "total": 4,
+        "successful": 2,
+        "success_rate": 50.0,
+        "avg_response_time": 3936.3263845443726
+      },
+      "mixed": {
+        "total": 6,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 1923.9404598871868
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 1,
+        "successful": 1,
+        "success_rate": 100.0,
+        "avg_response_time": 4612.765789031982
+      },
+      "medium": {
+        "total": 4,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 2881.519138813019
+      },
+      "hard": {
+        "total": 5,
+        "successful": 1,
+        "success_rate": 20.0,
+        "avg_response_time": 2230.0211906433105
+      }
+    },
+    "by_agent": {
+      "schema_only": 3,
+      "doc_only": 0,
+      "both": 0,
+      "none": 7
+    },
+    "routing_accuracy": {
+      "correct": 2,
+      "total": 10,
+      "accuracy": 20.0
+    },
+    "keyword_coverage": {
+      "total_expected": 37,
+      "total_found": 9,
+      "coverage": 24.324324324324326
+    },
+    "failures": [
+      {
+        "test_id": "mixed_015",
+        "question": "How do I implement transaction disputes and chargebacks via the API?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "dispute",
+          "chargeback",
+          "transaction",
+          "mutation"
+        ],
+        "response_time_ms": 5.569219589233398
+      },
+      {
+        "test_id": "schema_004",
+        "question": "What mutations are available for creating account holders?",
+        "category": "schema",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "createUSPersonAccountHolder",
+          "createUSBusinessAccountHolder",
+          "mutation"
+        ],
+        "response_time_ms": 4.544973373413086
+      },
+      {
+        "test_id": "mixed_009",
+        "question": "How do I implement credit limit increases using the GraphQL API?",
+        "category": "mixed",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "credit",
+          "limit",
+          "increase",
+          "mutation"
+        ],
+        "response_time_ms": 5.9452056884765625
+      },
+      {
+        "test_id": "complex_002",
+        "question": "How do I implement a complete credit card product with underwriting, limits, and repayments?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "credit",
+          "underwriting",
+          "limit",
+          "repayment"
+        ],
+        "response_time_ms": 8.419036865234375
+      },
+      {
+        "test_id": "schema_011",
+        "question": "What queries support pagination using connections?",
+        "category": "schema",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "connection",
+          "pageInfo",
+          "edges",
+          "cursor"
+        ],
+        "response_time_ms": 3.4608840942382812
+      },
+      {
+        "test_id": "mixed_012",
+        "question": "What are the steps to create and fund a new financial account programmatically?",
+        "category": "mixed",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "financial",
+          "account",
+          "create",
+          "fund"
+        ],
+        "response_time_ms": 2.971172332763672
+      },
+      {
+        "test_id": "mixed_013",
+        "question": "How do I implement statement generation and retrieval using the API?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "statement",
+          "generate",
+          "retrieve",
+          "query"
+        ],
+        "response_time_ms": 8.122920989990234
+      },
+      {
+        "test_id": "mixed_010",
+        "question": "What are the webhook events and how do I query notification settings?",
+        "category": "mixed",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [],
+        "response_time_ms": 11512.615203857422
+      }
+    ]
+  },
+  "results": [
+    {
+      "test_id": "mixed_015",
+      "success": false,
+      "response_time_ms": 5.569219589233398,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "dispute",
+        "chargeback",
+        "transaction",
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "schema_009",
+      "success": true,
+      "response_time_ms": 11124.533891677856,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 1174,
+      "keywords_found": [
+        "approveCreditLimitIncrease",
+        "denyCreditLimitIncrease"
+      ],
+      "keywords_missing": [
+        "createCreditLimitChangeRequest"
+      ],
+      "query_type": "unknown",
+      "confidence": 0.0,
+      "error": null,
+      "response_preview": "The question is to list all mutations related to credit limit changes.\n\nBased on the provided schema context, the following are the mutations related to credit limit changes:\n\n1. `denyCreditLimitIncre..."
+    },
+    {
+      "test_id": "schema_004",
+      "success": false,
+      "response_time_ms": 4.544973373413086,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "createUSPersonAccountHolder",
+        "createUSBusinessAccountHolder",
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_009",
+      "success": false,
+      "response_time_ms": 5.9452056884765625,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "credit",
+        "limit",
+        "increase",
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 0.8181818181818182,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "complex_002",
+      "success": false,
+      "response_time_ms": 8.419036865234375,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "credit",
+        "underwriting",
+        "limit",
+        "repayment"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "schema_011",
+      "success": false,
+      "response_time_ms": 3.4608840942382812,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "connection",
+        "pageInfo",
+        "edges",
+        "cursor"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_012",
+      "success": false,
+      "response_time_ms": 2.971172332763672,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "financial",
+        "account",
+        "create",
+        "fund"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_013",
+      "success": false,
+      "response_time_ms": 8.122920989990234,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "statement",
+        "generate",
+        "retrieve",
+        "query"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_010",
+      "success": false,
+      "response_time_ms": 11512.615203857422,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 875,
+      "keywords_found": [
+        "webhook",
+        "event",
+        "notification",
+        "query"
+      ],
+      "keywords_missing": [],
+      "query_type": "mixed",
+      "confidence": 0.5555555555555556,
+      "error": null,
+      "response_preview": "What are the webhook events and how do I query notification settings?\n\nThe webhook events can be queried through the `notificationEvents` field in the Query type. This field returns a paginated list o..."
+    },
+    {
+      "test_id": "schema_001",
+      "success": true,
+      "response_time_ms": 4612.765789031982,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 285,
+      "keywords_found": [
+        "String",
+        "ping",
+        "Query"
+      ],
+      "keywords_missing": [],
+      "query_type": "schema",
+      "confidence": 0.9375,
+      "error": null,
+      "response_preview": "What is the type of the field `ping` in the Query type?\n\nAccording to the provided schema context, the answer is straightforward:\n\nThe type of the field `ping` in the Query type is `String!`.\n\nAnswer:..."
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "mixed_015",
+      "category": "mixed",
+      "question": "How do I implement transaction disputes and chargebacks via the API?",
+      "expected_keywords": [
+        "dispute",
+        "chargeback",
+        "transaction",
+        "mutation"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "dispute",
+        "chargeback",
+        "API"
+      ]
+    },
+    {
+      "id": "schema_009",
+      "category": "schema",
+      "question": "List all mutations related to credit limit changes",
+      "expected_keywords": [
+        "approveCreditLimitIncrease",
+        "denyCreditLimitIncrease",
+        "createCreditLimitChangeRequest"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": [
+        "mutation",
+        "credit",
+        "limit"
+      ]
+    },
+    {
+      "id": "schema_004",
+      "category": "schema",
+      "question": "What mutations are available for creating account holders?",
+      "expected_keywords": [
+        "createUSPersonAccountHolder",
+        "createUSBusinessAccountHolder",
+        "mutation"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "mutation",
+        "account",
+        "create"
+      ]
+    },
+    {
+      "id": "mixed_009",
+      "category": "mixed",
+      "question": "How do I implement credit limit increases using the GraphQL API?",
+      "expected_keywords": [
+        "credit",
+        "limit",
+        "increase",
+        "mutation"
+      ],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": [
+        "credit",
+        "limit",
+        "API"
+      ]
+    },
+    {
+      "id": "complex_002",
+      "category": "mixed",
+      "question": "How do I implement a complete credit card product with underwriting, limits, and repayments?",
+      "expected_keywords": [
+        "credit",
+        "underwriting",
+        "limit",
+        "repayment"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "credit",
+        "complete",
+        "implementation"
+      ]
+    },
+    {
+      "id": "schema_011",
+      "category": "schema",
+      "question": "What queries support pagination using connections?",
+      "expected_keywords": [
+        "connection",
+        "pageInfo",
+        "edges",
+        "cursor"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": [
+        "pagination",
+        "connection",
+        "query"
+      ]
+    },
+    {
+      "id": "mixed_012",
+      "category": "mixed",
+      "question": "What are the steps to create and fund a new financial account programmatically?",
+      "expected_keywords": [
+        "financial",
+        "account",
+        "create",
+        "fund"
+      ],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": [
+        "financial-account",
+        "funding",
+        "process"
+      ]
+    },
+    {
+      "id": "mixed_013",
+      "category": "mixed",
+      "question": "How do I implement statement generation and retrieval using the API?",
+      "expected_keywords": [
+        "statement",
+        "generate",
+        "retrieve",
+        "query"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "statement",
+        "billing",
+        "API"
+      ]
+    },
+    {
+      "id": "mixed_010",
+      "category": "mixed",
+      "question": "What are the webhook events and how do I query notification settings?",
+      "expected_keywords": [
+        "webhook",
+        "event",
+        "notification",
+        "query"
+      ],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": [
+        "webhook",
+        "notification",
+        "query"
+      ]
+    },
+    {
+      "id": "schema_001",
+      "category": "schema",
+      "question": "What is the type of the ping field in the Query type?",
+      "expected_keywords": [
+        "String",
+        "ping",
+        "Query"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": [
+        "basic",
+        "query",
+        "type"
+      ]
+    }
+  ]
+}

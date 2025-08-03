@@ -1,50 +1,110 @@
-2025-08-01 16:12:14,039 - __main__ - INFO - Initializing with standard chunking strategy...
-2025-08-01 16:12:14,042 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
-2025-08-01 16:12:14,042 - src.schema_analyzer - INFO - Building new schema vocabulary...
-2025-08-01 16:12:14,042 - src.schema_analyzer - INFO - Processed 0/2465 chunks
-2025-08-01 16:12:14,257 - src.schema_analyzer - INFO - Processed 500/2465 chunks
-2025-08-01 16:12:14,419 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
-2025-08-01 16:12:14,604 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
-2025-08-01 16:12:14,771 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
-2025-08-01 16:12:14,951 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
-2025-08-01 16:12:14,953 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
-2025-08-01 16:12:14,956 - src.retriever - INFO - Loaded 520 question patterns
-2025-08-01 16:12:15,050 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-01 16:12:15,050 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-01 16:12:17,960 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-08-01 16:12:17,961 - __main__ - INFO - Standard schema agent initialized successfully
-2025-08-01 16:12:17,992 - __main__ - INFO - Starting API server on 0.0.0.0:8000
-2025-08-01 16:12:17,992 - __main__ - INFO - Authentication enabled: False
-2025-08-01 16:12:17,992 - __main__ - INFO - Allowed origins: ['*']
-2025-08-01 16:12:18,055 - api - INFO - Initializing with standard chunking strategy...
-2025-08-01 16:12:18,057 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
-2025-08-01 16:12:18,057 - src.schema_analyzer - INFO - Building new schema vocabulary...
-2025-08-01 16:12:18,057 - src.schema_analyzer - INFO - Processed 0/2465 chunks
-2025-08-01 16:12:18,181 - src.schema_analyzer - INFO - Processed 500/2465 chunks
-2025-08-01 16:12:18,277 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
-2025-08-01 16:12:18,411 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
-2025-08-01 16:12:18,529 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
-2025-08-01 16:12:18,660 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
-2025-08-01 16:12:18,661 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
-2025-08-01 16:12:18,664 - src.retriever - INFO - Loaded 520 question patterns
-2025-08-01 16:12:18,665 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-01 16:12:18,665 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-01 16:12:20,950 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-08-01 16:12:20,950 - api - INFO - Standard schema agent initialized successfully
-INFO:     Started server process [62726]
+2025-08-03 09:12:20,101 - __main__ - INFO - Initializing with standard chunking strategy...
+2025-08-03 09:12:20,103 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-03 09:12:20,103 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-03 09:12:20,104 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-03 09:12:20,326 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-03 09:12:20,492 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-03 09:12:20,680 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-03 09:12:20,850 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-03 09:12:21,030 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-03 09:12:21,032 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-03 09:12:21,035 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-03 09:12:21,062 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-03 09:12:21,062 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 09:12:22,855 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-03 09:12:22,856 - __main__ - INFO - Standard schema agent initialized successfully
+2025-08-03 09:12:22,887 - __main__ - INFO - Starting API server on 0.0.0.0:8000
+2025-08-03 09:12:22,887 - __main__ - INFO - Authentication enabled: False
+2025-08-03 09:12:22,887 - __main__ - INFO - Allowed origins: ['*']
+2025-08-03 09:12:22,955 - api - INFO - Initializing with standard chunking strategy...
+2025-08-03 09:12:22,957 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-03 09:12:22,957 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-03 09:12:22,957 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-03 09:12:23,079 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-03 09:12:23,177 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-03 09:12:23,312 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-03 09:12:23,431 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-03 09:12:23,562 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-03 09:12:23,564 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-03 09:12:23,566 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-03 09:12:23,567 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-03 09:12:23,567 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 09:12:25,046 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-03 09:12:25,046 - api - INFO - Standard schema agent initialized successfully
+INFO:     Started server process [31460]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     127.0.0.1:51435 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51442 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51442 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51550 - "GET /health HTTP/1.1" 200 OK
-2025-08-01 16:16:28,607 - api - INFO - Processing question: How do I create a card using GraphQL mutation?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:02<00:00,  2.65s/it]Batches: 100%|██████████| 1/1 [00:02<00:00,  2.65s/it]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.76it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.75it/s]
-2025-08-01 16:16:31,556 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.39it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.46it/s]
-2025-08-01 16:16:31,684 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-08-01 16:16:37,625 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:51689 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56177 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56192 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56192 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56326 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:13:48,903 - api - INFO - Processing question: What mutations are available for generating client tokens?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:01<00:00,  1.38s/it]Batches: 100%|██████████| 1/1 [00:01<00:00,  1.38s/it]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.38it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.38it/s]
+2025-08-03 09:13:51,169 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 50.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 45.81it/s]
+2025-08-03 09:13:51,220 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:14:07,921 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56336 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:14:24,048 - api - INFO - Processing question: What API calls are needed to simulate a wire transfer in test?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.19it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]
+2025-08-03 09:14:25,551 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.66it/s]
+2025-08-03 09:14:25,668 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:14:58,943 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56349 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:14:58,947 - api - INFO - Processing question: What are the required fields for onboarding a business and which mutation should I use?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.53it/s]
+2025-08-03 09:14:59,110 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 67.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 61.38it/s]
+2025-08-03 09:14:59,219 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:15:05,243 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56355 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:15:22,278 - api - INFO - Processing question: What is collaborative authorization and when should I use it?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.54it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.95it/s]
+2025-08-03 09:15:22,991 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 34.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 29.63it/s]
+2025-08-03 09:15:23,062 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:15:44,927 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56364 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56435 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:17:18,081 - api - INFO - Processing question: What is the type of the ping field in the Query type?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.89it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.99it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.99it/s]
+2025-08-03 09:17:19,207 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 65.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 69.25it/s]
+2025-08-03 09:17:19,318 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:17:23,965 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56439 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56471 - "GET /health HTTP/1.1" 200 OK
+2025-08-03 09:18:22,458 - api - INFO - Processing question: What are the rate limits for the GraphQL API?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.39it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 47.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 48.96it/s]
+2025-08-03 09:18:22,673 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 62.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.19it/s]
+2025-08-03 09:18:22,732 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:18:27,685 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56495 - "POST /chat HTTP/1.1" 200 OK
+2025-08-03 09:18:35,507 - api - INFO - Processing question: Explain the complete flow from application creation to card issuance including all mutations and web...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.66it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.48it/s]
+2025-08-03 09:18:35,791 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 45.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.29it/s]
+2025-08-03 09:18:35,837 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-03 09:18:43,931 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56503 - "POST /chat HTTP/1.1" 200 OK

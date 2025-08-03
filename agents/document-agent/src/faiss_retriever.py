@@ -138,7 +138,7 @@ class FAISSDocumentRetriever:
         logger.info(f"Loaded FAISS index with {len(self.chunks)} chunks")
         logger.info(f"Model: {data.get('model_name', 'unknown')}")
     
-    def retrieve_chunks(self, query: str, top_k: int = 5) -> List[Tuple[str, float]]:
+    def retrieve_chunks(self, query: str, top_k: int = 5) -> List[Tuple[str, str, float]]:
         """
         Retrieve most similar chunks for a query.
         
@@ -147,7 +147,7 @@ class FAISSDocumentRetriever:
             top_k: Number of results to return
             
         Returns:
-            List of (chunk_text, similarity_score) tuples
+            List of (chunk_id, chunk_text, similarity_score) tuples
         """
         if self.index is None:
             raise ValueError("No index loaded. Build or load index first.")
@@ -163,7 +163,14 @@ class FAISSDocumentRetriever:
         results = []
         for score, idx in zip(scores[0], indices[0]):
             if idx < len(self.chunks):
-                results.append((self.chunks[idx], float(score)))
+                # Generate chunk_id from metadata or index
+                chunk_id = f"chunk_{idx}"
+                if idx < len(self.metadata) and self.metadata[idx]:
+                    meta = self.metadata[idx]
+                    if isinstance(meta, dict) and 'source' in meta:
+                        chunk_id = f"{meta['source']}_{idx}"
+                
+                results.append((chunk_id, self.chunks[idx], float(score)))
         
         return results
     
@@ -197,12 +204,12 @@ class FAISSDocumentRetriever:
         
         return results
     
-    def format_context(self, results: List[Tuple[str, float]], include_scores: bool = False) -> str:
+    def format_context(self, results: List[Tuple], include_scores: bool = False) -> str:
         """
         Format retrieval results into context string for LLM.
         
         Args:
-            results: List of (chunk_text, score) tuples from retrieve_chunks
+            results: List of tuples - either (chunk_id, chunk_text, score) or (chunk_text, score)
             include_scores: Whether to include similarity scores
             
         Returns:
@@ -212,8 +219,16 @@ class FAISSDocumentRetriever:
             return "No relevant documentation found."
         
         formatted_chunks = []
-        for i, (chunk, score) in enumerate(results, 1):
-            header = f"# Source {i}"
+        for i, item in enumerate(results, 1):
+            # Handle both old format (chunk, score) and new format (chunk_id, chunk, score)
+            if len(item) == 2:
+                chunk, score = item
+                chunk_id = f"chunk_{i}"
+            else:
+                chunk_id, chunk, score = item
+            
+            # Create header
+            header = f"# Source {i}: {chunk_id}"
             if include_scores:
                 header += f" (similarity: {score:.3f})"
             
@@ -226,12 +241,27 @@ class FAISSDocumentRetriever:
         if self.index is None:
             return {"status": "no_index_loaded"}
         
+        # Extract categories from metadata
+        categories = {}
+        if self.metadata:
+            for meta in self.metadata:
+                if meta and isinstance(meta, dict):
+                    # Try to extract category from source or filename
+                    source = meta.get('source', '')
+                    # Extract category from source (e.g., "basics_graphql-api" -> "basics")
+                    if '_' in source:
+                        category = source.split('_')[0]
+                        if category not in categories:
+                            categories[category] = 0
+                        categories[category] += 1
+        
         return {
             "status": "ready",
             "total_chunks": len(self.chunks),
             "index_size": self.index.ntotal,
             "model_name": self.embedder.model_name,
-            "index_path": str(self.index_path)
+            "index_path": str(self.index_path),
+            "categories": categories
         }
 
 if __name__ == "__main__":

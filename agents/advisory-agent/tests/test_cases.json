@@ -1,0 +1,489 @@
+{
+  "test_cases": [
+    {
+      "id": "schema_001",
+      "category": "schema",
+      "question": "What is the type of the ping field in the Query type?",
+      "expected_keywords": ["String", "ping", "Query"],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": ["basic", "query", "type"]
+    },
+    {
+      "id": "schema_002",
+      "category": "schema",
+      "question": "What are the input parameters for createCardProduct mutation?",
+      "expected_keywords": ["CreateCardProductInput", "input", "mutation"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["mutation", "card", "input"]
+    },
+    {
+      "id": "schema_003",
+      "category": "schema",
+      "question": "What fields are available on the FinancialAccount type?",
+      "expected_keywords": ["FinancialAccount", "balance", "status", "id"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["type", "financial", "fields"]
+    },
+    {
+      "id": "schema_004",
+      "category": "schema",
+      "question": "What mutations are available for creating account holders?",
+      "expected_keywords": ["createUSPersonAccountHolder", "createUSBusinessAccountHolder", "mutation"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["mutation", "account", "create"]
+    },
+    {
+      "id": "schema_005",
+      "category": "schema",
+      "question": "What are the possible values for FinancialAccountStatus enum?",
+      "expected_keywords": ["OPEN", "CLOSED", "enum", "FinancialAccountStatus"],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": ["enum", "status", "financial"]
+    },
+    {
+      "id": "schema_006",
+      "category": "schema",
+      "question": "What is the return type of issuePaymentCardForApplication mutation?",
+      "expected_keywords": ["PaymentCard", "mutation", "issuePaymentCardForApplication"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["mutation", "card", "return-type"]
+    },
+    {
+      "id": "schema_007",
+      "category": "schema",
+      "question": "What queries are available for retrieving card products?",
+      "expected_keywords": ["cardProducts", "query", "CardProduct"],
+      "expected_agent": "schema",
+      "difficulty": "easy",
+      "tags": ["query", "card", "retrieve"]
+    },
+    {
+      "id": "schema_008",
+      "category": "schema",
+      "question": "What are the required fields for CreateAccountHolderCardProductApplicationInput?",
+      "expected_keywords": ["accountHolderId", "cardProductId", "required", "input"],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": ["input", "required", "application"]
+    },
+    {
+      "id": "schema_009",
+      "category": "schema",
+      "question": "List all mutations related to credit limit changes",
+      "expected_keywords": ["approveCreditLimitIncrease", "denyCreditLimitIncrease", "createCreditLimitChangeRequest"],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": ["mutation", "credit", "limit"]
+    },
+    {
+      "id": "schema_010",
+      "category": "schema",
+      "question": "What are the fields available in the PaymentCard type?",
+      "expected_keywords": ["PaymentCard", "cardNumber", "expirationDate", "status"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["type", "card", "fields"]
+    },
+    {
+      "id": "schema_011",
+      "category": "schema",
+      "question": "What queries support pagination using connections?",
+      "expected_keywords": ["connection", "pageInfo", "edges", "cursor"],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": ["pagination", "connection", "query"]
+    },
+    {
+      "id": "schema_012",
+      "category": "schema",
+      "question": "What are the input fields for tokenizeUSPersonAccountHolder mutation?",
+      "expected_keywords": ["tokenize", "USPerson", "input", "mutation"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["tokenize", "mutation", "person"]
+    },
+    {
+      "id": "schema_013",
+      "category": "schema",
+      "question": "What fields are available in the Organization type?",
+      "expected_keywords": ["Organization", "name", "id", "users"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["organization", "type", "fields"]
+    },
+    {
+      "id": "schema_014",
+      "category": "schema",
+      "question": "What mutations are available for generating client tokens?",
+      "expected_keywords": ["generatePaymentCardClientToken", "generateDocumentUploadClientToken", "ClientToken"],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": ["token", "client", "mutation"]
+    },
+    {
+      "id": "schema_015",
+      "category": "schema",
+      "question": "What are the fields in the TransactionEvent type?",
+      "expected_keywords": ["TransactionEvent", "amount", "status", "merchantName"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["transaction", "event", "type"]
+    },
+    {
+      "id": "doc_001",
+      "category": "documentation",
+      "question": "How do I onboard a new account holder?",
+      "expected_keywords": ["onboard", "account", "application", "KYC"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["onboarding", "account", "process"]
+    },
+    {
+      "id": "doc_002",
+      "category": "documentation",
+      "question": "What are the steps to issue a physical card?",
+      "expected_keywords": ["physical", "card", "issue", "shipping"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["card", "physical", "issue"]
+    },
+    {
+      "id": "doc_003",
+      "category": "documentation",
+      "question": "How do velocity controls work for cards?",
+      "expected_keywords": ["velocity", "control", "limit", "transaction"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["velocity", "control", "authorization"]
+    },
+    {
+      "id": "doc_004",
+      "category": "documentation",
+      "question": "What is collaborative authorization and when should I use it?",
+      "expected_keywords": ["collaborative", "authorization", "approve", "decline"],
+      "expected_agent": "doc",
+      "difficulty": "hard",
+      "tags": ["authorization", "collaborative", "webhook"]
+    },
+    {
+      "id": "doc_005",
+      "category": "documentation",
+      "question": "How do I simulate transactions in the test environment?",
+      "expected_keywords": ["simulate", "transaction", "test", "environment"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["simulation", "test", "transaction"]
+    },
+    {
+      "id": "doc_006",
+      "category": "documentation",
+      "question": "What are the best practices for PCI compliance?",
+      "expected_keywords": ["PCI", "compliance", "security", "data"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["PCI", "compliance", "security"]
+    },
+    {
+      "id": "doc_007",
+      "category": "documentation",
+      "question": "How do I add funds to a financial account?",
+      "expected_keywords": ["add", "funds", "transfer", "ACH"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["funds", "transfer", "ACH"]
+    },
+    {
+      "id": "doc_008",
+      "category": "documentation",
+      "question": "What is the process for handling credit repayments?",
+      "expected_keywords": ["credit", "repayment", "payment", "billing"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["credit", "repayment", "billing"]
+    },
+    {
+      "id": "doc_009",
+      "category": "documentation",
+      "question": "How do I configure reward earn rules?",
+      "expected_keywords": ["reward", "earn", "rule", "configure"],
+      "expected_agent": "doc",
+      "difficulty": "hard",
+      "tags": ["rewards", "configuration", "earn"]
+    },
+    {
+      "id": "doc_010",
+      "category": "documentation",
+      "question": "What SDKs are available for secure input handling?",
+      "expected_keywords": ["SDK", "secure", "input", "client"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["SDK", "secure", "client"]
+    },
+    {
+      "id": "doc_011",
+      "category": "documentation",
+      "question": "How does the billing statement cycle work for credit cards?",
+      "expected_keywords": ["billing", "statement", "cycle", "credit"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["billing", "statement", "credit"]
+    },
+    {
+      "id": "doc_012",
+      "category": "documentation",
+      "question": "What are the different card product templates available?",
+      "expected_keywords": ["template", "consumer", "commercial", "prepaid"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["template", "card", "product"]
+    },
+    {
+      "id": "doc_013",
+      "category": "documentation",
+      "question": "How do I handle webhook notifications?",
+      "expected_keywords": ["webhook", "notification", "event", "endpoint"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["webhook", "notification", "event"]
+    },
+    {
+      "id": "doc_014",
+      "category": "documentation",
+      "question": "What is the process for card tokenization in digital wallets?",
+      "expected_keywords": ["tokenization", "digital", "wallet", "Apple Pay"],
+      "expected_agent": "doc",
+      "difficulty": "hard",
+      "tags": ["tokenization", "wallet", "digital"]
+    },
+    {
+      "id": "doc_015",
+      "category": "documentation",
+      "question": "How do I implement SCRA and MLA protections?",
+      "expected_keywords": ["SCRA", "MLA", "military", "protection"],
+      "expected_agent": "doc",
+      "difficulty": "hard",
+      "tags": ["SCRA", "MLA", "compliance"]
+    },
+    {
+      "id": "mixed_001",
+      "category": "mixed",
+      "question": "How do I use the createCardProduct mutation to create a consumer prepaid card?",
+      "expected_keywords": ["createCardProduct", "mutation", "prepaid", "consumer"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["mutation", "card", "prepaid", "implementation"]
+    },
+    {
+      "id": "mixed_002",
+      "category": "mixed",
+      "question": "What are the required fields for onboarding a business and which mutation should I use?",
+      "expected_keywords": ["createUSBusinessAccountHolder", "business", "onboard", "required"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["business", "onboarding", "mutation"]
+    },
+    {
+      "id": "mixed_003",
+      "category": "mixed",
+      "question": "How do I implement velocity controls using the GraphQL API?",
+      "expected_keywords": ["velocity", "control", "mutation", "limit"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["velocity", "API", "implementation"]
+    },
+    {
+      "id": "mixed_004",
+      "category": "mixed",
+      "question": "What is the process and API calls needed to issue a virtual card?",
+      "expected_keywords": ["virtual", "card", "issue", "mutation"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["virtual", "card", "process"]
+    },
+    {
+      "id": "mixed_005",
+      "category": "mixed",
+      "question": "How do I use collaborative authorization with the approveTransaction mutation?",
+      "expected_keywords": ["collaborative", "authorization", "approve", "mutation"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["authorization", "collaborative", "API"]
+    },
+    {
+      "id": "mixed_006",
+      "category": "mixed",
+      "question": "What are the steps and mutations for adding an authorized user to an account?",
+      "expected_keywords": ["authorized", "user", "createUSPersonAuthorizedUser", "process"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["authorized-user", "mutation", "process"]
+    },
+    {
+      "id": "mixed_007",
+      "category": "mixed",
+      "question": "How do I configure and query reward redemption settings?",
+      "expected_keywords": ["reward", "redemption", "configure", "query"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["rewards", "redemption", "API"]
+    },
+    {
+      "id": "mixed_008",
+      "category": "mixed",
+      "question": "What API calls are needed to simulate a wire transfer in test?",
+      "expected_keywords": ["simulate", "wire", "transfer", "test"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["simulation", "wire", "test"]
+    },
+    {
+      "id": "mixed_009",
+      "category": "mixed",
+      "question": "How do I implement credit limit increases using the GraphQL API?",
+      "expected_keywords": ["credit", "limit", "increase", "mutation"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["credit", "limit", "API"]
+    },
+    {
+      "id": "mixed_010",
+      "category": "mixed",
+      "question": "What are the webhook events and how do I query notification settings?",
+      "expected_keywords": ["webhook", "event", "notification", "query"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["webhook", "notification", "query"]
+    },
+    {
+      "id": "mixed_011",
+      "category": "mixed",
+      "question": "How do I implement the full KYC flow with document upload using the API?",
+      "expected_keywords": ["KYC", "document", "upload", "mutation"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["KYC", "document", "implementation"]
+    },
+    {
+      "id": "mixed_012",
+      "category": "mixed",
+      "question": "What are the steps to create and fund a new financial account programmatically?",
+      "expected_keywords": ["financial", "account", "create", "fund"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["financial-account", "funding", "process"]
+    },
+    {
+      "id": "mixed_013",
+      "category": "mixed",
+      "question": "How do I implement statement generation and retrieval using the API?",
+      "expected_keywords": ["statement", "generate", "retrieve", "query"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["statement", "billing", "API"]
+    },
+    {
+      "id": "mixed_014",
+      "category": "mixed",
+      "question": "What mutations and webhooks are involved in the card activation process?",
+      "expected_keywords": ["activation", "card", "mutation", "webhook"],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": ["activation", "card", "webhook"]
+    },
+    {
+      "id": "mixed_015",
+      "category": "mixed",
+      "question": "How do I implement transaction disputes and chargebacks via the API?",
+      "expected_keywords": ["dispute", "chargeback", "transaction", "mutation"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["dispute", "chargeback", "API"]
+    },
+    {
+      "id": "edge_001",
+      "category": "schema",
+      "question": "Show me all deprecated fields in the schema",
+      "expected_keywords": ["deprecated", "field", "schema"],
+      "expected_agent": "schema",
+      "difficulty": "hard",
+      "tags": ["deprecated", "schema", "analysis"]
+    },
+    {
+      "id": "edge_002",
+      "category": "documentation",
+      "question": "What are the rate limits for the GraphQL API?",
+      "expected_keywords": ["rate", "limit", "API", "request"],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": ["rate-limit", "API", "limits"]
+    },
+    {
+      "id": "edge_003",
+      "category": "mixed",
+      "question": "How do I handle PCI compliance when using the Secure Input SDK with custom UI?",
+      "expected_keywords": ["PCI", "compliance", "SDK", "secure"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["PCI", "SDK", "compliance"]
+    },
+    {
+      "id": "edge_004",
+      "category": "schema",
+      "question": "What interfaces does the PaymentCard type implement?",
+      "expected_keywords": ["PaymentCard", "interface", "implement"],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": ["interface", "card", "type"]
+    },
+    {
+      "id": "edge_005",
+      "category": "documentation",
+      "question": "What are the differences between consumer and commercial card products?",
+      "expected_keywords": ["consumer", "commercial", "card", "difference"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["consumer", "commercial", "comparison"]
+    },
+    {
+      "id": "complex_001",
+      "category": "mixed",
+      "question": "Explain the complete flow from application creation to card issuance including all mutations and webhooks",
+      "expected_keywords": ["application", "card", "issuance", "mutation", "webhook"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["flow", "complete", "card-issuance"]
+    },
+    {
+      "id": "complex_002",
+      "category": "mixed",
+      "question": "How do I implement a complete credit card product with underwriting, limits, and repayments?",
+      "expected_keywords": ["credit", "underwriting", "limit", "repayment"],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": ["credit", "complete", "implementation"]
+    },
+    {
+      "id": "complex_003",
+      "category": "documentation",
+      "question": "What are all the available simulation endpoints for testing?",
+      "expected_keywords": ["simulation", "test", "endpoint", "environment"],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": ["simulation", "testing", "endpoints"]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2024-01-20",
+    "description": "Test cases for Advisory Agent performance testing",
+    "categories": ["schema", "documentation", "mixed"],
+    "difficulties": ["easy", "medium", "hard"],
+    "total_cases": 53
+  }
+}

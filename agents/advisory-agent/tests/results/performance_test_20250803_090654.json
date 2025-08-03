@@ -1,0 +1,336 @@
+{
+  "timestamp": "2025-08-03T09:06:54.839831",
+  "configuration": {
+    "base_url": "http://localhost:8002",
+    "timeout": 30,
+    "test_cases_count": 5
+  },
+  "statistics": {
+    "summary": {
+      "total_tests": 5,
+      "successful": 0,
+      "failed": 5,
+      "success_rate": 0.0
+    },
+    "response_times": {
+      "min": 3.5676956176757812,
+      "max": 30223.977088928223,
+      "mean": 6049.349784851074,
+      "median": 5.974054336547852,
+      "p95": 51375.49824714661,
+      "p99": 58627.44835853577
+    },
+    "by_category": {
+      "schema": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 7.518291473388672
+      },
+      "documentation": {
+        "total": 2,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 5.842924118041992
+      },
+      "mixed": {
+        "total": 2,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 15113.77239227295
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 5.711793899536133
+      },
+      "medium": {
+        "total": 3,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 10079.156478246054
+      },
+      "hard": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0,
+        "avg_response_time": 3.5676956176757812
+      }
+    },
+    "by_agent": {
+      "schema_only": 0,
+      "doc_only": 0,
+      "both": 0,
+      "none": 5
+    },
+    "routing_accuracy": {
+      "correct": 0,
+      "total": 5,
+      "accuracy": 0.0
+    },
+    "keyword_coverage": {
+      "total_expected": 20,
+      "total_found": 0,
+      "coverage": 0.0
+    },
+    "failures": [
+      {
+        "test_id": "schema_015",
+        "question": "What are the fields in the TransactionEvent type?",
+        "category": "schema",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "TransactionEvent",
+          "amount",
+          "status",
+          "merchantName"
+        ],
+        "response_time_ms": 7.518291473388672
+      },
+      {
+        "test_id": "mixed_005",
+        "question": "How do I use collaborative authorization with the approveTransaction mutation?",
+        "category": "mixed",
+        "difficulty": "hard",
+        "error": null,
+        "keywords_missing": [
+          "collaborative",
+          "authorization",
+          "approve",
+          "mutation"
+        ],
+        "response_time_ms": 3.5676956176757812
+      },
+      {
+        "test_id": "complex_003",
+        "question": "What are all the available simulation endpoints for testing?",
+        "category": "documentation",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "simulation",
+          "test",
+          "endpoint",
+          "environment"
+        ],
+        "response_time_ms": 5.974054336547852
+      },
+      {
+        "test_id": "doc_010",
+        "question": "What SDKs are available for secure input handling?",
+        "category": "documentation",
+        "difficulty": "easy",
+        "error": null,
+        "keywords_missing": [
+          "SDK",
+          "secure",
+          "input",
+          "client"
+        ],
+        "response_time_ms": 5.711793899536133
+      },
+      {
+        "test_id": "mixed_008",
+        "question": "What API calls are needed to simulate a wire transfer in test?",
+        "category": "mixed",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "simulate",
+          "wire",
+          "transfer",
+          "test"
+        ],
+        "response_time_ms": 30223.977088928223
+      }
+    ]
+  },
+  "results": [
+    {
+      "test_id": "schema_015",
+      "success": false,
+      "response_time_ms": 7.518291473388672,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "TransactionEvent",
+        "amount",
+        "status",
+        "merchantName"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_005",
+      "success": false,
+      "response_time_ms": 3.5676956176757812,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "collaborative",
+        "authorization",
+        "approve",
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 0.7272727272727273,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "complex_003",
+      "success": false,
+      "response_time_ms": 5.974054336547852,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "simulation",
+        "test",
+        "endpoint",
+        "environment"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "doc_010",
+      "success": false,
+      "response_time_ms": 5.711793899536133,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "SDK",
+        "secure",
+        "input",
+        "client"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "mixed_008",
+      "success": false,
+      "response_time_ms": 30223.977088928223,
+      "agents_used": [],
+      "response_length": 181,
+      "keywords_found": [],
+      "keywords_missing": [
+        "simulate",
+        "wire",
+        "transfer",
+        "test"
+      ],
+      "query_type": "mixed",
+      "confidence": 0.6,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nSchema agent error: \nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "schema_015",
+      "category": "schema",
+      "question": "What are the fields in the TransactionEvent type?",
+      "expected_keywords": [
+        "TransactionEvent",
+        "amount",
+        "status",
+        "merchantName"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "transaction",
+        "event",
+        "type"
+      ]
+    },
+    {
+      "id": "mixed_005",
+      "category": "mixed",
+      "question": "How do I use collaborative authorization with the approveTransaction mutation?",
+      "expected_keywords": [
+        "collaborative",
+        "authorization",
+        "approve",
+        "mutation"
+      ],
+      "expected_agent": "both",
+      "difficulty": "hard",
+      "tags": [
+        "authorization",
+        "collaborative",
+        "API"
+      ]
+    },
+    {
+      "id": "complex_003",
+      "category": "documentation",
+      "question": "What are all the available simulation endpoints for testing?",
+      "expected_keywords": [
+        "simulation",
+        "test",
+        "endpoint",
+        "environment"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "medium",
+      "tags": [
+        "simulation",
+        "testing",
+        "endpoints"
+      ]
+    },
+    {
+      "id": "doc_010",
+      "category": "documentation",
+      "question": "What SDKs are available for secure input handling?",
+      "expected_keywords": [
+        "SDK",
+        "secure",
+        "input",
+        "client"
+      ],
+      "expected_agent": "doc",
+      "difficulty": "easy",
+      "tags": [
+        "SDK",
+        "secure",
+        "client"
+      ]
+    },
+    {
+      "id": "mixed_008",
+      "category": "mixed",
+      "question": "What API calls are needed to simulate a wire transfer in test?",
+      "expected_keywords": [
+        "simulate",
+        "wire",
+        "transfer",
+        "test"
+      ],
+      "expected_agent": "both",
+      "difficulty": "medium",
+      "tags": [
+        "simulation",
+        "wire",
+        "test"
+      ]
+    }
+  ]
+}

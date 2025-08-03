@@ -1,0 +1,198 @@
+{
+  "timestamp": "2025-08-03T09:07:41.366053",
+  "configuration": {
+    "base_url": "http://localhost:8002",
+    "timeout": 30,
+    "test_cases_count": 3
+  },
+  "statistics": {
+    "summary": {
+      "total_tests": 3,
+      "successful": 1,
+      "failed": 2,
+      "success_rate": 33.33333333333333
+    },
+    "response_times": {
+      "min": 3.426074981689453,
+      "max": 11911.867141723633,
+      "mean": 3973.245143890381,
+      "median": 4.4422149658203125,
+      "p95": 21437.807083129883,
+      "p99": 23342.995071411133
+    },
+    "by_category": {
+      "schema": {
+        "total": 3,
+        "successful": 1,
+        "success_rate": 33.33333333333333,
+        "avg_response_time": 3973.245143890381
+      }
+    },
+    "by_difficulty": {
+      "medium": {
+        "total": 3,
+        "successful": 1,
+        "success_rate": 33.33333333333333,
+        "avg_response_time": 3973.245143890381
+      }
+    },
+    "by_agent": {
+      "schema_only": 1,
+      "doc_only": 0,
+      "both": 0,
+      "none": 2
+    },
+    "routing_accuracy": {
+      "correct": 1,
+      "total": 3,
+      "accuracy": 33.33333333333333
+    },
+    "keyword_coverage": {
+      "total_expected": 11,
+      "total_found": 3,
+      "coverage": 27.27272727272727
+    },
+    "failures": [
+      {
+        "test_id": "schema_015",
+        "question": "What are the fields in the TransactionEvent type?",
+        "category": "schema",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "TransactionEvent",
+          "amount",
+          "status",
+          "merchantName"
+        ],
+        "response_time_ms": 4.4422149658203125
+      },
+      {
+        "test_id": "schema_012",
+        "question": "What are the input fields for tokenizeUSPersonAccountHolder mutation?",
+        "category": "schema",
+        "difficulty": "medium",
+        "error": null,
+        "keywords_missing": [
+          "tokenize",
+          "USPerson",
+          "input",
+          "mutation"
+        ],
+        "response_time_ms": 3.426074981689453
+      }
+    ]
+  },
+  "results": [
+    {
+      "test_id": "schema_015",
+      "success": false,
+      "response_time_ms": 4.4422149658203125,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "TransactionEvent",
+        "amount",
+        "status",
+        "merchantName"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "schema_012",
+      "success": false,
+      "response_time_ms": 3.426074981689453,
+      "agents_used": [],
+      "response_length": 160,
+      "keywords_found": [],
+      "keywords_missing": [
+        "tokenize",
+        "USPerson",
+        "input",
+        "mutation"
+      ],
+      "query_type": "documentation",
+      "confidence": 1.0,
+      "error": null,
+      "response_preview": "I encountered some issues while processing your question:\n\nDocument agent error: HTTP 500: {\"detail\":\"Internal server error: 503: Document agent not available\"}"
+    },
+    {
+      "test_id": "edge_004",
+      "success": true,
+      "response_time_ms": 11911.867141723633,
+      "agents_used": [
+        "schema-agent"
+      ],
+      "response_length": 171,
+      "keywords_found": [
+        "PaymentCard",
+        "interface",
+        "implement"
+      ],
+      "keywords_missing": [],
+      "query_type": "schema",
+      "confidence": 0.625,
+      "error": null,
+      "response_preview": "What interfaces does the PaymentCard type implement?\n\nAccording to the provided schema context, the PaymentCard type implements the Node interface.\n\n*Source: Schema Agent*"
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "schema_015",
+      "category": "schema",
+      "question": "What are the fields in the TransactionEvent type?",
+      "expected_keywords": [
+        "TransactionEvent",
+        "amount",
+        "status",
+        "merchantName"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "transaction",
+        "event",
+        "type"
+      ]
+    },
+    {
+      "id": "schema_012",
+      "category": "schema",
+      "question": "What are the input fields for tokenizeUSPersonAccountHolder mutation?",
+      "expected_keywords": [
+        "tokenize",
+        "USPerson",
+        "input",
+        "mutation"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "tokenize",
+        "mutation",
+        "person"
+      ]
+    },
+    {
+      "id": "edge_004",
+      "category": "schema",
+      "question": "What interfaces does the PaymentCard type implement?",
+      "expected_keywords": [
+        "PaymentCard",
+        "interface",
+        "implement"
+      ],
+      "expected_agent": "schema",
+      "difficulty": "medium",
+      "tags": [
+        "interface",
+        "card",
+        "type"
+      ]
+    }
+  ]
+}
