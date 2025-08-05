@@ -1,146 +1,218 @@
 # Ship Agent
 
-A flexible, plugin-based pattern generation and context management system for creating program-specific API collections.
+A flexible, data-driven agent for generating program-specific Postman collections and API operations for financial programs.
 
 ## Overview
 
-The Ship Agent is designed to:
-- Parse and extract patterns from multiple data sources (Postman, MongoDB, Confluence, etc.)
-- Learn from examples and corrections
-- Generate program-specific queries and mutations
-- Create customized Postman collections for different program types
-- Support unlimited program types and data sources through plugins
+The Ship Agent generates customized API collections based on:
+- **Program Type**: consumer_credit, commercial_prepaid, ap_automation, etc.
+- **Customer Dimensions**: customer name, environment, risk tiers, etc.
+- **Selected Operations**: categories, flows, and specific operations
+
+## Quick Start
+
+The unified generator accepts structured JSON or YAML input files:
+
+```bash
+# Generate from input file
+python src/unified_generator.py input.yaml
+python src/unified_generator.py config.json
+
+# Show sample input format
+python src/unified_generator.py --sample
+
+# Validate input file without generating
+python src/unified_generator.py --validate input.yaml
+```
+
+## Input File Formats
+
+### 1. Collection Generation
+
+```yaml
+type: collection
+
+config:
+  program_type: consumer_credit
+  dimensions:
+    customer: "ABC Bank"
+    environment: production
+    region: us-east
+  options:
+    categories:
+      - person_account_holder
+      - payment_cards
+    flows:
+      - standard_onboarding
+
+outputs:
+  - collection    # Postman collection
+  - yaml         # Operations documentation
+  - summary      # Summary report
+  - test_data    # Test data
+  - solutions    # Solutions document (markdown)
+```
+
+### 2. Batch Generation
+
+```yaml
+type: batch
+
+batch:
+  - program_type: consumer_credit
+    dimensions:
+      customer: "Bank1"
+      environment: sandbox
+    outputs: [collection, summary]
+    
+  - program_type: commercial_prepaid
+    dimensions:
+      customer: "Bank2"
+      environment: production
+    outputs: [collection, yaml, summary]
+```
+
+### 3. YAML from Operations
+
+```json
+{
+  "type": "yaml_from_operations",
+  "operations_file": "data/operations/consumer_credit_operations.json"
+}
+```
+
+### 4. Solutions Document Generation
+
+```yaml
+type: solutions
+
+postman_file: "data/postman/Consumer Credit.postman_collection.json"
+customer: "ABC Bank"
+program_type: consumer_credit
+```
+
+## Available Program Types
+
+38+ program types including:
+- `consumer_credit` - Consumer credit cards
+- `commercial_credit` - Business credit cards
+- `consumer_prepaid` - Consumer prepaid cards
+- `commercial_prepaid` - Business prepaid cards
+- `ap_automation` - Accounts payable automation
+- `fleet` - Fleet card programs
+- `acquiring` - Merchant acquiring
+- And 30+ more...
+
+## Output Files
+
+The generator creates:
+
+1. **Postman Collection** (`<program>_collection.json`)
+   - Ready to import into Postman
+   - Pre-configured GraphQL operations
+   - Customer-specific variables
+
+2. **Operations YAML** (`<program>_operations.yaml`)
+   - Documentation of generated operations
+   - Metadata and dimensions used
+
+3. **Summary Report** (`<program>_summary.txt`)
+   - Human-readable summary
+   - Operation counts by category
+   - Configuration details
+
+4. **Solutions Document** (`<program>_solution.md`)
+   - Professional markdown documentation
+   - Executive summary and use cases
+   - Implementation flows and integration guide
+   - Security and compliance information
 
 ## Architecture
 
-### Plugin-Based System
-Everything in Ship Agent is a plugin:
-- **Data Source Plugins**: Connect to any data source (Postman, MongoDB, APIs, etc.)
-- **Program Type Plugins**: Define rules for any program (credit, acquiring, AP automation, etc.)
-- **Generator Plugins**: Output in any format (Postman, Insomnia, GraphQL, etc.)
-- **Processor Plugins**: Transform data as needed
-- **Validator Plugins**: Custom validation logic
+```
+┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
+│ Postman Export  │────▶│   Migrator   │────▶│ Operations JSON │
+└─────────────────┘     └──────────────┘     └─────────────────┘
+                                                      │
+                                                      ▼
+┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
+│ YAML Config     │────▶│   Unified    │◀────│  Program YAML   │
+└─────────────────┘     │  Generator   │     └─────────────────┘
+                        └──────────────┘
+                                │
+                                ▼
+                        ┌─────────────────┐
+                        │   Generated     │
+                        │  Collections    │
+                        └─────────────────┘
+```
 
-### Flexible Context Management
-- No fixed schema - adapts to any data structure
-- Dynamic dimensions (customer, program type, region, etc.)
-- Learning from corrections and feedback
-- Pattern extraction and inference
+## API Usage
 
-## API Endpoints
+Start the API server:
 
-### Context Management
-- `POST /context/dimension` - Add new categorization dimension
-- `POST /context/source` - Add data source
-- `POST /context/pattern` - Add pattern
-- `POST /context/correction` - Submit correction for learning
-- `POST /context/query` - Query context with filters
-- `GET /context/status` - Get context statistics
+```bash
+python src/api.py
+```
 
-### Plugin Management
-- `GET /plugins` - List available plugins
-- `POST /plugins/register` - Register new plugin dynamically
-- `POST /plugins/reload/{type}/{name}` - Reload a plugin
+### Endpoints
 
-### Generation
-- `POST /generate/queries` - Generate queries for program type
-- `POST /generate/collection` - Generate complete Postman collection
+- `GET /health` - Health check
+- `GET /programs` - List available programs
+- `GET /programs/{type}` - Get program details
+- `POST /generate/collection` - Generate collection
 - `POST /generate/test-data` - Generate test data
 
-### File Upload
-- `POST /upload/postman` - Upload Postman collection
-- `POST /upload/confluence` - Upload Confluence documentation
+### Example API Request
 
-## Usage Examples
-
-### 1. Upload a Postman Collection
-```bash
-curl -X POST http://localhost:8003/upload/postman \
-  -F "file=@collection.json"
-```
-
-### 2. Add a New Program Type
-```bash
-curl -X POST http://localhost:8003/plugins/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "plugin_type": "program_types",
-    "name": "expense_management",
-    "definition": {
-      "rules": {...},
-      "patterns": {...}
-    }
-  }'
-```
-
-### 3. Generate Collection for Specific Program
 ```bash
 curl -X POST http://localhost:8003/generate/collection \
   -H "Content-Type: application/json" \
   -d '{
-    "program_type": "acquiring",
+    "program_type": "consumer_credit",
     "dimensions": {
-      "customer": "MerchantX",
-      "segment": "commercial"
+      "customer": "FirstBank",
+      "environment": "sandbox"
     },
-    "output_format": "postman"
-  }'
-```
-
-### 4. Submit Correction for Learning
-```bash
-curl -X POST http://localhost:8003/context/correction \
-  -H "Content-Type: application/json" \
-  -d '{
-    "original": {...},
-    "corrected": {...},
-    "reason": "Missing authentication headers",
-    "context": {
-      "program_type": "credit",
-      "customer": "BankY"
+    "options": {
+      "categories": ["person_account_holder", "payment_cards"]
     }
   }'
 ```
 
-## Adding New Plugins
+## Development
 
-### Create a Data Source Plugin
-```python
-# plugins/data_sources/my_source.py
-from src.plugin_base import DataSourcePlugin
+### Adding New Program Types
 
-class MySourcePlugin(DataSourcePlugin):
-    def extract_patterns(self, query=None):
-        # Extract patterns from your source
-        return {'patterns': {...}}
+1. Export Postman collection
+2. Run migrator to extract operations
+3. Generate YAML config
+4. Customize as needed
+
+### Project Structure
+
+```
+ship-agent/
+├── src/
+│   ├── ship_agent_simplified.py    # Core agent logic
+│   ├── unified_generator.py        # CLI generator
+│   ├── solutions_document_generator.py  # Solutions doc generator
+│   ├── postman_to_mongodb_migrator.py  # Migration tool
+│   └── api.py                      # FastAPI server
+├── data/
+│   ├── operations/                 # Extracted operations
+│   ├── programs/                   # Program YAML configs
+│   └── generated/                  # Generated collections
+├── config/                         # Sample configurations
+└── examples/                       # Usage examples
 ```
 
-### Create a Program Type Plugin
-```python
-# plugins/program_types/my_program.py
-from src.plugin_base import ProgramTypePlugin
+## Requirements
 
-class MyProgramPlugin(ProgramTypePlugin):
-    def get_rules(self):
-        return {...}
-    
-    def get_patterns(self):
-        return {...}
-```
-
-## Configuration
-
-Edit `config/config.json` to:
-- Enable/disable plugins
-- Configure integrations
-- Set learning parameters
-- Adjust logging levels
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
+- Python 3.8+
+- FastAPI
+- PyYAML
+- See requirements.txt for full list
 
 ## Running
 
@@ -160,11 +232,3 @@ Ship Agent integrates with:
 - **Schema Agent**: Validates generated queries
 - **Document Agent**: Gets business rules and examples
 - **Advisory Agent**: Provides generation capabilities
-
-## Future Enhancements
-
-- Machine learning for pattern recognition
-- Advanced relationship detection
-- Automatic test data generation
-- Support for more output formats
-- Real-time pattern learning

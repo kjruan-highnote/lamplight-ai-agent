@@ -1,0 +1,31 @@
+# Generate complete package for Trip.com with correct program type
+type: collection
+
+config:
+  program_type: trip.com  # Use the actual program type from operations
+  
+  dimensions:
+    customer: "Trip.com"
+    environment: production
+    region: global
+    integration: travel_platform
+    
+  options:
+    categories:
+      - api_key_management
+      - organization
+      - card_product
+      - financial_accounts
+      - payment_cards
+      - transactions
+      - spend_rules
+      
+    flows:
+      - standard_onboarding
+      - card_issuance
+
+# Generate all outputs
+outputs:
+  - collection      # Postman collection
+  - summary         # Human-readable summary
+  - solutions       # Solutions document

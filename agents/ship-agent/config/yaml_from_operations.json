@@ -1,0 +1,5 @@
+{
+  "type": "yaml_from_operations",
+  "operations_file": "data/operations/consumer_credit_operations.json",
+  "description": "Generate YAML configuration from operations JSON file"
+}

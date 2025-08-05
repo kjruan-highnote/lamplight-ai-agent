@@ -1,0 +1,29 @@
+# Correct generation configuration for Trip.com
+type: collection
+config:
+  program_type: trip.com  # Use the actual program type from the YAML file
+  dimensions:
+    customer: "Trip.com"
+    environment: production
+    integration: travel_platform
+    region: global
+  options:
+    categories:
+      - card_product
+      - financial_accounts
+      - payment_cards
+      - transactions
+      - spend_rules
+    flows:
+      - standard_onboarding
+      - card_issuance
+      - transaction_processing
+    features:
+      - virtual_cards
+      - multi_currency
+      - real_time_auth
+      - spend_controls
+outputs:
+  - collection
+  - yaml
+  - summary

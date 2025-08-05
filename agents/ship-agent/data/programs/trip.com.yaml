@@ -1,32 +1,158 @@
-# Trip.Com Program Configuration
 program_type: trip.com
 vendor: highnote
-version: "1.0.0"
+version: 1.0.0
 api_type: graphql
-
 metadata:
-  description: "Trip.Com Program - Highnote"
-  base_url: "{{apiUrl}}"
+  description: Trip.Com Program - Highnote
+  base_url: '{{apiUrl}}'
   authentication:
-    type: "bearer"
-    header: "Authorization"
-
-# Categories will be auto-populated from operations
-categories: []
-
-# Define your program-specific dimensions
+    type: bearer
+    header: Authorization
+categories:
+- name: payment_cards
+  description: Payment Cards operations
+  operations:
+  - ActivatePaymentCard
+  - ClosePaymentCard
+  - GenerateClientTokenForRestrictedDetails
+  - GetPaymentCard
+  - GetPaymentCardRestrictedDetails
+  - IssuePaymentCardForApplication
+  - IssuePaymentCardForApplicationWithOnDemandFundingSource
+  - IssuePaymentCardForFinancialAccount
+  - SuspendPaymentCard
+- name: velocity_rules
+  description: Velocity Rules operations
+  operations:
+  - AttachCardProductVelocityRule
+  - AttachPaymentCardVelocityRule
+  - CreateAmountLimitSpendRule
+  - CreateVelocityRule
+  - DetachCardProductVelocityRule
+  - DetachPaymentCardVelocityRule
+  - GetAllVelocityRules
+  - GetFinancialAccountWithVelocityBalance
+  - GetPaymentCardVelocityRule
+- name: card_product
+  description: Card Product operations
+  operations:
+  - CreateCardProduct
+  - CreateCardProductWithTemplate
+  - EnableCollaborativeAuthorizationFeature
+  - EnableOnDemandFundingFeature
+  - GetAllCardProductDetails
+  - GetCardProductAccounts
+  - GetDepositTransfer
+  - SimulateDeposit
+- name: notification_targets
+  description: Notification Targets operations
+  operations:
+  - ActivateNotificationTarget
+  - AddSubscriptionsToNotificationTarget
+  - AddWebhookNotificationTarget
+  - DeactivateNotificationTarget
+  - GetAllWebhookNotificationTargets
+  - GetNotificationTargetDeliveryAttempts
+  - GetWebhookNotificationTarget
+  - RemoveSubscriptionsFromNotificationTarget
+- name: financial_accounts
+  description: Financial Accounts operations
+  operations:
+  - GetFinancialAccount
+  - GetFinancialAccountActivities
+  - GetFinancialAccountLedger
+  - GetFinancialAccountLedgerCopy
+  - IssueFinancialAccountForApplicationWithOnDemandFundingSource
+  - SuspendFinancialAccount
+  - UnsuspendFinancialAccount
+- name: collaborative_authorization
+  description: Collaborative Authorization operations
+  operations:
+  - ActivateCollaborativeAuthorizationEndpoint
+  - AddCollaborativeAuthorizationEndpoint
+  - DeactivateCollaborativeAuthorizationEndpoint
+  - GetCollaborativeAuthorizationEndpoint
+  - GetCollaborativeAuthorizationEndpoints
+  - RemoveCollaborativeAuthorizationEndpoint
+  - RenameCollaborativeAuthorizationEndpoint
+- name: spend_rules
+  description: Spend Rules operations
+  operations:
+  - AttachSpendRuleToCardProduct
+  - AttachSpendRuleToPaymentCard
+  - CreateMerchantCategorySpendRule
+  - DetachSpendRuleFromCardProduct
+  - DetachSpendRuleFromPaymentCard
+  - UpdateMerchantCategorySpendRule
+- name: notification_events
+  description: Notification Events operations
+  operations:
+  - GetAllNotificationEvents
+  - GetDeliveryAttemptsForNotificationEvent
+  - GetNotificationEvent
+  - GetNotificationEventsFilteredByName
+  - GetUnsuccessfulNotificationEvents
+  - ReplayNotificationEvent
+- name: simulation
+  description: Simulation operations
+  operations:
+  - SimulateAuthorization
+  - SimulateClearing
+  - SimulateRefund
+  - SimulateReversal
+  - SimulateSingleStepAuthAndClear
+- name: transactions
+  description: Transactions operations
+  operations:
+  - GetCardProductTransactionEvents
+  - GetTransactionEvent
+  - LedgerEntry
+  - TransactionEventsByPaymentCardAndTransactionId
+- name: reports
+  description: Reports operations
+  operations:
+  - GetReport
+  - GetReportUsage
+  - GetReports
+  - InitiateOrganizationReport
+- name: api_keys
+  description: Api Keys operations
+  operations:
+  - CreateSecretApiKey
+  - GetAllApiKeys
+  - RevokeApiKey
+- name: organizations
+  description: Organizations operations
+  operations:
+  - GetAllOrganizations
+  - UpdateOrganizationProfileDisplayName
+- name: initialization
+  description: Initialization operations
+  operations:
+  - IntrospectionQuery
+  - Ping
+- name: schema_changelogs
+  description: Schema Changelogs operations
+  operations:
+  - GetSchemaChangelogs
 dimensions:
-  customer_segments: []
-  program_variants: []
-  features: []
-
-# Define operation flows for common use cases
+  card_types:
+  - physical
+  - virtual
+  - both
 operation_flows:
-  standard_flow:
-    description: "Standard flow for trip.com"
-    steps: []
-
+  standard_onboarding:
+    description: Standard onboarding flow for trip.com
+    steps:
+    - IssueFinancialAccountForApplicationWithOnDemandFundingSource
+    - IssuePaymentCardForFinancialAccount
+    - ActivatePaymentCard
+  card_issuance:
+    description: Payment card issuance and activation
+    steps:
+    - IssuePaymentCard
+    - ActivatePaymentCard
 tags:
-  - trip.com
-  - graphql
-  - highnote
+- trip.com
+- graphql
+- highnote

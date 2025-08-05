@@ -1,0 +1,6 @@
+# Generate solutions document for Trip.com
+type: solutions
+
+postman_file: "data/postman/Trip.com.postman_collection.json"
+customer: "Trip.com"
+program_type: travel_services

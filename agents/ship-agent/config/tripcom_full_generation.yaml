@@ -1,0 +1,33 @@
+# Generate complete package for Trip.com
+type: collection
+
+config:
+  program_type: travel_services
+  
+  dimensions:
+    customer: "Trip.com"
+    environment: production
+    region: global
+    integration: travel_platform
+    
+  options:
+    categories:
+      - card_product
+      - financial_accounts
+      - payment_cards
+      - transactions
+      - spend_rules
+      - notification_targets
+      
+    flows:
+      - standard_onboarding
+      - card_issuance
+      - transaction_processing
+
+# Generate all outputs
+outputs:
+  - collection      # Postman collection
+  - yaml           # Operations documentation
+  - summary        # Human-readable summary
+  - test_data      # Sample test data
+  - solutions      # Solutions document

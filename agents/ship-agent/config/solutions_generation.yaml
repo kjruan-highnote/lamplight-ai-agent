@@ -1,0 +1,6 @@
+# Generate solutions document from Postman collection
+type: solutions
+
+postman_file: "data/postman/Consumer Credit.postman_collection.json"
+customer: "ABC Bank"
+program_type: consumer_credit

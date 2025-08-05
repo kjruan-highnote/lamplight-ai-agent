@@ -1,0 +1,4 @@
+{
+  "type": "yaml_from_operations",
+  "operations_file": "data/operations/trip.com_operations.json"
+}

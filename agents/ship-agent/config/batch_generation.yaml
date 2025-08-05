@@ -1,0 +1,54 @@
+# Example: Batch generate for multiple customers
+type: batch
+
+batch:
+  # Customer 1: Basic setup
+  - program_type: consumer_credit
+    dimensions:
+      customer: "FirstBank"
+      environment: sandbox
+    options:
+      categories:
+        - person_account_holder
+        - payment_cards
+    outputs:
+      - collection
+      - summary
+      
+  # Customer 2: Full commercial prepaid
+  - program_type: commercial_prepaid
+    dimensions:
+      customer: "TechCorp"
+      environment: production
+      business_type: small_business
+      program_variant: expense_management_prepaid
+    options:
+      categories:
+        - business_account_holder
+        - authorized_users
+        - payment_cards
+        - spend_rules
+      flows:
+        - standard_business_prepaid_onboarding
+        - authorized_user_setup
+    outputs:
+      - collection
+      - yaml
+      - summary
+      
+  # Customer 3: AP Automation
+  - program_type: ap_automation
+    dimensions:
+      customer: "SupplyChain Inc"
+      environment: sandbox
+      integration_type: quickbooks
+      payment_method: virtual_cards
+    options:
+      categories:
+        - card_product
+        - payment_cards
+        - spend_rules
+        - transactions
+    outputs:
+      - collection
+      - test_data

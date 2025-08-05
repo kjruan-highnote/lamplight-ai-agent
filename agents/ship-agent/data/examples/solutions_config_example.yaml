@@ -1,0 +1,90 @@
+# Example configuration for generating solutions documents with custom sections
+# This demonstrates the refactored solutions document generator with configurable sections
+
+# Example 1: Generate a full solutions document with all sections
+---
+type: solutions
+postman_file: data/postman/Consumer Credit.postman_collection.json
+customer: "ABC Bank"
+program_type: consumer_credit
+# No sections specified - will use all available sections
+
+---
+# Example 2: Generate a minimal solutions document
+type: solutions
+postman_file: data/postman/Trip.com.postman_collection.json
+customer: "Trip.com"
+program_type: travel_services
+sections:
+  - header
+  - executive_summary
+  - api_reference
+
+---
+# Example 3: Generate a technical-focused document
+type: solutions
+postman_file: data/postman/Consumer Credit.postman_collection.json
+customer: "TechCorp"
+program_type: consumer_credit
+sections:
+  - header
+  - technical_overview
+  - implementation_flows
+  - api_reference
+  - integration_guide
+
+---
+# Example 4: Generate a business-focused document
+type: solutions
+postman_file: data/postman/Consumer Credit.postman_collection.json
+customer: "Business Bank"
+program_type: consumer_credit
+sections:
+  - header
+  - executive_summary
+  - use_cases
+  - security_compliance
+  - appendices
+
+---
+# Example 5: Collection generation with custom solutions sections
+type: collection
+config:
+  program_type: consumer_prepaid
+  dimensions:
+    customer: "GlobalCard Inc"
+    environment: production
+    region: us-west
+  options:
+    categories:
+      - person_account_holder
+      - payment_cards
+      - transactions
+    flows:
+      - standard_onboarding
+      - card_issuance
+    # Configure sections for solutions document generation
+    solutions_sections:
+      - header
+      - executive_summary
+      - use_cases
+      - api_reference
+      - integration_guide
+outputs:
+  - collection
+  - yaml
+  - summary
+  - solutions  # Will use the sections specified in options.solutions_sections
+
+---
+# Available sections reference:
+# - header: Document header with title and metadata
+# - executive_summary: Executive summary with key capabilities and benefits
+# - table_of_contents: Auto-generated table of contents (added automatically if needed)
+# - technical_overview: Technical architecture and API statistics
+# - use_cases: Primary and secondary use cases
+# - implementation_flows: Core workflows and integration patterns
+# - api_reference: Detailed API operations reference by category
+# - integration_guide: Prerequisites, quick start, and best practices
+# - security_compliance: Security architecture and compliance standards
+# - appendices: Glossary, error codes, resources, and version history

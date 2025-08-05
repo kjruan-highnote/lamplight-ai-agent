@@ -9,7 +9,7 @@ import sys
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from src.ship_agent import ShipAgent
+from src.ship_agent_simplified import SimplifiedShipAgent
 from src.postman_to_mongodb_migrator import PostmanToMongoDBMigrator
 
 
@@ -29,7 +29,7 @@ async def example_usage():
     
     # 2. Initialize Ship Agent
     print("\nStep 2: Initialize Ship Agent...")
-    ship_agent = ShipAgent()
+    ship_agent = SimplifiedShipAgent()
     
     # 3. Generate queries for specific context
     print("\nStep 3: Generate queries for a specific customer...")
@@ -39,21 +39,14 @@ async def example_usage():
         'region': 'US'
     }
     
-    # Generate all onboarding operations
-    queries = await ship_agent.generate_queries(
-        program_type='consumer_credit',
-        dimensions=context,
-        options={'categories': ['onboarding', 'issuance']}
-    )
-    
-    print(f"  Generated {len(queries['operations'])} operations")
+    # Note: generate_queries method doesn't exist in simplified version
+    # We'll skip this step and go directly to collection generation
     
     # 4. Generate a Postman collection
     print("\nStep 4: Generate Postman collection...")
     collection = await ship_agent.generate_collection(
         program_type='consumer_credit',
         dimensions=context,
-        output_format='postman',
         options={'categories': ['onboarding', 'issuance']}
     )
     
@@ -87,36 +80,32 @@ async def example_usage():
 
 async def example_yaml_based_flow():
     """
-    Example using YAML configuration for program flows
+    Example showing available program types and flows
     """
     print("\n" + "="*50)
-    print("YAML-Based Flow Example")
+    print("Available Programs Example")
     print("="*50)
     
-    # Load YAML config directly
-    from src.plugins.program_types.yaml_program_plugin import YAMLProgramPlugin
+    ship_agent = SimplifiedShipAgent()
     
-    # Initialize plugin for consumer credit
-    plugin = YAMLProgramPlugin('consumer_credit')
+    # List available programs
+    programs = list(ship_agent.operations_cache.keys())
+    print(f"\nAvailable programs ({len(programs)} total):")
+    for prog in sorted(programs)[:10]:  # Show first 10
+        print(f"  - {prog}")
     
-    # Get available flows
-    flows = plugin.config.get('operation_flows', {})
-    print("\nAvailable flows:")
-    for flow_name, flow_config in flows.items():
-        print(f"  - {flow_name}: {flow_config.get('description', 'No description')}")
-    
-    # Get operations for a specific flow
-    onboarding_flow = plugin.get_flow('standard_onboarding')
-    print(f"\nStandard onboarding flow steps:")
-    for step in onboarding_flow.get('steps', []):
-        print(f"  - {step}")
-    
-    # Get operations by category
-    categories = plugin.config.get('categories', [])
-    print(f"\nCategories ({len(categories)} total):")
-    for cat in categories[:3]:  # Show first 3
-        ops = cat.get('operations', [])
-        print(f"  - {cat['name']}: {len(ops)} operations")
+    # Load YAML config for a program
+    import yaml
+    yaml_file = Path("data/programs/consumer_credit.yaml")
+    if yaml_file.exists():
+        with open(yaml_file, 'r') as f:
+            config = yaml.safe_load(f)
+        
+        flows = config.get('operation_flows', {})
+        print("\nConsumer Credit flows:")
+        for flow_name, flow_config in list(flows.items())[:3]:
+            print(f"  - {flow_name}: {flow_config.get('description', 'No description')}")
+            print(f"    Steps: {', '.join(flow_config.get('steps', [])[:3])}...")
 
 
 if __name__ == "__main__":
