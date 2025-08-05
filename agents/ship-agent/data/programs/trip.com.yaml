@@ -1,0 +1,32 @@
+# Trip.Com Program Configuration
+program_type: trip.com
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Trip.Com Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+# Categories will be auto-populated from operations
+categories: []
+
+# Define your program-specific dimensions
+dimensions:
+  customer_segments: []
+  program_variants: []
+  features: []
+
+# Define operation flows for common use cases
+operation_flows:
+  standard_flow:
+    description: "Standard flow for trip.com"
+    steps: []
+
+tags:
+  - trip.com
+  - graphql
+  - highnote

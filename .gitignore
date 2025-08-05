@@ -11,3 +11,6 @@ config.json
 *.pem
 secrets.*
 .claude/
+
+**/data/postman/auto_export/
+**/data/generated/

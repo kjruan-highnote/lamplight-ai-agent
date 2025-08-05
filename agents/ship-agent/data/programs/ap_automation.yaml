@@ -1,0 +1,251 @@
+# AP Automation Program Configuration
+program_type: ap_automation
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "AP Automation Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+categories:
+  - name: api_key_management
+    description: "API key creation, retrieval, and management"
+    operations:
+      - GetAllApiKeys
+      - CreateApiKey
+      - RevokeApiKey
+      
+  - name: organization
+    description: "Organization setup and configuration"
+    operations:
+      - GetAllOrganizations
+      - GetOrganizationById
+      - UpdateOrganizationProfileDisplayName
+      
+  - name: setup
+    description: "General setup and system configuration"
+    operations:
+      - Ping
+      - Introspection
+      
+  - name: card_product
+    description: "AP automation card product setup and configuration"
+    operations:
+      - CreateCardProduct
+      - GetCardProduct
+      - GetCardProductAccounts
+      - SimulateDeposit
+      
+  - name: financial_accounts
+    description: "Financial account issuance and management"
+    operations:
+      - IssueFinancialAccountForApplicationWithOdfSource
+      - GetFinancialAccountById
+      
+  - name: on_demand_funding
+    description: "On-demand funding and balance management"
+    operations:
+      - EnableOnDemandFundingFeature
+      - IssueFinancialAccountForApplicationWithOdfSource
+      
+  - name: funding
+    description: "Funding operations and account management"
+    operations:
+      - GetCardProductAccounts
+      - SimulateDeposit
+      
+  - name: payment_cards
+    description: "Payment card issuance and lifecycle management"
+    operations:
+      - IssuePaymentCardForFinancialAccount
+      - GenerateClientTokenToSetPin
+      - GenerateClientTokenForRestrictedDetail
+      - ViewPaymentCardRestrictedDetails
+      - ActivatePaymentCard
+      - SetPinForPaymentCard
+      - SuspendPaymentCard
+      - ReissuePaymentCard
+      - ClosePaymentCard
+      
+  - name: transactions
+    description: "Transaction processing and history"
+    operations:
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      
+  - name: spend_rules
+    description: "Spending control rules and merchant restrictions"
+    operations:
+      - CreateAmountLimitSpendRule
+      - CreateMerchantCategorySpendRule
+      - AttachSpendRuleToCardProduct
+      - UpdateMerchantCategorySpendRule
+      - AttachSpendRuleToPaymentCard
+      - DetachSpendRuleFromCardProduct
+      - DetachSpendRuleFromPaymentCard
+      
+  - name: velocity_rules
+    description: "Transaction velocity and amount limit controls"
+    operations:
+      - CreateAmountLimitSpendRule
+      - CreateVelocityRule
+      - GetAllVelocityRules
+      - GetPaymentCardVelocityRule
+      - GetFinancialAccountWithVelocityBalance
+      - AttachPaymentCardVelocityRule
+      - DetachPaymentCardVelocityRule
+      - AttachCardProductVelocityRule
+      - DetachCardProductVelocityRule
+      
+  - name: collaborative_authorization_copy
+    description: "Real-time authorization decision making"
+    operations:
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      - GetCollaborativeAuthorizationEndpoint
+      - DeactivateCollaborativeAuthorizationEndpoint
+      - RemoveCollaborativeAuthorizationEndpoint
+      - GetCollaborativeAuthorizationEndpoints
+      - RenameCollaborativeAuthorizationEndpoint
+      
+  - name: notification_targets
+    description: "Webhook endpoints and notification delivery"
+    operations:
+      - AddWebhookNotificationTarget
+      - GetAllWebhookNotificationTargets
+      - DeactivateNotificationTarget
+      - ActivateNotificationTarget
+      - GetWebhookNotificationTarget
+      - GetNotificationTargetDeliveryAttempts
+      - AddSubscriptionsToNotificationTarget
+      - RemoveSubscriptionsFromNotificationTarget
+      
+  - name: notification_events
+    description: "Event notifications and delivery management"
+    operations:
+      - GetAllNotificationEvents
+      - GetNotificationEvent
+      - ReplayNotificationEvent
+      - GetDeliveryAttemptsForNotificationEvent
+      - GetNotificationEventsFilteredByName
+      
+  - name: reports
+    description: "Business reporting and analytics"
+    operations:
+      - InitiateOrganizationReport
+      - GetReport
+      - GetReportUsage
+      - GetReports
+      
+  - name: simulation
+    description: "Transaction and payment simulation"
+    operations:
+      - SimulateAuthorization
+      - SimulateClearing
+      - SimulateReversal
+      - SimulateRefund
+      - SimulateSingleStepAuthAndClear
+
+dimensions:
+  customer_segments:
+    - small_business_ap
+    - mid_market_ap
+    - enterprise_ap
+    - supplier_payments
+    - vendor_management
+    
+  program_variants:
+    - standard_ap_automation
+    - integrated_ap_automation
+    - supplier_portal_ap
+    - invoice_processing_ap
+    - payment_automation
+    
+  integration_types:
+    - erp_integration
+    - accounting_software
+    - supplier_portals
+    - invoice_management
+    - procurement_systems
+    
+  payment_methods:
+    - virtual_cards
+    - physical_cards
+    - ach_payments
+    - wire_transfers
+    - check_payments
+    
+  features:
+    - automated_invoice_processing
+    - supplier_onboarding
+    - approval_workflows
+    - spend_analytics
+    - compliance_reporting
+
+operation_flows:
+  standard_ap_automation_setup:
+    description: "Complete setup for AP automation program"
+    steps:
+      - CreateCardProduct
+      - EnableOnDemandFundingFeature
+      - IssueFinancialAccountForApplicationWithOdfSource
+      - IssuePaymentCardForFinancialAccount
+      - ActivatePaymentCard
+      
+  comprehensive_spend_controls:
+    description: "Set up comprehensive spending and velocity controls for AP"
+    steps:
+      - CreateMerchantCategorySpendRule
+      - CreateAmountLimitSpendRule
+      - AttachSpendRuleToCardProduct
+      - CreateVelocityRule
+      - AttachCardProductVelocityRule
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      
+  payment_processing_flow:
+    description: "Complete payment processing lifecycle for AP"
+    steps:
+      - SimulateAuthorization
+      - SimulateClearing
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      
+  notification_system_setup:
+    description: "Configure comprehensive webhook notification system for AP"
+    steps:
+      - AddWebhookNotificationTarget
+      - AddSubscriptionsToNotificationTarget
+      - ActivateNotificationTarget
+      - GetAllNotificationEvents
+      - ReplayNotificationEvent
+      
+  reporting_and_analytics:
+    description: "Set up reporting and analytics for AP automation"
+    steps:
+      - InitiateOrganizationReport
+      - GetReport
+      - GetReportUsage
+      - GetReports
+      
+  supplier_payment_management:
+    description: "Manage supplier payments and cards"
+    steps:
+      - GetCardProduct
+      - GetCardProductAccounts
+      - IssuePaymentCardForFinancialAccount
+      - ViewPaymentCardRestrictedDetails
+      - SuspendPaymentCard
+      - ReissuePaymentCard
+
+tags:
+  - ap_automation
+  - graphql
+  - highnote
+  - accounts_payable
+  - supplier_payments
+  - virtual_cards

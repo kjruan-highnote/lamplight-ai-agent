@@ -1,0 +1,32 @@
+# Vic.Ai Program Configuration
+program_type: vic.ai
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Vic.Ai Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+# Categories will be auto-populated from operations
+categories: []
+
+# Define your program-specific dimensions
+dimensions:
+  customer_segments: []
+  program_variants: []
+  features: []
+
+# Define operation flows for common use cases
+operation_flows:
+  standard_flow:
+    description: "Standard flow for vic.ai"
+    steps: []
+
+tags:
+  - vic.ai
+  - graphql
+  - highnote

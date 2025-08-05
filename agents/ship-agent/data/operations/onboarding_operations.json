@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Createcardproduct",
+    "program_type": "onboarding",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "Test Commercial Prepaid",
+            "usage": "MULTI_USE",
+            "vertical": "COMMERCIAL_PREPAID"
+          }
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "",
+      "path": "CreateCardProduct",
+      "description": "",
+      "tags": [
+        "",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.770757",
+    "updated_at": "2025-08-04T16:18:34.770761"
+  }
+]

@@ -1,0 +1,2556 @@
+[
+  {
+    "name": "GetAllApiKeys",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "first": 10
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Get All API Keys",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.830987",
+    "updated_at": "2025-08-04T16:18:34.830993"
+  },
+  {
+    "name": "CreateApiKey",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "secretKey": {
+            "name": "Test Key"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Create API Key",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "creation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831008",
+    "updated_at": "2025-08-04T16:18:34.831011"
+  },
+  {
+    "name": "RevokeApiKey",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "apiKeyId": "{{createdApiKey}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Revoke API Key",
+      "description": "",
+      "tags": [
+        "api_key_management"
+      ],
+      "requires": [
+        "createdApiKey"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831023",
+    "updated_at": "2025-08-04T16:18:34.831024"
+  },
+  {
+    "name": "GetAllOrganizations",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Get All Organizations",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "edges",
+        "creditBalance",
+        "pageInfo",
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831043",
+    "updated_at": "2025-08-04T16:18:34.831044"
+  },
+  {
+    "name": "GetOrganizationById",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetOrganizationByID($id: ID!) {\n  node(id: $id) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n        environment\n        region\n      }\n      financialAccounts {\n        ledgers {\n          id\n          name\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{organizationId}}"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Get Organization by ID",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [
+        "organizationId"
+      ],
+      "produces": [
+        "ledgers"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831056",
+    "updated_at": "2025-08-04T16:18:34.831057"
+  },
+  {
+    "name": "UpdateOrganizationProfileDisplayName",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "id": "{{organizationId}}",
+          "displayName": "Test"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Update Organization Profile Display Name",
+      "description": "",
+      "tags": [
+        "organization",
+        "modification"
+      ],
+      "requires": [
+        "organizationId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831072",
+    "updated_at": "2025-08-04T16:18:34.831072"
+  },
+  {
+    "name": "CreateCardProduct",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "AP Invoice Card Product",
+            "usage": "MULTI_USE",
+            "vertical": "AP_INVOICE_AUTOMATION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Create Card Product",
+      "description": "",
+      "tags": [
+        "card_product",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831089",
+    "updated_at": "2025-08-04T16:18:34.831089"
+  },
+  {
+    "name": "GetCardProduct",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProduct($id: ID!) {\n    node(id: $id) {\n        ... on CardProduct {\n            id\n            name\n            features {\n                __typename\n                enabled\n            }\n            accounts {\n                edges {\n                    node {\n                        __typename\n                        id\n                        name\n                        features {\n                            __typename\n                            enabled\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "{{cardProductId}}"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Get Card Product",
+      "description": "",
+      "tags": [
+        "card_product",
+        "retrieval"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831105",
+    "updated_at": "2025-08-04T16:18:34.831105"
+  },
+  {
+    "name": "GetCardProductAccounts",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetProductFundingAccount($id: ID!) {\n  node (id: $id) {\n    ... on CardProduct {\n      accounts {\n        edges {\n          node {\n            id\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{cardProductId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Get Card Product Accounts",
+      "description": "",
+      "tags": [
+        "card_product",
+        "retrieval"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "accounts",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831117",
+    "updated_at": "2025-08-04T16:18:34.831118"
+  },
+  {
+    "name": "SimulateDeposit",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    __typename\n    ... on Transfer {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 99999999999,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "{{productFundingFinancialAccountId}}",
+          "memo": "Initial Funding",
+          "source": "WIRE"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Simulate Deposit",
+      "description": "",
+      "tags": [
+        "card_product",
+        "simulation"
+      ],
+      "requires": [
+        "productFundingFinancialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831133",
+    "updated_at": "2025-08-04T16:18:34.831134"
+  },
+  {
+    "name": "Ping",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Ping {\n  ping\n}",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Setup/ping",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831142",
+    "updated_at": "2025-08-04T16:18:34.831143"
+  },
+  {
+    "name": "Introspection",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Setup/introspection",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": [
+        "__schema"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831161",
+    "updated_at": "2025-08-04T16:18:34.831162"
+  },
+  {
+    "name": "EnableOnDemandFundingFeature",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableOnDemandFundingFeature($input: EnableOnDemandFundingFeatureInput!) {\n  enableOnDemandFundingFeature(input: $input) {\n    ... on CardProduct {\n      features {\n        __typename\n        createdAt\n        updatedAt\n        enabled\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "pseudoBalanceEnabled": false
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Enable On Demand Funding Feature",
+      "description": "",
+      "tags": [
+        "on_demand_funding"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "features"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831180",
+    "updated_at": "2025-08-04T16:18:34.831180"
+  },
+  {
+    "name": "IssueFinancialAccountForApplicationWithOdfSource",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFinancialAccountForApplicationWithOnDemandFundingSource($input: IssueFinancialAccountForApplicationWithOnDemandFundingSourceInput!) {\n  issueFinancialAccountForApplicationWithOnDemandFundingSource(input: $input) {\n    ... on FinancialAccount {\n      id\n      features {\n        __typename\n        enabled\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{subscriberApplicationId}}",
+          "name": "Test Financial Account",
+          "sourceFinancialAccountId": "{{productFundingFinancialAccountId}}"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Issue Financial Account for Application With ODF Source",
+      "description": "",
+      "tags": [
+        "on_demand_funding",
+        "issuance"
+      ],
+      "requires": [
+        "subscriberApplicationId",
+        "productFundingFinancialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831198",
+    "updated_at": "2025-08-04T16:18:34.831198"
+  },
+  {
+    "name": "GetCardProductAccounts",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetProductFundingAccount($id: ID!) {\n  node (id: $id) {\n    ... on CardProduct {\n      accounts {\n        edges {\n          node {\n            id\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{cardProductId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "funding",
+      "path": "Funding/Get Card Product Accounts",
+      "description": "",
+      "tags": [
+        "funding",
+        "retrieval"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "accounts",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831210",
+    "updated_at": "2025-08-04T16:18:34.831211"
+  },
+  {
+    "name": "SimulateDeposit",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    __typename\n    ... on Transfer {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 99999999999,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "{{productFundingFinancialAccountId}}",
+          "memo": "Initial Funding",
+          "source": "WIRE"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "funding",
+      "path": "Funding/Simulate Deposit",
+      "description": "",
+      "tags": [
+        "funding",
+        "simulation"
+      ],
+      "requires": [
+        "productFundingFinancialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831225",
+    "updated_at": "2025-08-04T16:18:34.831226"
+  },
+  {
+    "name": "IssueFinancialAccountForApplicationWithOdfSource",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFinancialAccountForApplicationWithOnDemandFundingSource($input: IssueFinancialAccountForApplicationWithOnDemandFundingSourceInput!) {\n  issueFinancialAccountForApplicationWithOnDemandFundingSource(input: $input) {\n    ... on FinancialAccount {\n      id\n      features {\n        __typename\n        enabled\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{subscriberApplicationId}}",
+          "name": "Test Financial Account",
+          "sourceFinancialAccountId": "{{productFundingAccountId}}"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Issue Financial Account for Application With ODF Source",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "issuance"
+      ],
+      "requires": [
+        "productFundingAccountId",
+        "subscriberApplicationId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831247",
+    "updated_at": "2025-08-04T16:18:34.831248"
+  },
+  {
+    "name": "GetFinancialAccountById",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountByID($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Get Financial Account By ID",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "edges",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831272",
+    "updated_at": "2025-08-04T16:18:34.831272"
+  },
+  {
+    "name": "IssuePaymentCardForFinancialAccount",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n        ... on AccountHolderCardProductApplication {\n\t\t\tid\n\t\t\tapplicationState {\n\t\t\t\tstatus\n\t\t\t}\n\t\t\taccountHolderSnapshot {\n\t\t\t\t__typename\n\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\tname {\n\t\t\t\t\t\tgivenName\n\t\t\t\t\t\tfamilyName\n\t\t\t\t\t}\n\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\tlocality\n\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t}\n\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t\treason\n\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Issue Payment Card For Financial Account",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "ledgers",
+        "name",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831297",
+    "updated_at": "2025-08-04T16:18:34.831298"
+  },
+  {
+    "name": "GenerateClientTokenToSetPin",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "SET_PAYMENT_CARD_PIN"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Generate Client Token To Set PIN",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831312",
+    "updated_at": "2025-08-04T16:18:34.831312"
+  },
+  {
+    "name": "GenerateClientTokenForRestrictedDetail",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Generate Client Token For Restricted Detail",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831327",
+    "updated_at": "2025-08-04T16:18:34.831327"
+  },
+  {
+    "name": "ViewPaymentCardRestrictedDetails",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/View Payment Card Restricted Details",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "restrictedDetails"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831339",
+    "updated_at": "2025-08-04T16:18:34.831340"
+  },
+  {
+    "name": "ActivatePaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Activate Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "activation"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831351",
+    "updated_at": "2025-08-04T16:18:34.831351"
+  },
+  {
+    "name": "SetPinForPaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SetPinForPaymentCard($input: SetPinForPaymentCardInput!) {\n  setPinForPaymentCard(input: $input) {\n    __typename\n    ... on PaymentCard {\n      id\n      bin\n      last4\n    }\nreq_06f2e9d7416d41eeaa473efa19375e48    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "newPin": "1234"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Set Pin For Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831364",
+    "updated_at": "2025-08-04T16:18:34.831365"
+  },
+  {
+    "name": "SuspendPaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Suspend Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "suspension"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831376",
+    "updated_at": "2025-08-04T16:18:34.831377"
+  },
+  {
+    "name": "ReissuePaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReissuePaymentCard($input: ReissuePaymentCardInput!) {\n  reissuePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      physicalPaymentCardOrders {\n        id\n      }\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "options": {
+            "reissueFeatures": {
+              "copyNumber": true,
+              "copyPin": true
+            },
+            "expirationDate": "2024-12-29T23:12:30Z",
+            "activateOnCreate": false
+          },
+          "originalPaymentCardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Reissue Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831392",
+    "updated_at": "2025-08-04T16:18:34.831393"
+  },
+  {
+    "name": "ClosePaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Close Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831408",
+    "updated_at": "2025-08-04T16:18:34.831408"
+  },
+  {
+    "name": "SimulateAuthorization",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateAuthorization(\n  $input: SimulateAuthorizationInput!\n) {\n  simulateAuthorization(input: $input) {\n    ... on AuthorizationEvent {\n      id\n      responseCode\n      cvvResponseCode\n      transaction {\n        __typename\n        ... on CreditTransaction {\n          id\n        }\n        ... on DebitTransaction {\n          id\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "cardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Authorization",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831431",
+    "updated_at": "2025-08-04T16:18:34.831431"
+  },
+  {
+    "name": "SimulateClearing",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateClearing($input: SimulateClearingInput!) {\n  simulateClearing(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n      merchantDetails {\n        countryCodeAlpha3\n        category\n        name\n        description\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "{{transactionId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Clearing",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [
+        "transactionId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831445",
+    "updated_at": "2025-08-04T16:18:34.831445"
+  },
+  {
+    "name": "SimulateReversal",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReversal($input: SimulateReversalInput!) {\n  simulateReversal(input: $input) {\n    ... on ReversalEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "{{transactionId}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Reversal",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [
+        "transactionId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831457",
+    "updated_at": "2025-08-04T16:18:34.831458"
+  },
+  {
+    "name": "SimulateRefund",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateRefund($input: SimulateRefundInput!) {\n  simulateRefund(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ... on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "{{transactionId}}",
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Refund",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [
+        "transactionId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831471",
+    "updated_at": "2025-08-04T16:18:34.831471"
+  },
+  {
+    "name": "SimulateSingleStepAuthAndClear",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateSingleStepAuthAndClear($input: SimulateSingleStepAuthAndClearInput!) {\n  simulateSingleStepAuthAndClear(input: $input) {\n    ... on AuthorizationAndClearEvent {\n      id\n      responseCode\n      transaction {\n        ... on DebitTransaction {\n          id\n        }\n        ... on CreditTransaction {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardId": "{{paymentCardId}}",
+          "amount": {
+            "currencyCode": "USD",
+            "value": 1000
+          },
+          "merchantDetails": {
+            "description": "Test Merchant",
+            "name": "Test Merchant Name"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Single Step Auth And Clear",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831527",
+    "updated_at": "2025-08-04T16:18:34.831527"
+  },
+  {
+    "name": "GetTransactionEvent",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetTransactionEvent($id: ID!) {\n  node(id: $id) {\n    ... on TransactionEvent {\n    __typename\n    id\n    approvedAmount {\n      currencyCode\n      value\n    }\n    responseCode\n    createdAt\n    transactionProcessingType\n    pointOfServiceDetails {\n      category\n      panEntryMode\n      pinEntryMode\n      terminalAttendance\n      isCardHolderPresent\n      isCardPresent\n      isRecurring\n      terminalSupportsPartialApproval\n    }\n    additionalNetworkData {\n      ... on VisaData {\n        transactionIdentifier\n      }\n    }\n  }\n}}",
+      "variables": {
+        "id": "{{authorizationEventId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Issuance/Transactions/Get Transaction Event",
+      "description": "",
+      "tags": [
+        "transactions",
+        "retrieval"
+      ],
+      "requires": [
+        "authorizationEventId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831541",
+    "updated_at": "2025-08-04T16:18:34.831542"
+  },
+  {
+    "name": "TransactionEventsByPaymentCardAndTransactionid",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query TransactionEventsByPaymentCardAndTransactionId($id: ID!, $filterBy: PaymentCardTransactionEventsFilterInput) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      transactionEvents(filterBy: $filterBy) {\n        edges {\n          node {\n            __typename\n            id\n            createdAt\n            responseCode\n            approvedAmount {\n              value\n              currencyCode\n            }\n            transaction {\n              ... on CreditTransaction {\n                __typename\n                id\n              }\n              ... on DebitTransaction {\n                __typename\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{paymentCardId}}",
+        "filterBy": {
+          "transactionId": {
+            "equals": "{{transactionId}}"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Issuance/Transactions/Transaction Events By Payment Card And TransactionId",
+      "description": "",
+      "tags": [
+        "transactions"
+      ],
+      "requires": [
+        "paymentCardId",
+        "transactionId"
+      ],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831561",
+    "updated_at": "2025-08-04T16:18:34.831562"
+  },
+  {
+    "name": "CreateAmountLimitSpendRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAmountLimitSpendRule($input: CreateAmountLimitSpendRuleInput!) {\n  createAmountLimitSpendRule(input: $input) {\n    ... on AmountLimitSpendRule {\n      id\n      name\n      maximumAmount {\n        value\n        currencyCode\n      }\n      updatedAt\n      createdAt\n      version\n      revisions {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            version\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Amount Limit Rule",
+          "maximumAmount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Create Amount Limit Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831584",
+    "updated_at": "2025-08-04T16:18:34.831585"
+  },
+  {
+    "name": "CreateMerchantCategorySpendRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateMerchantCategorySpendRule(\n  $input: CreateMerchantCategorySpendRuleInput!\n) {\n  createMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Fuel Rule",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": [
+            "AIRLINES_AIR_CARRIERS"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Create Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831601",
+    "updated_at": "2025-08-04T16:18:34.831601"
+  },
+  {
+    "name": "AttachSpendRuleToCardProduct",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToCardProduct($input: AttachSpendRuleToCardProductInput!) {\n  attachSpendRuleToCardProduct(input: $input) {\n    ...on CardProduct {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831617",
+    "updated_at": "2025-08-04T16:18:34.831618"
+  },
+  {
+    "name": "UpdateMerchantCategorySpendRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateMerchantCategorySpendRule(\n  $input: UpdateMerchantCategorySpendRuleInput!\n) {\n  updateMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "spendRuleId": "SPEND_RULE_ID",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": []
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Update Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831633",
+    "updated_at": "2025-08-04T16:18:34.831633"
+  },
+  {
+    "name": "AttachSpendRuleToPaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToPaymentCard($input: AttachSpendRuleToPaymentCardInput!) {\n  attachSpendRuleToPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831649",
+    "updated_at": "2025-08-04T16:18:34.831650"
+  },
+  {
+    "name": "DetachSpendRuleFromCardProduct",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromCardProduct($input: DetachSpendRuleFromCardProductInput!) {\n  detachSpendRuleFromCardProduct(input: $input) {\n    __typename\n\t\t... on CardProduct {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831664",
+    "updated_at": "2025-08-04T16:18:34.831664"
+  },
+  {
+    "name": "DetachSpendRuleFromPaymentCard",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromPaymentCard($input: DetachSpendRuleFromPaymentCardInput!) {\n  detachSpendRuleFromPaymentCard(input: $input) {\n    __typename\n\t\t... on PaymentCard {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831678",
+    "updated_at": "2025-08-04T16:18:34.831678"
+  },
+  {
+    "name": "CreateAmountLimitSpendRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAmountLimitSpendRule($input: CreateAmountLimitSpendRuleInput!) {\n  createAmountLimitSpendRule(input: $input) {\n    ... on AmountLimitSpendRule {\n      id\n      name\n      maximumAmount {\n        value\n        currencyCode\n      }\n      updatedAt\n      createdAt\n      version\n      revisions {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            version\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Amount Limit Rule",
+          "maximumAmount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Create Amount Limit Spend Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831698",
+    "updated_at": "2025-08-04T16:18:34.831698"
+  },
+  {
+    "name": "CreateVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateVelocityRule($input: CreateVelocityRuleInput!) {\n  createVelocityRule(input: $input) {\n    ... on VelocityRule {\n      id\n      name\n      velocityRuleWindow\n      cumulativeRule {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n        revisions {\n          pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n          }\n          edges {\n            cursor\n            node {\n              id\n              name\n              version\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n      spendRules {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Velocity Control - Max $1000 per month",
+          "cumulativeRule": {
+            "id": "{{amountLimitSpendRuleId}}",
+            "version": "0"
+          },
+          "velocityRuleWindow": "MONTHLY"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Create Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [
+        "amountLimitSpendRuleId"
+      ],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831716",
+    "updated_at": "2025-08-04T16:18:34.831717"
+  },
+  {
+    "name": "GetAllVelocityRules",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllVelocityRules {\n  organizations {\n    velocityRules {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          velocityRuleWindow\n          version\n          createdAt\n          updatedAt\n          cumulativeRule {\n            ... on AmountLimitSpendRule {\n              id\n              name\n              maximumAmount {\n                value\n                currencyCode\n              }\n              version\n              createdAt\n              updatedAt\n            }\n          }\n          spendRules {\n            __typename\n            id\n            name\n            version\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get All Velocity Rules",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831731",
+    "updated_at": "2025-08-04T16:18:34.831731"
+  },
+  {
+    "name": "GetPaymentCardVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardVelocityRule($id: ID!) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      velocitySpendRuleBalances {\n\t\t\t\t... on VelocitySpendRuleAmountBalance {\n\t\t\t\t\tcurrentBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tremainingBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tvelocityRule {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tvelocityRuleWindow\n\t\t\t\t\t\tcumulativeRule {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\trevisions {\n\t\t\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\t\t\tcursor\n\t\t\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\tspendRules {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t\tversion\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n    \t}\n  \t}\n\t}\n}",
+      "variables": {
+        "id": "{{paymentCardId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [
+        "paymentCardId"
+      ],
+      "produces": [
+        "currentBalance",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831747",
+    "updated_at": "2025-08-04T16:18:34.831747"
+  },
+  {
+    "name": "GetFinancialAccountWithVelocityBalance",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountWithVelocityBalance($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      velocitySpendRuleBalances {\n        ... on VelocitySpendRuleAmountBalance {\n          __typename\n\n          currentBalance {\n            currencyCode\n            value\n          }\n          remainingBalance {\n            currencyCode\n            value\n          }\n          velocityRule {\n            id\n            version\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get Financial Account With Velocity Balance",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831764",
+    "updated_at": "2025-08-04T16:18:34.831764"
+  },
+  {
+    "name": "AttachPaymentCardVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachPaymentCardVelocityRule($input: AttachPaymentCardVelocityRuleInput!) {\n  attachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id,\n          bin,\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "velocityRule": {
+            "velocityRuleId": "{{velocityRuleId}}",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Attach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [
+        "paymentCardId",
+        "velocityRuleId"
+      ],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831784",
+    "updated_at": "2025-08-04T16:18:34.831784"
+  },
+  {
+    "name": "DetachPaymentCardVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachPaymentCardVelocityRule($input: DetachPaymentCardVelocityRuleInput!) {\n  detachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id\n          bin\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "velocityRule": {
+            "velocityRuleId": "{{velocityRuleId}}"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Detach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [
+        "paymentCardId",
+        "velocityRuleId"
+      ],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831806",
+    "updated_at": "2025-08-04T16:18:34.831807"
+  },
+  {
+    "name": "AttachCardProductVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachCardProductVelocityRule($input: AttachCardProductVelocityRuleInput!) {\n  attachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "velocityRule": {
+            "velocityRuleId": "{{velocityRuleId}}",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Attach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [
+        "velocityRuleId",
+        "cardProductId"
+      ],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831826",
+    "updated_at": "2025-08-04T16:18:34.831826"
+  },
+  {
+    "name": "DetachCardProductVelocityRule",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachCardProductVelocityRule($input: DetachCardProductVelocityRuleInput!) {\n  detachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "velocityRule": {
+            "velocityRuleId": "{{velocityRuleId}}"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Detach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [
+        "velocityRuleId",
+        "cardProductId"
+      ],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831844",
+    "updated_at": "2025-08-04T16:18:34.831845"
+  },
+  {
+    "name": "AddCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddCollaborativeAuthorizationEndpoint($input: AddCollaborativeAuthorizationEndpointInput!) {\n  addCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on  CollaborativeAuthorizationEndpoint{\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Collaborative Auth Endpoint",
+          "uri": "https://example.com"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Add Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831863",
+    "updated_at": "2025-08-04T16:18:34.831863"
+  },
+  {
+    "name": "ActivateCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivateCollaborativeAuthorizationEndpoint($input: ActivateCollaborativeAuthorizationEndpointInput!) {\n  activateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Activate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy",
+        "activation"
+      ],
+      "requires": [
+        "collabAuthEndpointId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831877",
+    "updated_at": "2025-08-04T16:18:34.831878"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindCollaborativeAuthorizationEndpoint($id: ID!) {\n  node(id: $id) {\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{collabAuthEndpointId}}"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Get Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy",
+        "retrieval"
+      ],
+      "requires": [
+        "collabAuthEndpointId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831891",
+    "updated_at": "2025-08-04T16:18:34.831892"
+  },
+  {
+    "name": "DeactivateCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateCollaborativeAuthorizationEndpoint($input: DeactivateCollaborativeAuthorizationEndpointInput!) {\n  deactivateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on  CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Deactivate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy",
+        "activation"
+      ],
+      "requires": [
+        "collabAuthEndpointId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831906",
+    "updated_at": "2025-08-04T16:18:34.831907"
+  },
+  {
+    "name": "RemoveCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveCollaborativeAuthorizationEndpoint($input: RemoveCollaborativeAuthorizationEndpointInput!) {\n  removeCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Remove Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy"
+      ],
+      "requires": [
+        "collabAuthEndpointId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831921",
+    "updated_at": "2025-08-04T16:18:34.831921"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoints",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query CollaborativeAuthorizationEndpoints($after: String, $first: Int) {\n\torganizations{\n\t\tid\n\t\tcollaborativeAuthorizationEndpoints(first: $first, after: $after) {\n\t\t\t__typename\n\n\t\t\tedges {\n\t\t\t\t__typename\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\turi\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tupdatedAt\n\t\t\t\t\tsigningKeys {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tsecret\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t\tstatus\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tpageInfo {\n\t\t\t\tendCursor\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Get Collaborative Authorization Endpoints",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831934",
+    "updated_at": "2025-08-04T16:18:34.831934"
+  },
+  {
+    "name": "RenameCollaborativeAuthorizationEndpoint",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RenameCollaborativeAuthorizationEndpoint($input: RenameCollaborativeAuthorizationEndpointInput!) {\n  renameCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}",
+          "name": "Renamed Collaborative Auth Endpoint"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization_copy",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization Copy/Rename Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization_copy"
+      ],
+      "requires": [
+        "collabAuthEndpointId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831948",
+    "updated_at": "2025-08-04T16:18:34.831949"
+  },
+  {
+    "name": "AddWebhookNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddWebhookNotificationTarget($input: AddWebhookNotificationTargetInput!) {\n  addWebhookNotificationTarget(input: $input) {\n    __typename\n    ...on WebhookNotificationTarget {\n      id\n      name\n      uri\n      subscriptions\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "My Target",
+          "uri": "<URI>",
+          "subscriptions": [
+            "PAYMENT_CARD_ACTIVATED",
+            "AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_IN_REVIEW",
+            "CARD_PRODUCT_APPLICATION_MANUAL_REVIEW",
+            "CARD_PRODUCT_APPLICATION_DENIED",
+            "CARD_PRODUCT_APPLICATION_CLOSED",
+            "PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED",
+            "PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Add Webhook Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.831976",
+    "updated_at": "2025-08-04T16:18:34.831977"
+  },
+  {
+    "name": "GetAllWebhookNotificationTargets",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllWebhookNotificationTargets($firstTargets: Int, $afterTargets: String) {\n\torganizations {\n\t\tid\n\n\t\twebhookNotificationTargets(first: $firstTargets, after: $afterTargets) {\n\t\t\tpageInfo {\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t\tendCursor\n\t\t\t}\n\n\t\t\tedges {\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tdeactivatedAt\n\t\t\t\t\tsubscriptions\n\n\t\t\t\t\tstatusHistory {\n\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\tcursor\n\n\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get All Webhook Notification Targets",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832001",
+    "updated_at": "2025-08-04T16:18:34.832002"
+  },
+  {
+    "name": "DeactivateNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateNotificationTarget($input: DeactivateNotificationTargetInput!) {\n\tdeactivateNotificationTarget(input: $input) {\n\t\t... on WebhookNotificationTarget {\n\t\t\tid\n\t\t\tstatus\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Deactivate Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval",
+        "activation"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832014",
+    "updated_at": "2025-08-04T16:18:34.832014"
+  },
+  {
+    "name": "ActivateNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "fragment Target on WebhookNotificationTarget {\n\t__typename\n\tid\n\tname\n\turi\n\tsubscriptions\n\tstatus\n\tcreatedAt\n\tupdatedAt\n\tsigningKeys {\n\t\tid\n\t\tsecret\n\t\tcreatedAt\n\t}\n}\n\nmutation ActivateNotificationTarget($input: ActivateNotificationTargetInput!) {\n\tactivateNotificationTarget(input: $input) {\n\t\t...Target\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Activate Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval",
+        "activation"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832027",
+    "updated_at": "2025-08-04T16:18:34.832027"
+  },
+  {
+    "name": "GetWebhookNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetWebhookNotificationTarget($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on WebhookNotificationTarget {\n\t\t\tstatus\n\t\t\tid\n\n\t\t\tdeliveryAttempts {\n\t\t\t\t__typename\n\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\turi\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t\thttpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tevent {\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tstatusHistory {\n\t\t\t\t__typename\n\t\t\t\t\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\t\t\t\t\t\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\n\t\t\t\t\t\tid\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "{{webhookNotificationTargetId}}"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get Webhook Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832046",
+    "updated_at": "2025-08-04T16:18:34.832046"
+  },
+  {
+    "name": "GetNotificationTargetDeliveryAttempts",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationTargetDeliveryAttempts($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    __typename\n    ... on WebhookNotificationTarget {\n      id\n      deliveryAttempts(first: $first, after: $after) {\n        __typename\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            uri\n            response {\n\t\t\t\thttpStatusCode\n\t\t\t}\n            deliveryAttemptStatus\n            createdAt\n            event {\n              name\n              id\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{webhookNotificationTargetId}}"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get Notification Target Delivery Attempts",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832063",
+    "updated_at": "2025-08-04T16:18:34.832064"
+  },
+  {
+    "name": "AddSubscriptionsToNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddSubscriptionsToNotificationTarget($input: AddSubscriptionsToNotificationTargetInput!) {\n  addSubscriptionsToNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Add Subscriptions To Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832077",
+    "updated_at": "2025-08-04T16:18:34.832078"
+  },
+  {
+    "name": "RemoveSubscriptionsFromNotificationTarget",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveSubscriptionsFromNotificationTarget($input: RemoveSubscriptionsFromNotificationTargetInput!) {\n  removeSubscriptionsFromNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Remove Subscriptions From Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [
+        "webhookNotificationTargetId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832092",
+    "updated_at": "2025-08-04T16:18:34.832093"
+  },
+  {
+    "name": "GetAllNotificationEvents",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllNotificationEvents($after: String, $first: Int) {\n\tnotificationEvents(after: $after, first: $first) {\n\t\tedges {\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t\tnode {\n            __typename\n\t\t\t\t\t\t... on PaymentCardTransactionDispute {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\tchargebacks {\n                id, \n                status, \n                dispute {\n                  id\n                }, \n                creditStatus\n              }\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on PaymentCardTransactionChargeback {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tcreditStatus\n\t\t\t\t\t\t\tdispute {\n                id,\n                status,\n                amount { \n                  value\n\t\t\t\t\t\t\t  }\n              }\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "first": 150
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get All Notification Events",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832112",
+    "updated_at": "2025-08-04T16:18:34.832112"
+  },
+  {
+    "name": "GetNotificationEvent",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEvent($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\texpiresAt\n\t\t\tname\n\t\t\tnode {\n\t\t\t\t__typename\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832123",
+    "updated_at": "2025-08-04T16:18:34.832124"
+  },
+  {
+    "name": "ReplayNotificationEvent",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReplayNotificationEvent($input: ReplayNotificationEventInput!) {\n  replayNotificationEvent(input: $input) {\n    __typename\n    ... on NotificationEvent {\n      __typename\n      id\n\t  createdAt\n\t  expiresAt\n      node {\n        __typename\n        ... on AuthorizationEvent {\n          id\n          approvedAmount {\n            value\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "input": {
+          "notificationEventId": "{{notificationEventId}}"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Replay Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events"
+      ],
+      "requires": [
+        "notificationEventId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832139",
+    "updated_at": "2025-08-04T16:18:34.832139"
+  },
+  {
+    "name": "GetDeliveryAttemptsForNotificationEvent",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDeliveryAttemptsForNotificationEvent($id: ID!, $after: String, $first: Int) {\n\tnode(id: $id) {\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tdeliveryAttempts(first: $first, after: $after) {\n\t\t\t\t__typename\n\t\t\t\tpageInfo {\n\t\t\t\t\t__typename\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\tedges {\n\t\t\t\t\t__typename\n\t\t\t\t\tcursor\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t  httpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\turi\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "id": "{{notificationEventId}}",
+        "first": 10
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Delivery Attempts For Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [
+        "notificationEventId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832155",
+    "updated_at": "2025-08-04T16:18:34.832155"
+  },
+  {
+    "name": "GetNotificationEventsFilteredByName",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEventsFilteredByName($filterBy: NotificationEventsFilterInput!, $first: Int) {\n\tnotificationEvents(filterBy: $filterBy, first: $first) {\n\t\t__typename\n\t\tpageInfo {\n\t\t\tstartCursor\n\t\t\tendCursor\n\t\t\thasNextPage\n\t\t\thasPreviousPage\n\t\t}\n\t\tedges {\n\t\t\tcursor\n\t\t\t__typename\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": [
+            "INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_COMPLETED"
+          ]
+        },
+        "first": 20
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Notification Events Filtered By Name",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832170",
+    "updated_at": "2025-08-04T16:18:34.832171"
+  },
+  {
+    "name": "InitiateOrganizationReport",
+    "program_type": "ap_automation",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateOrganizationReport($input: InitiateOrganizationReportInput!) {\n  initiateOrganizationReport(input: $input) {\n    __typename\n    ... on Report {\n      id\n      download {\n        url\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "reportType": "LEDGER_ENTRY",
+          "parameters": {
+            "between": {
+              "start": "2023-01-01",
+              "end": "2024-03-02"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Initiate Organization Report",
+      "description": "",
+      "tags": [
+        "reports"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832188",
+    "updated_at": "2025-08-04T16:18:34.832189"
+  },
+  {
+    "name": "GetReport",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetReport($id: ID!) {\n  node(id: $id) {\n    ... on Report {\n      download {\n        url\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "REPORT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Report",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "download"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832198",
+    "updated_at": "2025-08-04T16:18:34.832199"
+  },
+  {
+    "name": "GetReportUsage",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query ReportUsage {\n  reportUsage {\n    limit\n    limitRemaining\n    periodEnd\n    reportType\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Report Usage",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "reportUsage"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832207",
+    "updated_at": "2025-08-04T16:18:34.832208"
+  },
+  {
+    "name": "GetReports",
+    "program_type": "ap_automation",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Reports($first: Int, $after: String, $input: ReportFilterInput) {\n  reports(first: $first, after: $after, filterBy: $input) {\n    ... on ReportConnection {\n      edges {\n        ... on ReportEdge {\n          node {\n            __typename\n            id\n            status\n            reportType\n            download {\n              url\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "status": {
+            "includes": [
+              "COMPLETED"
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Reports",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.832221",
+    "updated_at": "2025-08-04T16:18:34.832221"
+  }
+]

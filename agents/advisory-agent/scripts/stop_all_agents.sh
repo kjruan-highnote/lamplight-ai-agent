@@ -4,7 +4,10 @@
 
 echo "🛑 Stopping Lamplight AI Agent System..."
 
-BASE_DIR="/Users/kevinruan/Downloads/lamplight-ai-agent/agents"
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# Base directory is two levels up from scripts directory
+BASE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 # Function to stop agent
 stop_agent() {
@@ -41,6 +44,7 @@ stop_agent() {
 # Stop agents in reverse order
 echo "Stopping agents..."
 
+stop_agent "ship-agent" "ship-agent"
 stop_agent "advisory-agent" "advisory-agent"
 stop_agent "document-agent" "document-agent"
 stop_agent "schema-agent" "schema-agent"
@@ -49,8 +53,8 @@ stop_agent "schema-agent" "schema-agent"
 echo ""
 echo "🔍 Cleaning up any remaining processes..."
 
-for port in 8000 8001 8002; do
-    local pid=$(lsof -ti:$port 2>/dev/null)
+for port in 8000 8001 8002 8003; do
+    pid=$(lsof -ti:$port 2>/dev/null)
     if [ ! -z "$pid" ]; then
         echo "   Killing process on port $port (PID: $pid)"
         kill -9 "$pid" 2>/dev/null

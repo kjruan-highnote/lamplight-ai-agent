@@ -1,0 +1,284 @@
+[
+  {
+    "name": "SimulateSingleStepAuthAndClear",
+    "program_type": "elibrium",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateSingleStepAuthAndClear($input: SimulateSingleStepAuthAndClearInput!) {\n  simulateSingleStepAuthAndClear(input: $input) {\n    ... on AuthorizationAndClearEvent {\n      id\n      responseCode\n      transaction {\n        ... on DebitTransaction {\n          id\n        }\n        ... on CreditTransaction {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "cardId": "PAYMENT_CARD_ID",
+          "transactionProcessingType": "CASH",
+          "pointOfServiceDetails": {
+            "isCardPresent": true,
+            "isCardHolderPresent": true
+          },
+          "merchantDetails": {
+            "category": "MANUAL_CASH_DISBURSE"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulate_fee_collection",
+      "path": "Fees/Simulate Fee Collection/Simulate Single Step Auth And Clear",
+      "description": "",
+      "tags": [
+        "simulate_fee_collection",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658289",
+    "updated_at": "2025-08-04T16:18:34.658293"
+  },
+  {
+    "name": "SimulateCreateAndActivateFeeSchedule",
+    "program_type": "elibrium",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulateCreateAndActivateFeeSchedule(\n  $input: SimulateCreateAndActivateFeeScheduleInput!\n) {\n  simulateCreateAndActivateFeeSchedule(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on FeeSchedule {\n      __typename\n      id\n      feeScheduleAssociatedTo {\n        __typename\n        ... on CardProduct {\n          id\n        }\n      }\n      feeConfigurations {\n        id\n        feeActivityType\n        feeChargeRules {\n          id\n          name\n          order\n          value {\n            __typename\n            ... on FixedFeeChargeValue {\n              amount {\n                value\n                currencyCode\n              }\n            }\n            ... on VariableFeeChargeValue {\n              percentage\n            }\n          }\n          conditions {\n            __typename\n            ... on FeeChargeRuleAmountCondition {\n              id\n              description\n              condition {\n                __typename\n                ... on AmountFeeCondition {\n                  value {\n                    __typename\n                    ... on AmountFeeConditionValue {\n                      amount {\n                        value\n                        currencyCode\n                      }\n                      maximumAmount {\n                        value\n                        currencyCode\n                      }\n                    }\n                  }\n                  operator\n                }\n              }\n              aggregatedAt\n              aggregationDuration\n            }\n            ... on FeeChargeRuleCountCondition {\n              id\n              description\n              condition {\n                __typename\n                ... on CountFeeCondition {\n                  value {\n                    __typename\n                    ... on CountFeeConditionValue {\n                      count\n                    }\n                  }\n                  operator\n                }\n              }\n              aggregatedAt\n              aggregationDuration\n            }\n            ... on FeeChargeRuleAmountCondition {\n              id\n              description\n              condition {\n                __typename\n                ... on AmountFeeCondition {\n                  value {\n                    __typename\n                    ... on AmountFeeConditionValue {\n                      amount {\n                        value\n                        currencyCode\n                      }\n                    }\n                  }\n                  operator\n                }\n              }\n              aggregatedAt\n              aggregationDuration\n            }\n          }\n        }\n      }\n      activationDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "feeConfigurations": [
+            {
+              "feeActivityType": "CASH_BACK_OTC_FEE",
+              "feeAmount": {
+                "feeAmount": {
+                  "value": 100,
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "fees",
+      "path": "Fees/Simulate Create and Activate Fee Schedule",
+      "description": "",
+      "tags": [
+        "fees",
+        "creation",
+        "simulation",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "amount",
+        "value",
+        "amount",
+        "value"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658329",
+    "updated_at": "2025-08-04T16:18:34.658329"
+  },
+  {
+    "name": "GetFeeSchedule",
+    "program_type": "elibrium",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindFeeSchedule($id: ID!) {\n\tnode(id: $id) {\n\t\t... on FeeSchedule {\n\t\t\t__typename\n\t\t\tid\n\t\t\tfeeScheduleAssociatedTo {\n\t\t\t\t__typename\n\t\t\t\t... on CardProduct {\n\t\t\t\t\tid\n\t\t\t\t}\n\t\t\t}\n\t\t\tfeeConfigurations {\n\t\t\t\tid\n\t\t\t\tfeeActivityType\n\t\t\t\tfeeChargeRules {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tvalue {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on FixedFeeChargeValue {\n\t\t\t\t\t\t\tamount {\n\t\t\t\t\t\t\t\tvalue\n\t\t\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on VariableFeeChargeValue {\n\t\t\t\t\t\t\tpercentage\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tconditions {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on FeeChargeRuleAmountCondition {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tcondition {\n\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t... on AmountFeeCondition {\n\t\t\t\t\t\t\t\t\tvalue {\n\t\t\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t\t\t... on AmountFeeConditionValue {\n\t\t\t\t\t\t\t\t\t\t\tamount {\n\t\t\t\t\t\t\t\t\t\t\t\tvalue\n\t\t\t\t\t\t\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t\tmaximumAmount {\n\t\t\t\t\t\t\t\t\t\t\t\tvalue\n\t\t\t\t\t\t\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\toperator\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\taggregatedAt\n\t\t\t\t\t\t\taggregationDuration\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on FeeChargeRuleCountCondition {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tcondition {\n\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t... on CountFeeCondition {\n\t\t\t\t\t\t\t\t\tvalue {\n\t\t\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t\t\t... on CountFeeConditionValue {\n\t\t\t\t\t\t\t\t\t\t\tcount\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\toperator\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\taggregatedAt\n\t\t\t\t\t\t\taggregationDuration\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on FeeChargeRuleAmountCondition {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tcondition {\n\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t... on AmountFeeCondition {\n\t\t\t\t\t\t\t\t\tvalue {\n\t\t\t\t\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\t\t\t\t... on AmountFeeConditionValue {\n\t\t\t\t\t\t\t\t\t\t\tamount {\n\t\t\t\t\t\t\t\t\t\t\t\tvalue\n\t\t\t\t\t\t\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\toperator\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\taggregatedAt\n\t\t\t\t\t\t\taggregationDuration\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tactivationDate\n\t\t\tstatus\n\t\t\tcreatedAt\n\t\t\tupdatedAt\n\t\t}\n\t}\n}",
+      "variables": {
+        "id": "{{feeScheduleId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "fees",
+      "path": "Fees/Get Fee Schedule",
+      "description": "",
+      "tags": [
+        "fees",
+        "retrieval"
+      ],
+      "requires": [
+        "feeScheduleId"
+      ],
+      "produces": [
+        "amount",
+        "value",
+        "amount",
+        "value",
+        "value"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658355",
+    "updated_at": "2025-08-04T16:18:34.658356"
+  },
+  {
+    "name": "GetFeeFinancialActivity",
+    "program_type": "elibrium",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindFinancialAccount($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      feeTransferEvents(first: 10) {\n        __typename\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            feeTransfer {\n              __typename\n              ... on ChargedFeeTransfer {\n                originatingAccount {\n                  id\n                }\n                receivingAccount {\n                  id\n                }\n                cardProduct {\n                  id\n                }\n                feeActivityType\n                feeAmount {\n                  value\n                  currencyCode\n                }\n                transferedFeeAmount {\n                  value\n                  currencyCode\n                }\n                transferDate\n                status {\n                  ... on NonFailureFeeTransferStatus {\n                    status\n                  }\n                  ... on FailureFeeTransferStatus {\n                    status\n                    reasonDetails {\n                      type\n                      reason\n                    }\n                  }\n                }\n                feeChargeRule {\n                  __typename\n                  id\n                  name\n                  value {\n                    __typename\n                    ... on FixedFeeChargeValue {\n                      amount {\n                        value\n                        currencyCode\n                      }\n                    }\n                    ... on VariableFeeChargeValue {\n                      percentage\n                    }\n                  }\n                  conditions {\n                    __typename\n                    ... on FeeChargeRuleAmountCondition {\n                      id\n                      description\n                      condition {\n                        __typename\n                        ... on AmountFeeCondition {\n                          value {\n                            __typename\n                            ... on AmountFeeConditionValue {\n                              amount {\n                                value\n                                currencyCode\n                              }\n                              maximumAmount {\n                                value\n                                currencyCode\n                              }\n                            }\n                          }\n                          operator\n                        }\n                      }\n                      aggregatedAt\n                      aggregationDuration\n                      createdAt\n                      updatedAt\n                    }\n                    ... on FeeChargeRuleCountCondition {\n                      id\n                      description\n                      condition {\n                        __typename\n                        ... on CountFeeCondition {\n                          value {\n                            __typename\n                            ... on CountFeeConditionValue {\n                              count\n                              maximumCount\n                            }\n                          }\n                          operator\n                        }\n                      }\n                      aggregatedAt\n                      aggregationDuration\n                      createdAt\n                      updatedAt\n                    }\n                  }\n                  createdAt\n                  updatedAt\n                }\n                feeChargeActvity {\n                  __typename\n                  ... on PhysicalPaymentCardOrder {\n                    id\n                  }\n                  ... on PaymentCard {\n                    id\n                  }\n                  ... on FinancialAccount {\n                    id\n                  }\n                  ... on SecureDepositACHTransfer {\n                    id\n                  }\n                  ... on SecureCardBalanceRepaymentACHTransfer {\n                    id\n                  }\n                  ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n                    id\n                  }\n                  ... on IntegratorInitiatedFundsDepositACHTransfer {\n                    id\n                  }\n                  ... on AuthorizationAndClearEvent {\n                    id\n                  }\n                  ... on ClearingEvent {\n                    id\n                  }\n                  ... on BalanceInquiryEvent {\n                    id\n                  }\n                }\n              }\n              ... on ReversedFeeTransfer {\n                originatingAccount {\n                  id\n                }\n                receivingAccount {\n                  id\n                }\n                transferedFeeAmount {\n                  value\n                  currencyCode\n                }\n                transferDate\n                status {\n                  ... on NonFailureFeeTransferStatus {\n                    status\n                  }\n                  ... on FailureFeeTransferStatus {\n                    status\n                    reasonDetails {\n                      type\n                      reason\n                    }\n                  }\n                }\n                sourceFeeTransferEvent {\n                  id\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "fees",
+      "path": "Fees/Get Fee Financial Activity",
+      "description": "",
+      "tags": [
+        "fees",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "originatingAccount",
+        "amount",
+        "value",
+        "amount",
+        "value"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658411",
+    "updated_at": "2025-08-04T16:18:34.658411"
+  },
+  {
+    "name": "GetCardProductFeeBalance",
+    "program_type": "elibrium",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProductWithLedgers(\n  $cardProductId: ID!\n  $firstLedgerEntries: Int\n  $ledgerEntriesAfterCursor: String\n  $filterBy: AccountHolderFinancialAccountsFilterInput\n) {\n  node(id: $cardProductId) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      accounts(first: 20, filterBy: $filterBy) {\n        __typename\n        pageInfo {\n          __typename\n          endCursor\n          hasNextPage\n          startCursor\n          hasPreviousPage\n        }\n        edges {\n          __typename\n          cursor\n          node {\n             __typename\n            id\n            name\n            createdAt\n            updatedAt\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n            ledgers {\n              __typename\n              id\n              normalBalance\n              asOf\n              name\n              creditBalance {\n                value\n                currencyCode\n                __typename\n              }\n              debitBalance {\n                value\n                currencyCode\n                __typename\n              }\n              ledgerEntries(\n                first: $firstLedgerEntries\n                after: $ledgerEntriesAfterCursor\n              ) {\n                __typename\n                pageInfo {\n                  hasNextPage\n                  hasPreviousPage\n                  startCursor\n                  endCursor\n                  __typename\n                }\n                edges {\n                  __typename\n                  cursor\n                  node {\n                    id\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "cardProductId": "CARD_PRODUCT_ID",
+        "filterBy": {
+          "features": {
+            "equals": "INCOME_ACCOUNT"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "fees",
+      "path": "Fees/Get Card Product Fee Balance",
+      "description": "",
+      "tags": [
+        "fees",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658436",
+    "updated_at": "2025-08-04T16:18:34.658437"
+  },
+  {
+    "name": "GetFeeTransferEvents",
+    "program_type": "elibrium",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query ListFeeTransferEvents(\n  $first: Int\n  $after: String\n  $filterBy: FeeTransferEventFilterInput\n) {\n  feeTransferEvents(first: $first, after: $after, filterBy: $filterBy) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      cursor\n      node {\n        ...feeTransferEvent\n      }\n    }\n  }\n}\nfragment feeTransferEvent on FeeTransferEvent {\n  __typename\n  id\n  feeTransfer {\n    __typename\n    ... on ChargedFeeTransfer {\n      originatingAccount {\n        id\n        accountStatus\n        feeTransferEvents {\n          pageInfo {\n            hasNextPage\n          }\n          edges {\n            cursor\n            node {\n              id\n              feeTransfer {\n                __typename\n              }\n            }\n          }\n        }\n      }\n      receivingAccount {\n        id\n        accountStatus\n      }\n      cardProduct {\n        id\n        name\n      }\n      feeActivityType\n      feeAmount {\n        value\n        currencyCode\n      }\n      transferedFeeAmount {\n        value\n        currencyCode\n      }\n      transferDate\n      status {\n        __typename\n        ... on NonFailureFeeTransferStatus {\n          status\n        }\n      }\n      feeChargeRule {\n        id\n        name\n        value {\n          __typename\n          ... on FixedFeeChargeValue {\n            amount {\n              value\n              currencyCode\n            }\n          }\n        }\n      }\n      feeChargeActvity {\n        __typename\n        ... on PhysicalPaymentCardOrder {\n          id\n        }\n        ... on PaymentCard {\n          id\n        }\n        ... on FinancialAccount {\n          id\n        }\n        ... on SecureDepositACHTransfer {\n          id\n        }\n        ... on SecureCardBalanceRepaymentACHTransfer {\n          id\n        }\n        ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n          id\n        }\n        ... on IntegratorInitiatedFundsDepositACHTransfer {\n          id\n        }\n        ... on AuthorizationAndClearEvent {\n          id\n          transaction {\n            __typename\n            ... on CreditTransaction {\n              id\n            }\n            ... on DebitTransaction {\n              id\n            }\n          }\n        }\n        ... on ClearingEvent {\n          id\n          transaction {\n            __typename\n            ... on CreditTransaction {\n              id\n            }\n            ... on DebitTransaction {\n              id\n            }\n          }\n        }\n        ... on BalanceInquiryEvent {\n          id\n          transaction {\n            __typename\n            ... on CreditTransaction {\n              id\n            }\n            ... on DebitTransaction {\n              id\n            }\n          }\n        }\n      }\n    }\n    ... on ReversedFeeTransfer {\n      originatingAccount {\n        id\n      }\n      receivingAccount {\n        id\n      }\n      transferedFeeAmount {\n        value\n        currencyCode\n      }\n      transferDate\n      sourceFeeTransferEvent {\n        __typename\n        id\n        ... on FeeTransferEvent {\n          id\n          feeTransfer {\n            __typename\n            ... on ChargedFeeTransfer {\n              originatingAccount {\n                id\n              }\n              feeAmount {\n                value\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "first": 20,
+        "filterBy": {
+          "cardProductId": {
+            "equals": "CARD_PRODUCT_ID"
+          },
+          "originatingAccountId": {
+            "equals": "ACCOUNT_HOLDER_FINANCIAL_ACCOUNT_ID"
+          },
+          "createDate": {
+            "between": {
+              "start": "2024-04-01T00:00:00.000Z",
+              "end": "2024-05-01T23:59:59.999Z"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "fees",
+      "path": "Fees/Get Fee Transfer Events",
+      "description": "",
+      "tags": [
+        "fees",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "originatingAccount",
+        "pageInfo",
+        "amount",
+        "originatingAccount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658481",
+    "updated_at": "2025-08-04T16:18:34.658481"
+  },
+  {
+    "name": "GetFinancialAccountWithLedgerEntriesById",
+    "program_type": "elibrium",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountWithLedgerEntriesByID($id: ID!, $ledgerNames: [LedgerName!]) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers(ledgerNames: $ledgerNames) {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on WireTransfer {\n                  __typename\n                  id\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID",
+        "ledgerNames": [
+          "AVAILABLE_CASH"
+        ]
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_account",
+      "path": "Financial Account/Get Financial Account With Ledger Entries By ID",
+      "description": "",
+      "tags": [
+        "financial_account",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.658506",
+    "updated_at": "2025-08-04T16:18:34.658507"
+  }
+]

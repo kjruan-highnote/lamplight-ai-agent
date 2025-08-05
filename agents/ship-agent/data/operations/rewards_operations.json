@@ -1,0 +1,326 @@
+[
+  {
+    "name": "CreateRewardRedemptionConfiguration",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateRewardRedemptionConfiguration($input: CreateRewardRedemptionConfigurationInput!) {\n  createRewardRedemptionConfiguration(input: $input) {\n    ... on RewardRedemptionConfiguration {\n      id\n      name\n      createdAt\n      type\n      updatedAt\n      rewardPointRedemption {\n        rate\n      }\n      attachments {\n        edges {\n          node {\n            ... on RewardRedemptionConfigurationProductAttachment {\n              id\n              cardProduct {\n                id\n                name\n              }\n              effectiveFrom\n              effectiveThrough\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "REDEMPTION_RULE_NAME",
+          "rewardPointRedemption": {
+            "rate": "1.0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "redemption_rule",
+      "path": "Redemption Rule/Create Reward Redemption Configuration",
+      "description": "",
+      "tags": [
+        "redemption_rule",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798229",
+    "updated_at": "2025-08-04T16:18:34.798231"
+  },
+  {
+    "name": "AttachRewardRedemptionConfigurationToProduct",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachRewardRedemptionConfigurationToProduct($input: AttachRewardRedemptionConfigurationToProductInput!) {\n  attachRewardRedemptionConfigurationToProduct(input: $input) {\n    ... on RewardRedemptionConfigurationProductAttachment {\n      id\n      cardProduct {\n        id\n        name\n      }\n      effectiveFrom\n      effectiveThrough\n      redemptionConfiguration {\n        id\n        name\n        type\n        rewardPointRedemption {\n          rate\n        }\n        updatedAt\n        createdAt\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "redemption_rule",
+      "path": "Redemption Rule/Attach Reward Redemption Configuration To Product",
+      "description": "",
+      "tags": [
+        "redemption_rule"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798256",
+    "updated_at": "2025-08-04T16:18:34.798256"
+  },
+  {
+    "name": "UpdateRewardRedemptionConfigurationAttachment",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateRewardRedemptionConfigurationAttachment($input: UpdateRewardRedemptionConfigurationAttachmentInput!) {\n  updateRewardRedemptionConfigurationAttachment(input: $input) {\n    ... on RewardRedemptionConfigurationProductAttachment {\n      id\n      effectiveFrom\n      effectiveThrough\n      cardProduct {\n        id\n        name\n      }\n      redemptionConfiguration {\n        id\n        name\n        rewardPointRedemption {\n          rate\n        }\n        type\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "attachmentId": "REDEMPTION_RULE_CONFIGURATION_ID",
+          "effectiveThrough": "UPDATED_DATE"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "redemption_rule",
+      "path": "Redemption Rule/Update Reward Redemption Configuration Attachment",
+      "description": "",
+      "tags": [
+        "redemption_rule",
+        "modification"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798272",
+    "updated_at": "2025-08-04T16:18:34.798273"
+  },
+  {
+    "name": "RedeemRewardsForStatementCredit",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RedeemRewardsForStatementCredit($input: RedeemRewardsForStatementCreditInput!) {\n  redeemRewardsForStatementCredit(input: $input) {\n    ... on RewardPointsTransfer {\n      id\n      memo\n      activity\n      externalTransactionIdentifier\n      redemptionConfiguration {\n        id\n        name\n      }\n      rewardEarnRule {\n        __typename\n        id\n        name\n      }\n      rewardPointsAmount {\n        value\n        currencyCode\n        decimalPlaces\n      }\n      rewardPointsValue {\n        value\n        currencyCode\n        decimalPlaces\n      }\n      source\n      status {\n        ... on RewardPointsTransferSuccessStatus {\n          status\n        }\n        ... on RewardPointsTransferFailureStatus {\n          status\n          statusReasonCode\n        }\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "memo": "MEMO",
+          "externalTransactionIdentifier": "EXTERNAL_ID",
+          "redemption": {
+            "pointsToRedeem": 100,
+            "redemptionConfigurationId": "REDEMPTION_RULE_CONFIGURATION_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "redemption_rule",
+      "path": "Redemption Rule/Redeem Rewards For Statement Credit",
+      "description": "",
+      "tags": [
+        "redemption_rule"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798293",
+    "updated_at": "2025-08-04T16:18:34.798293"
+  },
+  {
+    "name": "CreateRewardDefaultEarnRule",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateRewardDefaultEarnRule($input: CreateRewardDefaultEarnRuleInput!) {\n  createRewardDefaultEarnRule(input: $input) {\n    ... on RewardDefaultEarnRule {\n      id\n      name\n      createdAt\n      updatedAt\n      type\n      rewardPointEarning {\n        rate\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "REDEMPTION_RULE_NAME",
+          "rewardPointRedemption": {
+            "rate": "1.0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "earn_rule",
+      "path": "Earn Rule/Create Reward Default Earn Rule",
+      "description": "",
+      "tags": [
+        "earn_rule",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798311",
+    "updated_at": "2025-08-04T16:18:34.798311"
+  },
+  {
+    "name": "CreateRewardMerchantCategoryEarnRule",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateRewardMerchantCategoryEarnRule($input: CreateRewardMerchantCategoryEarnRuleInput!) {\n  createRewardMerchantCategoryEarnRule(input: $input) {\n    ... on RewardMerchantCategoryEarnRule {\n      id\n      name\n      createdAt\n      updatedAt\n      type\n      rewardPointEarning {\n        rate\n      }\n      allowedList\n      allowedListCodes\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "RULE_NAME",
+          "rewardPointEarning": {
+            "rate": 1.0
+          },
+          "allowedList": [
+            "MCC_1"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "earn_rule",
+      "path": "Earn Rule/Create Reward Merchant Category Earn Rule",
+      "description": "",
+      "tags": [
+        "earn_rule",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798329",
+    "updated_at": "2025-08-04T16:18:34.798330"
+  },
+  {
+    "name": "AttachRewardEarnRuleToProduct",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachRewardEarnRuleToProduct($input: AttachRewardEarnRuleToProductInput!) {\n  attachRewardEarnRuleToProduct(input: $input) {\n    ... on RewardRuleProductAttachment {\n      id\n      rewardEarnRule {\n        id\n        name\n        attachments {\n          edges {\n            node {\n              id\n              ... on RewardRuleProductAttachment {\n                cardProduct {\n                  id\n                  name\n                }\n              }\n            }\n          }\n        }\n      }\n      effectiveFrom\n      effectiveThrough\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "effectiveFrom": "",
+          "effectiveThrough": "",
+          "rewardRule": {
+            "id": "{{rewardReuleId}}"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "earn_rule",
+      "path": "Earn Rule/Attach Reward Earn Rule To Product",
+      "description": "",
+      "tags": [
+        "earn_rule"
+      ],
+      "requires": [
+        "rewardReuleId",
+        "cardProductId"
+      ],
+      "produces": [
+        "edges",
+        "cardProduct",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798348",
+    "updated_at": "2025-08-04T16:18:34.798349"
+  },
+  {
+    "name": "UpdateRewardsRuleAttachment",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateRewardRuleAttachment($input: UpdateRewardRuleAttachmentInput!) {\n  updateRewardRuleAttachment(input: $input) {\n    ... on RewardRuleProductAttachment {\n      id\n      rewardEarnRule {\n        id\n      }\n      effectiveFrom\n      effectiveThrough\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "attachmentId": "{{ruleAttachmentId}}",
+          "effectiveThrough": ""
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "earn_rule",
+      "path": "Earn Rule/Update Rewards Rule Attachment",
+      "description": "",
+      "tags": [
+        "earn_rule",
+        "modification"
+      ],
+      "requires": [
+        "ruleAttachmentId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798362",
+    "updated_at": "2025-08-04T16:18:34.798363"
+  },
+  {
+    "name": "CreateRewardPointsAdjustment",
+    "program_type": "rewards",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateRewardPointsAdjustment($input: CreateRewardPointsAdjustmentInput!) {\n  createRewardPointsAdjustment(input: $input) {\n    __typename\n    ... on RewardPointsTransfer {\n      id\n      rewardPointsValue {\n        currencyCode\n        value\n      }\n      rewardPointsAmount {\n        currencyCode\n        value\n      }\n      createdAt\n      updatedAt\n      ledgers {\n        name\n      }\n      status {\n        ... on RewardPointsTransferSuccessStatus {\n          status\n        }\n        ... on RewardPointsTransferFailureStatus {\n          status\n          statusReasonCode\n        }\n      }\n      activity\n      memo\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "activity": "AWARD",
+          "pointsToAdjust": 100,
+          "memo": "memo"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "earn_rule",
+      "path": "Earn Rule/Create Reward Points Adjustment",
+      "description": "",
+      "tags": [
+        "earn_rule",
+        "creation"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.798382",
+    "updated_at": "2025-08-04T16:18:34.798382"
+  }
+]

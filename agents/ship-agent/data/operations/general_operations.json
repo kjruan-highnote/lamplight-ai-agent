@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Ping",
+    "program_type": "general",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Ping{\n    ping\n}",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "",
+      "path": "Ping",
+      "description": "",
+      "tags": [
+        ""
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.694242",
+    "updated_at": "2025-08-04T16:18:34.694246"
+  },
+  {
+    "name": "Introspection",
+    "program_type": "general",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "",
+      "path": "Introspection",
+      "description": "",
+      "tags": [
+        ""
+      ],
+      "requires": [],
+      "produces": [
+        "__schema"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.694270",
+    "updated_at": "2025-08-04T16:18:34.694271"
+  }
+]

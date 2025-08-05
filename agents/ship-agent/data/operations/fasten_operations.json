@@ -1,0 +1,3782 @@
+[
+  {
+    "name": "GetAllApiKeys",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "first": 10
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Consumer Credit/Setup/API Key Management/Get All API Keys",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666342",
+    "updated_at": "2025-08-04T16:18:34.666347"
+  },
+  {
+    "name": "CreateApiKey",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "secretKey": {
+            "name": "Test Key"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Consumer Credit/Setup/API Key Management/Create API Key",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "creation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666364",
+    "updated_at": "2025-08-04T16:18:34.666364"
+  },
+  {
+    "name": "RevokeApiKey",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "apiKeyId": "API_KEY_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Consumer Credit/Setup/API Key Management/Revoke API Key",
+      "description": "",
+      "tags": [
+        "api_key_management"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666376",
+    "updated_at": "2025-08-04T16:18:34.666376"
+  },
+  {
+    "name": "GetAllOrganizations",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Consumer Credit/Setup/Organization/Get All Organizations",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "edges",
+        "creditBalance",
+        "pageInfo",
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666396",
+    "updated_at": "2025-08-04T16:18:34.666396"
+  },
+  {
+    "name": "GetOrganizationById",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetOrganizationByID($id: ID!) {\n  node(id: $id) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n        environment\n        region\n      }\n      financialAccounts {\n        ledgers {\n          id\n          name\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "ORGANIZATION_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Consumer Credit/Setup/Organization/Get Organization by ID",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "ledgers"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666409",
+    "updated_at": "2025-08-04T16:18:34.666409"
+  },
+  {
+    "name": "UpdateOrganizationProfileDisplayName",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "id": "ORGANIZATION_ID",
+          "displayName": "Test"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "organization",
+      "path": "Consumer Credit/Setup/Organization/Update Organization Profile Display Name",
+      "description": "",
+      "tags": [
+        "organization",
+        "modification"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666424",
+    "updated_at": "2025-08-04T16:18:34.666424"
+  },
+  {
+    "name": "CreateCardProduct",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "Consumer Credit Card",
+            "usage": "MULTI_USE",
+            "vertical": "CONSUMER_CREDIT"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Create Card Product",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666443",
+    "updated_at": "2025-08-04T16:18:34.666443"
+  },
+  {
+    "name": "EnableCreditCardFeature",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableCreditCardFeature(\n\t$input: EnableCreditCardFeatureInput!\n) {\n\tenableCreditCardFeature(input: $input) {\n\t\t__typename\t\t\t\n\t\t... on CardProduct {\n\t\t\tid\n\t\t\tfeatures {\n\t\t\t\t__typename\n\t\t\t\tenabled\n\t\t\t}\n\t\t}\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "feature": "REVOLVING"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Enable Credit Card Feature",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666485",
+    "updated_at": "2025-08-04T16:18:34.666486"
+  },
+  {
+    "name": "GetCardProductCreditPlanTemplates",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProductWithCreditPlanTemplates($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlanTemplates {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              variableAprIndex\n              scraApr\n            }\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            maximumCreditLimit {\n              currencyCode\n              value\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Get Card Product Credit Plan Templates",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666504",
+    "updated_at": "2025-08-04T16:18:34.666505"
+  },
+  {
+    "name": "CreateCreditPlan",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProductCreditPlan($input: CreateCardProductCreditPlanInput!) {\n  createCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      name\n      planType\n      status\n      createdAt\n      updatedAt\n      interestPolicy {\n        rateType\n        accrualType\n        accrualMethod\n        assessmentSchedule\n        defaultApr\n        scraApr\n      }\n      percentageOfCreditLimit\n      balanceType\n      effectiveFromDate\n      effectiveThroughDate\n      riskBasedPricingPolicy {\n        isRiskBased\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "productId": "CARD_PRODUCT_ID",
+          "creditPlanTemplateId": "CREDIT_PLAN_TEMPLATE_ID",
+          "name": "Default Credit Plan",
+          "defaultApr": 10,
+          "percentageOfCreditLimit": 100
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Create Credit Plan",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666522",
+    "updated_at": "2025-08-04T16:18:34.666522"
+  },
+  {
+    "name": "ActivateCreditPlan",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivateCardProductCreditPlan($input: ActivateCardProductCreditPlanInput!) {\n  activateCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      effectiveFromDate\n      effectiveThroughDate\n      updatedAt\n      createdAt\n      name\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "CARD_PLAN_ID",
+          "effectiveFromDate": "2024-01-31",
+          "effectiveThroughDate": "2025-01-31"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Activate Credit Plan",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666536",
+    "updated_at": "2025-08-04T16:18:34.666537"
+  },
+  {
+    "name": "EnableCollaborativeAuthorizationUnderwritingFeature",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableCollaborativeApplicationUnderwritingFeature($input: EnableCollaborativeApplicationUnderwritingFeatureInput!) {\n  enableCollaborativeApplicationUnderwritingFeature(input: $input) {\n    ... on CardProduct {\n      id\n      name\n      features {\n        ... on CollaborativeApplicationUnderwritingCardProductFeature {\n          enabled\n          createdAt\n          updatedAt\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Enable Collaborative Authorization Underwriting Feature",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666552",
+    "updated_at": "2025-08-04T16:18:34.666553"
+  },
+  {
+    "name": "GetCardProductWithCreditConfigs",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProductWithCreditConfigs($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditConfiguration {\n        accountAging {\n          delinquentInDays\n          suspendedInDays\n          chargeOffInDays\n          lateFeeGracePeriodInDays\n        }\n        billingCycleConfiguration {\n          billingCycleGracePeriodInDays\n          billingCycleGracePeriodType\n          billingCyclePeriod\n        }\n        interest {\n          includesFees\n          includesPurchase\n        }\n        minimumPayment {\n          includesInterestAmount\n          includesFeesCharged\n          includesPastDueAmount\n          percentage\n          thresholdAmount {\n            currencyCode\n            value\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Get Card Product With Credit Configs",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "accountAging"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666570",
+    "updated_at": "2025-08-04T16:18:34.666571"
+  },
+  {
+    "name": "GetCreditPlansByCardProductId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProductWithCreditPlans($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlans {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            percentageOfCreditLimit\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              defaultApr\n              scraApr\n            }\n            effectiveFromDate\n            effectiveThroughDate\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "consumer_credit_card_product",
+      "path": "Consumer Credit/Setup/Consumer Credit Card Product/Get Credit Plans By Card Product ID",
+      "description": "",
+      "tags": [
+        "consumer_credit_card_product",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666587",
+    "updated_at": "2025-08-04T16:18:34.666587"
+  },
+  {
+    "name": "Ping",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Ping {\n  ping\n}",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Consumer Credit/Setup/ping",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666596",
+    "updated_at": "2025-08-04T16:18:34.666596"
+  },
+  {
+    "name": "Introspection",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Consumer Credit/Setup/introspection",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": [
+        "__schema"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666616",
+    "updated_at": "2025-08-04T16:18:34.666616"
+  },
+  {
+    "name": "CreatePersonAccountHolderInReview",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateUSPersonAccountHolder(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  createUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "email": "foo@example.com",
+            "name": {
+              "givenName": "IN-REVIEW",
+              "familyName": "IN-REVIEW"
+            },
+            "billingAddress": {
+              "streetAddress": "123 Manual Review St.",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            },
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": "312"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "number": "111-11-1111",
+                "countryCodeAlpha3": "USA"
+              }
+            },
+            "dateOfBirth": "1980-12-12",
+            "externalId": "some-id"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "manual_review",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Manual Review/Create Person Account Holder In Review",
+      "description": "",
+      "tags": [
+        "manual_review",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "socialSecurityNumber"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666657",
+    "updated_at": "2025-08-04T16:18:34.666657"
+  },
+  {
+    "name": "GenerateTokenizedAccountHolderClientToken",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GenerateTokenizeAccountHolderClientToken {\n  generateTokenizeAccountHolderClientToken {\n    ... on ClientToken {\n      expirationDate\n      usage\n      value\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "generate_tokenized_person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Generate Tokenized Person Account Holder/Generate Tokenized Account Holder Client Token",
+      "description": "",
+      "tags": [
+        "generate_tokenized_person_account_holder"
+      ],
+      "requires": [],
+      "produces": [
+        "generateTokenizeAccountHolderClientToken",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666689",
+    "updated_at": "2025-08-04T16:18:34.666690"
+  },
+  {
+    "name": "TokenizePersonAccountHolder",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation TokenizeUSPersonAccountHolder(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  tokenizeUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on USPersonAccountHolderToken {\n        token\n    }\n    ... on AccessDeniedError {\n        message\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "name": {
+              "givenName": "Walt",
+              "familyName": "Disney"
+            },
+            "externalId": "Disney,Walt",
+            "email": "walt@disney.com",
+            "dateOfBirth": "1991-12-05",
+            "billingAddress": {
+              "countryCodeAlpha3": "USA",
+              "region": "CA",
+              "locality": "Anaheim",
+              "postalCode": "92802",
+              "streetAddress": "1313 Disneyland Drive"
+            },
+            "phoneNumber": {
+              "label": "HOME",
+              "countryCode": "1",
+              "number": "714-316-3075"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "countryCodeAlpha3": "USA",
+                "number": "562-10-0296"
+              }
+            },
+            "personCreditRiskAttributes": {
+              "currentDebtObligations": {
+                "value": 0,
+                "currencyCode": "USD"
+              },
+              "employmentStatus": "EMPLOYED",
+              "totalAnnualIncome": {
+                "value": 1000000,
+                "currencyCode": "USD"
+              }
+            }
+          }
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "generate_tokenized_person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Generate Tokenized Person Account Holder/Tokenize Person Account Holder",
+      "description": "",
+      "tags": [
+        "generate_tokenized_person_account_holder"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666721",
+    "updated_at": "2025-08-04T16:18:34.666722"
+  },
+  {
+    "name": "CreatePersonAccountHolderFromToken",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateUSPersonAccountHolderFromToken(\n  $input: CreateUSPersonAccountHolderFromTokenInput!\n) {\n  createUSPersonAccountHolderFromToken(input: $input) {\n    __typename\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n      personCreditRiskAttributes {\n        totalAnnualIncome {\n          value\n          currencyCode\n        }\n        currentDebtObligations {\n          value\n          currencyCode\n        }\n        employmentStatus\n      }\n    }\n    ... on AccessDeniedError {\n        message\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "token": "PERSON_ACCOUNT_HOLDER_TOKEN"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "generate_tokenized_person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Generate Tokenized Person Account Holder/Create Person Account Holder From Token",
+      "description": "",
+      "tags": [
+        "generate_tokenized_person_account_holder",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "socialSecurityNumber",
+        "totalAnnualIncome",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666740",
+    "updated_at": "2025-08-04T16:18:34.666741"
+  },
+  {
+    "name": "CreatePersonAccountHolder",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateUSPersonAccountHolder(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  createUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on AccessDeniedError {\n        message\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n      personCreditRiskAttributes {\n        totalAnnualIncome {\n          value\n          currencyCode\n        }\n        currentDebtObligations {\n          value\n          currencyCode\n        }\n        employmentStatus\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "name": {
+              "givenName": "Walt",
+              "familyName": "Disney"
+            },
+            "externalId": "Disney,Walt",
+            "email": "walt@disney.com",
+            "dateOfBirth": "1991-12-05",
+            "billingAddress": {
+              "countryCodeAlpha3": "USA",
+              "region": "CA",
+              "locality": "Anaheim",
+              "postalCode": "92802",
+              "streetAddress": "1313 Disneyland Drive"
+            },
+            "phoneNumber": {
+              "label": "HOME",
+              "countryCode": "1",
+              "number": "714-316-3075"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "countryCodeAlpha3": "USA",
+                "number": "562-10-0296"
+              }
+            },
+            "personCreditRiskAttributes": {
+              "currentDebtObligations": {
+                "value": 0,
+                "currencyCode": "USD"
+              },
+              "employmentStatus": "EMPLOYED",
+              "totalAnnualIncome": {
+                "value": 1000000,
+                "currencyCode": "USD"
+              }
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Create Person Account Holder",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "socialSecurityNumber",
+        "totalAnnualIncome"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666774",
+    "updated_at": "2025-08-04T16:18:34.666775"
+  },
+  {
+    "name": "SearchPersonAccountHolders",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query SearchPersonAccountHolders($filterBy: PersonAccountHolderFilterInput) {\n  personAccountHolders(filterBy: $filterBy) {\n    edges {\n      node {\n        id\n        email\n        dateOfBirth\n        externalId\n        updatedAt\n        createdAt\n        financialAccounts {\n          edges {\n            node {\n              id\n              name\n              owner {\n                __typename\n              }\n            }\n          }\n        }\n        paymentCards {\n          edges {\n            node {\n              last4\n              financialAccounts {\n                id\n                name\n                owner {\n                  __typename\n                }\n              }\n            }\n          }\n        }\n        name {\n          givenName\n          familyName\n          title\n          suffix\n          middleName\n        }\n        billingAddress {\n          streetAddress\n          extendedAddress\n          postalCode\n          region\n          locality\n          countryCodeAlpha3\n        }\n        phoneNumbers {\n          countryCode\n          number\n          label\n        }\n        identificationDocument {\n          socialSecurityNumber {\n            numberHash\n            countryCodeAlpha3\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": {
+            "givenName": {
+              "soundsLike": "Ian"
+            },
+            "familyName": {
+              "soundsLike": "Somnia"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Search Person Account Holders",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "search"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "edges",
+        "edges",
+        "socialSecurityNumber"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666797",
+    "updated_at": "2025-08-04T16:18:34.666798"
+  },
+  {
+    "name": "UpdatePersonAccountHolderAddress",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderBillingAddress(\n  $input: UpdateUSPersonAccountHolderBillingAddressInput!\n) {\n  updateUSPersonAccountHolderBillingAddress(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      paymentCards {\n        edges {\n          node {\n            id\n            last4\n            application {\n              accountHolderSnapshot {\n                ... on USPersonAccountHolderSnapshot {\n                  billingAddress {\n                    streetAddress\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "PERSON_ACCOUNT_HOLDER_ID",
+          "billingAddress": {
+            "streetAddress": "123 Main Street",
+            "extendedAddress": "",
+            "postalCode": "60654",
+            "region": "IL",
+            "locality": "Chicago",
+            "countryCodeAlpha3": "USA"
+          },
+          "updatePaymentCardBillingAddress": true
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Update Person Account Holder Address",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "edges",
+        "accountHolderSnapshot",
+        "billingAddress"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666821",
+    "updated_at": "2025-08-04T16:18:34.666821"
+  },
+  {
+    "name": "UpdatePersonAccountHolderPhone",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderPhone(\n  $input: UpdateUSPersonAccountHolderPhoneInput!\n) {\n  updateUSPersonAccountHolderPhone(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "phoneNumber": {
+            "number": "5555555556",
+            "countryCode": "1",
+            "label": "MOBILE"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Update Person Account Holder Phone",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666840",
+    "updated_at": "2025-08-04T16:18:34.666841"
+  },
+  {
+    "name": "UpdatePersonAccountHolderEmail",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderEmail(\n  $input: UpdateUSPersonAccountHolderEmailInput!\n) {\n  updateUSPersonAccountHolderEmail(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "email": "foo+testing-update@email.com"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Update Person Account Holder Email",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666857",
+    "updated_at": "2025-08-04T16:18:34.666857"
+  },
+  {
+    "name": "GetAllPersonAccountHolders",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "fragment accountHolder on USPersonAccountHolder {\n  id\n  email\n  dateOfBirth\n  externalId\n  createdAt\n  updatedAt\n  name {\n    givenName\n    familyName\n    middleName\n    suffix\n    title\n  }\n  externalFinancialAccounts {\n    edges {\n      node {\n        __typename\n        ... on ExternalFinancialBankAccount {\n          id\n        }\n      }\n    }\n  }\n  identificationDocument {\n    socialSecurityNumber {\n      numberHash\n      countryCodeAlpha3\n    }\n  }\n  billingAddress {\n    streetAddress\n    extendedAddress\n    postalCode\n    region\n    locality\n    countryCodeAlpha3\n  }\n  phoneNumbers {\n    number\n    countryCode\n    label\n  }\n  financialAccounts {\n    edges {\n      node {\n        name\n        owner {\n          __typename\n        }\n      }\n    }\n  }\n  paymentCards {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        last4\n        formFactor\n        financialAccounts {\n          __typename\n          id\n          name\n        }\n      }\n    }\n  }\n  cardProductApplications {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        applicationState {\n          status\n        }\n      }\n    }\n  }\n}\n\nquery ListAccountHolders($first: Int, $filterBy: PersonAccountHolderFilterInput) {\n  personAccountHolders(first: $first, filterBy: $filterBy) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      cursor\n      node {\n        ...accountHolder\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "first": 20,
+        "filterBy": {}
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Get All Person Account Holders",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "socialSecurityNumber",
+        "edges",
+        "pageInfo",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666879",
+    "updated_at": "2025-08-04T16:18:34.666880"
+  },
+  {
+    "name": "GetPersonAccountHolderById",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetUSPersonAccountHolderByID($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      cardProductApplications {\n        edges {\n          node {\n            id\n          }\n        }\n      }\n      externalFinancialAccounts {\n        edges {\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n            }\n          }\n        }\n      }\n      financialAccounts {\n        edges {\n          node {\n            directDepositDetails {\n              id\n            }\n          }\n        }\n      }\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "PERSON_ACCOUNT_HOLDER_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Consumer Credit/Onboarding/Person Account Holder/Get Person Account Holder by ID",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "edges",
+        "edges",
+        "directDepositDetails",
+        "socialSecurityNumber"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666898",
+    "updated_at": "2025-08-04T16:18:34.666898"
+  },
+  {
+    "name": "SimulateApplicationDocumentReview",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateApplicationDocumentReview($input: SimulateApplicationDocumentReviewInput!) {\n  simulateApplicationDocumentReview(input: $input) {\n    ... on AccountHolderApplicationDocument {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "PERSON_APPLICATION_ID",
+          "documentUploadLinkId": "DOCUMENT_UPLOAD_LINK_ID",
+          "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID",
+          "newReviewStatus": "REVIEW_STATUS_ENUM"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Simulation/Simulate Application Document Review",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666922",
+    "updated_at": "2025-08-04T16:18:34.666923"
+  },
+  {
+    "name": "SimulateApplicationVerificationStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateApplicationVerificationStatusChange($input: SimulateApplicationVerificationStatusChangeInput!) {\n  simulateApplicationVerificationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicantId": "PERSON_ACCOUNT_HOLDER_ID",
+          "applicationId": "APPLICATION_ID",
+          "newVerificationStatus": "VERIFICATION_STATUS_ENUM"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Simulation/Simulate Application Verification Status Change",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666939",
+    "updated_at": "2025-08-04T16:18:34.666939"
+  },
+  {
+    "name": "SimulateApplicationStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateApplicationStatusChange($input: SimulateApplicationStatusChangeInput!) {\n  simulateApplicationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "newApplicationStatus": "STATUS_ENUM"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Simulation/Simulate Application Status Change",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666953",
+    "updated_at": "2025-08-04T16:18:34.666954"
+  },
+  {
+    "name": "GetDocumentUploadSessionByApplicationId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAccountHolderCardProductApplicationStatus(\n  $id: ID!\n  $firstApplicationHistory: Int\n) {\n  node(id: $id) {\n    ... on AccountHolderCardProductApplication {\n      __typename\n      id\n      createdAt\n      updatedAt\n      applicationState {\n        status\n      }\n      cardProduct {\n        name\n      }\n      accountHolderSnapshot {\n        ...USPersonAccountHolderSnapshot\n      }\n      applicationHistory(first: $firstApplicationHistory) {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          node {\n            ...ApplicationHistorySnapshot\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment Verification on AccountHolderVerification {\n  status\n  reason\n  results {\n      code\n      description\n    }\n  requiredDocuments {\n    __typename\n    createdAt\n    referenceIdentifier\n    updatedAt\n    status\n    documentUploadSession {\n      ... on USAccountHolderApplicationDocumentUploadSession {\n        status\n        id\n        primaryDocumentTypes\n        secondaryDocumentTypes\n        uploadRequirements {\n          constraints {\n            ... on DocumentUploadRequirementConstraint {\n              numberOfDocuments\n              documentType\n            }\n          }\n        }\n      }\n    }\n    uploadedDocuments {\n      ... on AccountHolderApplicationDocument {\n        status\n        type\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}\n\nfragment USPersonAccountHolderSnapshot on USPersonAccountHolderSnapshot {\n  __typename\n  accountHolderCurrent {\n    id\n  }\n  name {\n    givenName\n    familyName\n    title\n    suffix\n  }\n  currentVerification {\n    ...Verification\n  }\n}\n\n\nfragment ApplicationHistorySnapshot on AccountHolderCardProductApplicationSnapshot {\n  __typename\n  createdAt\n  updatedAt\n  applicationState {\n    status\n  }\n}",
+      "variables": {
+        "id": "APPLICATION_ID"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Get Document Upload Session By Application ID",
+      "description": "",
+      "tags": [
+        "secure_document_upload",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "node",
+        "constraints"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666977",
+    "updated_at": "2025-08-04T16:18:34.666977"
+  },
+  {
+    "name": "GetDocumentUploadSessionBySessionId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDocumentUpload_via_SessionID($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on USAccountHolderApplicationDocumentUploadSession {\n\t\t\t__typename\n\t\t\tid\n\t\t\tstatus\n\t\t\tprimaryDocumentTypes\n\t\t\tsecondaryDocumentTypes\n\t\t\tsupportingDocumentTypes\n\t\t\tuploadRequirements {\n\t\t\t\tconstraints {\n\t\t\t\t\t... on DocumentUploadRequirementConstraint {\n\t\t\t\t\t\tdocumentType\n\t\t\t\t\t\tnumberOfDocuments\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tdocuments {\n\t\t\t\t... on DocumentUploadLink {\n\t\t\t\t\tid\n\t\t\t\t\tstatus\n\t\t\t\t\tdocumentCategoryType\n\t\t\t\t\tdocumentType\n\t\t\t\t\tstatus\n\t\t\t\t\tdocumentUploadSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstatus\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "DOCUMENT_UPLOAD_SESSION_ID"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Get Document Upload Session By Session ID",
+      "description": "",
+      "tags": [
+        "secure_document_upload",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "constraints"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.666992",
+    "updated_at": "2025-08-04T16:18:34.666992"
+  },
+  {
+    "name": "GenerateDocumentUploadClientToken",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GenerateDocumentUploadClientToken($input: GenerateDocumentUploadClientTokenInput!) {\n  generateDocumentUploadClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID",
+          "permissions": [
+            "MANAGE_DOCUMENT_UPLOAD_SESSION"
+          ]
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Generate Document Upload Client Token",
+      "description": "",
+      "tags": [
+        "secure_document_upload"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667006",
+    "updated_at": "2025-08-04T16:18:34.667007"
+  },
+  {
+    "name": "StartDocumentUploadSession",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation StartDocumentUploadSession($input: StartDocumentUploadSessionInput!) {\n  startDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Start Document Upload Session",
+      "description": "",
+      "tags": [
+        "secure_document_upload"
+      ],
+      "requires": [],
+      "produces": [
+        "constraints",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667021",
+    "updated_at": "2025-08-04T16:18:34.667022"
+  },
+  {
+    "name": "CreateDocumentUploadSecureLink",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateDocumentUploadSecureLink(\n  $input: CreateDocumentUploadLinkInput!\n) {\n  createDocumentUploadLink(input: $input) {\n    __typename\n    ... on DocumentUploadLink {\n      id\n      documentUploadSession {\n        id\n        status\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          uploadRequirements {\n            constraints {\n              ... on DocumentUploadRequirementConstraint {\n                documentType\n                numberOfDocuments\n              }\n            }\n          }\n        }\n      }\n      documentType\n      status\n      documentCategoryType\n      uploadUrl\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/Create Document Upload Secure Link",
+      "description": "",
+      "tags": [
+        "secure_document_upload",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "uploadRequirements",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667044",
+    "updated_at": "2025-08-04T16:18:34.667044"
+  },
+  {
+    "name": "EndDocumentUploadSession",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EndDocumentUploadSession($input: EndDocumentUploadSessionInput!) {\n  endDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "secure_document_upload",
+      "path": "Consumer Credit/Onboarding/Application/Secure Document Upload/End Document Upload Session",
+      "description": "",
+      "tags": [
+        "secure_document_upload"
+      ],
+      "requires": [],
+      "produces": [
+        "constraints",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667059",
+    "updated_at": "2025-08-04T16:18:34.667060"
+  },
+  {
+    "name": "CreatePersonAccountHolderApplication",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n      ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      cardProduct {\n        id\n      }  \n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          accountHolderCurrent {\n            id\n          }\n          name {\n            givenName\n            familyName\n          }\n          billingAddress {\n            streetAddress\n            locality\n            region\n            countryCodeAlpha3\n            postalCode\n          }\n          currentVerification {\n            reason\n            status\n          }\n        }\n      }    \n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "PERSON_ACCOUNT_HOLDER_ID",
+          "cardProductId": "CARD_PRODUCT_ID",
+          "cardHolderAgreementConsent": {
+            "consentTimestamp": "2022-01-01T23:59:59Z",
+            "primaryAuthorizedPersonId": "PERSON_ACCOUNT_HOLDER_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "application",
+      "path": "Consumer Credit/Onboarding/Application/Create Person Account Holder Application",
+      "description": "",
+      "tags": [
+        "application",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "accountHolderCurrent",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667081",
+    "updated_at": "2025-08-04T16:18:34.667082"
+  },
+  {
+    "name": "GetPersonAccountHolderApplicationById",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPersonAccountHolderByApplicationID($id: ID!) {\n  node (id: $id) {\n    ... on AccountHolderCardProductApplication {\n      id\n      cardProduct {\n        id\n        name\n      }\n      createdAt\n      applicationState {\n        status\n      }\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          email\n          dateOfBirth\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          billingAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n          personCreditRiskAttributes {\n            employmentStatus\n            currentDebtObligations {\n              currencyCode\n              value\n            }\n            totalAnnualIncome {\n              currencyCode\n              value\n            }\n          }\n\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "APPLICATION_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "application",
+      "path": "Consumer Credit/Onboarding/Application/Get Person Account Holder Application by ID",
+      "description": "",
+      "tags": [
+        "application",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "name"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667102",
+    "updated_at": "2025-08-04T16:18:34.667102"
+  },
+  {
+    "name": "ApproveApplicationUnderwriting",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ApproveCreditProductApplicationUnderwriting($input: ApproveCreditProductApplicationUnderwritingInput!) {\n  approveCreditProductApplicationUnderwriting(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      createdAt\n      updatedAt\n      applicationState {\n        status\n      }\n      cardProduct {\n        id\n        name\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "decisionDate": "2023-01-01T23:59:59Z",
+          "standardPurchaseCreditLimit": {
+            "currencyCode": "USD",
+            "value": 100000
+          }
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "application",
+      "path": "Consumer Credit/Onboarding/Application/Approve Application Underwriting",
+      "description": "",
+      "tags": [
+        "application"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667119",
+    "updated_at": "2025-08-04T16:18:34.667120"
+  },
+  {
+    "name": "DenyApplicationUnderwriting",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DenyCreditProductApplicationUnderwriting($input: DenyCreditProductApplicationUnderwritingInput!) {\n  denyCreditProductApplicationUnderwriting(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      cardProduct {\n        id\n        name\n      }\n      applicationDenialReason\n      adverseActionReasons {\n        code\n        description\n      }\n      createdAt\n      updatedAt\n      applicationState {\n        status\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "adverseActionReasons": [
+            {
+              "code": "INSUFFICIENT_INCOME"
+            }
+          ],
+          "decisionDate": "2023-01-01T23:59:59Z"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "application",
+      "path": "Consumer Credit/Onboarding/Application/Deny Application Underwriting",
+      "description": "",
+      "tags": [
+        "application"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667136",
+    "updated_at": "2025-08-04T16:18:34.667136"
+  },
+  {
+    "name": "SetCreditLimitForFinancialAccount",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFinancialAccountCreditLimitUpdateFromProductFunding($input: InitiateFinancialAccountCreditLimitUpdateFromProductFundingInput!) {\n  initiateFinancialAccountCreditLimitUpdateFromProductFunding(input: $input) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      createdAt\n      updatedAt\n      amount {\n        value\n        currencyCode\n      }\n      status\n      statusReason\n      memo\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "amount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          },
+          "memo": "Set Credit Limit $1000"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "credit_limit",
+      "path": "Consumer Credit/Issuance/Credit Limit/Set Credit Limit For Financial Account",
+      "description": "",
+      "tags": [
+        "credit_limit"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667160",
+    "updated_at": "2025-08-04T16:18:34.667161"
+  },
+  {
+    "name": "GetFinancialAccountCreditLimitUpdate",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountCreditLimitUpdate($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      status\n      statusReason\n      amount {\n        value\n      }\n      memo\n      ledgers {\n        name\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        financialAccount {\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "credit_limit",
+      "path": "Consumer Credit/Issuance/Credit Limit/Get Financial Account Credit Limit Update",
+      "description": "",
+      "tags": [
+        "credit_limit",
+        "modification",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667176",
+    "updated_at": "2025-08-04T16:18:34.667176"
+  },
+  {
+    "name": "IssuePaymentCardForFinancialAccount",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n\t\t\t\t... on AccountHolderCardProductApplication {\n\t\t\t\t\tid\n\t\t\t\t\tapplicationState {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t}\n\t\t\t\t\taccountHolderSnapshot {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\t\t\tname {\n\t\t\t\t\t\t\t\tgivenName\n\t\t\t\t\t\t\t\tfamilyName\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\t\t\tlocality\n\t\t\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\t\treason\n\t\t\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Issue Payment Card For Financial Account",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [],
+      "produces": [
+        "ledgers",
+        "name",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667203",
+    "updated_at": "2025-08-04T16:18:34.667204"
+  },
+  {
+    "name": "GenerateClientTokenToSetPin",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "SET_PAYMENT_CARD_PIN"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Generate Client Token To Set PIN",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667219",
+    "updated_at": "2025-08-04T16:18:34.667219"
+  },
+  {
+    "name": "ActivatePaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Activate Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667231",
+    "updated_at": "2025-08-04T16:18:34.667231"
+  },
+  {
+    "name": "SetPinForPaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SetPinForPaymentCard($input: SetPinForPaymentCardInput!) {\n  setPinForPaymentCard(input: $input) {\n    __typename\n    ... on PaymentCard {\n      id\n      bin\n      last4\n    }\nreq_06f2e9d7416d41eeaa473efa19375e48    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "newPin": "1234"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Set Pin For Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667245",
+    "updated_at": "2025-08-04T16:18:34.667245"
+  },
+  {
+    "name": "SuspendPaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Suspend Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "suspension"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667256",
+    "updated_at": "2025-08-04T16:18:34.667257"
+  },
+  {
+    "name": "ReissuePaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReissuePaymentCard($input: ReissuePaymentCardInput!) {\n  reissuePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      physicalPaymentCardOrders {\n        id\n      }\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "options": {
+            "reissueFeatures": {
+              "copyNumber": true,
+              "copyPin": true
+            },
+            "expirationDate": "2024-12-29T23:12:30Z",
+            "activateOnCreate": false
+          },
+          "originalPaymentCardId": "ORIGINAL_PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Reissue Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667274",
+    "updated_at": "2025-08-04T16:18:34.667275"
+  },
+  {
+    "name": "ClosePaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Consumer Credit/Issuance/Payment Cards/Close Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667286",
+    "updated_at": "2025-08-04T16:18:34.667286"
+  },
+  {
+    "name": "IssueFinancialAccountForApplication",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "name": "Credit Account 1"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Consumer Credit/Issuance/Financial Accounts/Issue Financial Account For Application",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "issuance"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667311",
+    "updated_at": "2025-08-04T16:18:34.667311"
+  },
+  {
+    "name": "GetFinancialAccountById",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountByID($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Consumer Credit/Issuance/Financial Accounts/Get Financial Account By ID",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667335",
+    "updated_at": "2025-08-04T16:18:34.667335"
+  },
+  {
+    "name": "SimulateAuthorization",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateAuthorization(\n  $input: SimulateAuthorizationInput!\n) {\n  simulateAuthorization(input: $input) {\n    ... on AuthorizationEvent {\n      id\n      responseCode\n      cvvResponseCode\n      transaction {\n        ... on CreditTransaction {\n          id\n        }\n        ... on DebitTransaction {\n          id\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "cardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Issuance/Transactions/Simulation/Simulate Authorization",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667354",
+    "updated_at": "2025-08-04T16:18:34.667355"
+  },
+  {
+    "name": "SimulateClearing",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateClearing($input: SimulateClearingInput!) {\n  simulateClearing(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n      merchantDetails {\n        countryCodeAlpha3\n        category\n        name\n        description\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Issuance/Transactions/Simulation/Simulate Clearing",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667368",
+    "updated_at": "2025-08-04T16:18:34.667369"
+  },
+  {
+    "name": "SimulateReversal",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReversal($input: SimulateReversalInput!) {\n  simulateReversal(input: $input) {\n    ... on ReversalEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Issuance/Transactions/Simulation/Simulate Reversal",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667413",
+    "updated_at": "2025-08-04T16:18:34.667414"
+  },
+  {
+    "name": "SimulateRefund",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateRefund($input: SimulateRefundInput!) {\n  simulateRefund(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ... on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Issuance/Transactions/Simulation/Simulate Refund",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667428",
+    "updated_at": "2025-08-04T16:18:34.667428"
+  },
+  {
+    "name": "SimulateSingleStepAuthAndClear",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateSingleStepAuthAndClear($input: SimulateSingleStepAuthAndClearInput!) {\n  simulateSingleStepAuthAndClear(input: $input) {\n    ... on AuthorizationAndClearEvent {\n      id\n      responseCode\n      transaction {\n        ... on DebitTransaction {\n          id\n        }\n        ... on CreditTransaction {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardId": "PAYMENT_CARD_ID",
+          "amount": {
+            "currencyCode": "USD",
+            "value": 1000
+          },
+          "merchantDetails": {
+            "description": "Test Merchant",
+            "name": "Test Merchant Name"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Issuance/Transactions/Simulation/Simulate Single Step Auth And Clear",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667446",
+    "updated_at": "2025-08-04T16:18:34.667446"
+  },
+  {
+    "name": "GetTransactionEvent",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetTransactionEvent($id: ID!) {\n  node(id: $id) {\n    ... on TransactionEvent {\n    __typename\n    id\n    approvedAmount {\n      currencyCode\n      value\n    }\n    responseCode\n    createdAt\n    transactionProcessingType\n    pointOfServiceDetails {\n      category\n      panEntryMode\n      pinEntryMode\n      terminalAttendance\n      isCardHolderPresent\n      isCardPresent\n      isRecurring\n      terminalSupportsPartialApproval\n    }\n    additionalNetworkData {\n      ... on VisaData {\n        transactionIdentifier\n      }\n    }\n  }\n}}",
+      "variables": {
+        "id": "TRANSACTION_EVENT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Consumer Credit/Issuance/Transactions/Get Transaction Event",
+      "description": "",
+      "tags": [
+        "transactions",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667460",
+    "updated_at": "2025-08-04T16:18:34.667461"
+  },
+  {
+    "name": "TransactionEventsByPaymentCardAndTransactionid",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query TransactionEventsByPaymentCardAndTransactionId($id: ID!, $filterBy: PaymentCardTransactionEventsFilterInput) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      transactionEvents(filterBy: $filterBy) {\n        edges {\n          node {\n            __typename\n            id\n            createdAt\n            responseCode\n            approvedAmount {\n              value\n              currencyCode\n            }\n            transaction {\n              ... on CreditTransaction {\n                __typename\n                id\n              }\n              ... on DebitTransaction {\n                __typename\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID",
+        "filterBy": {
+          "transactionId": {
+            "equals": "TRANSACTION_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Consumer Credit/Issuance/Transactions/Transaction Events By Payment Card And TransactionId",
+      "description": "",
+      "tags": [
+        "transactions"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667480",
+    "updated_at": "2025-08-04T16:18:34.667480"
+  },
+  {
+    "name": "AttachSpendRuleToCardProduct",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToCardProduct($input: AttachSpendRuleToCardProductInput!) {\n  attachSpendRuleToCardProduct(input: $input) {\n    ...on CardProduct {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667502",
+    "updated_at": "2025-08-04T16:18:34.667503"
+  },
+  {
+    "name": "CreateMerchantCategorySpendRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateMerchantCategorySpendRule(\n  $input: CreateMerchantCategorySpendRuleInput!\n) {\n  createMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Fuel Rule",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": [
+            "AIRLINES_AIR_CARRIERS"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Create Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667519",
+    "updated_at": "2025-08-04T16:18:34.667519"
+  },
+  {
+    "name": "UpdateMerchantCategorySpendRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateMerchantCategorySpendRule(\n  $input: UpdateMerchantCategorySpendRuleInput!\n) {\n  updateMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "spendRuleId": "SPEND_RULE_ID",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": []
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Update Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667534",
+    "updated_at": "2025-08-04T16:18:34.667535"
+  },
+  {
+    "name": "AttachSpendRuleToPaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToPaymentCard($input: AttachSpendRuleToPaymentCardInput!) {\n  attachSpendRuleToPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667550",
+    "updated_at": "2025-08-04T16:18:34.667551"
+  },
+  {
+    "name": "DetachSpendRuleFromCardProduct",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromCardProduct($input: DetachSpendRuleFromCardProductInput!) {\n  detachSpendRuleFromCardProduct(input: $input) {\n    __typename\n\t\t... on CardProduct {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667565",
+    "updated_at": "2025-08-04T16:18:34.667565"
+  },
+  {
+    "name": "DetachSpendRuleFromPaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromPaymentCard($input: DetachSpendRuleFromPaymentCardInput!) {\n  detachSpendRuleFromPaymentCard(input: $input) {\n    __typename\n\t\t... on PaymentCard {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667579",
+    "updated_at": "2025-08-04T16:18:34.667579"
+  },
+  {
+    "name": "GetAllVelocityRules",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllVelocityRules {\n  organizations {\n    velocityRules {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          velocityRuleWindow\n          version\n          createdAt\n          updatedAt\n          cumulativeRule {\n            ... on AmountLimitSpendRule {\n              id\n              name\n              maximumAmount {\n                value\n                currencyCode\n              }\n              version\n              createdAt\n              updatedAt\n            }\n          }\n          spendRules {\n            __typename\n            id\n            name\n            version\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Get All Velocity Rules",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667597",
+    "updated_at": "2025-08-04T16:18:34.667597"
+  },
+  {
+    "name": "GetPaymentCardVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardVelocityRule($id: ID!) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      velocitySpendRuleBalances {\n\t\t\t\t... on VelocitySpendRuleAmountBalance {\n\t\t\t\t\tcurrentBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tremainingBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tvelocityRule {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tvelocityRuleWindow\n\t\t\t\t\t\tcumulativeRule {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\trevisions {\n\t\t\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\t\t\tcursor\n\t\t\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\tspendRules {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t\tversion\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n    \t}\n  \t}\n\t}\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Get Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "currentBalance",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667612",
+    "updated_at": "2025-08-04T16:18:34.667613"
+  },
+  {
+    "name": "GetFinancialAccountWithVelocityBalance",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountWithVelocityBalance($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      velocitySpendRuleBalances {\n        ... on VelocitySpendRuleAmountBalance {\n          __typename\n\n          currentBalance {\n            currencyCode\n            value\n          }\n          remainingBalance {\n            currencyCode\n            value\n          }\n          velocityRule {\n            id\n            version\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Get Financial Account With Velocity Balance",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667629",
+    "updated_at": "2025-08-04T16:18:34.667630"
+  },
+  {
+    "name": "CreateVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateVelocityRule($input: CreateVelocityRuleInput!) {\n  createVelocityRule(input: $input) {\n    ... on VelocityRule {\n      id\n      name\n      velocityRuleWindow\n      cumulativeRule {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n        revisions {\n          pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n          }\n          edges {\n            cursor\n            node {\n              id\n              name\n              version\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n      spendRules {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Velocity Control - Max $1000 per month",
+          "cumulativeRule": {
+            "id": "AMOUNT_SPEND_RULE_ID",
+            "version": "0"
+          },
+          "spendRules": [
+            {
+              "id": "ADDITIONAL_SPEND_RULE_ID",
+              "version": "O"
+            }
+          ],
+          "velocityRuleWindow": "MONTHLY"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Create Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667651",
+    "updated_at": "2025-08-04T16:18:34.667651"
+  },
+  {
+    "name": "CreateAmountLimitSpendRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAmountLimitSpendRule($input: CreateAmountLimitSpendRuleInput!) {\n  createAmountLimitSpendRule(input: $input) {\n    ... on AmountLimitSpendRule {\n      id\n      name\n      maximumAmount {\n        value\n        currencyCode\n      }\n      updatedAt\n      createdAt\n      version\n      revisions {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            version\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Amount Limit Rule",
+          "maximumAmount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Create Amount Limit Spend Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667668",
+    "updated_at": "2025-08-04T16:18:34.667669"
+  },
+  {
+    "name": "AttachPaymentCardVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachPaymentCardVelocityRule($input: AttachPaymentCardVelocityRuleInput!) {\n  attachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id,\n          bin,\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Attach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667688",
+    "updated_at": "2025-08-04T16:18:34.667688"
+  },
+  {
+    "name": "DetachPaymentCardVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachPaymentCardVelocityRule($input: DetachPaymentCardVelocityRuleInput!) {\n  detachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id\n          bin\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Detach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667707",
+    "updated_at": "2025-08-04T16:18:34.667707"
+  },
+  {
+    "name": "AttachCardProductVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachCardProductVelocityRule($input: AttachCardProductVelocityRuleInput!) {\n  attachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Attach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667726",
+    "updated_at": "2025-08-04T16:18:34.667726"
+  },
+  {
+    "name": "DetachCardProductVelocityRule",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachCardProductVelocityRule($input: DetachCardProductVelocityRuleInput!) {\n  detachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Velocity Rules/Detach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667745",
+    "updated_at": "2025-08-04T16:18:34.667745"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindCollaborativeAuthorizationEndpoint($id: ID!) {\n  node(id: $id) {\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Get Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667760",
+    "updated_at": "2025-08-04T16:18:34.667760"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoints",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query CollaborativeAuthorizationEndpoints($after: String, $first: Int) {\n\torganizations{\n\t\tid\n\t\tcollaborativeAuthorizationEndpoints(first: $first, after: $after) {\n\t\t\t__typename\n\n\t\t\tedges {\n\t\t\t\t__typename\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\turi\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tupdatedAt\n\t\t\t\t\tsigningKeys {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tsecret\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t\tstatus\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tpageInfo {\n\t\t\t\tendCursor\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Get Collaborative Authorization Endpoints",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667773",
+    "updated_at": "2025-08-04T16:18:34.667774"
+  },
+  {
+    "name": "AddCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddCollaborativeAuthorizationEndpoint($input: AddCollaborativeAuthorizationEndpointInput!) {\n  addCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on  CollaborativeAuthorizationEndpoint{\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Collaborative Auth Endpoint",
+          "uri": "COLLABORATIVE_AUTH_ENDPOINT_URI"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Add Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667787",
+    "updated_at": "2025-08-04T16:18:34.667788"
+  },
+  {
+    "name": "ActivateCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivateCollaborativeAuthorizationEndpoint($input: ActivateCollaborativeAuthorizationEndpointInput!) {\n  activateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Activate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667801",
+    "updated_at": "2025-08-04T16:18:34.667802"
+  },
+  {
+    "name": "DeactivateCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateCollaborativeAuthorizationEndpoint($input: DeactivateCollaborativeAuthorizationEndpointInput!) {\n  deactivateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on  CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Deactivate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667816",
+    "updated_at": "2025-08-04T16:18:34.667817"
+  },
+  {
+    "name": "RemoveCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveCollaborativeAuthorizationEndpoint($input: RemoveCollaborativeAuthorizationEndpointInput!) {\n  removeCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Remove Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667830",
+    "updated_at": "2025-08-04T16:18:34.667831"
+  },
+  {
+    "name": "RenameCollaborativeAuthorizationEndpoint",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RenameCollaborativeAuthorizationEndpoint($input: RenameCollaborativeAuthorizationEndpointInput!) {\n  renameCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID",
+          "name": "Renamed Collaborative Auth Endpoint"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Consumer Credit/Issuance/Authorization Controls/Collaborative Authorization/Rename Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667844",
+    "updated_at": "2025-08-04T16:18:34.667845"
+  },
+  {
+    "name": "SimulateSendToPrinter",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderSendToPrinter\n($input: SimulatePhysicalPaymentCardSendToPrinterInput!) {\n  simulatePhysicalPaymentCardOrderSendToPrinter(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Physical Card/Simulation/Simulate Send To Printer",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667866",
+    "updated_at": "2025-08-04T16:18:34.667867"
+  },
+  {
+    "name": "SimulateApproval",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderApproval($input: SimulatePhysicalPaymentCardApprovalInput!) {\n  simulatePhysicalPaymentCardOrderApproval(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Physical Card/Simulation/Simulate Approval",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667883",
+    "updated_at": "2025-08-04T16:18:34.667883"
+  },
+  {
+    "name": "SimulateShipmentFailed",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderShipmentFailed($input: SimulatePhysicalPaymentCardShipmentFailedInput!) {\n  simulatePhysicalPaymentCardOrderShipmentFailed(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Physical Card/Simulation/Simulate Shipment Failed",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667899",
+    "updated_at": "2025-08-04T16:18:34.667900"
+  },
+  {
+    "name": "SimulateShipped",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderShipped\n($input: SimulatePhysicalPaymentCardShippedInput!) {\n  simulatePhysicalPaymentCardOrderShipped(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID",
+          "trackingNumber": "trackingNumber",
+          "actualShipDate": "YYYY-MM-DD"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Physical Card/Simulation/Simulate Shipped",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667916",
+    "updated_at": "2025-08-04T16:18:34.667917"
+  },
+  {
+    "name": "OrderPhysicalPaymentCard",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation OrderPhysicalPaymentCard($input: OrderPhysicalPaymentCardInput!) {\n  orderPhysicalPaymentCard(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "deliveryDetails": {
+            "name": {
+              "givenName": "John",
+              "middleName": "D",
+              "familyName": "Doe"
+            },
+            "companyName": "Highnote",
+            "address": {
+              "streetAddress": "123 Main St",
+              "extendedAddress": "",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            }
+          },
+          "requestedShipDate": "2021-08-20",
+          "courier": {
+            "method": "UPS_GROUND",
+            "signatureRequiredOnDelivery": false
+          },
+          "cardPersonalization": {
+            "textLines": {
+              "line1": "John Doe"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Consumer Credit/Physical Card/Order Physical Payment Card",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667945",
+    "updated_at": "2025-08-04T16:18:34.667946"
+  },
+  {
+    "name": "FindPhysicalPaymentCardOrder",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindPhysicalPaymentCardOrder($id: ID!) {\n  node(id: $id) {\n    ... on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "id": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Consumer Credit/Physical Card/ Find Physical Payment Card Order",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "courier"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667960",
+    "updated_at": "2025-08-04T16:18:34.667961"
+  },
+  {
+    "name": "CancelPhysicalPaymentCardOrder",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CancelPhysicalPaymentCardOrder($input: CancelPhysicalPaymentCardOrderInput!) {\n  cancelPhysicalPaymentCardOrder(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Consumer Credit/Physical Card/Cancel Physical Payment Card Order",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667976",
+    "updated_at": "2025-08-04T16:18:34.667976"
+  },
+  {
+    "name": "GenerateDirectDepositDetailClientToken",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GenerateDirectDepositDetailClientToken($input: GenerateDirectDepositDetailClientTokenInput!) {\n  generateDirectDepositDetailClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "directDepositDetailId": "DIRECT_DEPOSIT_DETAIL_ID",
+          "permissions": [
+            "READ_RESTRICTED_DETAILS"
+          ]
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Consumer Credit/Funding/Product Funding Account/Generate Direct Deposit Detail Client Token",
+      "description": "",
+      "tags": [
+        "product_funding_account"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.667995",
+    "updated_at": "2025-08-04T16:18:34.667996"
+  },
+  {
+    "name": "GetDirectDepositDetailsByIdWithClientToken",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDirectDepositDetailsByIDWithClientToken($id: ID!) {\n  node(id: $id) {\n    ... on DirectDepositDetail {\n      id\n      restrictedDetails {\n        ... on DirectDepositDetailRestrictedDetails {\n          number\n          routingNumber\n          bank {\n            name\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "DIRECT_DEPOSIT_DETAIL_ID"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Consumer Credit/Funding/Product Funding Account/Get Direct Deposit Details By ID With Client Token",
+      "description": "",
+      "tags": [
+        "product_funding_account",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668010",
+    "updated_at": "2025-08-04T16:18:34.668010"
+  },
+  {
+    "name": "GetProductFundingAccountDirectDepositId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetProductFundingAccountByCardProductID($id: ID!, $filterBy: AccountHolderFinancialAccountsFilterInput!) {\n  node(id: $id) {\n    ... on CardProduct {\n      accounts(filterBy: $filterBy) {\n        edges {\n          node {\n            id\n            name\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n            directDepositDetails {\n              id\n              createdAt\n              updatedAt\n              restrictedDetails {\n                ... on DirectDepositDetailRestrictedDetails {\n                  number\n                  routingNumber\n                  bank {\n                    name\n                    address {\n                      streetAddress\n                      extendedAddress\n                      postalCode\n                      region\n                      locality\n                      countryCodeAlpha3\n                    }\n                  }\n                  type\n                }\n                ... on AccessDeniedError {\n                  message\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID",
+        "filterBy": {
+          "features": {
+            "equals": "PRODUCT_FUNDING"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Consumer Credit/Funding/Product Funding Account/Get Product Funding Account Direct Deposit ID",
+      "description": "",
+      "tags": [
+        "product_funding_account",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668032",
+    "updated_at": "2025-08-04T16:18:34.668033"
+  },
+  {
+    "name": "AddExternalBankAccountVerifiedThroughPlaid",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddExternalBankAccountVerifiedThroughPlaid($input: AddExternalBankAccountVerifiedThroughPlaidInput!) {\n  addExternalBankAccountVerifiedThroughPlaid(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "externalToken": {
+            "value": "processor-token-success"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Add External Bank Account Verified Through Plaid",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668057",
+    "updated_at": "2025-08-04T16:18:34.668058"
+  },
+  {
+    "name": "AddExternalBankAccountVerifiedThroughFinicity",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddExternalBankAccountVerifiedThroughFinicity($input: AddExternalBankAccountVerifiedThroughFinicityInput!) {\n  addExternalBankAccountVerifiedThroughFinicity(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      owner {\n        ... on USPersonAccountHolder {\n          id\n          externalId\n        }\n        ... on USBusinessAccountHolder {\n          id\n          externalId\n        }\n      }\n      name\n      provider\n      accountStatus\n      createdAt\n      updatedAt\n      externalBankAccountDetails {\n        id\n        last4\n        type\n        routingNumber\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "name": "Finicity Checking",
+          "bankAccountType": "CHECKING",
+          "externalToken": {
+            "receiptId": "processor-token-success",
+            "customerId": "5543088633794259024",
+            "products": [
+              {
+                "productType": "ACH_DETAILS",
+                "accountId": "8977412844634022494",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "CURRENT_BALANCE",
+                "accountId": "1045023535892401594",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "APPROXIMATE_BALANCE",
+                "accountId": "7895597441790621692",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "ACH_OWNER_DETAILS",
+                "accountId": "5200183909259568542",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Add External Bank Account Verified Through Finicity",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668094",
+    "updated_at": "2025-08-04T16:18:34.668095"
+  },
+  {
+    "name": "GetExternalFinancialAccountsByAccountHolder",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetExternalFinancialAccountsByAccountHolder($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\nreq_95bd9fd8e3e749e6911044aa7c73ca6a                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n    ... on USBusinessAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "ORGANIZATION_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Get External Financial Accounts By Account Holder",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "externalFinancialAccounts",
+        "externalFinancialAccounts"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668119",
+    "updated_at": "2025-08-04T16:18:34.668119"
+  },
+  {
+    "name": "InitiateFundsDepositAchTransfer",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFundsDepositACHTransfer($input: InitiateFundsDepositACHTransferInput!) {\n  initiateFundsDepositACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "descriptor": {
+            "companyEntryDescription": "Company",
+            "individualIdentificationNumber": "",
+            "individualName": "Baja ABC"
+          },
+          "transferAgreementConsent": {
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "consentTimestamp": "2022-12-07T14:42:52.453Z",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Initiate Funds Deposit ACH Transfer",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668142",
+    "updated_at": "2025-08-04T16:18:34.668143"
+  },
+  {
+    "name": "InitiateFundsWithdrawalAchTransfer",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFundsWithdrawalACHTransfer($input: InitiateFundsWithdrawalACHTransferInput!) {\n  initiateFundsWithdrawalACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          },
+          "descriptor": {
+            "companyEntryDescription": "Test Entry",
+            "individualName": "Test",
+            "individualIdentificationNumber": "1234"
+          },
+          "transferAgreementConsent": {
+            "consentTimestamp": "2023-12-07T14:42:52.453Z",
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          },
+          "idempotencyKey": "abcde123",
+          "cancellationPeriodMillis": 0,
+          "sameDay": false
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Initiate Funds Withdrawal ACH Transfer",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668166",
+    "updated_at": "2025-08-04T16:18:34.668167"
+  },
+  {
+    "name": "SimulateProcessingIntegratorInitiatedStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessingIntegratorInitiatedStatusChange($input: SimulateProcessingIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessingIntegratorInitiatedStatusChange(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      amount {\n        value\n        currencyCode\n      }\n      fundsAvailableDate\n      settlementDate\n      companyIdentifier\n      descriptor {\n        companyEntryDescription\n        individualName\n        individualIdentificationNumber\n      }\n      updatedAt\n      createdAt\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n      fromFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      companyName\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Processing Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668187",
+    "updated_at": "2025-08-04T16:18:34.668188"
+  },
+  {
+    "name": "SimulateProcessedIntegratorInitiatedStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessedIntegratorInitiatedStatusChange($input: SimulateProcessedIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureCardBalanceRepaymentACHTransfer {\n      __typename\n      id\n      amount {\n        currencyCode\n        value\n      }\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Processed Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "edges",
+        "financialEvent",
+        "edges",
+        "financialEvent"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668215",
+    "updated_at": "2025-08-04T16:18:34.668216"
+  },
+  {
+    "name": "SimulateReturnedIntegratorInitiatedStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReturnedIntegratorInitiatedStatusChange($input: SimulateReturnedIntegratorInitiatedStatusChangeInput!) {\n  simulateReturnedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "ID",
+          "reasonCode": "INSUFFICIENT_FUNDS_IN_HIGHNOTE_ACCOUNT"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Returned Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668236",
+    "updated_at": "2025-08-04T16:18:34.668237"
+  },
+  {
+    "name": "SimulateExternallyInitiatedAchTransfer",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateExternallyInitiatedACHTransfer($input: SimulateExternallyInitiatedACHTransferInput!) {\n  simulateExternallyInitiatedACHTransfer(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      __typename\n      id\n      createdAt\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 200000,
+            "currencyCode": "USD"
+          },
+          "companyEntryDescription": "TestDesc",
+          "companyIdentifier": "TestID",
+          "companyName": "TestName",
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "individualIdentificationNumber": "TestInDID",
+          "individualName": "TestIndName",
+          "settlementDate": "2022-07-28",
+          "transferType": "CREDIT"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "externally_initiated_nonoriginated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Externally Initiated (Non-Originated) ACH/Simulate Externally Initiated ACH Transfer",
+      "description": "",
+      "tags": [
+        "externally_initiated_nonoriginated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668264",
+    "updated_at": "2025-08-04T16:18:34.668264"
+  },
+  {
+    "name": "SimulateProcessingExternallyInitiatedStatusChange",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessingExternallyInitiatedStatusChange($input: SimulateProcessingExternallyInitiatedStatusChangeInput!) {\n  simulateProcessingExternallyInitiatedStatusChange(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on CreditFunds {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "externally_initiated_nonoriginated_ach",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Externally Initiated (Non-Originated) ACH/Simulate Processing Externally Initiated Status Change",
+      "description": "",
+      "tags": [
+        "externally_initiated_nonoriginated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "amount",
+        "amount",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668281",
+    "updated_at": "2025-08-04T16:18:34.668282"
+  },
+  {
+    "name": "CreateRecurringAchTransfer",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateRecurringACHTransfer($input: CreateRecurringACHTransferInput!) {\n  createRecurringACHTransfer(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on RecurringACHTransfer {\n      createdAt\n      updatedAt\n      id\n      descriptor {\n        companyEntryDescription\n        individualName\n        individualIdentificationNumber\n      }\n      transferAmount {\n        ... on TransferAmountCalculation {\n          __typename\n          calculatedType\n        }\n        ... on ManualTransferAmount {\n          amount {\n            value\n            currencyCode\n          }\n        }\n      }\n      status\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "scheduled_transfer",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Scheduled Transfer/Create Recurring ACH Transfer",
+      "description": "",
+      "tags": [
+        "scheduled_transfer",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668309",
+    "updated_at": "2025-08-04T16:18:34.668310"
+  },
+  {
+    "name": "CreateOneTimeAchTransfer",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateOneTimeACHTransfer($input: CreateOneTimeACHTransferInput!) {\n  createOneTimeACHTransfer(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on OneTimeACHTransfer {\n      createdAt\n      updatedAt\n      id\n      descriptor {\n        companyEntryDescription\n        individualName\n        individualIdentificationNumber\n      }\n      transferAmount {\n        ... on TransferAmountCalculation {\n          __typename\n          calculatedType\n        }\n        ... on ManualTransferAmount {\n          amount {\n            value\n            currencyCode\n          }\n        }\n      }\n      status\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {},
+    "metadata": {
+      "category": "scheduled_transfer",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Scheduled Transfer/Create One Time ACH Transfer",
+      "description": "",
+      "tags": [
+        "scheduled_transfer",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668331",
+    "updated_at": "2025-08-04T16:18:34.668331"
+  },
+  {
+    "name": "SimulateDeposit",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    ...on Transfer {\n      id\n      status\n      createdAt\n      updatedAt\n      amount {\n        value\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        financialAccount {\n          id\n        }\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              financialEvent {\n                ... on Transfer {\n                  id\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ...on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "toFinancialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "source": "WIRE",
+          "memo": "Initial Card Funding",
+          "amount": {
+            "value": 50000000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "ach_transfer_simulation",
+      "path": "Consumer Credit/Funding/ACH Transfer (& Simulation)/Simulate Deposit",
+      "description": "",
+      "tags": [
+        "ach_transfer_simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "financialEvent",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668353",
+    "updated_at": "2025-08-04T16:18:34.668353"
+  },
+  {
+    "name": "SimulateDelinquency",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriod($input: SimulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriodInput!) {\n  simulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriod(input: $input) {\n    ... on FinancialAccount {\n      id\n      name\n      externalId\n      delinquency {\n        __typename\n        totalAmount {\n          value\n          currencyCode\n        }\n        numberOfCycles\n        totalDaysDelinquent\n        delinquencyStartedOn\n        currentDelinquentCycles {\n          daysDelinquent\n          createdAt\n          updatedAt\n          amount {\n            value\n            currencyCode\n          }\n          totalRepaymentsApplied {\n            value\n            currencyCode\n          }\n          state\n          statement {\n            ... on ConsumerRevolvingCardFinancialAccountStatement {\n              id\n              periodStart\n              periodEnd\n              openedAt\n              closedAt\n              primaryLedger {\n                debitBalance {\n                  value\n                  currencyCode\n                }\n                creditBalance {\n                  value\n                  currencyCode\n                }\n                normalBalance\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "numberOfCyclesToShiftCurrentStatementBackward": 3
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "delinquency",
+      "path": "Consumer Credit/Repayment/Delinquency/Simulate Delinquency",
+      "description": "",
+      "tags": [
+        "delinquency",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "debitBalance"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668379",
+    "updated_at": "2025-08-04T16:18:34.668379"
+  },
+  {
+    "name": "SimulateRolloverCurrentStatementPeriod",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateRolloverCurrentFinancialAccountStatementPeriod($input: SimulateRolloverCurrentFinancialAccountStatementPeriodInput!) {\n  simulateRolloverCurrentFinancialAccountStatementPeriod(input: $input) {\n    ... on FinancialAccount {\n      id\n      statementSnapshot {\n        ... currentConsumerReolvingStatement\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n\n\n\nfragment currentConsumerReolvingStatement on ConsumerRevolvingCardFinancialAccountStatementSnapshot {\n  asOf\n  updatedAt\n  currentAmountDue {\n    value\n    currencyCode\n  }\n  currentOpenStatement {\n    ... on ConsumerRevolvingCardFinancialAccountStatement {\n        id\n        __typename\n        periodStart\n        periodEnd\n        openedAt\n        closedAt\n        createdAt\n        updatedAt\n        paymentDueOn\n        pastDueAmount {\n          value\n          currencyCode\n        }\n        primaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingPrimaryCreditBalance {\n          value\n        }\n        startingPrimaryDebitBalance {\n          value\n        }\n        endingPrimaryCreditBalance {\n          value\n        }\n        endingPrimaryDebitBalance {\n          value\n        }\n        secondaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingSecondaryCreditBalance {\n          value\n        }\n        startingSecondaryDebitBalance {\n          value\n        }\n        endingSecondaryCreditBalance {\n          value\n        }\n        endingSecondaryDebitBalance {\n          value\n        }\n      }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Statements/Simulation/Simulate Rollover Current Statement Period",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668413",
+    "updated_at": "2025-08-04T16:18:34.668414"
+  },
+  {
+    "name": "SimulateShiftCurrentStatementPeriod",
+    "program_type": "fasten",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateShiftCurrentFinancialAccountStatementPeriod($input: SimulateShiftCurrentFinancialAccountStatementPeriodInput!) {\n  simulateShiftCurrentFinancialAccountStatementPeriod(input: $input) {\n    ... on FinancialAccount {\n      id\n      statementSnapshot {\n        ... currentConsumerReolvingStatement\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n\n\nfragment currentConsumerReolvingStatement on ConsumerRevolvingCardFinancialAccountStatementSnapshot {\n  asOf\n  updatedAt\n  currentAmountDue {\n    value\n    currencyCode\n  }\n  currentOpenStatement {\n    ... on ConsumerRevolvingCardFinancialAccountStatement {\n        id\n        __typename\n        periodStart\n        periodEnd\n        openedAt\n        closedAt\n        createdAt\n        updatedAt\n        paymentDueOn\n        pastDueAmount {\n          value\n          currencyCode\n        }\n        primaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingPrimaryCreditBalance {\n          value\n        }\n        startingPrimaryDebitBalance {\n          value\n        }\n        endingPrimaryCreditBalance {\n          value\n        }\n        endingPrimaryDebitBalance {\n          value\n        }\n        secondaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingSecondaryCreditBalance {\n          value\n        }\n        startingSecondaryDebitBalance {\n          value\n        }\n        endingSecondaryCreditBalance {\n          value\n        }\n        endingSecondaryDebitBalance {\n          value\n        }\n      }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "periodBoundary": "2024-01-30T18:56:35Z"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "simulation",
+      "path": "Consumer Credit/Statements/Simulation/Simulate Shift Current Statement Period",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668441",
+    "updated_at": "2025-08-04T16:18:34.668442"
+  },
+  {
+    "name": "GetCurrentBillingStatementByFinancialAccountId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCurrentBillingStatementByFinancialAccountID($id: ID!) {\n  node (id: $id) {\n    ... on FinancialAccount {\n      id\n      name\n      externalId\n      createdAt\n      updatedAt\n      statementSnapshot {\n        ... currentConsumerReolvingStatement\n      }\n    }\n  }\n}\n\nfragment currentConsumerReolvingStatement on ConsumerRevolvingCardFinancialAccountStatementSnapshot {\n  asOf\n  updatedAt\n  currentAmountDue {\n    value\n    currencyCode\n  }\n  currentOpenStatement {\n    ... on ConsumerRevolvingCardFinancialAccountStatement {\n        id\n        __typename\n        periodStart\n        periodEnd\n        openedAt\n        closedAt\n        createdAt\n        updatedAt\n        paymentDueOn\n        pastDueAmount {\n          value\n          currencyCode\n        }\n        primaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingPrimaryCreditBalance {\n          value\n        }\n        startingPrimaryDebitBalance {\n          value\n        }\n        endingPrimaryCreditBalance {\n          value\n        }\n        endingPrimaryDebitBalance {\n          value\n        }\n        secondaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingSecondaryCreditBalance {\n          value\n        }\n        startingSecondaryDebitBalance {\n          value\n        }\n        endingSecondaryCreditBalance {\n          value\n        }\n        endingSecondaryDebitBalance {\n          value\n        }\n      }\n  }\n}\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "statements",
+      "path": "Consumer Credit/Statements/Get Current Billing Statement By Financial Account ID",
+      "description": "",
+      "tags": [
+        "statements",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668506",
+    "updated_at": "2025-08-04T16:18:34.668507"
+  },
+  {
+    "name": "GetLatestClosedBillingStatementByFinancialAccountId",
+    "program_type": "fasten",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetLatestClosedBillingStatementByFinancialAccountID($id: ID!) {\n  node (id: $id) {\n    ... on FinancialAccount {\n      id\n      name\n      externalId\n      createdAt\n      updatedAt\n      statementSnapshot {\n        ... latestClosedConsumerReolvingStatement\n      }\n    }\n  }\n}\n\nfragment latestClosedConsumerReolvingStatement on ConsumerRevolvingCardFinancialAccountStatementSnapshot {\n  latestClosedStatement {\n    ... on ConsumerRevolvingCardFinancialAccountStatement {\n        id\n        __typename\n        periodStart\n        periodEnd\n        openedAt\n        closedAt\n        createdAt\n        updatedAt\n        paymentDueOn\n        pastDueAmount {\n          value\n          currencyCode\n        }\n        primaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingPrimaryCreditBalance {\n          value\n        }\n        startingPrimaryDebitBalance {\n          value\n        }\n        endingPrimaryCreditBalance {\n          value\n        }\n        endingPrimaryDebitBalance {\n          value\n        }\n        secondaryLedger {\n          id\n          name\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n        startingSecondaryCreditBalance {\n          value\n        }\n        startingSecondaryDebitBalance {\n          value\n        }\n        endingSecondaryCreditBalance {\n          value\n        }\n        endingSecondaryDebitBalance {\n          value\n        }\n      }\n  }\n}\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "statements",
+      "path": "Consumer Credit/Statements/Get Latest Closed Billing Statement By Financial Account ID",
+      "description": "",
+      "tags": [
+        "statements",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "latestClosedStatement"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.668531",
+    "updated_at": "2025-08-04T16:18:34.668532"
+  }
+]

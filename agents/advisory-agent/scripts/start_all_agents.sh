@@ -4,8 +4,10 @@
 
 echo "🚀 Starting Lamplight AI Agent System..."
 
-# Base directory
-BASE_DIR="/Users/kevinruan/Downloads/lamplight-ai-agent/agents"
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# Base directory is two levels up from scripts directory
+BASE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 # Function to wait for service to be ready
 wait_for_service() {
@@ -56,6 +58,7 @@ start_agent() {
 mkdir -p "$BASE_DIR/schema-agent/logs"
 mkdir -p "$BASE_DIR/document-agent/logs"  
 mkdir -p "$BASE_DIR/advisory-agent/logs"
+mkdir -p "$BASE_DIR/ship-agent/logs"
 
 echo "📋 Starting agents in sequence..."
 
@@ -88,6 +91,16 @@ else
     exit 1
 fi
 
+# Start Ship Agent (port 8003)
+echo ""
+echo "4️⃣ Ship Agent"
+if start_agent "ship-agent" "ship-agent" "8003"; then
+    echo "✅ Ship Agent started successfully"
+else
+    echo "❌ Ship Agent failed to start - aborting"
+    exit 1
+fi
+
 echo ""
 echo "🎉 All agents started successfully!"
 echo ""
@@ -95,6 +108,7 @@ echo "📍 Service URLs:"
 echo "   Schema Agent:    http://localhost:8000"
 echo "   Document Agent:  http://localhost:8001" 
 echo "   Advisory Agent:  http://localhost:8002 (main entry point)"
+echo "   Ship Agent:      http://localhost:8003"
 echo ""
 echo "💡 Test the advisory agent:"
 echo '   curl -X POST "http://localhost:8002/chat" -H "Content-Type: application/json" -d '"'"'{"question": "How do I create a card product?"}'"'"
@@ -102,4 +116,4 @@ echo ""
 echo "📊 Check status:"
 echo "   curl http://localhost:8002/health"
 echo ""
-echo "🛑 To stop all agents, run: ./scripts/stop_all_agents.sh"
+echo "🛑 To stop all agents, run: $SCRIPT_DIR/stop_all_agents.sh"

@@ -1,0 +1,4176 @@
+[
+  {
+    "name": "GetAllApiKeys",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "first": 10
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Get All API Keys",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790408",
+    "updated_at": "2025-08-04T16:18:34.790410"
+  },
+  {
+    "name": "CreateApiKey",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "secretKey": {
+            "name": "Test Key"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Create API Key",
+      "description": "",
+      "tags": [
+        "api_key_management",
+        "creation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790429",
+    "updated_at": "2025-08-04T16:18:34.790430"
+  },
+  {
+    "name": "RevokeApiKey",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "apiKeyId": "API_KEY_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "api_key_management",
+      "path": "Setup/API Key Management/Revoke API Key",
+      "description": "",
+      "tags": [
+        "api_key_management"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790441",
+    "updated_at": "2025-08-04T16:18:34.790442"
+  },
+  {
+    "name": "GetAllOrganizations",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Get All Organizations",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "edges",
+        "creditBalance",
+        "pageInfo",
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790461",
+    "updated_at": "2025-08-04T16:18:34.790462"
+  },
+  {
+    "name": "GetOrganizationById",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetOrganizationByID($id: ID!) {\n  node(id: $id) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n        environment\n        region\n      }\n      financialAccounts {\n        ledgers {\n          id\n          name\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "ORGANIZATION_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Get Organization by ID",
+      "description": "",
+      "tags": [
+        "organization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "ledgers"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790474",
+    "updated_at": "2025-08-04T16:18:34.790475"
+  },
+  {
+    "name": "UpdateOrganizationProfileDisplayName",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "id": "ORGANIZATION_ID",
+          "displayName": "Test"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "organization",
+      "path": "Setup/Organization/Update Organization Profile Display Name",
+      "description": "",
+      "tags": [
+        "organization",
+        "modification"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790493",
+    "updated_at": "2025-08-04T16:18:34.790493"
+  },
+  {
+    "name": "CreateCardProduct",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "Consumer Prepaid {{currentTimestampFormatted}}",
+            "usage": "MULTI_USE",
+            "vertical": "CONSUMER_PREPAID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Create Card Product",
+      "description": "",
+      "tags": [
+        "card_product",
+        "creation"
+      ],
+      "requires": [
+        "currentTimestampFormatted"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790514",
+    "updated_at": "2025-08-04T16:18:34.790514"
+  },
+  {
+    "name": "GetCardProductFinancialAccounts",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProductAccounts($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      accounts {\n        edges {\n            node {\n                name\n                id\n                features {\n                    __typename\n                    enabled\n                }\n            }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{cardProductId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "card_product",
+      "path": "Setup/Card Product/Get Card Product Financial Accounts",
+      "description": "",
+      "tags": [
+        "card_product",
+        "retrieval"
+      ],
+      "requires": [
+        "cardProductId"
+      ],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790529",
+    "updated_at": "2025-08-04T16:18:34.790529"
+  },
+  {
+    "name": "Ping",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Ping {\n  ping\n}",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Setup/ping",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790537",
+    "updated_at": "2025-08-04T16:18:34.790538"
+  },
+  {
+    "name": "Introspection",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "setup",
+      "path": "Setup/introspection",
+      "description": "",
+      "tags": [
+        "setup"
+      ],
+      "requires": [],
+      "produces": [
+        "__schema"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790557",
+    "updated_at": "2025-08-04T16:18:34.790557"
+  },
+  {
+    "name": "CreateBusinessAccountHolder",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateUSBusiniessAccountHolder($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    __typename\n    ... on USBusinessAccountHolder {\n      id\n      externalId\n\t\t\tprimaryAuthorizedPerson {\n\t\t\t\tid\n\t\t\t}\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "primaryAuthorizedPerson": {
+            "name": {
+              "givenName": "John",
+              "familyName": "Smith"
+            },
+            "email": "jsmith@example.com",
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": ""
+            },
+            "homeAddress": {
+              "streetAddress": "123 Green St.",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "number": "111-11-1112",
+                "countryCodeAlpha3": "USA"
+              }
+            },
+            "dateOfBirth": "1980-09-01",
+            "percentageOwnership": 25,
+            "authorizingPersonTitle": "PRESIDENT"
+          },
+          "businessProfile": {
+            "name": {
+              "legalBusinessName": "Test",
+              "doingBusinessAsName": "Test DBA"
+            },
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": "312"
+            },
+            "billingAddress": {
+              "streetAddress": "123 Green St.",
+              "postalCode": "66666",
+              "locality": "San Jose",
+              "region": "CA",
+              "countryCodeAlpha3": "USA"
+            },
+            "identificationDocument": {
+              "employerIdentificationNumber": {
+                "number": "11-1111112",
+                "countryCodeAlpha3": "USA"
+              }
+            },
+            "website": "https://www.foowebsite.com",
+            "businessType": "PARTNERSHIP",
+            "ultimateBeneficialOwners": [
+              {
+                "email": "sjones@example.com",
+                "name": {
+                  "givenName": "Sarah",
+                  "familyName": "Jones"
+                },
+                "homeAddress": {
+                  "streetAddress": "123 Main Street",
+                  "postalCode": "60654",
+                  "locality": "Chicago",
+                  "region": "IL",
+                  "countryCodeAlpha3": "USA"
+                },
+                "phoneNumber": {
+                  "countryCode": "1",
+                  "number": "5555555555",
+                  "label": "MOBILE",
+                  "extension": "312"
+                },
+                "identificationDocument": {
+                  "socialSecurityNumber": {
+                    "number": "111-11-1112",
+                    "countryCodeAlpha3": "USA"
+                  }
+                },
+                "dateOfBirth": "1980-09-01",
+                "percentageOwnership": 75
+              }
+            ]
+          },
+          "externalId": "{{$guid}}"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "business_account_holder",
+      "path": "Onboarding/Business Account Holder/Create Business Account Holder",
+      "description": "",
+      "tags": [
+        "business_account_holder",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790624",
+    "updated_at": "2025-08-04T16:18:34.790624"
+  },
+  {
+    "name": "GetBusinessAccountHolderById",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "  query GetUSBusinessAccountHolder($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on USBusinessAccountHolder {\n      __typename\n      id\n      businessProfile {\n        businessType\n        name {\n          doingBusinessAsName\n          legalBusinessName\n        }\n        billingAddress {\n          streetAddress\n          postalCode\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        name {\n          givenName\n          middleName\n          familyName\n        }\n        authorizingPersonTitle\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{businessAccountHolderId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "business_account_holder",
+      "path": "Onboarding/Business Account Holder/Get Business Account Holder By ID",
+      "description": "",
+      "tags": [
+        "business_account_holder",
+        "retrieval"
+      ],
+      "requires": [
+        "businessAccountHolderId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790644",
+    "updated_at": "2025-08-04T16:18:34.790644"
+  },
+  {
+    "name": "UpdateBusinessAccountHolderBillingAddress",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSBusinessAccountHolderBillingAddress($input: UpdateUSBusinessAccountHolderBillingAddressInput!) {\n  updateUSBusinessAccountHolderBillingAddress(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      businessProfile {\n        billingAddress {\n          streetAddress\n          extendedAddress\n          locality\n          region\n          postalCode\n          countryCodeAlpha3\n        }\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "billingAddress": {
+            "streetAddress": "123 Test St.",
+            "postalCode": "77777",
+            "locality": "Seatlle",
+            "region": "WA",
+            "countryCodeAlpha3": "USA"
+          },
+          "updatePaymentCardBillingAddress": true
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "business_account_holder",
+      "path": "Onboarding/Business Account Holder/Update Business Account Holder Billing Address",
+      "description": "",
+      "tags": [
+        "business_account_holder",
+        "modification"
+      ],
+      "requires": [
+        "businessAccountHolderId"
+      ],
+      "produces": [
+        "billingAddress",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790668",
+    "updated_at": "2025-08-04T16:18:34.790668"
+  },
+  {
+    "name": "UpdateBusinessAccountHolderWebsite",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSBusinessAccountHolderWebsite($input: UpdateUSBusinessAccountHolderWebsiteInput!) {\n  updateUSBusinessAccountHolderWebsite(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      businessProfile {\n        website\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "website": "https://some.website.com"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "business_account_holder",
+      "path": "Onboarding/Business Account Holder/Update Business Account Holder Website",
+      "description": "",
+      "tags": [
+        "business_account_holder",
+        "modification"
+      ],
+      "requires": [
+        "businessAccountHolderId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790684",
+    "updated_at": "2025-08-04T16:18:34.790684"
+  },
+  {
+    "name": "UpdateBusinessAccountHolderPhone",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSBusinessAccountHolderPhone($input: UpdateUSBusinessAccountHolderPhoneInput!) {\n  updateUSBusinessAccountHolderPhone(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      businessProfile {\n        phoneNumbers {\n            label\n            countryCode\n            number\n        }\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "phoneNumber": {
+            "label": "MOBILE",
+            "countryCode": "1",
+            "number": "1231231234"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "business_account_holder",
+      "path": "Onboarding/Business Account Holder/Update Business Account Holder Phone",
+      "description": "",
+      "tags": [
+        "business_account_holder",
+        "modification"
+      ],
+      "requires": [
+        "businessAccountHolderId"
+      ],
+      "produces": [
+        "phoneNumbers",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790700",
+    "updated_at": "2025-08-04T16:18:34.790701"
+  },
+  {
+    "name": "CreatePersonAccountHolder",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateUSPersonAccountHolder(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  createUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on AccessDeniedError {\n        message\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n      personCreditRiskAttributes {\n        totalAnnualIncome {\n          value\n          currencyCode\n        }\n        currentDebtObligations {\n          value\n          currencyCode\n        }\n        employmentStatus\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "name": {
+              "givenName": "John",
+              "familyName": "Smith"
+            },
+            "externalId": "{{$guid}}",
+            "email": "john@smith.com",
+            "dateOfBirth": "1991-12-05",
+            "billingAddress": {
+              "countryCodeAlpha3": "USA",
+              "region": "CA",
+              "locality": "Anaheim",
+              "postalCode": "92802",
+              "streetAddress": "1313 Disneyland Drive"
+            },
+            "phoneNumber": {
+              "label": "HOME",
+              "countryCode": "1",
+              "number": "111-111-1111"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "countryCodeAlpha3": "USA",
+                "number": "111-11-1234"
+              }
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Create Person Account Holder",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "socialSecurityNumber",
+        "totalAnnualIncome"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790734",
+    "updated_at": "2025-08-04T16:18:34.790735"
+  },
+  {
+    "name": "SearchPersonAccountHolders",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query SearchPersonAccountHolders($filterBy: PersonAccountHolderFilterInput) {\n  personAccountHolders(filterBy: $filterBy) {\n    edges {\n      node {\n        id\n        email\n        dateOfBirth\n        externalId\n        updatedAt\n        createdAt\n        financialAccounts {\n          edges {\n            node {\n              id\n              name\n              owner {\n                __typename\n              }\n            }\n          }\n        }\n        paymentCards {\n          edges {\n            node {\n              last4\n              financialAccounts {\n                id\n                name\n                owner {\n                  __typename\n                }\n              }\n            }\n          }\n        }\n        name {\n          givenName\n          familyName\n          title\n          suffix\n          middleName\n        }\n        billingAddress {\n          streetAddress\n          extendedAddress\n          postalCode\n          region\n          locality\n          countryCodeAlpha3\n        }\n        phoneNumbers {\n          countryCode\n          number\n          label\n        }\n        identificationDocument {\n          socialSecurityNumber {\n            numberHash\n            countryCodeAlpha3\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": {
+            "givenName": {
+              "soundsLike": "Ian"
+            },
+            "familyName": {
+              "soundsLike": "Somnia"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Search Person Account Holders",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "search"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "edges",
+        "edges",
+        "socialSecurityNumber"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790758",
+    "updated_at": "2025-08-04T16:18:34.790758"
+  },
+  {
+    "name": "UpdatePersonAccountHolderAddress",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderBillingAddress(\n  $input: UpdateUSPersonAccountHolderBillingAddressInput!\n) {\n  updateUSPersonAccountHolderBillingAddress(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      paymentCards {\n        edges {\n          node {\n            id\n            last4\n            application {\n              accountHolderSnapshot {\n                ... on USPersonAccountHolderSnapshot {\n                  billingAddress {\n                    streetAddress\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "PERSON_ACCOUNT_HOLDER_ID",
+          "billingAddress": {
+            "streetAddress": "123 Main Street",
+            "extendedAddress": "",
+            "postalCode": "60654",
+            "region": "IL",
+            "locality": "Chicago",
+            "countryCodeAlpha3": "USA"
+          },
+          "updatePaymentCardBillingAddress": true
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Update Person Account Holder Address",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "edges",
+        "accountHolderSnapshot",
+        "billingAddress"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790784",
+    "updated_at": "2025-08-04T16:18:34.790785"
+  },
+  {
+    "name": "UpdatePersonAccountHolderPhone",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderPhone(\n  $input: UpdateUSPersonAccountHolderPhoneInput!\n) {\n  updateUSPersonAccountHolderPhone(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "phoneNumber": {
+            "number": "5555555556",
+            "countryCode": "1",
+            "label": "MOBILE"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Update Person Account Holder Phone",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790803",
+    "updated_at": "2025-08-04T16:18:34.790804"
+  },
+  {
+    "name": "UpdatePersonAccountHolderEmail",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateUSPersonAccountHolderEmail(\n  $input: UpdateUSPersonAccountHolderEmailInput!\n) {\n  updateUSPersonAccountHolderEmail(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "email": "foo+testing-update@email.com"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Update Person Account Holder Email",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790820",
+    "updated_at": "2025-08-04T16:18:34.790821"
+  },
+  {
+    "name": "GetAllPersonAccountHolders",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "fragment accountHolder on USPersonAccountHolder {\n  id\n  email\n  dateOfBirth\n  externalId\n  createdAt\n  updatedAt\n  name {\n    givenName\n    familyName\n    middleName\n    suffix\n    title\n  }\n  externalFinancialAccounts {\n    edges {\n      node {\n        __typename\n        ... on ExternalFinancialBankAccount {\n          id\n        }\n      }\n    }\n  }\n  identificationDocument {\n    socialSecurityNumber {\n      numberHash\n      countryCodeAlpha3\n    }\n  }\n  billingAddress {\n    streetAddress\n    extendedAddress\n    postalCode\n    region\n    locality\n    countryCodeAlpha3\n  }\n  phoneNumbers {\n    number\n    countryCode\n    label\n  }\n  financialAccounts {\n    edges {\n      node {\n        name\n        owner {\n          __typename\n        }\n      }\n    }\n  }\n  paymentCards {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        last4\n        formFactor\n        financialAccounts {\n          __typename\n          id\n          name\n        }\n      }\n    }\n  }\n  cardProductApplications {\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        applicationState {\n          status\n        }\n      }\n    }\n  }\n}\n\nquery ListAccountHolders($first: Int, $filterBy: PersonAccountHolderFilterInput) {\n  personAccountHolders(first: $first, filterBy: $filterBy) {\n    pageInfo {\n      startCursor\n      endCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      cursor\n      node {\n        ...accountHolder\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "first": 20,
+        "filterBy": {}
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Get All Person Account Holders",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "socialSecurityNumber",
+        "edges",
+        "pageInfo",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790842",
+    "updated_at": "2025-08-04T16:18:34.790843"
+  },
+  {
+    "name": "GetPersonAccountHolderById",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetUSPersonAccountHolderByID($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      cardProductApplications {\n        edges {\n          node {\n            id\n          }\n        }\n      }\n      externalFinancialAccounts {\n        edges {\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n            }\n          }\n        }\n      }\n      financialAccounts {\n        edges {\n          node {\n            directDepositDetails {\n              id\n            }\n          }\n        }\n      }\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "PERSON_ACCOUNT_HOLDER_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "person_account_holder",
+      "path": "Onboarding/Person Account Holder/Get Person Account Holder by ID",
+      "description": "",
+      "tags": [
+        "person_account_holder",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "edges",
+        "edges",
+        "directDepositDetails",
+        "socialSecurityNumber"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790860",
+    "updated_at": "2025-08-04T16:18:34.790861"
+  },
+  {
+    "name": "CreateBusinessAccountHolderApplication",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAccountHolderCardProductApplication(\n  $input: CreateAccountHolderCardProductApplicationInput!\n) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "cardProductId": "{{cardProductId}}",
+          "cardHolderAgreementConsent": {
+            "primaryAuthorizedPersonId": "{{businessAccountHolderPrimaryAuthorizedPersonId}}",
+            "consentTimestamp": "2024-02-22T17:10:55.662Z"
+          },
+          "ipAddress": {
+            "v4": "1.1.1.1"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "application",
+      "path": "Onboarding/Application/Create Business Account Holder Application",
+      "description": "",
+      "tags": [
+        "application",
+        "creation"
+      ],
+      "requires": [
+        "businessAccountHolderPrimaryAuthorizedPersonId",
+        "businessAccountHolderId",
+        "cardProductId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790883",
+    "updated_at": "2025-08-04T16:18:34.790884"
+  },
+  {
+    "name": "CreatePersonAccountHolderApplication",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n      ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      cardProduct {\n        id\n      }  \n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          accountHolderCurrent {\n            id\n          }\n          name {\n            givenName\n            familyName\n          }\n          billingAddress {\n            streetAddress\n            locality\n            region\n            countryCodeAlpha3\n            postalCode\n          }\n          currentVerification {\n            reason\n            status\n          }\n        }\n      }    \n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{personAccountHolderId}}",
+          "cardProductId": "{{cardProductId}}",
+          "cardHolderAgreementConsent": {
+            "consentTimestamp": "2022-01-01T23:59:59Z",
+            "primaryAuthorizedPersonId": "{{personAccountHolderId}}"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "application",
+      "path": "Onboarding/Application/Create Person Account Holder Application",
+      "description": "",
+      "tags": [
+        "application",
+        "creation"
+      ],
+      "requires": [
+        "personAccountHolderId",
+        "cardProductId"
+      ],
+      "produces": [
+        "accountHolderCurrent",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790909",
+    "updated_at": "2025-08-04T16:18:34.790910"
+  },
+  {
+    "name": "GetPersonAccountHolderApplicationById",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPersonAccountHolderByApplicationID($id: ID!) {\n  node (id: $id) {\n    ... on AccountHolderCardProductApplication {\n      id\n      cardProduct {\n        id\n        name\n      }\n      createdAt\n      applicationState {\n        status\n      }\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          email\n          dateOfBirth\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          billingAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{personAccountHolderCardProductApplicationId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "application",
+      "path": "Onboarding/Application/Get Person Account Holder Application by ID",
+      "description": "",
+      "tags": [
+        "application",
+        "retrieval"
+      ],
+      "requires": [
+        "personAccountHolderCardProductApplicationId"
+      ],
+      "produces": [
+        "name"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790926",
+    "updated_at": "2025-08-04T16:18:34.790927"
+  },
+  {
+    "name": "IssueFinancialAccountForApplication",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "{{cardProductApplicationId}}",
+          "name": "Financial Account 1"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Issue Financial Account For Application",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "issuance"
+      ],
+      "requires": [
+        "cardProductApplicationId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790954",
+    "updated_at": "2025-08-04T16:18:34.790954"
+  },
+  {
+    "name": "GetFinancialAccount",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccount($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Get Financial Account",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "edges",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.790977",
+    "updated_at": "2025-08-04T16:18:34.790978"
+  },
+  {
+    "name": "GetFinancialAccountWithPaymentCards",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccount($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Get Financial Account With Payment Cards",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "edges",
+        "amount"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791003",
+    "updated_at": "2025-08-04T16:18:34.791003"
+  },
+  {
+    "name": "GetFinancialAccountDirectDepositDetailsId",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountDirectDepositDetails($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Get Financial Account Direct Deposit Details ID",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791021",
+    "updated_at": "2025-08-04T16:18:34.791022"
+  },
+  {
+    "name": "GenerateDirectDepositDetailClientToken",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GenerateDirectDepositDetailClientToken($input: GenerateDirectDepositDetailClientTokenInput!) {\n  generateDirectDepositDetailClientToken(input: $input) {\n    ... on ClientToken {\n      value\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "directDepositDetailId": "{{directDepositDetailsId}}",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Generate Direct Deposit Detail Client Token",
+      "description": "",
+      "tags": [
+        "financial_accounts"
+      ],
+      "requires": [
+        "directDepositDetailsId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791036",
+    "updated_at": "2025-08-04T16:18:34.791037"
+  },
+  {
+    "name": "GetFinancialAccountDirectDepositDetailsWithClientToken",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountDirectDepositDetails($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "financial_accounts",
+      "path": "Issuance/Financial Accounts/Get Financial Account Direct Deposit Details With Client Token",
+      "description": "",
+      "tags": [
+        "financial_accounts",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791091",
+    "updated_at": "2025-08-04T16:18:34.791091"
+  },
+  {
+    "name": "IssuePreprintedPaymentCardFinancialAccountForApplication",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePreprintedPaymentCardFinancialAccountForApplication(\n  $input: IssuePreprintedPaymentCardFinancialAccountForApplicationInput!\n) {\n  issuePreprintedPaymentCardFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      id\n      externalId\n      name\n      application {\n        id\n      }\n      cardProduct {\n        id\n      }\n      features {\n        __typename\n        enabled\n      }\n      owner {\n        __typename\n        ... on USBusinessAccountHolder {\n          id\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{businessAccountHolderApplicationId}}",
+          "name": "Preprinted Card Financial Account",
+          "externalId": "YOUR_EXTERNAL_ID"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "preprinted_cards",
+      "path": "Issuance/Preprinted Cards/Issue Preprinted Payment Card Financial Account For Application",
+      "description": "",
+      "tags": [
+        "preprinted_cards",
+        "issuance"
+      ],
+      "requires": [
+        "businessAccountHolderApplicationId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791115",
+    "updated_at": "2025-08-04T16:18:34.791115"
+  },
+  {
+    "name": "IssuePaymentCardForFinancialAccount",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n        ... on AccountHolderCardProductApplication {\n\t\t\tid\n\t\t\tapplicationState {\n\t\t\t\tstatus\n\t\t\t}\n\t\t\taccountHolderSnapshot {\n\t\t\t\t__typename\n\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\tname {\n\t\t\t\t\t\tgivenName\n\t\t\t\t\t\tfamilyName\n\t\t\t\t\t}\n\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\tlocality\n\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t}\n\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t\treason\n\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "preprinted_cards",
+      "path": "Issuance/Preprinted Cards/Issue Payment Card For Financial Account",
+      "description": "",
+      "tags": [
+        "preprinted_cards",
+        "issuance"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "ledgers",
+        "name",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791138",
+    "updated_at": "2025-08-04T16:18:34.791139"
+  },
+  {
+    "name": "GetPaymentCardsFromFinancialAccount",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindAccountWithPaymentCards(\n  $id: ID!\n  $first: Int\n  $after: String\n  $filterBy: FinancialAccountPaymentCardsFilterInput\n) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      id\n      accountStatus\n      name\n      features {\n        __typename\n        enabled\n      }\n      directDepositDetails {\n        id\n      }\n      paymentCards(first: $first, after: $after, filterBy: $filterBy) {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n          __typename\n        }\n        edges {\n          node {\n            id\n            last4\n            expirationMonth\n            expirationYear\n            cardProduct {\n              id\n              __typename\n            }\n            customFields {\n              key\n              ... on CustomStringField {\n                value\n                __typename\n              }\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{financialAccountId}}",
+        "first": 10,
+        "filterBy": {
+          "customFields": {
+            "includes": [
+              {
+                "key": "Test2",
+                "value": "Value2"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "preprinted_cards",
+      "path": "Issuance/Preprinted Cards/Get Payment Cards from Financial Account",
+      "description": "",
+      "tags": [
+        "preprinted_cards",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "pageInfo",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791159",
+    "updated_at": "2025-08-04T16:18:34.791159"
+  },
+  {
+    "name": "AssignPaymentCardToFinancialAccount",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AssignPaymentCardToFinancialAccount(\n  $input: AssignPaymentCardToFinancialAccountInput!\n) {\n  assignPaymentCardToFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n\n      financialAccounts {\n        id\n      }\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "assignToFinancialAccountId": "{{assignToFinancialAccountId}}",
+          "options": {
+            "activateOnAssignment": true
+          }
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "preprinted_cards",
+      "path": "Issuance/Preprinted Cards/Assign Payment Card To Financial Account",
+      "description": "",
+      "tags": [
+        "preprinted_cards"
+      ],
+      "requires": [
+        "paymentCardId",
+        "assignToFinancialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791175",
+    "updated_at": "2025-08-04T16:18:34.791175"
+  },
+  {
+    "name": "IssuePaymentCardForFinancialAccount",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n        ... on AccountHolderCardProductApplication {\n\t\t\tid\n\t\t\tapplicationState {\n\t\t\t\tstatus\n\t\t\t}\n\t\t\taccountHolderSnapshot {\n\t\t\t\t__typename\n\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\tname {\n\t\t\t\t\t\tgivenName\n\t\t\t\t\t\tfamilyName\n\t\t\t\t\t}\n\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\tlocality\n\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t}\n\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t\treason\n\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Issue Payment Card For Financial Account",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "ledgers",
+        "name",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791200",
+    "updated_at": "2025-08-04T16:18:34.791201"
+  },
+  {
+    "name": "GetPaymentCardWORestrictedDetails",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCard($id: ID!) {\n  node (id: $id) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Get Payment Card w/o Restricted Details",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "retrieval"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791215",
+    "updated_at": "2025-08-04T16:18:34.791216"
+  },
+  {
+    "name": "GenerateClientTokenToSetPin",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "SET_PAYMENT_CARD_PIN"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Generate Client Token To Set PIN",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791230",
+    "updated_at": "2025-08-04T16:18:34.791230"
+  },
+  {
+    "name": "GenerateClientTokenForRestrictedDetail",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Generate Client Token For Restricted Detail",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791262",
+    "updated_at": "2025-08-04T16:18:34.791264"
+  },
+  {
+    "name": "ViewPaymentCardRestrictedDetails",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            expirationDate\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "cd_03d8f7a7acf24794b0700b85b73a91db"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/View Payment Card Restricted Details",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791280",
+    "updated_at": "2025-08-04T16:18:34.791281"
+  },
+  {
+    "name": "ActivatePaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Activate Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791295",
+    "updated_at": "2025-08-04T16:18:34.791295"
+  },
+  {
+    "name": "SetPinForPaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SetPinForPaymentCard($input: SetPinForPaymentCardInput!) {\n  setPinForPaymentCard(input: $input) {\n    __typename\n    ... on PaymentCard {\n      id\n      bin\n      last4\n    }\nreq_06f2e9d7416d41eeaa473efa19375e48    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "newPin": "1234"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Set Pin For Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791322",
+    "updated_at": "2025-08-04T16:18:34.791323"
+  },
+  {
+    "name": "SuspendPaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Suspend Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "suspension"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791343",
+    "updated_at": "2025-08-04T16:18:34.791343"
+  },
+  {
+    "name": "ReissuePaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReissuePaymentCard($input: ReissuePaymentCardInput!) {\n  reissuePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      physicalPaymentCardOrders {\n        id\n      }\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "options": {
+            "reissueFeatures": {
+              "copyNumber": true,
+              "copyPin": true
+            },
+            "expirationDate": "2024-12-29T23:12:30Z",
+            "activateOnCreate": false
+          },
+          "originalPaymentCardId": "ORIGINAL_PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Reissue Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards",
+        "issuance"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791361",
+    "updated_at": "2025-08-04T16:18:34.791362"
+  },
+  {
+    "name": "ClosePaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "payment_cards",
+      "path": "Issuance/Payment Cards/Close Payment Card",
+      "description": "",
+      "tags": [
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791373",
+    "updated_at": "2025-08-04T16:18:34.791374"
+  },
+  {
+    "name": "SimulateAuthorization",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateAuthorization(\n  $input: SimulateAuthorizationInput!\n) {\n  simulateAuthorization(input: $input) {\n    ... on AuthorizationEvent {\n      id\n      responseCode\n      cvvResponseCode\n      transaction {\n        ... on CreditTransaction {\n          id\n        }\n        ... on DebitTransaction {\n          id\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "cardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Authorization",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791395",
+    "updated_at": "2025-08-04T16:18:34.791396"
+  },
+  {
+    "name": "SimulateClearing",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateClearing($input: SimulateClearingInput!) {\n  simulateClearing(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n      merchantDetails {\n        countryCodeAlpha3\n        category\n        name\n        description\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Clearing",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791412",
+    "updated_at": "2025-08-04T16:18:34.791412"
+  },
+  {
+    "name": "SimulateReversal",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReversal($input: SimulateReversalInput!) {\n  simulateReversal(input: $input) {\n    ... on ReversalEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Reversal",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791428",
+    "updated_at": "2025-08-04T16:18:34.791428"
+  },
+  {
+    "name": "SimulateRefund",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateRefund($input: SimulateRefundInput!) {\n  simulateRefund(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ... on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Refund",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791443",
+    "updated_at": "2025-08-04T16:18:34.791443"
+  },
+  {
+    "name": "SimulateSingleStepAuthAndClear",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateSingleStepAuthAndClear($input: SimulateSingleStepAuthAndClearInput!) {\n  simulateSingleStepAuthAndClear(input: $input) {\n    ... on AuthorizationAndClearEvent {\n      id\n      responseCode\n      transaction {\n        ... on DebitTransaction {\n          id\n        }\n        ... on CreditTransaction {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardId": "PAYMENT_CARD_ID",
+          "amount": {
+            "currencyCode": "USD",
+            "value": 1000
+          },
+          "merchantDetails": {
+            "description": "Test Merchant",
+            "name": "Test Merchant Name"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Issuance/Transactions/Simulation/Simulate Single Step Auth And Clear",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791462",
+    "updated_at": "2025-08-04T16:18:34.791462"
+  },
+  {
+    "name": "GetTransactionEvent",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetTransactionEvent($id: ID!) {\n  node(id: $id) {\n    ... on TransactionEvent {\n    __typename\n    id\n    approvedAmount {\n      currencyCode\n      value\n    }\n    responseCode\n    createdAt\n    transactionProcessingType\n    pointOfServiceDetails {\n      category\n      panEntryMode\n      pinEntryMode\n      terminalAttendance\n      isCardHolderPresent\n      isCardPresent\n      isRecurring\n      terminalSupportsPartialApproval\n    }\n    additionalNetworkData {\n      ... on VisaData {\n        transactionIdentifier\n      }\n    }\n  }\n}}",
+      "variables": {
+        "id": "TRANSACTION_EVENT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Issuance/Transactions/Get Transaction Event",
+      "description": "",
+      "tags": [
+        "transactions",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791477",
+    "updated_at": "2025-08-04T16:18:34.791477"
+  },
+  {
+    "name": "TransactionEventsByPaymentCardAndTransactionid",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query TransactionEventsByPaymentCardAndTransactionId($id: ID!, $filterBy: PaymentCardTransactionEventsFilterInput) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      transactionEvents(filterBy: $filterBy) {\n        edges {\n          node {\n            __typename\n            id\n            createdAt\n            responseCode\n            approvedAmount {\n              value\n              currencyCode\n            }\n            transaction {\n              ... on CreditTransaction {\n                __typename\n                id\n              }\n              ... on DebitTransaction {\n                __typename\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID",
+        "filterBy": {
+          "transactionId": {
+            "equals": "TRANSACTION_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "transactions",
+      "path": "Issuance/Transactions/Transaction Events By Payment Card And TransactionId",
+      "description": "",
+      "tags": [
+        "transactions"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791496",
+    "updated_at": "2025-08-04T16:18:34.791497"
+  },
+  {
+    "name": "AttachSpendRuleToCardProduct",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToCardProduct($input: AttachSpendRuleToCardProductInput!) {\n  attachSpendRuleToCardProduct(input: $input) {\n    ...on CardProduct {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791520",
+    "updated_at": "2025-08-04T16:18:34.791521"
+  },
+  {
+    "name": "CreateMerchantCategorySpendRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateMerchantCategorySpendRule(\n  $input: CreateMerchantCategorySpendRuleInput!\n) {\n  createMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Fuel Rule",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": [
+            "AIRLINES_AIR_CARRIERS"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Create Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791538",
+    "updated_at": "2025-08-04T16:18:34.791538"
+  },
+  {
+    "name": "UpdateMerchantCategorySpendRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateMerchantCategorySpendRule(\n  $input: UpdateMerchantCategorySpendRuleInput!\n) {\n  updateMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "spendRuleId": "SPEND_RULE_ID",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": []
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Update Merchant Category Spend Rule",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "modification"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791553",
+    "updated_at": "2025-08-04T16:18:34.791554"
+  },
+  {
+    "name": "AttachSpendRuleToPaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToPaymentCard($input: AttachSpendRuleToPaymentCardInput!) {\n  attachSpendRuleToPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Attach Spend Rule To Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791570",
+    "updated_at": "2025-08-04T16:18:34.791570"
+  },
+  {
+    "name": "DetachSpendRuleFromCardProduct",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromCardProduct($input: DetachSpendRuleFromCardProductInput!) {\n  detachSpendRuleFromCardProduct(input: $input) {\n    __typename\n\t\t... on CardProduct {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Card Product",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791585",
+    "updated_at": "2025-08-04T16:18:34.791585"
+  },
+  {
+    "name": "DetachSpendRuleFromPaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromPaymentCard($input: DetachSpendRuleFromPaymentCardInput!) {\n  detachSpendRuleFromPaymentCard(input: $input) {\n    __typename\n\t\t... on PaymentCard {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "spend_rules",
+      "path": "Issuance/Authorization Controls/Spend Rules/Detach Spend Rule From Payment Card",
+      "description": "",
+      "tags": [
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791599",
+    "updated_at": "2025-08-04T16:18:34.791599"
+  },
+  {
+    "name": "GetAllVelocityRules",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllVelocityRules {\n  organizations {\n    velocityRules {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          velocityRuleWindow\n          version\n          createdAt\n          updatedAt\n          cumulativeRule {\n            ... on AmountLimitSpendRule {\n              id\n              name\n              maximumAmount {\n                value\n                currencyCode\n              }\n              version\n              createdAt\n              updatedAt\n            }\n          }\n          spendRules {\n            __typename\n            id\n            name\n            version\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get All Velocity Rules",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791616",
+    "updated_at": "2025-08-04T16:18:34.791617"
+  },
+  {
+    "name": "GetPaymentCardVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardVelocityRule($id: ID!) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      velocitySpendRuleBalances {\n\t\t\t\t... on VelocitySpendRuleAmountBalance {\n\t\t\t\t\tcurrentBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tremainingBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tvelocityRule {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tvelocityRuleWindow\n\t\t\t\t\t\tcumulativeRule {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\trevisions {\n\t\t\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\t\t\tcursor\n\t\t\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\tspendRules {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t\tversion\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n    \t}\n  \t}\n\t}\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "currentBalance",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791632",
+    "updated_at": "2025-08-04T16:18:34.791633"
+  },
+  {
+    "name": "GetFinancialAccountWithVelocityBalance",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountWithVelocityBalance($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      velocitySpendRuleBalances {\n        ... on VelocitySpendRuleAmountBalance {\n          __typename\n\n          currentBalance {\n            currencyCode\n            value\n          }\n          remainingBalance {\n            currencyCode\n            value\n          }\n          velocityRule {\n            id\n            version\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Get Financial Account With Velocity Balance",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791651",
+    "updated_at": "2025-08-04T16:18:34.791652"
+  },
+  {
+    "name": "CreateVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateVelocityRule($input: CreateVelocityRuleInput!) {\n  createVelocityRule(input: $input) {\n    ... on VelocityRule {\n      id\n      name\n      velocityRuleWindow\n      cumulativeRule {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n        revisions {\n          pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n          }\n          edges {\n            cursor\n            node {\n              id\n              name\n              version\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n      spendRules {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Velocity Control - Max $1000 per month",
+          "cumulativeRule": {
+            "id": "AMOUNT_SPEND_RULE_ID",
+            "version": "0"
+          },
+          "spendRules": [
+            {
+              "id": "ADDITIONAL_SPEND_RULE_ID",
+              "version": "O"
+            }
+          ],
+          "velocityRuleWindow": "MONTHLY"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Create Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791673",
+    "updated_at": "2025-08-04T16:18:34.791673"
+  },
+  {
+    "name": "CreateAmountLimitSpendRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAmountLimitSpendRule($input: CreateAmountLimitSpendRuleInput!) {\n  createAmountLimitSpendRule(input: $input) {\n    ... on AmountLimitSpendRule {\n      id\n      name\n      maximumAmount {\n        value\n        currencyCode\n      }\n      updatedAt\n      createdAt\n      version\n      revisions {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            version\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Amount Limit Rule",
+          "maximumAmount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Create Amount Limit Spend Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules",
+        "creation"
+      ],
+      "requires": [],
+      "produces": [
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791692",
+    "updated_at": "2025-08-04T16:18:34.791692"
+  },
+  {
+    "name": "AttachPaymentCardVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachPaymentCardVelocityRule($input: AttachPaymentCardVelocityRuleInput!) {\n  attachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id,\n          bin,\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Attach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791712",
+    "updated_at": "2025-08-04T16:18:34.791712"
+  },
+  {
+    "name": "DetachPaymentCardVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachPaymentCardVelocityRule($input: DetachPaymentCardVelocityRuleInput!) {\n  detachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id\n          bin\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Detach Payment Card Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791731",
+    "updated_at": "2025-08-04T16:18:34.791732"
+  },
+  {
+    "name": "AttachCardProductVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachCardProductVelocityRule($input: AttachCardProductVelocityRuleInput!) {\n  attachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Attach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791750",
+    "updated_at": "2025-08-04T16:18:34.791751"
+  },
+  {
+    "name": "DetachCardProductVelocityRule",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachCardProductVelocityRule($input: DetachCardProductVelocityRuleInput!) {\n  detachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "velocity_rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules/Detach Card Product Velocity Rule",
+      "description": "",
+      "tags": [
+        "velocity_rules"
+      ],
+      "requires": [],
+      "produces": [
+        "velocityRule",
+        "pageInfo",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791769",
+    "updated_at": "2025-08-04T16:18:34.791770"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindCollaborativeAuthorizationEndpoint($id: ID!) {\n  node(id: $id) {\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Get Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791789",
+    "updated_at": "2025-08-04T16:18:34.791789"
+  },
+  {
+    "name": "GetCollaborativeAuthorizationEndpoints",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query CollaborativeAuthorizationEndpoints($after: String, $first: Int) {\n\torganizations{\n\t\tid\n\t\tcollaborativeAuthorizationEndpoints(first: $first, after: $after) {\n\t\t\t__typename\n\n\t\t\tedges {\n\t\t\t\t__typename\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\turi\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tupdatedAt\n\t\t\t\t\tsigningKeys {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tsecret\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t\tstatus\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tpageInfo {\n\t\t\t\tendCursor\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Get Collaborative Authorization Endpoints",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791803",
+    "updated_at": "2025-08-04T16:18:34.791803"
+  },
+  {
+    "name": "AddCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddCollaborativeAuthorizationEndpoint($input: AddCollaborativeAuthorizationEndpointInput!) {\n  addCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on  CollaborativeAuthorizationEndpoint{\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Collaborative Auth Endpoint",
+          "uri": "COLLABORATIVE_AUTH_ENDPOINT_URI"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Add Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791817",
+    "updated_at": "2025-08-04T16:18:34.791818"
+  },
+  {
+    "name": "ActivateCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivateCollaborativeAuthorizationEndpoint($input: ActivateCollaborativeAuthorizationEndpointInput!) {\n  activateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Activate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791835",
+    "updated_at": "2025-08-04T16:18:34.791835"
+  },
+  {
+    "name": "DeactivateCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateCollaborativeAuthorizationEndpoint($input: DeactivateCollaborativeAuthorizationEndpointInput!) {\n  deactivateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on  CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Deactivate Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization",
+        "activation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791852",
+    "updated_at": "2025-08-04T16:18:34.791853"
+  },
+  {
+    "name": "RemoveCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveCollaborativeAuthorizationEndpoint($input: RemoveCollaborativeAuthorizationEndpointInput!) {\n  removeCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Remove Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791868",
+    "updated_at": "2025-08-04T16:18:34.791868"
+  },
+  {
+    "name": "RenameCollaborativeAuthorizationEndpoint",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RenameCollaborativeAuthorizationEndpoint($input: RenameCollaborativeAuthorizationEndpointInput!) {\n  renameCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "COLLABORATIVE_AUTH_ENDPOINT_ID",
+          "name": "Renamed Collaborative Auth Endpoint"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "collaborative_authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization/Rename Collaborative Authorization Endpoint",
+      "description": "",
+      "tags": [
+        "collaborative_authorization"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791882",
+    "updated_at": "2025-08-04T16:18:34.791883"
+  },
+  {
+    "name": "SimulateSendToPrinter",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderSendToPrinter\n($input: SimulatePhysicalPaymentCardSendToPrinterInput!) {\n  simulatePhysicalPaymentCardOrderSendToPrinter(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Physical Card/Simulation/Simulate Send To Printer",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791905",
+    "updated_at": "2025-08-04T16:18:34.791906"
+  },
+  {
+    "name": "SimulateApproval",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderApproval($input: SimulatePhysicalPaymentCardApprovalInput!) {\n  simulatePhysicalPaymentCardOrderApproval(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Physical Card/Simulation/Simulate Approval",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791924",
+    "updated_at": "2025-08-04T16:18:34.791924"
+  },
+  {
+    "name": "SimulateShipmentFailed",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderShipmentFailed($input: SimulatePhysicalPaymentCardShipmentFailedInput!) {\n  simulatePhysicalPaymentCardOrderShipmentFailed(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Physical Card/Simulation/Simulate Shipment Failed",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791940",
+    "updated_at": "2025-08-04T16:18:34.791941"
+  },
+  {
+    "name": "SimulateShipped",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation simulatePhysicalPaymentCardOrderShipped\n($input: SimulatePhysicalPaymentCardShippedInput!) {\n  simulatePhysicalPaymentCardOrderShipped(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID",
+          "trackingNumber": "trackingNumber",
+          "actualShipDate": "YYYY-MM-DD"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "simulation",
+      "path": "Physical Card/Simulation/Simulate Shipped",
+      "description": "",
+      "tags": [
+        "simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791959",
+    "updated_at": "2025-08-04T16:18:34.791960"
+  },
+  {
+    "name": "OrderPhysicalPaymentCard",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation OrderPhysicalPaymentCard($input: OrderPhysicalPaymentCardInput!) {\n  orderPhysicalPaymentCard(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "deliveryDetails": {
+            "name": {
+              "givenName": "John",
+              "middleName": "D",
+              "familyName": "Doe"
+            },
+            "companyName": "Highnote",
+            "address": {
+              "streetAddress": "123 Main St",
+              "extendedAddress": "",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            }
+          },
+          "requestedShipDate": "2021-08-20",
+          "courier": {
+            "method": "UPS_GROUND",
+            "signatureRequiredOnDelivery": false
+          },
+          "cardPersonalization": {
+            "textLines": {
+              "line1": "John Doe"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Physical Card/Order Physical Payment Card",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "courier",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.791989",
+    "updated_at": "2025-08-04T16:18:34.791989"
+  },
+  {
+    "name": "FindPhysicalPaymentCardOrder",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindPhysicalPaymentCardOrder($id: ID!) {\n  node(id: $id) {\n    ... on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "id": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Physical Card/ Find Physical Payment Card Order",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "courier"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792004",
+    "updated_at": "2025-08-04T16:18:34.792004"
+  },
+  {
+    "name": "CancelPhysicalPaymentCardOrder",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CancelPhysicalPaymentCardOrder($input: CancelPhysicalPaymentCardOrderInput!) {\n  cancelPhysicalPaymentCardOrder(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "physical_card",
+      "path": "Physical Card/Cancel Physical Payment Card Order",
+      "description": "",
+      "tags": [
+        "physical_card"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792019",
+    "updated_at": "2025-08-04T16:18:34.792019"
+  },
+  {
+    "name": "GenerateDirectDepositDetailClientToken",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GenerateDirectDepositDetailClientToken($input: GenerateDirectDepositDetailClientTokenInput!) {\n  generateDirectDepositDetailClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "directDepositDetailId": "DIRECT_DEPOSIT_DETAIL_ID",
+          "permissions": [
+            "READ_RESTRICTED_DETAILS"
+          ]
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Funding/Product Funding Account/Generate Direct Deposit Detail Client Token",
+      "description": "",
+      "tags": [
+        "product_funding_account"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792041",
+    "updated_at": "2025-08-04T16:18:34.792041"
+  },
+  {
+    "name": "GetDirectDepositDetailsByIdWithClientToken",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDirectDepositDetailsByIDWithClientToken($id: ID!) {\n  node(id: $id) {\n    ... on DirectDepositDetail {\n      id\n      restrictedDetails {\n        ... on DirectDepositDetailRestrictedDetails {\n          number\n          routingNumber\n          bank {\n            name\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "DIRECT_DEPOSIT_DETAIL_ID"
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Funding/Product Funding Account/Get Direct Deposit Details By ID With Client Token",
+      "description": "",
+      "tags": [
+        "product_funding_account",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792056",
+    "updated_at": "2025-08-04T16:18:34.792056"
+  },
+  {
+    "name": "GetProductFundingAccountDirectDepositId",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetProductFundingAccountByCardProductID($id: ID!, $filterBy: AccountHolderFinancialAccountsFilterInput!) {\n  node(id: $id) {\n    ... on CardProduct {\n      accounts(filterBy: $filterBy) {\n        edges {\n          node {\n            id\n            name\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n            directDepositDetails {\n              id\n              createdAt\n              updatedAt\n              restrictedDetails {\n                ... on DirectDepositDetailRestrictedDetails {\n                  number\n                  routingNumber\n                  bank {\n                    name\n                    address {\n                      streetAddress\n                      extendedAddress\n                      postalCode\n                      region\n                      locality\n                      countryCodeAlpha3\n                    }\n                  }\n                  type\n                }\n                ... on AccessDeniedError {\n                  message\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID",
+        "filterBy": {
+          "features": {
+            "equals": "PRODUCT_FUNDING"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.6.0",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "product_funding_account",
+      "path": "Funding/Product Funding Account/Get Product Funding Account Direct Deposit ID",
+      "description": "",
+      "tags": [
+        "product_funding_account",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792078",
+    "updated_at": "2025-08-04T16:18:34.792079"
+  },
+  {
+    "name": "AddExternalBankAccountVerifiedThroughPlaid",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddExternalBankAccountVerifiedThroughPlaid($input: AddExternalBankAccountVerifiedThroughPlaidInput!) {\n  addExternalBankAccountVerifiedThroughPlaid(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "externalToken": {
+            "value": "processor-token-success"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Add External Bank Account Verified Through Plaid",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792149",
+    "updated_at": "2025-08-04T16:18:34.792149"
+  },
+  {
+    "name": "AddExternalBankAccountVerifiedThroughFinicity",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddExternalBankAccountVerifiedThroughFinicity($input: AddExternalBankAccountVerifiedThroughFinicityInput!) {\n  addExternalBankAccountVerifiedThroughFinicity(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      owner {\n        ... on USPersonAccountHolder {\n          id\n          externalId\n        }\n        ... on USBusinessAccountHolder {\n          id\n          externalId\n        }\n      }\n      name\n      provider\n      accountStatus\n      createdAt\n      updatedAt\n      externalBankAccountDetails {\n        id\n        last4\n        type\n        routingNumber\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "name": "Finicity Checking",
+          "bankAccountType": "CHECKING",
+          "externalToken": {
+            "receiptId": "processor-token-success",
+            "customerId": "5543088633794259024",
+            "products": [
+              {
+                "productType": "ACH_DETAILS",
+                "accountId": "8977412844634022494",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "CURRENT_BALANCE",
+                "accountId": "1045023535892401594",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "APPROXIMATE_BALANCE",
+                "accountId": "7895597441790621692",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "ACH_OWNER_DETAILS",
+                "accountId": "5200183909259568542",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Add External Bank Account Verified Through Finicity",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792186",
+    "updated_at": "2025-08-04T16:18:34.792186"
+  },
+  {
+    "name": "GetExternalFinancialAccountsByAccountHolder",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetExternalFinancialAccountsByAccountHolder($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\nreq_95bd9fd8e3e749e6911044aa7c73ca6a                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n    ... on USBusinessAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "ORGANIZATION_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Get External Financial Accounts By Account Holder",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "externalFinancialAccounts",
+        "externalFinancialAccounts"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792211",
+    "updated_at": "2025-08-04T16:18:34.792212"
+  },
+  {
+    "name": "InitiateFundsDepositAchTransfer",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFundsDepositACHTransfer($input: InitiateFundsDepositACHTransferInput!) {\n  initiateFundsDepositACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "descriptor": {
+            "companyEntryDescription": "Company",
+            "individualIdentificationNumber": "",
+            "individualName": "Baja ABC"
+          },
+          "transferAgreementConsent": {
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "consentTimestamp": "2022-12-07T14:42:52.453Z",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Initiate Funds Deposit ACH Transfer",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792236",
+    "updated_at": "2025-08-04T16:18:34.792237"
+  },
+  {
+    "name": "InitiateFundsWithdrawalAchTransfer",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFundsWithdrawalACHTransfer($input: InitiateFundsWithdrawalACHTransferInput!) {\n  initiateFundsWithdrawalACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          },
+          "descriptor": {
+            "companyEntryDescription": "Test Entry",
+            "individualName": "Test",
+            "individualIdentificationNumber": "1234"
+          },
+          "transferAgreementConsent": {
+            "consentTimestamp": "2023-12-07T14:42:52.453Z",
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          },
+          "idempotencyKey": "abcde123",
+          "cancellationPeriodMillis": 0,
+          "sameDay": false
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Initiate Funds Withdrawal ACH Transfer",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792261",
+    "updated_at": "2025-08-04T16:18:34.792261"
+  },
+  {
+    "name": "SimulateProcessingIntegratorInitiatedStatusChange",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessingIntegratorInitiatedStatusChange($input: SimulateProcessingIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessingIntegratorInitiatedStatusChange(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      amount {\n        value\n        currencyCode\n      }\n      fundsAvailableDate\n      settlementDate\n      companyIdentifier\n      descriptor {\n        companyEntryDescription\n        individualName\n        individualIdentificationNumber\n      }\n      updatedAt\n      createdAt\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n      fromFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      companyName\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Processing Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792282",
+    "updated_at": "2025-08-04T16:18:34.792282"
+  },
+  {
+    "name": "SimulateProcessedIntegratorInitiatedStatusChange",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessedIntegratorInitiatedStatusChange($input: SimulateProcessedIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureCardBalanceRepaymentACHTransfer {\n      __typename\n      id\n      amount {\n        currencyCode\n        value\n      }\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Processed Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors",
+        "edges",
+        "financialEvent",
+        "edges",
+        "financialEvent"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792312",
+    "updated_at": "2025-08-04T16:18:34.792312"
+  },
+  {
+    "name": "SimulateReturnedIntegratorInitiatedStatusChange",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReturnedIntegratorInitiatedStatusChange($input: SimulateReturnedIntegratorInitiatedStatusChangeInput!) {\n  simulateReturnedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "ID",
+          "reasonCode": "INSUFFICIENT_FUNDS_IN_HIGHNOTE_ACCOUNT"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "integrator_initiated_originated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Integrator Initiated (Originated) ACH/Simulate Returned Integrator Initiated Status Change",
+      "description": "",
+      "tags": [
+        "integrator_initiated_originated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792334",
+    "updated_at": "2025-08-04T16:18:34.792335"
+  },
+  {
+    "name": "SimulateExternallyInitiatedAchTransfer",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateExternallyInitiatedACHTransfer($input: SimulateExternallyInitiatedACHTransferInput!) {\n  simulateExternallyInitiatedACHTransfer(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      __typename\n      id\n      createdAt\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 200000,
+            "currencyCode": "USD"
+          },
+          "companyEntryDescription": "TestDesc",
+          "companyIdentifier": "TestID",
+          "companyName": "TestName",
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "individualIdentificationNumber": "TestInDID",
+          "individualName": "TestIndName",
+          "settlementDate": "2022-07-28",
+          "transferType": "CREDIT"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "externally_initiated_nonoriginated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Externally Initiated (Non-Originated) ACH/Simulate Externally Initiated ACH Transfer",
+      "description": "",
+      "tags": [
+        "externally_initiated_nonoriginated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792363",
+    "updated_at": "2025-08-04T16:18:34.792363"
+  },
+  {
+    "name": "SimulateProcessingExternallyInitiatedStatusChange",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateProcessingExternallyInitiatedStatusChange($input: SimulateProcessingExternallyInitiatedStatusChangeInput!) {\n  simulateProcessingExternallyInitiatedStatusChange(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on CreditFunds {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "externally_initiated_nonoriginated_ach",
+      "path": "Funding/ACH Transfer (& Simulation)/Externally Initiated (Non-Originated) ACH/Simulate Processing Externally Initiated Status Change",
+      "description": "",
+      "tags": [
+        "externally_initiated_nonoriginated_ach",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "amount",
+        "amount",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792382",
+    "updated_at": "2025-08-04T16:18:34.792382"
+  },
+  {
+    "name": "SimulateDeposit",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    ...on Transfer {\n      id\n      status\n      createdAt\n      updatedAt\n      amount {\n        value\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        financialAccount {\n          id\n        }\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              financialEvent {\n                ... on Transfer {\n                  id\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ...on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "toFinancialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "source": "WIRE",
+          "memo": "Initial Card Funding",
+          "amount": {
+            "value": 50000000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "ach_transfer_simulation",
+      "path": "Funding/ACH Transfer (& Simulation)/Simulate Deposit",
+      "description": "",
+      "tags": [
+        "ach_transfer_simulation",
+        "simulation"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "financialEvent",
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792403",
+    "updated_at": "2025-08-04T16:18:34.792404"
+  },
+  {
+    "name": "EnableOnDemandFundingFeature",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableOnDemandFundingFeature($input: EnableOnDemandFundingFeatureInput!) {\n  enableOnDemandFundingFeature(input: $input) {\n    ... on CardProduct {\n      features {\n        __typename\n        createdAt\n        updatedAt\n        enabled\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "pseudoBalanceEnabled": false
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Enable On Demand Funding Feature",
+      "description": "",
+      "tags": [
+        "on_demand_funding"
+      ],
+      "requires": [],
+      "produces": [
+        "features"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792419",
+    "updated_at": "2025-08-04T16:18:34.792420"
+  },
+  {
+    "name": "IssueFundingFinancialAccountForApplication",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFundingFinancialAccountForApplication($input: IssueFundingFinancialAccountForApplicationInput!) {\n  issueFundingFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      id\n      name\n      cardProduct {\n        id\n        name\n        usage\n        vertical\n        commercial\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                extendedAddress\n                postalCode\n                region\n                locality\n                countryCodeAlpha3\n              }\n            }\n            type\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n        createdAt\n        updatedAt\n      }\n      accountStatus\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "name": "Test Business Funding Account"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Issue Funding Financial Account For Application",
+      "description": "",
+      "tags": [
+        "on_demand_funding",
+        "issuance"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792439",
+    "updated_at": "2025-08-04T16:18:34.792440"
+  },
+  {
+    "name": "IssueFinancialAccountForApplicationWithOdfSource",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssueFinancialAccountForApplicationWithOnDemandFundingSource($input: IssueFinancialAccountForApplicationWithOnDemandFundingSourceInput!) {\n  issueFinancialAccountForApplicationWithOnDemandFundingSource(input: $input) {\n    ... on FinancialAccount {\n      id\n      features {\n        __typename\n        enabled\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{businessAccountHolderApplicationId}}",
+          "name": "Test Financial Account",
+          "sourceFinancialAccountId": "{{fundingFinancialAccountId}}"
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Issue Financial Account for Application With ODF Source",
+      "description": "",
+      "tags": [
+        "on_demand_funding",
+        "issuance"
+      ],
+      "requires": [
+        "fundingFinancialAccountId",
+        "businessAccountHolderApplicationId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792457",
+    "updated_at": "2025-08-04T16:18:34.792458"
+  },
+  {
+    "name": "InitiateFinancialAccountPseudoBalanceUpdate",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateFinancialAccountPseudoBalanceUpdate($input: InitiateFinancialAccountPseudoBalanceUpdateInput!) {\n  initiateFinancialAccountPseudoBalanceUpdate(input: $input) {\n    ... on FinancialAccountPseudoBalanceUpdate {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "amount": {
+            "currencyCode": "USD",
+            "value": 10000000
+          },
+          "memo": ""
+        }
+      }
+    },
+    "headers": {},
+    "metadata": {
+      "category": "on_demand_funding",
+      "path": "Funding/On Demand Funding/Initiate Financial Account Pseudo Balance Update",
+      "description": "",
+      "tags": [
+        "on_demand_funding",
+        "modification"
+      ],
+      "requires": [
+        "financialAccountId"
+      ],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792478",
+    "updated_at": "2025-08-04T16:18:34.792478"
+  },
+  {
+    "name": "AddWebhookNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddWebhookNotificationTarget($input: AddWebhookNotificationTargetInput!) {\n  addWebhookNotificationTarget(input: $input) {\n    __typename\n    ...on WebhookNotificationTarget {\n      id\n      name\n      uri\n      subscriptions\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "My Target",
+          "uri": "<URI>",
+          "subscriptions": [
+            "PAYMENT_CARD_ACTIVATED",
+            "AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_IN_REVIEW",
+            "CARD_PRODUCT_APPLICATION_MANUAL_REVIEW",
+            "CARD_PRODUCT_APPLICATION_DENIED",
+            "CARD_PRODUCT_APPLICATION_CLOSED",
+            "PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED",
+            "PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Add Webhook Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792506",
+    "updated_at": "2025-08-04T16:18:34.792506"
+  },
+  {
+    "name": "GetAllWebhookNotificationTargets",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllWebhookNotificationTargets($firstTargets: Int, $afterTargets: String) {\n\torganizations {\n\t\tid\n\n\t\twebhookNotificationTargets(first: $firstTargets, after: $afterTargets) {\n\t\t\tpageInfo {\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t\tendCursor\n\t\t\t}\n\n\t\t\tedges {\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tdeactivatedAt\n\t\t\t\t\tsubscriptions\n\n\t\t\t\t\tstatusHistory {\n\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\tcursor\n\n\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get All Webhook Notification Targets",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "organizations",
+        "pageInfo"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792536",
+    "updated_at": "2025-08-04T16:18:34.792537"
+  },
+  {
+    "name": "DeactivateNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateNotificationTarget($input: DeactivateNotificationTargetInput!) {\n\tdeactivateNotificationTarget(input: $input) {\n\t\t... on WebhookNotificationTarget {\n\t\t\tid\n\t\t\tstatus\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "<ID>"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Deactivate Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval",
+        "activation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792549",
+    "updated_at": "2025-08-04T16:18:34.792549"
+  },
+  {
+    "name": "ActivateNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "fragment Target on WebhookNotificationTarget {\n\t__typename\n\tid\n\tname\n\turi\n\tsubscriptions\n\tstatus\n\tcreatedAt\n\tupdatedAt\n\tsigningKeys {\n\t\tid\n\t\tsecret\n\t\tcreatedAt\n\t}\n}\n\nmutation ActivateNotificationTarget($input: ActivateNotificationTargetInput!) {\n\tactivateNotificationTarget(input: $input) {\n\t\t...Target\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "<ID>"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Activate Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval",
+        "activation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792562",
+    "updated_at": "2025-08-04T16:18:34.792562"
+  },
+  {
+    "name": "GetWebhookNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetWebhookNotificationTarget($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on WebhookNotificationTarget {\n\t\t\tstatus\n\t\t\tid\n\n\t\t\tdeliveryAttempts {\n\t\t\t\t__typename\n\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\turi\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t\thttpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tevent {\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tstatusHistory {\n\t\t\t\t__typename\n\t\t\t\t\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\t\t\t\t\t\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\n\t\t\t\t\t\tid\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get Webhook Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792580",
+    "updated_at": "2025-08-04T16:18:34.792581"
+  },
+  {
+    "name": "GetNotificationTargetDeliveryAttempts",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationTargetDeliveryAttempts($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    __typename\n    ... on WebhookNotificationTarget {\n      id\n      deliveryAttempts(first: $first, after: $after) {\n        __typename\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            uri\n            response {\n\t\t\t\thttpStatusCode\n\t\t\t}\n            deliveryAttemptStatus\n            createdAt\n            event {\n              name\n              id\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "WEBHOOK_NOTIFICATION_TARGET_ID"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Get Notification Target Delivery Attempts",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792598",
+    "updated_at": "2025-08-04T16:18:34.792598"
+  },
+  {
+    "name": "AddSubscriptionsToNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddSubscriptionsToNotificationTarget($input: AddSubscriptionsToNotificationTargetInput!) {\n  addSubscriptionsToNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "WEBHOOK_NOTIFICATION_TARGET_ID",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Add Subscriptions To Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792623",
+    "updated_at": "2025-08-04T16:18:34.792625"
+  },
+  {
+    "name": "RemoveSubscriptionsFromNotificationTarget",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveSubscriptionsFromNotificationTarget($input: RemoveSubscriptionsFromNotificationTargetInput!) {\n  removeSubscriptionsFromNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "WEBHOOK_NOTIFICATION_TARGET_ID",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_targets",
+      "path": "Reporting/Notifications/Notification Targets/Remove Subscriptions From Notification Target",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792643",
+    "updated_at": "2025-08-04T16:18:34.792644"
+  },
+  {
+    "name": "GetAllNotificationEvents",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllNotificationEvents($after: String, $first: Int) {\n\tnotificationEvents(after: $after, first: $first) {\n\t\tedges {\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t\tnode {\n                        __typename\n\t\t\t\t\t\t... on PaymentCardTransactionDispute {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\tchargebacks {\n                                id, \n                                status, \n                                dispute {\n                                    id\n                                }, \n                                creditStatus\n                            }\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on PaymentCardTransactionChargeback {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tcreditStatus\n\t\t\t\t\t\t\tdispute {\n                                id,\n                                status,\n                                amount { \n                                    value\n\t\t\t\t\t\t\t    }\n                            }\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "first": 150
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get All Notification Events",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792667",
+    "updated_at": "2025-08-04T16:18:34.792667"
+  },
+  {
+    "name": "GetNotificationEvent",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEvent($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\texpiresAt\n\t\t\tname\n\t\t\tnode {\n\t\t\t\t__typename\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792689",
+    "updated_at": "2025-08-04T16:18:34.792690"
+  },
+  {
+    "name": "ReplayNotificationEvent",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReplayNotificationEvent($input: ReplayNotificationEventInput!) {\n  replayNotificationEvent(input: $input) {\n    __typename\n    ... on NotificationEvent {\n      __typename\n      id\n\t  createdAt\n\t  expiresAt\n      node {\n        ... on AuthorizationEvent {\n          id\n          approvedAmount {\n            value\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "input": {
+          "notificationEventId": "<ID>"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Replay Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events"
+      ],
+      "requires": [],
+      "produces": [
+        "errors"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792708",
+    "updated_at": "2025-08-04T16:18:34.792709"
+  },
+  {
+    "name": "GetDeliveryAttemptsForNotificationEvent",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDeliveryAttemptsForNotificationEvent($id: ID!, $after: String, $first: Int) {\n\tnode(id: $id) {\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tdeliveryAttempts(first: $first, after: $after) {\n\t\t\t\t__typename\n\t\t\t\tpageInfo {\n\t\t\t\t\t__typename\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\tedges {\n\t\t\t\t\t__typename\n\t\t\t\t\tcursor\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t  httpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\turi\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "id": "<ID>",
+        "first": 10
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Delivery Attempts For Notification Event",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792725",
+    "updated_at": "2025-08-04T16:18:34.792726"
+  },
+  {
+    "name": "GetNotificationEventsFilteredByName",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEventsFilteredByName($filterBy: NotificationEventsFilterInput!, $first: Int) {\n\tnotificationEvents(filterBy: $filterBy, first: $first) {\n\t\t__typename\n\t\tpageInfo {\n\t\t\tstartCursor\n\t\t\tendCursor\n\t\t\thasNextPage\n\t\t\thasPreviousPage\n\t\t}\n\t\tedges {\n\t\t\tcursor\n\t\t\t__typename\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": [
+            "INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_COMPLETED"
+          ]
+        },
+        "first": 20
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "notification_events",
+      "path": "Reporting/Notifications/Notification Events/Get Notification Events Filtered By Name",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792742",
+    "updated_at": "2025-08-04T16:18:34.792743"
+  },
+  {
+    "name": "InitiateOrganizationReport",
+    "program_type": "rellevate_paycard",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateOrganizationReport($input: InitiateOrganizationReportInput!) {\n  initiateOrganizationReport(input: $input) {\n    ... on Report {\n      id\n      download {\n        url\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "reportType": "EXPERIAN_CREDIT_REPORT",
+          "parameters": {
+            "between": {
+              "start": "YYYY-MM-DD",
+              "end": "YYYY-MM-DD"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Initiate Organization Report",
+      "description": "",
+      "tags": [
+        "reports"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792762",
+    "updated_at": "2025-08-04T16:18:34.792763"
+  },
+  {
+    "name": "GetReport",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetReport($id: ID!) {\n  node(id: $id) {\n    ... on Report {\n      download {\n        url\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "REPORT_ID"
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Report",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "download"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792772",
+    "updated_at": "2025-08-04T16:18:34.792773"
+  },
+  {
+    "name": "GetReportUsage",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query ReportUsage {\n  reportUsage {\n    limit\n    limitRemaining\n    periodEnd\n    reportType\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Report Usage",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "reportUsage"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792785",
+    "updated_at": "2025-08-04T16:18:34.792785"
+  },
+  {
+    "name": "GetReports",
+    "program_type": "rellevate_paycard",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Reports($first: Int, $after: String, $input: ReportFilterInput) {\n  reports(first: $first, after: $after, filterBy: $input) {\n    ... on ReportConnection {\n      edges {\n        ... on ReportEdge {\n          node {\n            __typename\n            id\n            status\n            reportType\n            download {\n              url\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "status": {
+            "includes": [
+              "COMPLETED"
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "User-Agent": "insomnia/8.4.2",
+      "Content-Type": "application/json"
+    },
+    "metadata": {
+      "category": "reports",
+      "path": "Reporting/Reports/Get Reports",
+      "description": "",
+      "tags": [
+        "reports",
+        "retrieval"
+      ],
+      "requires": [],
+      "produces": [
+        "edges",
+        "node"
+      ]
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-04T16:18:34.792799",
+    "updated_at": "2025-08-04T16:18:34.792799"
+  }
+]

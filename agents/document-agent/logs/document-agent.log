@@ -1,113 +1,34 @@
-2025-08-03 09:12:31,857 - __main__ - INFO - Initializing document agent...
-2025-08-03 09:12:31,858 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:31,881 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-03 09:12:31,881 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:33,481 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
-2025-08-03 09:12:33,481 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:33,481 - __main__ - INFO - Document agent initialized successfully
-2025-08-03 09:12:33,481 - __main__ - INFO - Using model: llama3
-2025-08-03 09:12:33,481 - __main__ - INFO - Chunks directory: data/chunks
-2025-08-03 09:12:33,482 - __main__ - INFO - Loaded 6672 chunks across 0 categories
-2025-08-03 09:12:33,510 - __main__ - INFO - Starting Document Agent API server on 0.0.0.0:8001
-2025-08-03 09:12:33,511 - __main__ - INFO - Authentication enabled: False
-2025-08-03 09:12:33,511 - __main__ - INFO - Allowed origins: ['*']
-2025-08-03 09:12:33,570 - api - INFO - Initializing document agent...
-2025-08-03 09:12:33,570 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:33,571 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-03 09:12:33,571 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:34,976 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
-2025-08-03 09:12:34,976 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-03 09:12:34,976 - api - INFO - Document agent initialized successfully
-2025-08-03 09:12:34,976 - api - INFO - Using model: llama3
-2025-08-03 09:12:34,976 - api - INFO - Chunks directory: data/chunks
-2025-08-03 09:12:34,977 - api - INFO - Loaded 6672 chunks across 0 categories
-INFO:     Started server process [31537]
+2025-08-03 19:02:04,326 - __main__ - INFO - Initializing document agent...
+2025-08-03 19:02:04,326 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:04,351 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-03 19:02:04,351 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:06,324 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
+2025-08-03 19:02:06,324 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:06,324 - __main__ - INFO - Document agent initialized successfully
+2025-08-03 19:02:06,324 - __main__ - INFO - Using model: llama3
+2025-08-03 19:02:06,324 - __main__ - INFO - Chunks directory: data/chunks
+2025-08-03 19:02:06,325 - __main__ - INFO - Loaded 6672 chunks across 0 categories
+2025-08-03 19:02:06,352 - __main__ - INFO - Starting Document Agent API server on 0.0.0.0:8001
+2025-08-03 19:02:06,352 - __main__ - INFO - Authentication enabled: False
+2025-08-03 19:02:06,352 - __main__ - INFO - Allowed origins: ['*']
+2025-08-03 19:02:06,411 - api - INFO - Initializing document agent...
+2025-08-03 19:02:06,411 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:06,412 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-03 19:02:06,412 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:08,060 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
+2025-08-03 19:02:08,060 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-03 19:02:08,060 - api - INFO - Document agent initialized successfully
+2025-08-03 19:02:08,060 - api - INFO - Using model: llama3
+2025-08-03 19:02:08,060 - api - INFO - Chunks directory: data/chunks
+2025-08-03 19:02:08,061 - api - INFO - Loaded 6672 chunks across 0 categories
+INFO:     Started server process [53147]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
-INFO:     127.0.0.1:56189 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56193 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56193 - "GET /health HTTP/1.1" 200 OK
-2025-08-03 09:12:47,100 - api - INFO - Processing question: How do I simulate transactions?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.15it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.15it/s]
-2025-08-03 09:12:54,473 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56224 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56327 - "GET /health HTTP/1.1" 200 OK
-2025-08-03 09:13:28,435 - api - INFO - Processing question: What are the required fields for CreateAccountHolderCardProductApplicationInput?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.29it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.29it/s]
-2025-08-03 09:13:34,746 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56327 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:13:34,967 - api - INFO - Processing question: How do I onboard a new account holder?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.67it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.66it/s]
-2025-08-03 09:13:40,029 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56327 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:13:40,241 - api - INFO - Processing question: How does the billing statement cycle work for credit cards?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.79it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.79it/s]
-2025-08-03 09:13:48,638 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56327 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:13:48,885 - api - INFO - Processing question: What mutations are available for generating client tokens?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.45it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.43it/s]
-2025-08-03 09:13:56,487 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56327 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:14:08,161 - api - INFO - Processing question: How do velocity controls work for cards?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.83it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.83it/s]
-2025-08-03 09:14:23,813 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56345 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:14:24,036 - api - INFO - Processing question: What API calls are needed to simulate a wire transfer in test?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.35it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.34it/s]
-2025-08-03 09:14:32,332 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56345 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:15:05,466 - api - INFO - Processing question: How do I implement the full KYC flow with document upload using the API?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.60it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.60it/s]
-2025-08-03 09:15:22,056 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56359 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:15:22,275 - api - INFO - Processing question: What is collaborative authorization and when should I use it?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.15it/s]
-2025-08-03 09:15:34,704 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56359 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56436 - "GET /health HTTP/1.1" 200 OK
-2025-08-03 09:17:04,809 - api - INFO - Processing question: What are the possible values for FinancialAccountStatus enum?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.01it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.00it/s]
-2025-08-03 09:17:11,562 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56436 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:17:11,775 - api - INFO - Processing question: What mutations are available for creating account holders?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.18it/s]
-2025-08-03 09:17:17,863 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56436 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56472 - "GET /health HTTP/1.1" 200 OK
-2025-08-03 09:17:34,494 - api - INFO - Processing question: How does the billing statement cycle work for credit cards?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.15it/s]
-2025-08-03 09:17:47,862 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56472 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:17:48,100 - api - INFO - Processing question: How do I onboard a new account holder?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.94it/s]
-2025-08-03 09:17:54,061 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56472 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:17:54,292 - api - INFO - Processing question: What are the best practices for PCI compliance?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.24it/s]
-2025-08-03 09:18:07,654 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56472 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:18:07,870 - api - INFO - Processing question: What are all the available simulation endpoints for testing?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.51it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.49it/s]
-2025-08-03 09:18:12,068 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56472 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:18:12,293 - api - INFO - Processing question: How do I add funds to a financial account?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.55it/s]
-2025-08-03 09:18:22,220 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56472 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:18:27,904 - api - INFO - Processing question: What are the different card product templates available?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.80it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.79it/s]
-2025-08-03 09:18:35,284 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56499 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:18:35,504 - api - INFO - Processing question: Explain the complete flow from application creation to card issuance including all mutations and web...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.26it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.25it/s]
-2025-08-03 09:19:01,269 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56499 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:19:01,493 - api - INFO - Processing question: How do I use collaborative authorization with the approveTransaction mutation?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 10.75it/s]
-2025-08-03 09:19:13,855 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56499 - "POST /chat HTTP/1.1" 200 OK
-2025-08-03 09:19:14,072 - api - INFO - Processing question: How do I implement transaction disputes and chargebacks via the API?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 10.11it/s]
-2025-08-03 09:19:22,907 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:56499 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61851 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61855 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61855 - "GET /health HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53147]

@@ -1,0 +1,158 @@
+{
+  "total_collections": 46,
+  "total_operations": 3714,
+  "by_program_type": {
+    "ap_automation": {
+      "collections": 4,
+      "operations": 329
+    },
+    "acquiring": {
+      "collections": 1,
+      "operations": 2
+    },
+    "ava": {
+      "collections": 1,
+      "operations": 103
+    },
+    "bases": {
+      "collections": 1,
+      "operations": 0
+    },
+    "commercial_charge": {
+      "collections": 1,
+      "operations": 109
+    },
+    "commercial_credit": {
+      "collections": 1,
+      "operations": 59
+    },
+    "commercial_prepaid": {
+      "collections": 1,
+      "operations": 122
+    },
+    "consumer_charge": {
+      "collections": 1,
+      "operations": 103
+    },
+    "consumer_credit": {
+      "collections": 1,
+      "operations": 143
+    },
+    "consumer_prepaid": {
+      "collections": 5,
+      "operations": 415
+    },
+    "drop_lifekey": {
+      "collections": 1,
+      "operations": 109
+    },
+    "easypay": {
+      "collections": 1,
+      "operations": 118
+    },
+    "edstrument": {
+      "collections": 1,
+      "operations": 117
+    },
+    "elibrium": {
+      "collections": 1,
+      "operations": 7
+    },
+    "external_physical_payment_card_orders": {
+      "collections": 1,
+      "operations": 3
+    },
+    "fasten": {
+      "collections": 1,
+      "operations": 108
+    },
+    "fincone": {
+      "collections": 1,
+      "operations": 123
+    },
+    "fleet": {
+      "collections": 1,
+      "operations": 119
+    },
+    "general": {
+      "collections": 1,
+      "operations": 2
+    },
+    "geoswift": {
+      "collections": 1,
+      "operations": 74
+    },
+    "golfcard": {
+      "collections": 1,
+      "operations": 142
+    },
+    "highnote_api": {
+      "collections": 1,
+      "operations": 304
+    },
+    "corporate_expense": {
+      "collections": 1,
+      "operations": 0
+    },
+    "liferaft": {
+      "collections": 1,
+      "operations": 120
+    },
+    "rewards": {
+      "collections": 2,
+      "operations": 234
+    },
+    "netlify_functions": {
+      "collections": 1,
+      "operations": 0
+    },
+    "onboarding": {
+      "collections": 1,
+      "operations": 1
+    },
+    "onme": {
+      "collections": 1,
+      "operations": 92
+    },
+    "paycruiser": {
+      "collections": 1,
+      "operations": 101
+    },
+    "person_account_holder_manual_review": {
+      "collections": 1,
+      "operations": 12
+    },
+    "rellevate_paycard": {
+      "collections": 1,
+      "operations": 116
+    },
+    "roadflex": {
+      "collections": 1,
+      "operations": 153
+    },
+    "secure_document_upload": {
+      "collections": 1,
+      "operations": 9
+    },
+    "ship": {
+      "collections": 1,
+      "operations": 0
+    },
+    "speedchain": {
+      "collections": 1,
+      "operations": 0
+    },
+    "stellarfi": {
+      "collections": 1,
+      "operations": 112
+    },
+    "trip.com": {
+      "collections": 1,
+      "operations": 81
+    },
+    "vic.ai": {
+      "collections": 1,
+      "operations": 72
+    }
+  }
+}
