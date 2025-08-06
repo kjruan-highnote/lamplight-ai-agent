@@ -18,6 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ship_agent_simplified import SimplifiedShipAgent
+from subscriber_implementation_guide import SubscriberImplementationGuide
 
 # Configure logging
 logging.basicConfig(
@@ -47,6 +48,7 @@ app.add_middleware(
 
 # Initialize components
 ship_agent = SimplifiedShipAgent()
+implementation_guide = SubscriberImplementationGuide()
 
 # Request/Response Models
 class GenerationRequest(BaseModel):
@@ -62,6 +64,15 @@ class TestDataRequest(BaseModel):
 class AvailableProgramsResponse(BaseModel):
     programs: list[str]
     count: int
+
+class ImplementationQueryRequest(BaseModel):
+    question: str = Field(..., description="Implementation question to answer")
+    program_type: Optional[str] = Field(None, description="Optional program/subscriber context")
+    specific_area: Optional[str] = Field(None, description="Specific area like 'authentication', 'card_issuance'")
+
+class ImplementationGuideRequest(BaseModel):
+    program_type: str = Field(..., description="Program type to get guide for")
+    specific_area: Optional[str] = Field(None, description="Optional specific area to focus on")
 
 
 @app.on_event("startup")
@@ -209,6 +220,85 @@ async def get_categories(program_type: str):
     return {
         "program_type": program_type,
         "categories": list(categories.values())
+    }
+
+
+@app.post("/implementation/query")
+async def query_implementation(request: ImplementationQueryRequest):
+    """
+    Answer specific implementation questions for subscribers
+    
+    This endpoint can answer questions like:
+    - How do I implement authentication for Trip.com?
+    - What are the required operations for card issuance?
+    - How to handle multi-currency transactions?
+    """
+    try:
+        response = await implementation_guide.answer_implementation_question(
+            question=request.question,
+            program_type=request.program_type
+        )
+        
+        return {
+            "status": "success",
+            "query": request.question,
+            "response": response
+        }
+    except Exception as e:
+        logger.error(f"Failed to answer implementation query: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/implementation/guide")
+async def get_implementation_guide(request: ImplementationGuideRequest):
+    """
+    Get detailed implementation guide for a specific program/subscriber
+    
+    Returns step-by-step implementation instructions, required operations,
+    best practices, and common challenges.
+    """
+    try:
+        guide = await implementation_guide.get_implementation_guide(
+            program_type=request.program_type,
+            specific_area=request.specific_area
+        )
+        
+        return {
+            "status": "success",
+            "guide": guide
+        }
+    except Exception as e:
+        logger.error(f"Failed to get implementation guide: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/implementation/patterns")
+async def list_implementation_patterns():
+    """List all available implementation patterns"""
+    patterns = implementation_guide.implementation_patterns
+    
+    return {
+        "patterns": [
+            {
+                "program_type": key,
+                "name": value.get("name"),
+                "phases": value.get("implementation_phases", []),
+                "features": value.get("key_features", [])
+            }
+            for key, value in patterns.items()
+        ],
+        "count": len(patterns)
+    }
+
+
+@app.get("/implementation/best-practices/{program_type}")
+async def get_best_practices(program_type: str):
+    """Get best practices for a specific program implementation"""
+    practices = implementation_guide._get_best_practices(program_type)
+    
+    return {
+        "program_type": program_type,
+        "best_practices": practices
     }
 
 

@@ -1,0 +1,107 @@
+2025-08-06 10:00:33,851 - ship_agent_simplified - INFO - Loaded 12 operations for person_account_holder_manual_review
+2025-08-06 10:00:33,855 - ship_agent_simplified - INFO - Loaded 304 operations for highnote_api
+2025-08-06 10:00:33,855 - ship_agent_simplified - INFO - Loaded 9 operations for secure_document_upload
+2025-08-06 10:00:33,856 - ship_agent_simplified - INFO - Loaded 1 operations for onboarding
+2025-08-06 10:00:33,856 - ship_agent_simplified - INFO - Loaded 7 operations for elibrium
+2025-08-06 10:00:33,859 - ship_agent_simplified - INFO - Loaded 103 operations for consumer_charge
+2025-08-06 10:00:33,861 - ship_agent_simplified - INFO - Loaded 72 operations for vic.ai
+2025-08-06 10:00:33,863 - ship_agent_simplified - INFO - Loaded 74 operations for geoswift
+2025-08-06 10:00:33,864 - ship_agent_simplified - INFO - Loaded 117 operations for edstrument
+2025-08-06 10:00:33,866 - ship_agent_simplified - INFO - Loaded 122 operations for commercial_prepaid
+2025-08-06 10:00:33,866 - ship_agent_simplified - INFO - Loaded 0 operations for corporate_expense
+2025-08-06 10:00:33,868 - ship_agent_simplified - INFO - Loaded 120 operations for liferaft
+2025-08-06 10:00:33,868 - ship_agent_simplified - INFO - Loaded 2 operations for acquiring
+2025-08-06 10:00:33,878 - ship_agent_simplified - INFO - Loaded 59 operations for commercial_credit
+2025-08-06 10:00:33,878 - ship_agent_simplified - INFO - Loaded 3 operations for external_physical_payment_card_orders
+2025-08-06 10:00:33,879 - ship_agent_simplified - INFO - Loaded 0 operations for netlify_functions
+2025-08-06 10:00:33,879 - ship_agent_simplified - INFO - Loaded 0 operations for bases
+2025-08-06 10:00:33,881 - ship_agent_simplified - INFO - Loaded 109 operations for commercial_charge
+2025-08-06 10:00:33,881 - ship_agent_simplified - INFO - Loaded 0 operations for ship
+2025-08-06 10:00:33,881 - ship_agent_simplified - INFO - Loaded 0 operations for speedchain
+2025-08-06 10:00:33,882 - ship_agent_simplified - INFO - Loaded 81 operations for trip.com
+2025-08-06 10:00:33,883 - ship_agent_simplified - INFO - Loaded 2 operations for general
+2025-08-06 10:00:33,884 - ship_agent_simplified - INFO - Loaded 123 operations for fincone
+2025-08-06 10:00:33,886 - ship_agent_simplified - INFO - Loaded 119 operations for fleet
+2025-08-06 10:00:33,886 - ship_agent_simplified - INFO - Loaded 9 operations for rewards
+2025-08-06 10:00:33,888 - ship_agent_simplified - INFO - Loaded 101 operations for paycruiser
+2025-08-06 10:00:33,890 - ship_agent_simplified - INFO - Loaded 118 operations for easypay
+2025-08-06 10:00:33,891 - ship_agent_simplified - INFO - Loaded 101 operations for consumer_prepaid
+2025-08-06 10:00:33,893 - ship_agent_simplified - INFO - Loaded 153 operations for roadflex
+2025-08-06 10:00:33,894 - ship_agent_simplified - INFO - Loaded 92 operations for onme
+2025-08-06 10:00:33,896 - ship_agent_simplified - INFO - Loaded 142 operations for golfcard
+2025-08-06 10:00:33,897 - ship_agent_simplified - INFO - Loaded 108 operations for fasten
+2025-08-06 10:00:33,899 - ship_agent_simplified - INFO - Loaded 143 operations for consumer_credit
+2025-08-06 10:00:33,900 - ship_agent_simplified - INFO - Loaded 103 operations for ava
+2025-08-06 10:00:33,901 - ship_agent_simplified - INFO - Loaded 112 operations for stellarfi
+2025-08-06 10:00:33,903 - ship_agent_simplified - INFO - Loaded 116 operations for rellevate_paycard
+2025-08-06 10:00:33,905 - ship_agent_simplified - INFO - Loaded 109 operations for drop_lifekey
+2025-08-06 10:00:33,906 - ship_agent_simplified - INFO - Loaded 74 operations for ap_automation
+/Users/kevinruan/Downloads/lamplight-ai-agent/agents/ship-agent/src/api.py:78: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [21525]
+INFO:     Waiting for application startup.
+2025-08-06 10:00:33,992 - __main__ - INFO - Starting Simplified Ship Agent...
+2025-08-06 10:00:33,993 - ship_agent_simplified - INFO - Loaded 12 operations for person_account_holder_manual_review
+2025-08-06 10:00:33,996 - ship_agent_simplified - INFO - Loaded 304 operations for highnote_api
+2025-08-06 10:00:33,997 - ship_agent_simplified - INFO - Loaded 9 operations for secure_document_upload
+2025-08-06 10:00:33,997 - ship_agent_simplified - INFO - Loaded 1 operations for onboarding
+2025-08-06 10:00:33,997 - ship_agent_simplified - INFO - Loaded 7 operations for elibrium
+2025-08-06 10:00:33,998 - ship_agent_simplified - INFO - Loaded 103 operations for consumer_charge
+2025-08-06 10:00:33,999 - ship_agent_simplified - INFO - Loaded 72 operations for vic.ai
+2025-08-06 10:00:34,000 - ship_agent_simplified - INFO - Loaded 74 operations for geoswift
+2025-08-06 10:00:34,001 - ship_agent_simplified - INFO - Loaded 117 operations for edstrument
+2025-08-06 10:00:34,002 - ship_agent_simplified - INFO - Loaded 122 operations for commercial_prepaid
+2025-08-06 10:00:34,002 - ship_agent_simplified - INFO - Loaded 0 operations for corporate_expense
+2025-08-06 10:00:34,004 - ship_agent_simplified - INFO - Loaded 120 operations for liferaft
+2025-08-06 10:00:34,005 - ship_agent_simplified - INFO - Loaded 2 operations for acquiring
+2025-08-06 10:00:34,005 - ship_agent_simplified - INFO - Loaded 59 operations for commercial_credit
+2025-08-06 10:00:34,005 - ship_agent_simplified - INFO - Loaded 3 operations for external_physical_payment_card_orders
+2025-08-06 10:00:34,006 - ship_agent_simplified - INFO - Loaded 0 operations for netlify_functions
+2025-08-06 10:00:34,006 - ship_agent_simplified - INFO - Loaded 0 operations for bases
+2025-08-06 10:00:34,007 - ship_agent_simplified - INFO - Loaded 109 operations for commercial_charge
+2025-08-06 10:00:34,007 - ship_agent_simplified - INFO - Loaded 0 operations for ship
+2025-08-06 10:00:34,007 - ship_agent_simplified - INFO - Loaded 0 operations for speedchain
+2025-08-06 10:00:34,008 - ship_agent_simplified - INFO - Loaded 81 operations for trip.com
+2025-08-06 10:00:34,008 - ship_agent_simplified - INFO - Loaded 2 operations for general
+2025-08-06 10:00:34,009 - ship_agent_simplified - INFO - Loaded 123 operations for fincone
+2025-08-06 10:00:34,010 - ship_agent_simplified - INFO - Loaded 119 operations for fleet
+2025-08-06 10:00:34,011 - ship_agent_simplified - INFO - Loaded 9 operations for rewards
+2025-08-06 10:00:34,011 - ship_agent_simplified - INFO - Loaded 101 operations for paycruiser
+2025-08-06 10:00:34,013 - ship_agent_simplified - INFO - Loaded 118 operations for easypay
+2025-08-06 10:00:34,013 - ship_agent_simplified - INFO - Loaded 101 operations for consumer_prepaid
+2025-08-06 10:00:34,015 - ship_agent_simplified - INFO - Loaded 153 operations for roadflex
+2025-08-06 10:00:34,016 - ship_agent_simplified - INFO - Loaded 92 operations for onme
+2025-08-06 10:00:34,018 - ship_agent_simplified - INFO - Loaded 142 operations for golfcard
+2025-08-06 10:00:34,019 - ship_agent_simplified - INFO - Loaded 108 operations for fasten
+2025-08-06 10:00:34,020 - ship_agent_simplified - INFO - Loaded 143 operations for consumer_credit
+2025-08-06 10:00:34,021 - ship_agent_simplified - INFO - Loaded 103 operations for ava
+2025-08-06 10:00:34,022 - ship_agent_simplified - INFO - Loaded 112 operations for stellarfi
+2025-08-06 10:00:34,023 - ship_agent_simplified - INFO - Loaded 116 operations for rellevate_paycard
+2025-08-06 10:00:34,024 - ship_agent_simplified - INFO - Loaded 109 operations for drop_lifekey
+2025-08-06 10:00:34,025 - ship_agent_simplified - INFO - Loaded 74 operations for ap_automation
+2025-08-06 10:00:34,027 - __main__ - INFO - Loaded 38 program types
+2025-08-06 10:00:34,027 - __main__ - INFO - Ship Agent ready
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8003 (Press CTRL+C to quit)
+INFO:     127.0.0.1:64017 - "GET /implementation/patterns HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64052 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64053 - "GET /implementation/patterns HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64054 - "POST /implementation/guide HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64055 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64057 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64059 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64061 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64063 - "GET /implementation/best-practices/trip.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64064 - "GET /programs/trip.com HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64156 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64158 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64160 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64162 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64164 - "POST /implementation/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64166 - "POST /implementation/guide HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64167 - "GET /implementation/best-practices/trip.com HTTP/1.1" 200 OK

@@ -4,6 +4,7 @@ Simplified Ship Agent implementation using YAML configs and MongoDB storage
 import logging
 import json
 import os
+import yaml
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 from pathlib import Path
@@ -41,6 +42,20 @@ class SimplifiedShipAgent:
                     logger.error(f"Failed to load {json_file}: {e}")
         
         return cache
+    
+    def _load_program_config(self, program_type: str) -> Optional[Dict[str, Any]]:
+        """Load YAML configuration for a program type if exists"""
+        import yaml
+        yaml_path = Path(f"data/programs/{program_type}.yaml")
+        
+        if yaml_path.exists():
+            try:
+                with open(yaml_path, 'r') as f:
+                    return yaml.safe_load(f)
+            except Exception as e:
+                logger.error(f"Failed to load YAML config for {program_type}: {e}")
+        
+        return None
     
     async def generate_queries(self, program_type: str, dimensions: Dict[str, str],
                               options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
