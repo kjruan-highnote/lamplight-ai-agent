@@ -19,6 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ship_agent_simplified import SimplifiedShipAgent
 from subscriber_implementation_guide import SubscriberImplementationGuide
+from implementation_llm_agent import ImplementationLLMAgent
 
 # Configure logging
 logging.basicConfig(
@@ -49,6 +50,11 @@ app.add_middleware(
 # Initialize components
 ship_agent = SimplifiedShipAgent()
 implementation_guide = SubscriberImplementationGuide()
+llm_agent = ImplementationLLMAgent(
+    model=os.getenv("LLM_MODEL", "llama3"),
+    doc_agent_url=os.getenv("DOC_AGENT_URL", "http://localhost:8001"),
+    schema_agent_url=os.getenv("SCHEMA_AGENT_URL", "http://localhost:8000")
+)
 
 # Request/Response Models
 class GenerationRequest(BaseModel):
@@ -226,27 +232,46 @@ async def get_categories(program_type: str):
 @app.post("/implementation/query")
 async def query_implementation(request: ImplementationQueryRequest):
     """
-    Answer specific implementation questions for subscribers
+    Answer specific implementation questions for subscribers using LLM
     
     This endpoint can answer questions like:
     - How do I implement authentication for Trip.com?
     - What are the required operations for card issuance?
     - How to handle multi-currency transactions?
+    
+    Uses LLM with multi-agent collaboration for comprehensive answers.
     """
     try:
-        response = await implementation_guide.answer_implementation_question(
+        # Use LLM agent for intelligent responses
+        response = await llm_agent.answer_implementation_question(
             question=request.question,
-            program_type=request.program_type
+            program_type=request.program_type,
+            include_code_examples=True
         )
         
         return {
             "status": "success",
             "query": request.question,
-            "response": response
+            "response": response,
+            "llm_powered": True
         }
     except Exception as e:
         logger.error(f"Failed to answer implementation query: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        # Fallback to static implementation guide
+        try:
+            static_response = await implementation_guide.answer_implementation_question(
+                question=request.question,
+                program_type=request.program_type
+            )
+            return {
+                "status": "success",
+                "query": request.question,
+                "response": static_response,
+                "llm_powered": False,
+                "fallback": True
+            }
+        except:
+            raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/implementation/guide")
@@ -300,6 +325,56 @@ async def get_best_practices(program_type: str):
         "program_type": program_type,
         "best_practices": practices
     }
+
+
+@app.post("/chat")
+async def chat_implementation(request: ImplementationQueryRequest):
+    """
+    Chat endpoint for Advisory Agent integration
+    Provides intelligent implementation assistance with multi-agent collaboration
+    """
+    try:
+        # Determine if this is an implementation-specific question
+        implementation_keywords = [
+            "implement", "integrate", "setup", "configure", "deploy",
+            "trip.com", "consumer credit", "ap automation",
+            "virtual card", "webhook", "authentication", "authorization"
+        ]
+        
+        is_implementation = any(
+            keyword in request.question.lower() 
+            for keyword in implementation_keywords
+        )
+        
+        if is_implementation or request.program_type:
+            # Use LLM agent for implementation questions
+            response = await llm_agent.answer_implementation_question(
+                question=request.question,
+                program_type=request.program_type,
+                include_code_examples=True
+            )
+            
+            return {
+                "answer": response["answer"],
+                "confidence": response["confidence"],
+                "source": "ship_agent",
+                "relevant_operations": response.get("relevant_operations", []),
+                "code_examples": response.get("code_examples", []),
+                "best_practices": response.get("best_practices", []),
+                "llm_powered": True
+            }
+        else:
+            # For non-implementation questions, provide guidance
+            return {
+                "answer": "This question appears to be general. For implementation-specific questions about programs like Trip.com, please include program context.",
+                "confidence": 0.3,
+                "source": "ship_agent",
+                "suggestion": "Try asking about specific implementation topics like authentication, card issuance, or webhook integration."
+            }
+            
+    except Exception as e:
+        logger.error(f"Chat implementation failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":

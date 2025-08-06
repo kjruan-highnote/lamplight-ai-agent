@@ -12,28 +12,34 @@
         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
         
   @app.on_event("shutdown")
-2025-08-06 09:31:29,153 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
-2025-08-06 09:31:29,153 - __main__ - INFO - Authentication enabled: False
-2025-08-06 09:31:29,153 - __main__ - INFO - Schema agent: http://localhost:8000
-2025-08-06 09:31:29,153 - __main__ - INFO - Document agent: http://localhost:8001
-INFO:     Started server process [18410]
+2025-08-06 10:30:53,198 - __main__ - INFO - Starting Advisory Agent API server on 0.0.0.0:8002
+2025-08-06 10:30:53,198 - __main__ - INFO - Authentication enabled: False
+2025-08-06 10:30:53,198 - __main__ - INFO - Schema agent: http://localhost:8000
+2025-08-06 10:30:53,198 - __main__ - INFO - Document agent: http://localhost:8001
+INFO:     Started server process [24305]
 INFO:     Waiting for application startup.
-2025-08-06 09:31:29,185 - api - INFO - Initializing advisory agent router...
-2025-08-06 09:31:29,185 - api - INFO - Advisory agent router initialized successfully
-2025-08-06 09:31:29,185 - api - INFO - Schema agent URL: http://localhost:8000
-2025-08-06 09:31:29,185 - api - INFO - Document agent URL: http://localhost:8001
-2025-08-06 09:31:29,198 - api - INFO - schema_agent: healthy
-2025-08-06 09:31:29,198 - api - INFO - doc_agent: healthy
+2025-08-06 10:30:53,233 - api - INFO - Initializing advisory agent router...
+2025-08-06 10:30:53,234 - api - INFO - Advisory agent router initialized successfully
+2025-08-06 10:30:53,234 - api - INFO - Schema agent URL: http://localhost:8000
+2025-08-06 10:30:53,234 - api - INFO - Document agent URL: http://localhost:8001
+2025-08-06 10:30:53,248 - api - INFO - schema_agent: healthy
+2025-08-06 10:30:53,248 - api - INFO - doc_agent: healthy
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
-INFO:     127.0.0.1:61576 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62341 - "GET /health HTTP/1.1" 200 OK
-2025-08-06 09:41:43,716 - api - INFO - Processing question: What are the main endpoints in the Trip.com API?...
-2025-08-06 09:41:43,717 - src.agent_router - INFO - Routing query: 'What are the main endpoints in the Trip.com API?...' -> Type: documentation, Schema: False, Docs: True
-2025-08-06 09:41:58,748 - api - INFO - Processing question: How do I authenticate with Trip.com services?...
-2025-08-06 09:41:58,749 - src.agent_router - INFO - Routing query: 'How do I authenticate with Trip.com services?...' -> Type: documentation, Schema: False, Docs: True
-2025-08-06 09:42:13,784 - api - INFO - Processing question: What GraphQL operations are available for Trip.com?...
-2025-08-06 09:42:13,784 - src.agent_router - INFO - Routing query: 'What GraphQL operations are available for Trip.com...' -> Type: schema, Schema: True, Docs: False
-2025-08-06 09:42:28,873 - api - INFO - Processing question: Generate a GraphQL mutation for creating a Trip.com booking with payment card...
-2025-08-06 09:42:28,874 - src.agent_router - INFO - Routing query: 'Generate a GraphQL mutation for creating a Trip.co...' -> Type: schema, Schema: True, Docs: False
-INFO:     127.0.0.1:62820 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49639 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49791 - "GET /health HTTP/1.1" 200 OK
+2025-08-06 10:32:16,839 - api - INFO - Processing question: How do I implement authentication for Trip.com API integration?...
+2025-08-06 10:32:16,840 - src.agent_router - INFO - Routing query: 'How do I implement authentication for Trip.com API...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:49795 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:32:29,360 - api - INFO - Processing question: What are the steps to issue virtual cards for Trip.com bookings?...
+2025-08-06 10:32:29,361 - src.agent_router - INFO - Routing query: 'What are the steps to issue virtual cards for Trip...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:49808 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:32:41,210 - api - INFO - Processing question: How to handle multi-currency transactions in Trip.com with GraphQL mutations?...
+2025-08-06 10:32:41,210 - src.agent_router - INFO - Routing query: 'How to handle multi-currency transactions in Trip....' -> Type: schema, Schema: True, Docs: False
+INFO:     127.0.0.1:49811 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:32:49,768 - api - INFO - Processing question: How do I set up webhook handlers for Trip.com booking status updates?...
+2025-08-06 10:32:49,769 - src.agent_router - INFO - Routing query: 'How do I set up webhook handlers for Trip.com book...' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:49819 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:33:02,707 - api - INFO - Processing question: What are the best practices for implementing Trip.com integration?...
+2025-08-06 10:33:02,708 - src.agent_router - INFO - Routing query: 'What are the best practices for implementing Trip....' -> Type: documentation, Schema: False, Docs: True
+INFO:     127.0.0.1:49858 - "POST /chat HTTP/1.1" 200 OK

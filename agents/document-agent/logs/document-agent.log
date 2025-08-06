@@ -1,51 +1,50 @@
-2025-08-06 09:31:23,834 - __main__ - INFO - Initializing document agent...
-2025-08-06 09:31:23,834 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:23,860 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-06 09:31:23,860 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:25,791 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
-2025-08-06 09:31:25,791 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:25,791 - __main__ - INFO - Document agent initialized successfully
-2025-08-06 09:31:25,791 - __main__ - INFO - Using model: llama3
-2025-08-06 09:31:25,791 - __main__ - INFO - Chunks directory: data/chunks
-2025-08-06 09:31:25,792 - __main__ - INFO - Loaded 6672 chunks across 0 categories
-2025-08-06 09:31:25,821 - __main__ - INFO - Starting Document Agent API server on 0.0.0.0:8001
-2025-08-06 09:31:25,821 - __main__ - INFO - Authentication enabled: False
-2025-08-06 09:31:25,821 - __main__ - INFO - Allowed origins: ['*']
-2025-08-06 09:31:25,885 - api - INFO - Initializing document agent...
-2025-08-06 09:31:25,885 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:25,887 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-06 09:31:25,887 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:27,507 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
-2025-08-06 09:31:27,507 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:27,507 - api - INFO - Document agent initialized successfully
-2025-08-06 09:31:27,507 - api - INFO - Using model: llama3
-2025-08-06 09:31:27,507 - api - INFO - Chunks directory: data/chunks
-2025-08-06 09:31:27,508 - api - INFO - Loaded 6672 chunks across 0 categories
-INFO:     Started server process [18346]
+2025-08-06 10:30:47,986 - __main__ - INFO - Initializing document agent...
+2025-08-06 10:30:47,987 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:48,014 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-06 10:30:48,014 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:49,991 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
+2025-08-06 10:30:49,991 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:49,992 - __main__ - INFO - Document agent initialized successfully
+2025-08-06 10:30:49,992 - __main__ - INFO - Using model: llama3
+2025-08-06 10:30:49,992 - __main__ - INFO - Chunks directory: data/chunks
+2025-08-06 10:30:49,993 - __main__ - INFO - Loaded 6672 chunks across 0 categories
+2025-08-06 10:30:50,030 - __main__ - INFO - Starting Document Agent API server on 0.0.0.0:8001
+2025-08-06 10:30:50,030 - __main__ - INFO - Authentication enabled: False
+2025-08-06 10:30:50,030 - __main__ - INFO - Allowed origins: ['*']
+2025-08-06 10:30:50,104 - api - INFO - Initializing document agent...
+2025-08-06 10:30:50,104 - src.embedder - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:50,106 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-06 10:30:50,106 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:51,793 - src.faiss_retriever - INFO - Loaded FAISS index with 6672 chunks
+2025-08-06 10:30:51,793 - src.faiss_retriever - INFO - Model: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:51,793 - api - INFO - Document agent initialized successfully
+2025-08-06 10:30:51,793 - api - INFO - Using model: llama3
+2025-08-06 10:30:51,793 - api - INFO - Chunks directory: data/chunks
+2025-08-06 10:30:51,794 - api - INFO - Loaded 6672 chunks across 0 categories
+INFO:     Started server process [24241]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
-INFO:     127.0.0.1:61570 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62340 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62343 - "GET /health HTTP/1.1" 200 OK
-2025-08-06 09:41:43,729 - api - INFO - Processing question: What are the main endpoints in the Trip.com API?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.06it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.06it/s]
-2025-08-06 09:42:11,054 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:62343 - "POST /chat HTTP/1.1" 200 OK
-2025-08-06 09:42:11,070 - api - INFO - Processing question: How do I authenticate with Trip.com services?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.76it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.75it/s]
-2025-08-06 09:42:17,994 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:62370 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62819 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62822 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64056 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64058 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64060 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64062 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64157 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64159 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64161 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64163 - "POST /query HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:64165 - "POST /query HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49633 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49637 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49637 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49794 - "GET /health HTTP/1.1" 200 OK
+2025-08-06 10:32:16,845 - api - INFO - Processing question: How do I implement authentication for Trip.com API integration?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.11it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.10it/s]
+2025-08-06 10:32:29,280 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:49794 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:32:29,367 - api - INFO - Processing question: What are the steps to issue virtual cards for Trip.com bookings?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.19it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.18it/s]
+2025-08-06 10:32:41,193 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:49794 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:32:49,778 - api - INFO - Processing question: How do I set up webhook handlers for Trip.com booking status updates?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.10it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.10it/s]
+2025-08-06 10:33:02,669 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:49820 - "POST /chat HTTP/1.1" 200 OK
+2025-08-06 10:33:02,711 - api - INFO - Processing question: What are the best practices for implementing Trip.com integration?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.72it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.71it/s]
+2025-08-06 10:33:16,934 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:49820 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49902 - "POST /query HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49939 - "POST /query HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50273 - "POST /query HTTP/1.1" 404 Not Found

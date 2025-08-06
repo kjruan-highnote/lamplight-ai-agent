@@ -27,6 +27,7 @@ class RoutingResult:
     confidence: float
     schema_response: Optional[AgentResponse] = None
     doc_response: Optional[AgentResponse] = None
+    ship_response: Optional[AgentResponse] = None
     combined_response: Optional[str] = None
     total_processing_time_ms: float = 0.0
 
@@ -147,19 +148,119 @@ class AgentRouter:
                 error=str(e)
             )
     
+    async def query_ship_agent(self, question: str, program_type: Optional[str] = None) -> AgentResponse:
+        """Query the ship agent for implementation-specific questions."""
+        try:
+            # Detect program type from question if not provided
+            if not program_type:
+                if "trip.com" in question.lower() or "trip com" in question.lower():
+                    program_type = "trip.com"
+                elif "consumer credit" in question.lower():
+                    program_type = "consumer_credit"
+                elif "ap automation" in question.lower() or "accounts payable" in question.lower():
+                    program_type = "ap_automation"
+            
+            payload = {
+                "question": question,
+                "program_type": program_type
+            }
+            
+            async with self.session.post(
+                f"{self.ship_agent_url}/chat",
+                json=payload
+            ) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    return AgentResponse(
+                        agent_name="ship-agent",
+                        response=data.get("answer", ""),
+                        metadata={
+                            "relevant_operations": data.get("relevant_operations", []),
+                            "code_examples": data.get("code_examples", []),
+                            "best_practices": data.get("best_practices", []),
+                            "llm_powered": data.get("llm_powered", False)
+                        },
+                        processing_time_ms=data.get("processing_time_ms", 0.0),
+                        success=True
+                    )
+                else:
+                    error_text = await response.text()
+                    return AgentResponse(
+                        agent_name="ship-agent",
+                        response="",
+                        metadata={},
+                        processing_time_ms=0.0,
+                        success=False,
+                        error=f"HTTP {response.status}: {error_text}"
+                    )
+        
+        except Exception as e:
+            logger.error(f"Error querying ship agent: {e}")
+            return AgentResponse(
+                agent_name="ship-agent",
+                response="",
+                metadata={},
+                processing_time_ms=0.0,
+                success=False,
+                error=str(e)
+            )
+    
+    def is_implementation_question(self, question: str) -> bool:
+        """Determine if a question is about implementation."""
+        implementation_keywords = [
+            "implement", "integrate", "setup", "configure", "deploy",
+            "trip.com", "trip com", "consumer credit", "ap automation",
+            "virtual card", "webhook", "authentication", "authorization",
+            "booking", "payment card", "transaction", "settlement",
+            "how do i", "how to", "what are the steps", "best practice"
+        ]
+        
+        question_lower = question.lower()
+        return any(keyword in question_lower for keyword in implementation_keywords)
+    
     def combine_responses(self, 
                          query: str,
                          schema_response: Optional[AgentResponse], 
                          doc_response: Optional[AgentResponse],
+                         ship_response: Optional[AgentResponse],
                          query_type: str) -> str:
         """Combine responses from multiple agents into a coherent answer."""
         
         responses = []
         
-        # Collect successful responses
-        if schema_response and schema_response.success and schema_response.response.strip():
-            responses.append(("Schema", schema_response.response))
+        # Prioritize ship agent for implementation questions
+        if ship_response and ship_response.success and ship_response.response.strip():
+            # Ship agent provides the main answer for implementation
+            main_response = ship_response.response
+            
+            # Add code examples if available
+            if ship_response.metadata.get("code_examples"):
+                main_response += "\n\n## Code Examples\n"
+                for example in ship_response.metadata["code_examples"]:
+                    main_response += f"\n### {example.get('title', 'Example')}\n"
+                    main_response += f"```{example.get('language', 'python')}\n"
+                    main_response += example.get('code', '')
+                    main_response += "\n```\n"
+            
+            # Add relevant operations if available
+            if ship_response.metadata.get("relevant_operations"):
+                main_response += "\n\n## Relevant API Operations\n"
+                for op in ship_response.metadata["relevant_operations"][:5]:
+                    main_response += f"- **{op['name']}**: {op.get('description', 'N/A')}\n"
+            
+            # Add best practices if available
+            if ship_response.metadata.get("best_practices"):
+                main_response += "\n\n## Best Practices\n"
+                for practice in ship_response.metadata["best_practices"][:5]:
+                    main_response += f"- {practice}\n"
+            
+            responses.append(("Implementation Guide", main_response))
         
+        # Add schema response if relevant
+        if schema_response and schema_response.success and schema_response.response.strip():
+            responses.append(("GraphQL Schema", schema_response.response))
+        
+        # Add documentation response if relevant
         if doc_response and doc_response.success and doc_response.response.strip():
             responses.append(("Documentation", doc_response.response))
         
@@ -170,6 +271,8 @@ class AgentRouter:
                 errors.append(f"Schema agent error: {schema_response.error}")
             if doc_response and not doc_response.success:
                 errors.append(f"Document agent error: {doc_response.error}")
+            if ship_response and not ship_response.success:
+                errors.append(f"Ship agent error: {ship_response.error}")
             
             if errors:
                 return f"I encountered some issues while processing your question:\n\n" + "\n".join(errors)
@@ -179,17 +282,25 @@ class AgentRouter:
         # Single response - return as is
         if len(responses) == 1:
             source, response = responses[0]
-            return f"{response}\n\n*Source: {source} Agent*"
+            return f"{response}\n\n*Source: {source}*"
         
         # Multiple responses - combine intelligently
-        combined = f"Based on both the GraphQL schema and documentation:\n\n"
-        
-        for i, (source, response) in enumerate(responses, 1):
-            combined += f"**{source} Information:**\n{response}\n\n"
-        
-        # Add synthesis note for mixed queries
-        if query_type == "mixed":
-            combined += "*This answer combines information from both the GraphQL schema and documentation to provide a complete response.*"
+        # For implementation questions, ship agent takes priority
+        if ship_response and ship_response.success:
+            combined = responses[0][1]  # Ship agent response
+            
+            # Add supplementary information from other agents
+            if len(responses) > 1:
+                combined += "\n\n---\n\n## Additional Information\n\n"
+                for source, response in responses[1:]:
+                    combined += f"### From {source}:\n{response[:500]}...\n\n"
+            
+            combined += "*This answer combines implementation guidance with GraphQL schema and documentation information.*"
+        else:
+            # No ship agent response, use standard combination
+            combined = f"Based on available information:\n\n"
+            for i, (source, response) in enumerate(responses, 1):
+                combined += f"**{source}:**\n{response}\n\n"
         
         return combined
     
@@ -197,7 +308,8 @@ class AgentRouter:
                          question: str, 
                          top_k: int = 5,
                          category: Optional[str] = None,
-                         force_both: bool = False) -> RoutingResult:
+                         program_type: Optional[str] = None,
+                         force_all: bool = False) -> RoutingResult:
         """
         Route a query to appropriate agents and return combined result.
         
@@ -205,7 +317,8 @@ class AgentRouter:
             question: The user's question
             top_k: Number of chunks to retrieve from each agent
             category: Optional category filter for document agent
-            force_both: Force querying both agents regardless of classification
+            program_type: Optional program type for ship agent
+            force_all: Force querying all agents regardless of classification
         """
         start_time = asyncio.get_event_loop().time()
         
@@ -214,11 +327,15 @@ class AgentRouter:
         query_type = routing_strategy['query_type']
         confidence = routing_strategy['confidence']
         
-        # Determine which agents to query
-        query_schema = force_both or routing_strategy['query_schema_agent']
-        query_doc = force_both or routing_strategy['query_doc_agent']
+        # Check if it's an implementation question
+        is_implementation = self.is_implementation_question(question)
         
-        logger.info(f"Routing query: '{question[:50]}...' -> Type: {query_type}, Schema: {query_schema}, Docs: {query_doc}")
+        # Determine which agents to query
+        query_schema = force_all or routing_strategy['query_schema_agent']
+        query_doc = force_all or routing_strategy['query_doc_agent']
+        query_ship = force_all or is_implementation
+        
+        logger.info(f"Routing query: '{question[:50]}...' -> Type: {query_type}, Implementation: {is_implementation}, Schema: {query_schema}, Docs: {query_doc}, Ship: {query_ship}")
         
         # Prepare tasks
         tasks = []
@@ -229,9 +346,13 @@ class AgentRouter:
         if query_doc:
             tasks.append(("doc", self.query_doc_agent(question, top_k, category)))
         
+        if query_ship:
+            tasks.append(("ship", self.query_ship_agent(question, program_type)))
+        
         # Execute queries concurrently
         schema_response = None
         doc_response = None
+        ship_response = None
         
         if tasks:
             results = await asyncio.gather(*[task[1] for task in tasks], return_exceptions=True)
@@ -250,23 +371,34 @@ class AgentRouter:
                     )
                     if agent_type == "schema":
                         schema_response = error_response
-                    else:
+                    elif agent_type == "doc":
                         doc_response = error_response
+                    elif agent_type == "ship":
+                        ship_response = error_response
                 else:
                     if agent_type == "schema":
                         schema_response = result
-                    else:
+                    elif agent_type == "doc":
                         doc_response = result
+                    elif agent_type == "ship":
+                        ship_response = result
         
         # Combine responses
-        combined_response = self.combine_responses(question, schema_response, doc_response, query_type)
+        combined_response = self.combine_responses(
+            question,
+            schema_response,
+            doc_response,
+            ship_response,
+            query_type if not is_implementation else "implementation"
+        )
         
+        # Calculate total processing time
         end_time = asyncio.get_event_loop().time()
         total_time = (end_time - start_time) * 1000
         
         return RoutingResult(
             query=question,
-            query_type=query_type,
+            query_type=query_type if not is_implementation else "implementation",
             confidence=confidence,
             schema_response=schema_response,
             doc_response=doc_response,
@@ -274,60 +406,47 @@ class AgentRouter:
             total_processing_time_ms=total_time
         )
     
-    async def health_check(self) -> Dict[str, Any]:
-        """Check health of both agents."""
-        health_status = {
-            "schema_agent": {"status": "unknown", "details": None},
-            "doc_agent": {"status": "unknown", "details": None}
-        }
+    async def health_check(self) -> Dict[str, Dict[str, Any]]:
+        """Check health of all agents."""
+        results = {}
         
+        # Check schema agent
         try:
-            # Check schema agent
-            async with self.session.get(f"{self.schema_agent_url}/health") as response:
-                if response.status == 200:
-                    data = await response.json()
-                    health_status["schema_agent"] = {"status": "healthy", "details": data}
-                else:
-                    health_status["schema_agent"] = {"status": "unhealthy", "details": f"HTTP {response.status}"}
+            async with self.session.get(f"{self.schema_agent_url}/health") as resp:
+                results["schema-agent"] = {
+                    "status": "healthy" if resp.status == 200 else "unhealthy",
+                    "http_status": resp.status
+                }
         except Exception as e:
-            health_status["schema_agent"] = {"status": "unreachable", "details": str(e)}
+            results["schema-agent"] = {
+                "status": "unreachable",
+                "error": str(e)
+            }
         
+        # Check document agent
         try:
-            # Check document agent
-            async with self.session.get(f"{self.doc_agent_url}/health") as response:
-                if response.status == 200:
-                    data = await response.json()
-                    health_status["doc_agent"] = {"status": "healthy", "details": data}
-                else:
-                    health_status["doc_agent"] = {"status": "unhealthy", "details": f"HTTP {response.status}"}
+            async with self.session.get(f"{self.doc_agent_url}/health") as resp:
+                results["document-agent"] = {
+                    "status": "healthy" if resp.status == 200 else "unhealthy",
+                    "http_status": resp.status
+                }
         except Exception as e:
-            health_status["doc_agent"] = {"status": "unreachable", "details": str(e)}
+            results["document-agent"] = {
+                "status": "unreachable",
+                "error": str(e)
+            }
         
-        return health_status
-
-if __name__ == "__main__":
-    import asyncio
-    
-    async def test_router():
-        async with AgentRouter() as router:
-            # Test health check
-            health = await router.health_check()
-            print("Health Status:")
-            for agent, status in health.items():
-                print(f"  {agent}: {status['status']}")
-            
-            # Test routing
-            test_queries = [
-                "What is the type of the ping field?",
-                "How do I create a card product?",
-                "How do I use the createCardProduct mutation in my application?"
-            ]
-            
-            for query in test_queries:
-                print(f"\n--- Testing Query: {query} ---")
-                result = await router.route_query(query)
-                print(f"Query Type: {result.query_type} (confidence: {result.confidence:.2f})")
-                print(f"Response: {result.combined_response[:200]}...")
-                print(f"Total Time: {result.total_processing_time_ms:.1f}ms")
-    
-    asyncio.run(test_router())
+        # Check ship agent
+        try:
+            async with self.session.get(f"{self.ship_agent_url}/health") as resp:
+                results["ship-agent"] = {
+                    "status": "healthy" if resp.status == 200 else "unhealthy",
+                    "http_status": resp.status
+                }
+        except Exception as e:
+            results["ship-agent"] = {
+                "status": "unreachable",
+                "error": str(e)
+            }
+        
+        return results

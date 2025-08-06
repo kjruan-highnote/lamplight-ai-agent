@@ -879,7 +879,7 @@ class SolutionsDocumentGenerator:
         """
         # Load Postman collection
         with open(postman_file, 'r') as f:
-            collection = json.load(f)
+            collection = json.load(f)           
         
         # Extract metadata
         collection_info = collection.get('info', {})

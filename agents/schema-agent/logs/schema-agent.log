@@ -1,62 +1,51 @@
-2025-08-06 09:31:12,103 - __main__ - INFO - Initializing with standard chunking strategy...
-2025-08-06 09:31:12,105 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
-2025-08-06 09:31:12,105 - src.schema_analyzer - INFO - Building new schema vocabulary...
-2025-08-06 09:31:12,106 - src.schema_analyzer - INFO - Processed 0/2465 chunks
-2025-08-06 09:31:12,332 - src.schema_analyzer - INFO - Processed 500/2465 chunks
-2025-08-06 09:31:12,506 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
-2025-08-06 09:31:12,703 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
-2025-08-06 09:31:12,883 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
-2025-08-06 09:31:13,075 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
-2025-08-06 09:31:13,077 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
-2025-08-06 09:31:13,080 - src.retriever - INFO - Loaded 520 question patterns
-2025-08-06 09:31:13,123 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-06 09:31:13,123 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:15,598 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-08-06 09:31:15,598 - __main__ - INFO - Standard schema agent initialized successfully
-2025-08-06 09:31:15,645 - __main__ - INFO - Starting API server on 0.0.0.0:8000
-2025-08-06 09:31:15,645 - __main__ - INFO - Authentication enabled: False
-2025-08-06 09:31:15,645 - __main__ - INFO - Allowed origins: ['*']
-2025-08-06 09:31:15,725 - api - INFO - Initializing with standard chunking strategy...
-2025-08-06 09:31:15,727 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
-2025-08-06 09:31:15,727 - src.schema_analyzer - INFO - Building new schema vocabulary...
-2025-08-06 09:31:15,727 - src.schema_analyzer - INFO - Processed 0/2465 chunks
-2025-08-06 09:31:15,861 - src.schema_analyzer - INFO - Processed 500/2465 chunks
-2025-08-06 09:31:15,969 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
-2025-08-06 09:31:16,103 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
-2025-08-06 09:31:16,215 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
-2025-08-06 09:31:16,345 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
-2025-08-06 09:31:16,347 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
-2025-08-06 09:31:16,349 - src.retriever - INFO - Loaded 520 question patterns
-2025-08-06 09:31:16,351 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
-2025-08-06 09:31:16,351 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-06 09:31:18,168 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
-2025-08-06 09:31:18,168 - api - INFO - Standard schema agent initialized successfully
-INFO:     Started server process [18269]
+2025-08-06 10:30:35,076 - __main__ - INFO - Initializing with standard chunking strategy...
+2025-08-06 10:30:35,079 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-06 10:30:35,079 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-06 10:30:35,080 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-06 10:30:35,298 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-06 10:30:35,466 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-06 10:30:35,661 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-06 10:30:35,837 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-06 10:30:36,030 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-06 10:30:36,032 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-06 10:30:36,035 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-06 10:30:36,132 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-06 10:30:36,132 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:38,579 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-06 10:30:38,579 - __main__ - INFO - Standard schema agent initialized successfully
+2025-08-06 10:30:38,617 - __main__ - INFO - Starting API server on 0.0.0.0:8000
+2025-08-06 10:30:38,617 - __main__ - INFO - Authentication enabled: False
+2025-08-06 10:30:38,617 - __main__ - INFO - Allowed origins: ['*']
+2025-08-06 10:30:38,699 - api - INFO - Initializing with standard chunking strategy...
+2025-08-06 10:30:38,700 - src.schema_analyzer - WARNING - Failed to load vocabulary cache: Ran out of input
+2025-08-06 10:30:38,700 - src.schema_analyzer - INFO - Building new schema vocabulary...
+2025-08-06 10:30:38,701 - src.schema_analyzer - INFO - Processed 0/2465 chunks
+2025-08-06 10:30:38,840 - src.schema_analyzer - INFO - Processed 500/2465 chunks
+2025-08-06 10:30:38,963 - src.schema_analyzer - INFO - Processed 1000/2465 chunks
+2025-08-06 10:30:39,120 - src.schema_analyzer - INFO - Processed 1500/2465 chunks
+2025-08-06 10:30:39,254 - src.schema_analyzer - INFO - Processed 2000/2465 chunks
+2025-08-06 10:30:39,399 - src.schema_analyzer - INFO - Built vocabulary with 852 types, 544 inputs, 1279 fields
+2025-08-06 10:30:39,401 - src.schema_analyzer - WARNING - Failed to save vocabulary cache: first argument must be callable or None
+2025-08-06 10:30:39,403 - src.retriever - INFO - Loaded 520 question patterns
+2025-08-06 10:30:39,405 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-06 10:30:39,405 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-06 10:30:41,236 - src.retriever - INFO - Successfully loaded embedder with 2465 chunks
+2025-08-06 10:30:41,236 - api - INFO - Standard schema agent initialized successfully
+INFO:     Started server process [24148]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     127.0.0.1:61552 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61573 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61573 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62339 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62342 - "GET /health HTTP/1.1" 200 OK
-2025-08-06 09:42:13,826 - api - INFO - Processing question: What GraphQL operations are available for Trip.com?...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.42it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.41it/s]
-2025-08-06 09:42:14,884 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 30.52it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 31.92it/s]
-2025-08-06 09:42:14,957 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-08-06 09:42:30,198 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:62388 - "POST /chat HTTP/1.1" 200 OK
-2025-08-06 09:42:30,208 - api - INFO - Processing question: Generate a GraphQL mutation for creating a Trip.com booking with payment card...
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.27it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.26it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.21it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.20it/s]
-2025-08-06 09:42:31,259 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 50.11it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.65it/s]
-2025-08-06 09:42:31,385 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
-2025-08-06 09:42:45,900 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-INFO:     127.0.0.1:62409 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62818 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62821 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49617 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49636 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49636 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49792 - "GET /health HTTP/1.1" 200 OK
+2025-08-06 10:32:41,229 - api - INFO - Processing question: How to handle multi-currency transactions in Trip.com with GraphQL mutations?...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.26it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.32it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.31it/s]
+2025-08-06 10:32:42,311 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 45.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.95it/s]
+2025-08-06 10:32:42,388 - src.retriever - INFO - Retrieved 7 chunks via hybrid search
+2025-08-06 10:32:49,730 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:49812 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49940 - "POST /query HTTP/1.1" 404 Not Found
