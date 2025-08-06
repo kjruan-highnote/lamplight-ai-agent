@@ -62,11 +62,11 @@ class UnifiedKnowledgeBase:
             DataNamespace.IMPLEMENTATIONS: (70001, 90000)
         }
         
+        # Load metadata for all chunks first (needed by index initialization)
+        self.metadata = self._load_metadata()
+        
         # Initialize or load FAISS index
         self.index = self._initialize_index()
-        
-        # Load metadata for all chunks
-        self.metadata = self._load_metadata()
         
         # Cache for frequently accessed data
         self.cache = {}

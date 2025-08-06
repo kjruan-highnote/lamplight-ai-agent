@@ -114,8 +114,17 @@ class QueryClassifier:
         # Determine primary type
         max_score = max(scores.values())
         
-        if max_score < 0.3:
-            query_type = QueryType.UNKNOWN
+        # If nothing matches well, check for basic question patterns
+        if max_score < 0.1:
+            # Default heuristics for common patterns
+            if "what" in query_lower or "?" in query:
+                # Questions about "what" often relate to schema or documentation
+                if any(term in query_lower for term in ["field", "type", "mutation", "query", "card", "payment"]):
+                    query_type = QueryType.SCHEMA
+                else:
+                    query_type = QueryType.MIXED  # Try both
+            else:
+                query_type = QueryType.MIXED  # When in doubt, try multiple sources
         else:
             # Check if multiple types have high scores
             high_score_types = [t for t, s in scores.items() if s > max_score * 0.7]
@@ -153,8 +162,8 @@ class QueryClassifier:
             if re.search(pattern, query, re.IGNORECASE):
                 score += 0.3
         
-        # Check keywords
-        words = set(query.split())
+        # Check keywords (case-insensitive)
+        words = set(word.lower() for word in query.split())
         keyword_matches = len(words & self.schema_keywords)
         score += min(keyword_matches * 0.2, 0.6)
         
@@ -173,8 +182,8 @@ class QueryClassifier:
             if re.search(pattern, query, re.IGNORECASE):
                 score += 0.25
         
-        # Check keywords
-        words = set(query.split())
+        # Check keywords (case-insensitive)
+        words = set(word.lower() for word in query.split())
         keyword_matches = len(words & self.doc_keywords)
         score += min(keyword_matches * 0.15, 0.5)
         

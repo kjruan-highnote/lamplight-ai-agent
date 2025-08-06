@@ -13,8 +13,7 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from enum import Enum
 
-from mcp import Server
-from mcp.server import NotificationOptions
+from mcp.server import Server, NotificationOptions
 from mcp.server.models import InitializationOptions
 from mcp.server.stdio import stdio_server
 from mcp.types import (
@@ -242,7 +241,7 @@ class LamplightMCPServer:
             elif name == "analyze_intent":
                 return await self._handle_analyze_intent(arguments)
             else:
-                return [TextContent(text=f"Unknown tool: {name}")]
+                return [TextContent(type="text", text=f"Unknown tool: {name}")]
     
     async def _handle_unified_query(self, args: Dict[str, Any], context: ConversationContext) -> List[TextContent]:
         """
@@ -252,6 +251,8 @@ class LamplightMCPServer:
         query = args["query"]
         auto_route = args.get("auto_route", True)
         include_sources = args.get("include_sources", True)
+        
+        logger.info(f"Handling query: {query}")
         
         # Add to query history
         context.query_history.append(query)
@@ -264,22 +265,28 @@ class LamplightMCPServer:
             responses = {}
             
             # Route to appropriate agents based on classification
-            if query_type in [QueryType.SCHEMA, QueryType.MIXED]:
+            if query_type in [QueryType.SCHEMA, QueryType.MIXED, QueryType.UNKNOWN]:
+                # For UNKNOWN, try schema first as a fallback
+                logger.info("Routing to schema tools")
                 schema_response = await self.schema_tools.query(
                     query, 
                     include_examples=True,
                     context=context
                 )
-                responses["schema"] = schema_response
+                if schema_response and schema_response != "No relevant schema information found for your query.":
+                    responses["schema"] = schema_response
             
-            if query_type in [QueryType.DOCUMENTATION, QueryType.MIXED]:
+            if query_type in [QueryType.DOCUMENTATION, QueryType.MIXED, QueryType.UNKNOWN]:
+                # For UNKNOWN, also try documentation
+                logger.info("Routing to documentation tools")
                 doc_response = await self.doc_tools.query(
                     query,
                     category=context.current_category,
                     include_sources=include_sources,
                     context=context
                 )
-                responses["documentation"] = doc_response
+                if doc_response and doc_response != "No relevant documentation found for your query.":
+                    responses["documentation"] = doc_response
             
             if query_type == QueryType.SOLUTIONS:
                 # Try to extract program from query or use active program
@@ -299,6 +306,11 @@ class LamplightMCPServer:
                 )
                 responses["implementation"] = impl_response
             
+            # Log responses received
+            logger.info(f"Received {len(responses)} responses")
+            for agent, resp in responses.items():
+                logger.info(f"  {agent}: {len(resp) if resp else 0} chars")
+            
             # Combine responses if multiple agents responded
             if len(responses) > 1:
                 combined = await self.llm_manager.synthesize_responses(
@@ -306,15 +318,22 @@ class LamplightMCPServer:
                     responses,
                     context
                 )
-                return [TextContent(text=combined)]
+                return [TextContent(type="text", text=combined)]
             elif len(responses) == 1:
-                return [TextContent(text=list(responses.values())[0])]
+                response_text = list(responses.values())[0]
+                return [TextContent(type="text", text=response_text)]
             else:
-                return [TextContent(text="I couldn't find relevant information for your query. Could you please rephrase or provide more context?")]
+                # If no responses, try direct search as fallback
+                logger.info("No responses from agents, trying direct search")
+                direct_result = await self.knowledge_base.direct_search(query)
+                if direct_result and direct_result != "No results found":
+                    return [TextContent(type="text", text=direct_result)]
+                else:
+                    return [TextContent(type="text", text="I couldn't find relevant information for your query. Could you please rephrase or provide more context?")]
         else:
             # Direct query without routing - user knows what they want
             response = await self.knowledge_base.direct_search(query)
-            return [TextContent(text=response)]
+            return [TextContent(type="text", text=response)]
     
     async def _handle_schema_query(self, args: Dict[str, Any], context: ConversationContext) -> List[TextContent]:
         """Handle direct schema queries"""
@@ -325,7 +344,7 @@ class LamplightMCPServer:
             context=context
         )
         context.agent_responses["schema"] = response
-        return [TextContent(text=response)]
+        return [TextContent(type="text", text=response)]
     
     async def _handle_doc_query(self, args: Dict[str, Any], context: ConversationContext) -> List[TextContent]:
         """Handle documentation queries"""
@@ -336,7 +355,7 @@ class LamplightMCPServer:
             context=context
         )
         context.agent_responses["documentation"] = response
-        return [TextContent(text=response)]
+        return [TextContent(type="text", text=response)]
     
     async def _handle_generate_collection(self, args: Dict[str, Any], context: ConversationContext) -> List[TextContent]:
         """Generate Postman collection for a program"""
@@ -351,8 +370,8 @@ class LamplightMCPServer:
         
         # Return both text description and the collection as metadata
         return [TextContent(
-            text=f"Generated Postman collection for {program_type} with {len(collection.get('item', []))} endpoints",
-            metadata={"collection": collection}
+            type="text",
+            text=f"Generated Postman collection for {program_type} with {len(collection.get('item', []))} endpoints"
         )]
     
     async def _handle_implementation_guide(self, args: Dict[str, Any], context: ConversationContext) -> List[TextContent]:
@@ -367,15 +386,13 @@ class LamplightMCPServer:
             context=context
         )
         
-        return [TextContent(text=guide)]
+        return [TextContent(type="text", text=guide)]
     
     async def _handle_list_programs(self) -> List[TextContent]:
         """List all available programs"""
         programs = await self.solutions_tools.list_programs()
-        return [TextContent(
-            text=f"Available programs:\n" + "\n".join([f"- {p['name']}: {p['description']}" for p in programs]),
-            metadata={"programs": programs}
-        )]
+        text = "Available programs:\n" + "\n".join([f"- {p['name']}: {p['description']}" for p in programs])
+        return [TextContent(type="text", text=text)]
     
     async def _handle_analyze_intent(self, args: Dict[str, Any]) -> List[TextContent]:
         """Analyze query intent for debugging"""
@@ -383,12 +400,12 @@ class LamplightMCPServer:
         analysis = await self.classifier.detailed_analysis(query)
         
         return [TextContent(
+            type="text",
             text=f"Query Analysis:\n"
                  f"- Type: {analysis['type']}\n"
                  f"- Confidence: {analysis['confidence']:.2f}\n"
                  f"- Key Terms: {', '.join(analysis['key_terms'])}\n"
-                 f"- Suggested Agents: {', '.join(analysis['suggested_agents'])}",
-            metadata=analysis
+                 f"- Suggested Agents: {', '.join(analysis['suggested_agents'])}"
         )]
     
     def _extract_program_from_query(self, query: str) -> Optional[str]:
