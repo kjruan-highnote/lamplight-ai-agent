@@ -1,281 +1,154 @@
-# Lamplight MCP Server
+# Lamplight MCP Servers
 
-A unified Model Context Protocol (MCP) server that consolidates all Lamplight AI agent capabilities into a single, standardized interface.
+Two specialized MCP (Model Context Protocol) servers for the Lamplight AI Agent system:
+- **Data Server**: Fast, deterministic access to GraphQL schemas and documentation
+- **Solutions Server**: Comprehensive solution brief generation with diagrams and workflows
 
-## What is MCP?
+## Available Servers
 
-MCP (Model Context Protocol) is a standardized protocol that enables AI assistants to interact with external tools and data sources. Think of it as an API specification designed specifically for AI tools, providing:
+### 1. Data Server
+Fast, deterministic access to GraphQL schemas and documentation:
+- **1,795 GraphQL types** with full field information
+- **320 GraphQL operations** (queries/mutations)
+- **Documentation chunks** with keyword search
+- **<100ms response time**
 
-- **Tools**: Functions that AI can call (searching docs, querying schemas, generating collections)
-- **Resources**: Data sources that AI can access (GraphQL schemas, documentation, program configs)
-- **Context Management**: Maintains conversation state across tool calls
+### 2. Solutions Server
+Comprehensive solution generation for customer-facing briefs:
+- **38 program configurations** (consumer credit, AP automation, fleet, etc.)
+- **2,920 GraphQL operations** with complete templates
+- **Sequence diagram generation** for workflows
+- **ERD generation** for data models
+- **Solution brief generation** with executive summaries
+- **Postman collection** export
 
-## Architecture Overview
+## Quick Start
 
-This MCP server unifies four specialized agents:
-
-1. **Schema Agent**: GraphQL schema expertise and type information
-2. **Documentation Agent**: RAG-based documentation search and answers
-3. **Solutions Agent**: Program-specific Postman collections and configurations
-4. **Advisory Agent**: Intelligent routing and response synthesis
-
-## Key Features
-
-- **Unified Interface**: Single MCP connection for all agent capabilities
-- **Intelligent Routing**: Automatically routes queries to appropriate agents
-- **Context Preservation**: Maintains conversation context across interactions
-- **Response Synthesis**: Combines multiple agent responses when needed
-- **Streaming Support**: Real-time response streaming for better UX
-- **Namespaced Search**: Efficient FAISS-based vector search with data separation
-
-## Installation
-
-### Prerequisites
-
-- Python 3.8+
-- Ollama (for LLM inference)
-- MCP-compatible client (Claude Desktop, MCP CLI, etc.)
-
-### Setup
-
-1. **Install dependencies**:
+### Install Dependencies
 ```bash
-cd mcp
-pip install -e .
+pip install mcp
 ```
 
-2. **Configure environment**:
+### Test Installation
 ```bash
-cp .env.example .env
-# Edit .env with your settings
+python test_data_server.py
 ```
 
-3. **Build knowledge base** (first time only):
+### Launch Servers
 ```bash
-python scripts/build_index.py
+# Data Server (fast queries)
+./launch.sh
+
+# Solutions Server (solution generation)
+./launch_solutions.sh
 ```
 
-## Usage
+### Use with Claude Desktop
 
-### Starting the Server
-
+1. Copy configuration:
 ```bash
-# Run directly
-python -m mcp.src.server
-
-# Or use the installed command
-lamplight-mcp
+cp claude_config.json ~/Library/Application\ Support/Claude/claude_desktop_config.json
 ```
 
-### Connecting with Claude Desktop
+2. Restart Claude Desktop
 
-Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+3. The servers will be available as:
+   - `lamplight` - Data server for fast queries
+   - `lamplight-solutions` - Solutions server for brief generation
 
-```json
-{
-  "mcpServers": {
-    "lamplight": {
-      "command": "python",
-      "args": ["-m", "mcp.src.server"],
-      "cwd": "/path/to/lamplight-ai-agent/mcp"
-    }
-  }
-}
-```
-
-### Available Tools
-
-#### 1. `query` - Unified Query Handler
-Intelligently routes queries to appropriate agents:
-```
-query: "How do I create a payment card?"
-auto_route: true
-include_sources: true
-```
-
-#### 2. `query_schema` - GraphQL Schema Queries
-Direct schema information queries:
-```
-query: "What fields does the PaymentCard type have?"
-include_examples: true
-max_results: 5
-```
-
-#### 3. `query_documentation` - Documentation Search
-Search Highnote documentation:
-```
-query: "How to implement webhooks"
-category: "basics"  # optional: basics, issuing, acquiring, sdks
-include_sources: true
-```
-
-#### 4. `generate_collection` - Postman Collection Generation
-Generate program-specific collections:
-```
-program_type: "consumer_credit"
-operations: ["createPaymentCard", "activateCard"]  # optional
-include_tests: true
-```
-
-#### 5. `get_implementation_guide` - Implementation Guidance
-Get detailed implementation guides:
-```
-program_type: "trip_com"
-specific_query: "How to handle virtual cards"  # optional
-format: "markdown"  # or "json", "yaml"
-```
-
-#### 6. `list_programs` - List Available Programs
-Get all available programs and their capabilities.
-
-#### 7. `analyze_intent` - Query Analysis (Debug)
-Analyze query classification and routing:
-```
-query: "How do I query for payment cards in GraphQL?"
-```
-
-## How MCP Works
-
-### Communication Flow
-
-1. **Client Request**: AI assistant sends a tool call request via MCP protocol
-2. **Tool Routing**: Server routes to appropriate tool handler
-3. **Knowledge Retrieval**: Searches unified FAISS index for relevant information
-4. **LLM Processing**: Generates response using context and LLM
-5. **Response Return**: Sends formatted response back to client
-
-### Example Interaction
-
-```python
-# Client (e.g., Claude) sends:
-{
-  "tool": "query",
-  "arguments": {
-    "query": "How do I create a consumer credit card with spending limits?",
-    "auto_route": true
-  }
-}
-
-# Server processes:
-# 1. Classifies as MIXED (schema + documentation + solutions)
-# 2. Searches all relevant namespaces
-# 3. Retrieves GraphQL schema for createPaymentCard
-# 4. Finds documentation on spending limits
-# 5. Locates consumer_credit program config
-# 6. Synthesizes comprehensive response
-
-# Returns unified response combining all sources
-```
-
-## Architecture Details
-
-### Knowledge Base Structure
-
-```
-embeddings/
-├── unified.index       # FAISS index with all vectors
-├── metadata.json       # Chunk metadata and mappings
-└── namespaces:
-    ├── [0-10000]      # Schema chunks
-    ├── [10001-50000]  # Documentation chunks
-    ├── [50001-70000]  # Solution patterns
-    └── [70001-90000]  # Implementation guides
-```
-
-### Query Classification
-
-The server uses pattern matching and keyword analysis to classify queries:
-
-- **Schema**: GraphQL types, fields, mutations, queries
-- **Documentation**: How-to guides, tutorials, explanations
-- **Solutions**: Program-specific, Postman collections
-- **Implementation**: Best practices, integration patterns
-- **Mixed**: Queries spanning multiple categories
-
-### Response Synthesis
-
-When multiple agents provide responses, the LLM:
-1. Identifies overlapping information
-2. Combines unique insights from each source
-3. Maintains accuracy to source material
-4. Provides coherent, unified answer
-
-## Development
-
-### Running Tests
+### Use with MCP Inspector
 
 ```bash
-pytest tests/
+# Data Server
+npx @modelcontextprotocol/inspector python -m src.data_server
+
+# Solutions Server
+npx @modelcontextprotocol/inspector python -m src.solutions_mcp_server
 ```
 
-### Adding New Tools
+## Performance Comparison
 
-1. Define tool in `src/tools.py`:
-```python
-class MyNewTool:
-    async def my_method(self, **kwargs):
-        # Tool logic here
-        pass
+| Server | Response Time | Use Case | Data Volume |
+|--------|--------------|----------|-------------|
+| **Data Server** | <100ms | Fast queries, real-time search | 1,795 types, 100 docs |
+| **Solutions Server** | <500ms | Solution generation, diagrams | 38 programs, 2,920 operations |
+
+## Architecture
+
+```
+mcp/
+├── src/
+│   ├── data_server.py          # Fast data access server
+│   └── solutions_mcp_server.py # Solution generation server
+├── claude_config.json          # Claude Desktop configuration
+├── launch.sh                   # Launch data server
+├── launch_solutions.sh         # Launch solutions server
+├── test_data_server.py         # Test data server
+└── test_solutions_server.py    # Test solutions server
 ```
 
-2. Register in `src/server.py`:
-```python
-Tool(
-    name="my_tool",
-    description="Tool description",
-    inputSchema={...}
-)
-```
+## Available Tools
 
-3. Add handler in `call_tool()` method
+### Data Server Tools
+- `search_schema_types` - Search GraphQL types
+- `get_type_details` - Get type information  
+- `search_operations` - Find queries/mutations
+- `search_documentation` - Search docs
+- `get_statistics` - Get data statistics
 
-### Extending Knowledge Base
+### Solutions Server Tools
+- `list_programs` - List all 38 available programs
+- `get_program_info` - Get complete program configuration
+- `find_operations` - Search 2,920 GraphQL operations
+- `get_operation_details` - Get full operation with GraphQL
+- `generate_sequence_diagram` - Create workflow diagrams
+- `generate_erd` - Create entity relationship diagrams
+- `generate_solution_brief` - Generate customer-facing brief
+- `get_postman_collection` - Export Postman collections
 
-1. Add new data source in `knowledge_base.py`
-2. Define namespace range
-3. Implement chunking strategy
-4. Build embeddings
-5. Update index
-
-## Configuration
-
-See `config/server_config.json` for all configuration options:
-
-- LLM settings (model, temperature, tokens)
-- Knowledge base paths
-- Agent ports (for compatibility)
-- Feature flags
-- Rate limits
 
 ## Troubleshooting
 
-### Common Issues
+### No data returned
+- Verify GraphQL schema exists in `/agents/schema-agent/schema/`
+- Check documentation chunks in `/agents/document-agent/data/chunks/`
 
-1. **"Index not found"**: Run `python scripts/build_index.py` first
-2. **"Ollama connection failed"**: Ensure Ollama is running (`ollama serve`)
-3. **"No results found"**: Check if knowledge base is properly indexed
-4. **"Tool not found"**: Verify MCP client configuration
+### Import errors
+- Ensure you're in the `/mcp` directory
+- Install requirements: `pip install mcp`
 
-### Debug Mode
+## Use Cases
 
-Set environment variable for verbose logging:
-```bash
-export MCP_LOG_LEVEL=DEBUG
+### When to Use Data Server
+- Real-time schema lookups
+- Documentation search
+- Quick type/field information
+- Fast, deterministic responses needed
+
+### When to Use Solutions Server  
+- Generating customer-facing solution briefs
+- Creating architecture diagrams
+- Building Postman collections
+- Comprehensive implementation guides
+- Program-specific workflows
+
+## Example Workflow
+
+```mermaid
+graph LR
+    User[User Query] --> Claude[Claude]
+    Claude --> DS[Data Server]
+    Claude --> SS[Solutions Server]
+    DS --> Schema[Schema Info]
+    DS --> Docs[Documentation]
+    SS --> Brief[Solution Brief]
+    SS --> Diagrams[Diagrams]
+    Claude --> Response[Complete Response]
 ```
-
-## Benefits of MCP Architecture
-
-1. **Standardization**: Consistent interface for all AI tools
-2. **Modularity**: Easy to add/remove capabilities
-3. **Scalability**: Can handle multiple concurrent requests
-4. **Maintainability**: Single codebase instead of multiple agents
-5. **Performance**: Shared resources and caching
-6. **Flexibility**: Works with any MCP-compatible client
-
-## License
-
-[Your License]
 
 ## Support
 
-For issues or questions, please open an issue in the repository.
+For issues or questions:
+- Check server logs for detailed error messages
+- Test with `test_data_server.py` or `test_solutions_server.py`
+- Use MCP Inspector for interactive debugging

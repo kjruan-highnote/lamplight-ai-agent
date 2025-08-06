@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "lamplight": {
+      "command": "python",
+      "args": ["-m", "src.data_server"],
+      "cwd": "/Users/kevinruan/Downloads/lamplight-ai-agent/mcp"
+    },
+    "lamplight-solutions": {
+      "command": "python",
+      "args": ["-m", "src.solutions_mcp_server_v2"],
+      "cwd": "/Users/kevinruan/Downloads/lamplight-ai-agent/mcp"
+    }
+  }
+}

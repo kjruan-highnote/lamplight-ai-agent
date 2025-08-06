@@ -1,0 +1,2576 @@
+[
+  {
+    "name": "Get All API Keys",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "first": 10
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "API Keys",
+      "path": "Initialization/API Keys",
+      "description": "",
+      "tags": [
+        "query",
+        "api_keys",
+        "get",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540694",
+    "updated_at": "2025-08-06T16:32:06.540708"
+  },
+  {
+    "name": "Create Secret API Key",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "secretKey": {
+            "name": "My Secret API Key"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "API Keys",
+      "path": "Initialization/API Keys",
+      "description": "",
+      "tags": [
+        "api_keys",
+        "create",
+        "mutation",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540725",
+    "updated_at": "2025-08-06T16:32:06.540727"
+  },
+  {
+    "name": "Revoke API Key",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "apiKeyId": "API_KEY_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "API Keys",
+      "path": "Initialization/API Keys",
+      "description": "",
+      "tags": [
+        "api_keys",
+        "mutation",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540736",
+    "updated_at": "2025-08-06T16:32:06.540738"
+  },
+  {
+    "name": "Get All Organizations",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Organizations",
+      "path": "Initialization/Organizations",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "organizations",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540749",
+    "updated_at": "2025-08-06T16:32:06.540751"
+  },
+  {
+    "name": "Update Organization Profile Display Name",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "id": "ORGANIZATION_ID",
+          "displayName": "Test"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Organizations",
+      "path": "Initialization/Organizations",
+      "description": "",
+      "tags": [
+        "update",
+        "mutation",
+        "organizations",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540764",
+    "updated_at": "2025-08-06T16:32:06.540766"
+  },
+  {
+    "name": "Create Card Product",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "AP Automation {{currentTimestampFormatted}}",
+            "usage": "MULTI_USE",
+            "vertical": "AP_INVOICE_AUTOMATION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "mutation",
+        "create",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540776",
+    "updated_at": "2025-08-06T16:32:06.540777"
+  },
+  {
+    "name": "Create Card Product With Template",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateCardProductWithTemplate($input: CreateCardProductWithTemplateInput!) {\n  createCardProductWithTemplate(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "cardProduct": {
+            "name": "AP Automation {{currentTimestampFormatted}}",
+            "sourceTemplateId": "isprt_23t3pr38bc1c3b34704277a3ffd8c2a25ca093_1"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "mutation",
+        "create",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540785",
+    "updated_at": "2025-08-06T16:32:06.540787"
+  },
+  {
+    "name": "Get Card Product Accounts",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetCardProduct($id: ID!) {\n  node (id: $id) {\n    ... on CardProduct {\n      accounts {\n        edges {\n          node {\n            id\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{cardProductId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540794",
+    "updated_at": "2025-08-06T16:32:06.540796"
+  },
+  {
+    "name": "Get All Card Product Details",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    cardProducts(first: 20) {\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n                features {\n                  ... on DirectDepositFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PrePaidPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on DebitPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollEmployerAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NegativeBalanceReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on JustInTimeFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductFundingFinancialAccountFeature {\n                    enabled\n                  }\n                  ... on SecuredCreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on FleetCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CommercialCreditPayInFullCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on VendorProvidedBankFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on AchCapableFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NonVerifiedFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PointRewardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CardFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540805",
+    "updated_at": "2025-08-06T16:32:06.540807"
+  },
+  {
+    "name": "Simulate Deposit",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    __typename\n    ... on Transfer {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 99999999999,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "{{productFundingFinancialAccountId}}",
+          "memo": "Initial Funding",
+          "source": "WIRE"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "mutation",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540816",
+    "updated_at": "2025-08-06T16:32:06.540818"
+  },
+  {
+    "name": "Get Deposit Transfer",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDepositTransfer($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on Transfer {\n      id\n      status\n    }\n  }\n}",
+      "variables": {
+        "id": "{{depositTransferId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540826",
+    "updated_at": "2025-08-06T16:32:06.540828"
+  },
+  {
+    "name": "Enable On Demand Funding Feature",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableOnDemandFundingFeature($input: EnableOnDemandFundingFeatureInput!) {\n  enableOnDemandFundingFeature(input: $input) {\n    ... on CardProduct {\n      features {\n        __typename\n        createdAt\n        updatedAt\n        enabled\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}",
+          "pseudoBalanceEnabled": false
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "mutation",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540837",
+    "updated_at": "2025-08-06T16:32:06.540839"
+  },
+  {
+    "name": "Enable Collaborative Authorization Feature",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation EnableCollaborativeAuthorizationFeature($input:  EnableCollaborativeAuthorizationFeatureInput!) {\n  enableCollaborativeAuthorizationFeature(input: $input) {\n    ... on CardProduct {\n      id\n      name\n      features {\n        ... on CollaborativeAuthorizationCardProductFeature {\n          enabled\n          createdAt\n          updatedAt\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "{{cardProductId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Card Product",
+      "path": "Initialization/Card Product",
+      "description": "",
+      "tags": [
+        "mutation",
+        "card_product",
+        "initialization"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540876",
+    "updated_at": "2025-08-06T16:32:06.540881"
+  },
+  {
+    "name": "Ping",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Ping {\n  ping\n  organizations {\n    id\n    profile {\n      displayName\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Initialization",
+      "path": "Initialization",
+      "description": "",
+      "tags": [
+        "query"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540893",
+    "updated_at": "2025-08-06T16:32:06.540895"
+  },
+  {
+    "name": "Introspection Query",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Initialization",
+      "path": "Initialization",
+      "description": "",
+      "tags": [
+        "query"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540902",
+    "updated_at": "2025-08-06T16:32:06.540903"
+  },
+  {
+    "name": "Issue Payment Card For Application With On Demand Funding Source",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation IssuePaymentCardForApplicationWithOnDemandFundingSource($input: IssuePaymentCardForApplicationWithOnDemandFundingSourceInput!) {\n  issuePaymentCardForApplicationWithOnDemandFundingSource(input: $input) {\n    ... on PaymentCard {\n      id\n      last4\n      expirationDate\n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n      financialAccounts {\n        id\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "{{subscriberApplicationId}}",
+          "idempotencyKey": "{{$guid}}",
+          "externalId": "{{$guid}}",
+          "options": {
+            "activateOnCreate": true,
+            "expirationDate": "2028-01-01T23:59:59Z",
+            "externalId": "{{$guid}}"
+          },
+          "sourceFinancialAccountId": "{{productFundingFinancialAccountId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "issue",
+        "issuance",
+        "mutation",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540915",
+    "updated_at": "2025-08-06T16:32:06.540917"
+  },
+  {
+    "name": "Activate Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "activate",
+        "issuance",
+        "mutation",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540928",
+    "updated_at": "2025-08-06T16:32:06.540931"
+  },
+  {
+    "name": "Generate Client Token For Restricted Details",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "{{paymentCardId}}",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "issuance",
+        "mutation",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540942",
+    "updated_at": "2025-08-06T16:32:06.540944"
+  },
+  {
+    "name": "Get Payment Card Restricted Details",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            paymentCardHolderDetails {\n                billingAddressOnCard {\n                    postalCode\n                }\n            }\n            expirationDate\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "{{paymentCardId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "get",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540952",
+    "updated_at": "2025-08-06T16:32:06.540953"
+  },
+  {
+    "name": "Suspend Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "suspend",
+        "issuance",
+        "mutation",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540960",
+    "updated_at": "2025-08-06T16:32:06.540962"
+  },
+  {
+    "name": "Close Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "issuance",
+        "mutation",
+        "close",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540969",
+    "updated_at": "2025-08-06T16:32:06.540971"
+  },
+  {
+    "name": "Get Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCard($id: ID!) {\n    node(id: $id) {\n        ... on PaymentCard {\n            id\n            last4\n            pinDetails {\n                isSet\n                pinUpdateHistory {\n                    updatedAt\n                }\n            }\n            revisionSnapshots {\n                edges {\n                    node {\n                        updatedAt\n                        statusChangeMemo\n                        statusChangeReason\n                    }\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "{{paymentCardId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Payment Cards",
+      "path": "Issuance/Payment Cards",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "get",
+        "payment_cards"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540979",
+    "updated_at": "2025-08-06T16:32:06.540981"
+  },
+  {
+    "name": "Get Financial Account",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccount($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Node {\n                  __typename\n                  id\n                }\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Financial Accounts",
+      "path": "Issuance/Financial Accounts",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "get",
+        "financial_accounts"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.540989",
+    "updated_at": "2025-08-06T16:32:06.540991"
+  },
+  {
+    "name": "Get Financial Account Activities",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "unknown",
+    "graphql": {
+      "query": "fragment AmountFragment on Amount {\n  value\n  decimalPlaces\n  currencyCode\n}\n\nfragment MerchantDetailsFragment on MerchantDetails {\n  name\n  description\n  category\n  categoryCode\n  merchantId\n  address {\n    streetAddress\n    locality\n    region\n    postalCode\n  }\n}\n\nfragment TransactionEventFragment on TransactionEvent {\n  responseCode\n  currentFinancialAccountAvailableToSpendAmount {\n    ...AmountFragment\n  }\n  ... on AuthorizationEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on ClearingEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on AuthorizationAndClearEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on ReversalEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n}\n\nfragment TransactionFragment on Transaction {\n  __typename\n  ... on DebitTransaction {\n    id\n    transactionEvents {\n      __typename\n      ... on Node {\n        id\n      }\n      ... on AuthorizationEvent {\n        ...TransactionEventFragment\n      }\n      ... on ClearingEvent {\n        ...TransactionEventFragment\n      }\n      ... on AuthorizationAndClearEvent {\n        ...TransactionEventFragment\n      }\n      ... on ReversalEvent {\n        ...TransactionEventFragment\n      }\n    }\n  }\n  ... on CreditTransaction {\n    id\n    transactionEvents {\n      __typename\n      ... on Node {\n        id\n      }\n      ... on AuthorizationEvent {\n        ...TransactionEventFragment\n      }\n      ... on ClearingEvent {\n        ...TransactionEventFragment\n      }\n      ... on AuthorizationAndClearEvent {\n        ...TransactionEventFragment\n      }\n      ... on ReversalEvent {\n        ...TransactionEventFragment\n      }\n    }\n  }\n}\n\nquery GetFinancialAccountActivities(\n  $id: ID!\n  $first: Int\n  $after: String\n  $filterBy: FinancialAccountActivitiesFilterInput\n) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      financialAccountActivities(\n        first: $first\n        after: $after\n        filterBy: $filterBy\n      ) {\n        pageInfo {\n          hasNextPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            sign\n            isComplete\n            pendingAmount {\n              ...AmountFragment\n            }\n            postedAmount {\n              ...AmountFragment\n            }\n            createdAt\n            source {\n              ...TransactionFragment\n              ... on FeeTransferEvent {\n                feeTransfer {\n                  ... on ChargedFeeTransfer {\n                    feeActivityType\n                    status {\n                      ... on NonFailureFeeTransferStatus {\n                        status\n                      }\n                      ... on FailureFeeTransferStatus {\n                        status\n                        reasonDetails {\n                          reason\n                          type\n                        }\n                      }\n                    }\n                    transferDate\n                  }\n                }\n              }\n              ... on ElectronicFundsTransfer {\n                ... on AchTransfer {\n                  companyEntryDescription\n                  companyIdentifier\n                  companyName\n                  failedAt\n                  individualIdentificationNumber\n                  individualName\n                  paymentRelatedInformation\n                  purpose\n                  sign\n                  statusFailureReason\n                  traceNumber\n                  type\n                }\n              }\n              ... on InterFinancialAccountTransfer {\n                memo\n                purpose\n                status\n                statusReason\n                transferActivityType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Financial Accounts",
+      "path": "Issuance/Financial Accounts",
+      "description": "",
+      "tags": [
+        "get",
+        "issuance",
+        "financial_accounts"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541000",
+    "updated_at": "2025-08-06T16:32:06.541002"
+  },
+  {
+    "name": "Get Financial Account Ledger",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "unknown",
+    "graphql": {
+      "query": "fragment AmountFragment on Amount {\n  value\n  decimalPlaces\n  currencyCode\n}\n\nfragment MerchantDetailsFragment on MerchantDetails {\n  name\n  description\n  category\n  categoryCode\n  merchantId\n  address {\n    streetAddress\n    locality\n    region\n    postalCode\n  }\n}\n\nfragment TransactionEventFragment on TransactionEvent {\n  responseCode\n  currentFinancialAccountAvailableToSpendAmount {\n    ...AmountFragment\n  }\n  ... on AuthorizationEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on ClearingEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on AuthorizationAndClearEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n  ... on ReversalEvent {\n    merchantDetails {\n      ...MerchantDetailsFragment\n    }\n  }\n}\n\nquery GetFinancialAccountLedgerEntries($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      ledgers(ledgerNames: [CASH]) {\n        ledgerEntries {\n          pageInfo {\n            hasNextPage\n            startCursor\n            endCursor\n          }\n          edges {\n            node {\n              createdAt\n              amount {\n                ...AmountFragment\n              }\n              debitBalanceAtLedgerEntry {\n                ...AmountFragment\n              }\n              financialEvent {\n                ... on Node {\n                  __typename\n                  id\n                }\n                ...TransactionEventFragment\n                ... on InterFinancialAccountTransfer {\n                  memo\n                  purpose\n                  interFinancialAccountTransferStatus: status\n                  interFinancialAccountTransferStatusReason: statusReason\n                  transferActivityType\n                }\n                ... on ACHTransferEvent {\n                  companyEntryDescription\n                  companyIdentifier\n                  companyName\n                  returnDate\n                  settlementDate\n                }\n                ... on FeeTransferEvent {\n                  feeTransfer {\n                    ... on ChargedFeeTransfer {\n                      feeActivityType\n                      status {\n                        ... on NonFailureFeeTransferStatus {\n                          status\n                        }\n                        ... on FailureFeeTransferStatus {\n                          status\n                          reasonDetails {\n                            reason\n                            type\n                          }\n                        }\n                      }\n                      transferDate\n                    }\n                  }\n                }\n                ... on ManualAdjustmentEvent {\n                  adjustmentActivityType\n                  originalFinancialEventId\n                }\n                ... on RewardPointsTransfer {\n                  activity\n                  externalTransactionIdentifier\n                  memo\n                  source\n                  rewardPointsTransferStatus: status {\n                    ... on RewardPointsTransferSuccessStatus {\n                      status\n                    }\n                    ... on RewardPointsTransferFailureStatus {\n                      status\n                      statusReasonCode\n                    }\n                  }\n                }\n                ... on WireTransfer {\n                  memo\n                  status\n                  statusReason\n                  type\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Financial Accounts",
+      "path": "Issuance/Financial Accounts",
+      "description": "",
+      "tags": [
+        "get",
+        "issuance",
+        "financial_accounts"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541011",
+    "updated_at": "2025-08-06T16:32:06.541013"
+  },
+  {
+    "name": "Suspend Financial Account",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SuspendFinancialAccount($input: SuspendFinancialAccountInput!) {\n  suspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{financialAccountId}}",
+          "memo": "testing suspension",
+          "suspensionReason": "DELINQUENCY"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Financial Accounts",
+      "path": "Issuance/Financial Accounts",
+      "description": "",
+      "tags": [
+        "suspend",
+        "issuance",
+        "mutation",
+        "financial_accounts"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541021",
+    "updated_at": "2025-08-06T16:32:06.541022"
+  },
+  {
+    "name": "Unsuspend Financial Account",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UnsuspendFinancialAccount($input: UnsuspendFinancialAccountInput!) {\n  unsuspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n      globalNotes {\n        ... on GlobalNoteConnection {\n          edges {\n            node {\n              id\n              createdAt\n              message\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{financialAccountId}}",
+          "memo": "testing unsuspend"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Financial Accounts",
+      "path": "Issuance/Financial Accounts",
+      "description": "",
+      "tags": [
+        "suspend",
+        "issuance",
+        "mutation",
+        "financial_accounts"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541029",
+    "updated_at": "2025-08-06T16:32:06.541031"
+  },
+  {
+    "name": "Simulate Authorization",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateAuthorization(\n  $input: SimulateAuthorizationInput!\n) {\n  simulateAuthorization(input: $input) {\n    ... on AuthorizationEvent {\n      id\n      responseCode\n      cvvResponseCode\n      transaction {\n        ... on CreditTransaction {\n          id\n        }\n        ... on DebitTransaction {\n          id\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 12385,
+            "currencyCode": "USD"
+          },
+          "merchantDetails": {
+            "merchantId": "000000000011111",
+            "name": "Amazon",
+            "description": "Amazon",
+            "category": "MISCELLANEOUS_SPECIALTY_RETAIL",
+            "address": {
+              "postalCode": "94105",
+              "region": "CA",
+              "locality": "San Francisco",
+              "countryCodeAlpha3": "USA"
+            }
+          },
+          "pointOfServiceDetails": {
+            "category": "AUTOMATED_FUEL_DISPENSER",
+            "cardDataInputCapability": "MAG_STRIPE_READER_AND_EMV_ICC",
+            "panEntryMode": "MAGNETIC_STRIPE",
+            "pinEntryMode": "PIN_VERIFIED_BY_TERMINAL_DEVICE",
+            "terminalAttendance": "ATTENDED",
+            "isCardHolderPresent": true,
+            "isCardPresent": true,
+            "terminalSupportsPartialApproval": true,
+            "isRecurring": false
+          },
+          "transactionProcessingType": "PAYMENT_DEBIT",
+          "cardId": "{{paymentCardId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Simulation",
+      "path": "Issuance/Transactions/Simulation",
+      "description": "",
+      "tags": [
+        "simulation",
+        "issuance",
+        "mutation",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541050",
+    "updated_at": "2025-08-06T16:32:06.541051"
+  },
+  {
+    "name": "Simulate Reversal",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateReversal($input: SimulateReversalInput!) {\n  simulateReversal(input: $input) {\n    ... on ReversalEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Simulation",
+      "path": "Issuance/Transactions/Simulation",
+      "description": "",
+      "tags": [
+        "simulation",
+        "issuance",
+        "mutation",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541061",
+    "updated_at": "2025-08-06T16:32:06.541062"
+  },
+  {
+    "name": "Simulate Clearing",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateClearing($input: SimulateClearingInput!) {\n  simulateClearing(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ...on Node {\n          id\n        }\n      }\n      responseCode\n      merchantDetails {\n        countryCodeAlpha3\n        category\n        name\n        description\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "{{transactionId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Simulation",
+      "path": "Issuance/Transactions/Simulation",
+      "description": "",
+      "tags": [
+        "simulation",
+        "issuance",
+        "mutation",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541071",
+    "updated_at": "2025-08-06T16:32:06.541073"
+  },
+  {
+    "name": "Simulate Refund",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateRefund($input: SimulateRefundInput!) {\n  simulateRefund(input: $input) {\n    ... on ClearingEvent {\n      id\n      transaction {\n        ... on Node {\n          id\n        }\n      }\n      responseCode\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "transactionId": "TRANSACTION_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Simulation",
+      "path": "Issuance/Transactions/Simulation",
+      "description": "",
+      "tags": [
+        "simulation",
+        "issuance",
+        "mutation",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541083",
+    "updated_at": "2025-08-06T16:32:06.541085"
+  },
+  {
+    "name": "Simulate Single Step Auth And Clear",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation SimulateSingleStepAuthAndClear($input: SimulateSingleStepAuthAndClearInput!) {\n  simulateSingleStepAuthAndClear(input: $input) {\n    ... on AuthorizationAndClearEvent {\n      id\n      responseCode\n      transaction {\n        ... on DebitTransaction {\n          id\n        }\n        ... on CreditTransaction {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardId": "PAYMENT_CARD_ID",
+          "amount": {
+            "currencyCode": "USD",
+            "value": 1000
+          },
+          "merchantDetails": {
+            "description": "Test Merchant",
+            "name": "Test Merchant Name"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Simulation",
+      "path": "Issuance/Transactions/Simulation",
+      "description": "",
+      "tags": [
+        "simulation",
+        "issuance",
+        "mutation",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541093",
+    "updated_at": "2025-08-06T16:32:06.541095"
+  },
+  {
+    "name": "Get Transaction Event",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetTransactionEvent($id: ID!) {\n  node(id: $id) {\n    ... on TransactionEvent {\n    __typename\n    id\n    approvedAmount {\n      currencyCode\n      value\n    }\n    responseCode\n    createdAt\n    transactionProcessingType\n    pointOfServiceDetails {\n      category\n      panEntryMode\n      pinEntryMode\n      terminalAttendance\n      isCardHolderPresent\n      isCardPresent\n      isRecurring\n      terminalSupportsPartialApproval\n    }\n    additionalNetworkData {\n      ... on VisaData {\n        transactionIdentifier\n      }\n    }\n  }\n}}",
+      "variables": {
+        "id": "te_23kcv4pu1fo157r2o99monfjwpo1sab8rj"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Transactions",
+      "path": "Issuance/Transactions",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "get",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541104",
+    "updated_at": "2025-08-06T16:32:06.541105"
+  },
+  {
+    "name": "Transaction Events By Payment Card And Transaction ID",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query TransactionEventsByPaymentCardAndTransactionId($id: ID!, $filterBy: PaymentCardTransactionEventsFilterInput) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      transactionEvents(filterBy: $filterBy) {\n        edges {\n          node {\n            __typename\n            id\n            createdAt\n            responseCode\n            approvedAmount {\n              value\n              currencyCode\n            }\n            transaction {\n              ... on CreditTransaction {\n                __typename\n                id\n              }\n              ... on DebitTransaction {\n                __typename\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID",
+        "filterBy": {
+          "transactionId": {
+            "equals": "TRANSACTION_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Transactions",
+      "path": "Issuance/Transactions",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541114",
+    "updated_at": "2025-08-06T16:32:06.541116"
+  },
+  {
+    "name": "Get Card Product Transaction Events",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "unknown",
+    "graphql": {
+      "query": "fragment MerchantDetailsFragment on MerchantDetails {\n    name\n    description\n    merchantId\n    category\n    categoryCode\n    address {\n        streetAddress\n        extendedAddress\n        locality\n        region\n        postalCode\n    }\n}\n\nfragment AmountFragment on Amount {\n    currencyCode\n    value\n    decimalPlaces\n}\n\nquery GetCardProductTransactionEvents($id: ID!) {\n    node(id: $id) {\n        ... on CardProduct {\n            transactionEvents {\n                edges {\n                    node {\n                        __typename\n                        id\n                        createdAt\n                        paymentCard {\n                            last4\n                        }\n                        responseCode\n                        approvedAmount {\n                            ... AmountFragment\n                        }\n                        additionalNetworkData {\n                            ... on VisaData {\n                                acquiringInstitutionIdentificationCode\n                                authorizationCode\n                                networkTransmissionDateAndTime\n                                retrievalReferenceNumber\n                                systemTraceAuditNumber\n                                transactionIdentifier\n                            }\n                        }\n                        pointOfServiceDetails {\n                            cardDataInputCapability\n                            category\n                            isCardHolderPresent\n                            isCardPresent\n                            isRecurring\n                            panEntryMode\n                            pinEntryMode\n                            terminalAttendance\n                            terminalSupportsPartialApproval\n                        }\n                        transactionProcessingType\n                        ... on AuthorizationEvent {\n                            requestedAmount {\n                                ... AmountFragment\n                            }\n                            authorizationExpiration\n                            avsResponseCode\n                            cvvResponseCode\n                            postalCodeResponseCode\n                            merchantDetails {\n                                ... MerchantDetailsFragment\n                            }\n                        }\n                        ... on ClearingEvent {\n                            merchantDetails {\n                                ... MerchantDetailsFragment\n                            }\n                        }\n                        ... on ReversalEvent {\n                            issuerExpiredAuthorization\n                            merchantDetails {\n                                ... MerchantDetailsFragment\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "pd_a8414c509ab548e39a6463157a1c59c7"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Transactions",
+      "path": "Issuance/Transactions",
+      "description": "",
+      "tags": [
+        "get",
+        "issuance",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541123",
+    "updated_at": "2025-08-06T16:32:06.541125"
+  },
+  {
+    "name": "Ledger Entry",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindFinancialAccountLedgerActivity(\n    $id: ID!\n    $first: Int\n    $filterBy: LedgerEntriesFilterInput\n    $after: String\n) {\n    node(id: $id) {\n        __typename\n        ... on Ledger {\n            id\n            normalBalance\n            asOf\n            name\n            creditBalance {\n                value\n                currencyCode\n                decimalPlaces\n                __typename\n            }\n            debitBalance {\n                value\n                currencyCode\n                decimalPlaces\n                __typename\n            }\n            ledgerEntries(\n                first: $first\n                filterBy: $filterBy\n                after: $after\n            ) {\n                ... on LedgerEntryConnection {\n                    pageInfo {\n                        startCursor\n                        endCursor\n                        hasNextPage\n                        hasPreviousPage\n                        __typename\n                    }\n                    edges {\n                        cursor\n                        __typename\n                        node {\n                            __typename\n                            id\n                            ledger {\n                                id\n                                name\n                            }\n                            memo\n                            createdAt\n                            creditBalanceAtLedgerEntry {\n                                value\n                                currencyCode\n                                decimalPlaces\n                                __typename\n                            }\n                            debitBalanceAtLedgerEntry {\n                                value\n                                currencyCode\n                                decimalPlaces\n                                __typename\n                            }\n                            amount {\n                                value\n                                currencyCode\n                                decimalPlaces\n                                __typename\n                            }\n                            financialAccount {\n                                id\n                                owner {\n                                    __typename\n                                    ... on USBusinessAccountHolder {\n                                        id\n                                    }\n                                }\n                            }\n                            financialEvent {\n                                __typename\n                                ... on Node {\n                                    id\n                                    __typename\n                                }\n                                ... on AuthorizationAndClearEvent {\n                                    paymentCard {\n                                        id\n                                        last4\n                                        __typename\n                                    }\n                                    merchantDetails {\n                                        name\n                                        __typename\n                                    }\n                                    pointOfServiceDetails {\n                                        isCardPresent\n                                        __typename\n                                    }\n                                    disputes {\n                                        id\n                                        __typename\n                                    }\n                                    transactionProcessingType\n                                    __typename\n                                }\n                                ... on CreditFundsACHTransferEvent {\n                                    id\n                                    amount {\n                                        value\n                                        currencyCode\n                                        decimalPlaces\n                                    }\n                                    transfer {\n                                        __typename\n                                        ... on CreditFunds {\n                                            id\n                                            amount {\n                                                value\n                                                currencyCode\n                                                decimalPlaces\n                                                __typename\n                                            }\n                                            ledgers {\n                                                id\n                                                name\n                                            }\n                                            companyIdentifier\n                                            companyName\n                                            descriptor {\n                                                companyEntryDescription\n                                                individualName\n                                                __typename\n                                            }\n                                            createdAt\n                                            settlementDate\n                                            status {\n                                                ... on NonFailureExternallyInitiatedACHStatus {\n                                                    status\n                                                    __typename\n                                                }\n                                                ... on FailureExternallyInitiatedACHStatus {\n                                                    status\n                                                    statusReasonCode\n                                                    __typename\n                                                }\n                                                __typename\n                                            }\n                                            toFinancialAccount {\n                                                id\n                                                owner {\n                                                    __typename\n                                                    ... on USBusinessAccountHolder {\n                                                        id\n                                                    }\n                                                }\n                                            }\n                                            __typename\n                                        }\n                                    }\n                                    createdAt\n                                    companyName\n                                    companyIdentifier\n                                    companyEntryDescription\n                                    settlementDate\n                                    returnDate\n                                    externallyInitiatedACHStatus: status {\n                                        ... on NonFailureExternallyInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        ... on FailureExternallyInitiatedACHStatus {\n                                            status\n                                            statusReasonCode\n                                            __typename\n                                        }\n                                        __typename\n                                    }\n                                    toFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    __typename\n                                }\n                                ... on DebitFundsACHTransferEvent {\n                                    externallyInitiatedACHStatus: status {\n                                        ... on NonFailureExternallyInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        ... on FailureExternallyInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        __typename\n                                    }\n                                    fromFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    __typename\n                                }\n                                ... on IntegratorInitiatedFundsDepositACHTransferEvent {\n                                    integratorInitiatedACHStatus: status {\n                                        ... on NonFailureIntegratorInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        ... on FailureIntegratorInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        __typename\n                                    }\n                                    toFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    __typename\n                                }\n                                ... on IntegratorInitiatedFundsWithdrawalACHTransferEvent {\n                                    integratorInitiatedACHStatus: status {\n                                        ... on NonFailureIntegratorInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        ... on FailureIntegratorInitiatedACHStatus {\n                                            status\n                                            __typename\n                                        }\n                                        __typename\n                                    }\n                                    fromFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    __typename\n                                }\n                                ... on InterFinancialAccountTransfer {\n                                    amount {\n                                        value\n                                        currencyCode\n                                        decimalPlaces\n                                    }\n                                    interFinancialAccountTransferStatus: status\n                                    interFinancialAccountTransferStatusReason: statusReason\n                                    createdAt\n                                    updatedAt\n                                    fromFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    purpose\n                                    toFinancialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                        name\n                                        __typename\n                                    }\n                                    transferActivityType\n                                    __typename\n                                }\n                                ... on FeeTransferEvent {\n                                    feeTransfer {\n                                        __typename\n                                        ... on ChargedFeeTransfer {\n                                            originatingAccount {\n                                                id\n                                                owner {\n                                                    __typename\n                                                    ... on USBusinessAccountHolder {\n                                                        id\n                                                    }\n                                                }\n                                            }\n                                            receivingAccount {\n                                                id\n                                                owner {\n                                                    __typename\n                                                }\n                                            }\n                                            cardProduct {\n                                                id\n                                            }\n                                            feeActivityType\n                                            feeAmount {\n                                                value\n                                                currencyCode\n                                            }\n                                            transferedFeeAmount {\n                                                value\n                                                currencyCode\n                                            }\n                                            transferDate\n                                            status {\n                                                ... on NonFailureFeeTransferStatus {\n                                                    status\n                                                }\n                                                ... on FailureFeeTransferStatus {\n                                                    status\n                                                    reasonDetails {\n                                                        type\n                                                        reason\n                                                    }\n                                                }\n                                            }\n                                            feeChargeActvity {\n                                                __typename\n                                                ... on PhysicalPaymentCardOrder {\n                                                    id\n                                                }\n                                                ... on PaymentCard {\n                                                    id\n                                                }\n                                                ... on FinancialAccount {\n                                                    id\n                                                }\n                                                ... on SecureDepositACHTransfer {\n                                                    id\n                                                }\n                                                ... on SecureCardBalanceRepaymentACHTransfer {\n                                                    id\n                                                }\n                                                ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n                                                    id\n                                                }\n                                                ... on IntegratorInitiatedFundsDepositACHTransfer {\n                                                    id\n                                                }\n                                                ... on AuthorizationAndClearEvent {\n                                                    id\n                                                }\n                                                ... on ClearingEvent {\n                                                    id\n                                                }\n                                                ... on BalanceInquiryEvent {\n                                                    id\n                                                }\n                                            }\n                                        }\n                                        ... on ReversedFeeTransfer {\n                                            originatingAccount {\n                                                id\n                                                owner {\n                                                    __typename\n                                                    ... on USBusinessAccountHolder {\n                                                        id\n                                                    }\n                                                }\n                                            }\n                                            receivingAccount {\n                                                id\n                                                owner {\n                                                    __typename\n                                                }\n                                            }\n                                            transferedFeeAmount {\n                                                value\n                                                currencyCode\n                                            }\n                                            transferDate\n                                            status {\n                                                ... on NonFailureFeeTransferStatus {\n                                                    status\n                                                }\n                                                ... on FailureFeeTransferStatus {\n                                                    status\n                                                    reasonDetails {\n                                                        type\n                                                        reason\n                                                    }\n                                                }\n                                            }\n                                            sourceFeeTransferEvent {\n                                                id\n                                                feeTransfer {\n                                                    __typename\n                                                    ... on ChargedFeeTransfer {\n                                                        feeActivityType\n                                                        __typename\n                                                    }\n                                                }\n                                                __typename\n                                            }\n                                        }\n                                    }\n                                    __typename\n                                }\n                                ... on ManualAdjustmentEvent {\n                                    adjustmentActivityType\n                                    __typename\n                                }\n                                ... on CreditCardTransferEvent {\n                                    accountingDirection\n                                    balanceType\n                                    interestDetails {\n                                        apr\n                                        __typename\n                                    }\n                                    statement {\n                                        id\n                                        __typename\n                                    }\n                                    __typename\n                                }\n                                ... on DisbursementTransferEvent {\n                                    id\n                                    eventType\n                                    __typename\n                                }\n                                ... on WireTransfer {\n                                    id\n                                    ledgers {\n                                        id\n                                        name\n                                    }\n                                    amount {\n                                        value\n                                        currencyCode\n                                        decimalPlaces\n                                    }\n                                    financialAccount {\n                                        id\n                                        owner {\n                                            __typename\n                                            ... on USBusinessAccountHolder {\n                                                id\n                                            }\n                                        }\n                                    }\n                                    createdAt\n                                    updatedAt\n                                    statusReason\n                                    WireTransferStatus: status\n                                    memo\n                                    type\n                                    __typename\n                                }\n                                ... on RewardPointsTransfer {\n                                    id\n                                    rewardPointsValue {\n                                        currencyCode\n                                        value\n                                        __typename\n                                    }\n                                    rewardPointsAmount {\n                                        currencyCode\n                                        value\n                                        __typename\n                                    }\n                                    createdAt\n                                    updatedAt\n                                    status {\n                                        ... on RewardPointsTransferSuccessStatus {\n                                            status\n                                            __typename\n                                        }\n                                        ... on RewardPointsTransferFailureStatus {\n                                            status\n                                            statusReasonCode\n                                            __typename\n                                        }\n                                        __typename\n                                    }\n                                    source\n                                    externalTransactionIdentifier\n                                    activity\n                                    memo\n                                    __typename\n                                }\n                            }\n                        }\n                    }\n                    __typename\n                }\n                __typename\n            }\n            __typename\n        }\n    }\n}",
+      "variables": {
+        "id": "ac_c022247aa094849a40a59f01ba22166a3c77_a003",
+        "first": 100
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Transactions",
+      "path": "Issuance/Transactions",
+      "description": "",
+      "tags": [
+        "query",
+        "issuance",
+        "transactions"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541132",
+    "updated_at": "2025-08-06T16:32:06.541134"
+  },
+  {
+    "name": "Create Merchant Category Spend Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateMerchantCategorySpendRule(\n  $input: CreateMerchantCategorySpendRuleInput!\n) {\n  createMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Fuel Rule",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": [
+            "AIRLINES_AIR_CARRIERS"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "authorization_controls",
+        "issuance",
+        "mutation",
+        "create",
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541184",
+    "updated_at": "2025-08-06T16:32:06.541188"
+  },
+  {
+    "name": "Attach Spend Rule To Card Product",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToCardProduct($input: AttachSpendRuleToCardProductInput!) {\n  attachSpendRuleToCardProduct(input: $input) {\n    ...on CardProduct {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "issuance",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541204",
+    "updated_at": "2025-08-06T16:32:06.541206"
+  },
+  {
+    "name": "Attach Spend Rule To Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachSpendRuleToPaymentCard($input: AttachSpendRuleToPaymentCardInput!) {\n  attachSpendRuleToPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      attachedSpendRules {\n        edges {\n          node {\n            ...on SpendRule {\n              id\n              name\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "issuance",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541214",
+    "updated_at": "2025-08-06T16:32:06.541216"
+  },
+  {
+    "name": "Update Merchant Category Spend Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation UpdateMerchantCategorySpendRule(\n  $input: UpdateMerchantCategorySpendRuleInput!\n) {\n  updateMerchantCategorySpendRule(input: $input) {\n    __typename\n    ... on MerchantCategorySpendRule {\n      id\n      name\n      version\n      allowed\n      blocked\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "spendRuleId": "SPEND_RULE_ID",
+          "allowed": [
+            "AUTOMATED_FUEL_DISPENSERS"
+          ],
+          "blocked": []
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "update",
+        "authorization_controls",
+        "issuance",
+        "mutation",
+        "spend_rules"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541225",
+    "updated_at": "2025-08-06T16:32:06.541226"
+  },
+  {
+    "name": "Detach Spend Rule From Card Product",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromCardProduct($input: DetachSpendRuleFromCardProductInput!) {\n  detachSpendRuleFromCardProduct(input: $input) {\n    __typename\n\t\t... on CardProduct {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "issuance",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541240",
+    "updated_at": "2025-08-06T16:32:06.541242"
+  },
+  {
+    "name": "Detach Spend Rule From Payment Card",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachSpendRuleFromPaymentCard($input: DetachSpendRuleFromPaymentCardInput!) {\n  detachSpendRuleFromPaymentCard(input: $input) {\n    __typename\n\t\t... on PaymentCard {\n\t\t\tid\n\t\t}\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "spendRule": {
+            "id": "SPEND_RULE_ID"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Spend Rules",
+      "path": "Issuance/Authorization Controls/Spend Rules",
+      "description": "",
+      "tags": [
+        "spend_rules",
+        "issuance",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541249",
+    "updated_at": "2025-08-06T16:32:06.541251"
+  },
+  {
+    "name": "Create Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateVelocityRule($input: CreateVelocityRuleInput!) {\n  createVelocityRule(input: $input) {\n    ... on VelocityRule {\n      id\n      name\n      velocityRuleWindow\n      cumulativeRule {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n        revisions {\n          pageInfo {\n            hasNextPage\n            hasPreviousPage\n            startCursor\n            endCursor\n          }\n          edges {\n            cursor\n            node {\n              id\n              name\n              version\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n      spendRules {\n        id\n        name\n        version\n        createdAt\n        updatedAt\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Velocity Control - Max $1000 per month",
+          "cumulativeRule": {
+            "id": "AMOUNT_SPEND_RULE_ID",
+            "version": "0"
+          },
+          "spendRules": [
+            {
+              "id": "ADDITIONAL_SPEND_RULE_ID",
+              "version": "O"
+            }
+          ],
+          "velocityRuleWindow": "MONTHLY"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "authorization_controls",
+        "issuance",
+        "velocity_rules",
+        "create",
+        "mutation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541262",
+    "updated_at": "2025-08-06T16:32:06.541264"
+  },
+  {
+    "name": "Create Amount Limit Spend Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation CreateAmountLimitSpendRule($input: CreateAmountLimitSpendRuleInput!) {\n  createAmountLimitSpendRule(input: $input) {\n    ... on AmountLimitSpendRule {\n      id\n      name\n      maximumAmount {\n        value\n        currencyCode\n      }\n      updatedAt\n      createdAt\n      version\n      revisions {\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            version\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Amount Limit Rule",
+          "maximumAmount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "authorization_controls",
+        "issuance",
+        "velocity_rules",
+        "create",
+        "mutation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541275",
+    "updated_at": "2025-08-06T16:32:06.541277"
+  },
+  {
+    "name": "Attach Payment Card Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachPaymentCardVelocityRule($input: AttachPaymentCardVelocityRuleInput!) {\n  attachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id,\n          bin,\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "0"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "issuance",
+        "velocity_rules",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541287",
+    "updated_at": "2025-08-06T16:32:06.541289"
+  },
+  {
+    "name": "Detach Payment Card Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachPaymentCardVelocityRule($input: DetachPaymentCardVelocityRuleInput!) {\n  detachPaymentCardVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on PaymentCard {\n          id\n          bin\n          last4\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "issuance",
+        "velocity_rules",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541297",
+    "updated_at": "2025-08-06T16:32:06.541298"
+  },
+  {
+    "name": "Get All Velocity Rules",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllVelocityRules {\n  organizations {\n    velocityRules {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          velocityRuleWindow\n          version\n          createdAt\n          updatedAt\n          cumulativeRule {\n            ... on AmountLimitSpendRule {\n              id\n              name\n              maximumAmount {\n                value\n                currencyCode\n              }\n              version\n              createdAt\n              updatedAt\n            }\n          }\n          spendRules {\n            __typename\n            id\n            name\n            version\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "query",
+        "authorization_controls",
+        "issuance",
+        "velocity_rules",
+        "get"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541306",
+    "updated_at": "2025-08-06T16:32:06.541308"
+  },
+  {
+    "name": "Get Payment Card Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetPaymentCardVelocityRule($id: ID!) {\n  node(id: $id) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      velocitySpendRuleBalances {\n\t\t\t\t... on VelocitySpendRuleAmountBalance {\n\t\t\t\t\tcurrentBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tremainingBalance {\n\t\t\t\t\t\tvalue\n\t\t\t\t\t\tcurrencyCode\n\t\t\t\t\t}\n\t\t\t\t\tvelocityRule {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tvelocityRuleWindow\n\t\t\t\t\t\tcumulativeRule {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\trevisions {\n\t\t\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\t\t\tcursor\n\t\t\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\tspendRules {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tversion\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t\tversion\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n    \t}\n  \t}\n\t}\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "query",
+        "authorization_controls",
+        "issuance",
+        "velocity_rules",
+        "get"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541315",
+    "updated_at": "2025-08-06T16:32:06.541317"
+  },
+  {
+    "name": "Get Financial Account With Velocity Balance",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetFinancialAccountWithVelocityBalance($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on FinancialAccount {\n      id\n      velocitySpendRuleBalances {\n        ... on VelocitySpendRuleAmountBalance {\n          __typename\n\n          currentBalance {\n            currencyCode\n            value\n          }\n          remainingBalance {\n            currencyCode\n            value\n          }\n          velocityRule {\n            id\n            version\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "id": "FINANCIAL_ACCOUNT_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "query",
+        "authorization_controls",
+        "issuance",
+        "velocity_rules",
+        "get"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541325",
+    "updated_at": "2025-08-06T16:32:06.541326"
+  },
+  {
+    "name": "Attach Card Product Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AttachCardProductVelocityRule($input: AttachCardProductVelocityRuleInput!) {\n  attachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "issuance",
+        "velocity_rules",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541335",
+    "updated_at": "2025-08-06T16:32:06.541337"
+  },
+  {
+    "name": "Detach Card Product Velocity Rule",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DetachCardProductVelocityRule($input: DetachCardProductVelocityRuleInput!) {\n  detachCardProductVelocityRule(input: $input) {\n    ... on VelocityRuleAssociation {\n      velocityRule {\n        id\n        name\n        velocityRuleWindow\n        cumulativeRule {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n          revisions {\n            pageInfo {\n              hasNextPage\n              hasPreviousPage\n              startCursor\n              endCursor\n            }\n            edges {\n              cursor\n              node {\n                id\n                name\n                version\n                createdAt\n                updatedAt\n              }\n            }\n          }\n        }\n        spendRules {\n          id\n          name\n          version\n          createdAt\n          updatedAt\n        }\n        version\n        createdAt\n        updatedAt\n      }\n      name\n      associatedTo {\n        ... on CardProduct {\n          id\n          name\n        }\n      }\n      version\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "velocityRule": {
+            "velocityRuleId": "VELOCITY_RULE_ID",
+            "version": "VELOCITY_RULE_VERSION"
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Velocity Rules",
+      "path": "Issuance/Authorization Controls/Velocity Rules",
+      "description": "",
+      "tags": [
+        "issuance",
+        "velocity_rules",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541346",
+    "updated_at": "2025-08-06T16:32:06.541347"
+  },
+  {
+    "name": "Add Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddCollaborativeAuthorizationEndpoint($input: AddCollaborativeAuthorizationEndpointInput!) {\n  addCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on  CollaborativeAuthorizationEndpoint{\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "Test Collaborative Auth Endpoint",
+          "uri": "https://example.com"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "issuance",
+        "collaborative_authorization",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541356",
+    "updated_at": "2025-08-06T16:32:06.541358"
+  },
+  {
+    "name": "Activate Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ActivateCollaborativeAuthorizationEndpoint($input: ActivateCollaborativeAuthorizationEndpointInput!) {\n  activateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "activate",
+        "authorization_controls",
+        "issuance",
+        "collaborative_authorization",
+        "mutation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541365",
+    "updated_at": "2025-08-06T16:32:06.541367"
+  },
+  {
+    "name": "Get Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query FindCollaborativeAuthorizationEndpoint($id: ID!) {\n  node(id: $id) {\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{collabAuthEndpointId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "query",
+        "authorization_controls",
+        "issuance",
+        "collaborative_authorization",
+        "get"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541375",
+    "updated_at": "2025-08-06T16:32:06.541377"
+  },
+  {
+    "name": "Deactivate Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateCollaborativeAuthorizationEndpoint($input: DeactivateCollaborativeAuthorizationEndpointInput!) {\n  deactivateCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on  CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "activate",
+        "authorization_controls",
+        "issuance",
+        "collaborative_authorization",
+        "mutation"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541386",
+    "updated_at": "2025-08-06T16:32:06.541387"
+  },
+  {
+    "name": "Remove Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveCollaborativeAuthorizationEndpoint($input: RemoveCollaborativeAuthorizationEndpointInput!) {\n  removeCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ... on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "issuance",
+        "collaborative_authorization",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541396",
+    "updated_at": "2025-08-06T16:32:06.541398"
+  },
+  {
+    "name": "Get Collaborative Authorization Endpoints",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query CollaborativeAuthorizationEndpoints($after: String, $first: Int) {\n\torganizations{\n\t\tid\n\t\tcollaborativeAuthorizationEndpoints(first: $first, after: $after) {\n\t\t\t__typename\n\n\t\t\tedges {\n\t\t\t\t__typename\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\turi\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tupdatedAt\n\t\t\t\t\tsigningKeys {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tsecret\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t\tstatus\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tpageInfo {\n\t\t\t\tendCursor\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "query",
+        "authorization_controls",
+        "issuance",
+        "collaborative_authorization",
+        "get"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541407",
+    "updated_at": "2025-08-06T16:32:06.541409"
+  },
+  {
+    "name": "Rename Collaborative Authorization Endpoint",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RenameCollaborativeAuthorizationEndpoint($input: RenameCollaborativeAuthorizationEndpointInput!) {\n  renameCollaborativeAuthorizationEndpoint(input: $input) {\n    __typename\n    ...on CollaborativeAuthorizationEndpoint {\n      id\n      name\n      uri\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "endpointId": "{{collabAuthEndpointId}}",
+          "name": "Renamed Collaborative Auth Endpoint"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Collaborative Authorization",
+      "path": "Issuance/Authorization Controls/Collaborative Authorization",
+      "description": "",
+      "tags": [
+        "issuance",
+        "collaborative_authorization",
+        "mutation",
+        "authorization_controls"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541418",
+    "updated_at": "2025-08-06T16:32:06.541420"
+  },
+  {
+    "name": "Add Webhook Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddWebhookNotificationTarget($input: AddWebhookNotificationTargetInput!) {\n  addWebhookNotificationTarget(input: $input) {\n    __typename\n    ...on WebhookNotificationTarget {\n      id\n      name\n      uri\n      subscriptions\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "{{currentTimestampFormatted}}",
+          "uri": "https://webhook.site/938cbdc8-2b0f-44a7-857b-6886f9274004",
+          "subscriptions": [
+            "NON_ORIGINATED_ACH_TRANSFER_RECEIVED",
+            "NON_ORIGINATED_ACH_TRANSFER_PROCESSED",
+            "NON_ORIGINATED_ACH_TRANSFER_FAILED",
+            "NON_ORIGINATED_ACH_TRANSFER_RETURNED",
+            "PAYMENT_CARD_ACTIVATED",
+            "AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_IN_REVIEW",
+            "CARD_PRODUCT_APPLICATION_MANUAL_REVIEW",
+            "CARD_PRODUCT_APPLICATION_DENIED",
+            "CARD_PRODUCT_APPLICATION_CLOSED",
+            "CARD_PRODUCT_APPLICATION_IDENTITY_UPDATE_REQUESTED",
+            "PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED",
+            "PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "mutation",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541431",
+    "updated_at": "2025-08-06T16:32:06.541433"
+  },
+  {
+    "name": "Get All Webhook Notification Targets",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllWebhookNotificationTargets($firstTargets: Int, $afterTargets: String) {\n\torganizations {\n\t\tid\n\n\t\twebhookNotificationTargets(first: $firstTargets, after: $afterTargets) {\n\t\t\tpageInfo {\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t\tendCursor\n\t\t\t}\n\n\t\t\tedges {\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tdeactivatedAt\n\t\t\t\t\tsubscriptions\n\n\t\t\t\t\tstatusHistory {\n\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\tcursor\n\n\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_targets",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541441",
+    "updated_at": "2025-08-06T16:32:06.541442"
+  },
+  {
+    "name": "Deactivate Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation DeactivateNotificationTarget($input: DeactivateNotificationTargetInput!) {\n\tdeactivateNotificationTarget(input: $input) {\n\t\t... on WebhookNotificationTarget {\n\t\t\tid\n\t\t\tstatus\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "activate",
+        "notification_targets",
+        "mutation",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541450",
+    "updated_at": "2025-08-06T16:32:06.541452"
+  },
+  {
+    "name": "Activate Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "unknown",
+    "graphql": {
+      "query": "fragment Target on WebhookNotificationTarget {\n\t__typename\n\tid\n\tname\n\turi\n\tsubscriptions\n\tstatus\n\tcreatedAt\n\tupdatedAt\n\tsigningKeys {\n\t\tid\n\t\tsecret\n\t\tcreatedAt\n\t}\n}\n\nmutation ActivateNotificationTarget($input: ActivateNotificationTargetInput!) {\n\tactivateNotificationTarget(input: $input) {\n\t\t...Target\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "activate",
+        "notification_targets",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541460",
+    "updated_at": "2025-08-06T16:32:06.541462"
+  },
+  {
+    "name": "Get Webhook Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetWebhookNotificationTarget($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on WebhookNotificationTarget {\n\t\t\tstatus\n\t\t\tid\n\n\t\t\tdeliveryAttempts {\n\t\t\t\t__typename\n\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\turi\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t\thttpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tevent {\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tstatusHistory {\n\t\t\t\t__typename\n\t\t\t\t\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\t\t\t\t\t\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\n\t\t\t\t\t\tid\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "{{webhookNotificationTargetId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_targets",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541471",
+    "updated_at": "2025-08-06T16:32:06.541473"
+  },
+  {
+    "name": "Get Notification Target Delivery Attempts",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationTargetDeliveryAttempts($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    __typename\n    ... on WebhookNotificationTarget {\n      id\n      deliveryAttempts(first: $first, after: $after) {\n        __typename\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            uri\n            response {\n\t\t\t\thttpStatusCode\n\t\t\t}\n            deliveryAttemptStatus\n            createdAt\n            event {\n              name\n              id\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{webhookNotificationTargetId}}"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_targets",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541482",
+    "updated_at": "2025-08-06T16:32:06.541483"
+  },
+  {
+    "name": "Add Subscriptions To Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation AddSubscriptionsToNotificationTarget($input: AddSubscriptionsToNotificationTargetInput!) {\n  addSubscriptionsToNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}",
+          "subscriptions": [
+            "CARD_PRODUCT_APPLICATION_DOCUMENT_UPLOAD_REQUESTED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "mutation",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541492",
+    "updated_at": "2025-08-06T16:32:06.541493"
+  },
+  {
+    "name": "Remove Subscriptions From Notification Target",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation RemoveSubscriptionsFromNotificationTarget($input: RemoveSubscriptionsFromNotificationTargetInput!) {\n  removeSubscriptionsFromNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "{{webhookNotificationTargetId}}",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Targets",
+      "path": "Reporting/Notifications/Notification Targets",
+      "description": "",
+      "tags": [
+        "notification_targets",
+        "mutation",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541501",
+    "updated_at": "2025-08-06T16:32:06.541503"
+  },
+  {
+    "name": "Get All Notification Events",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetAllNotificationEvents($after: String, $first: Int) {\n\tnotificationEvents(after: $after, first: $first) {\n\t\tedges {\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t\tnode {\n            __typename\n\t\t\t\t\t\t... on PaymentCardTransactionDispute {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\tchargebacks {\n                id, \n                status, \n                dispute {\n                  id\n                }, \n                creditStatus\n              }\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on PaymentCardTransactionChargeback {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tcreditStatus\n\t\t\t\t\t\t\tdispute {\n                id,\n                status,\n                amount { \n                  value\n\t\t\t\t\t\t\t  }\n              }\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "first": 150
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_events",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541512",
+    "updated_at": "2025-08-06T16:32:06.541514"
+  },
+  {
+    "name": "Get Notification Event",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEvent($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\texpiresAt\n\t\t\tname\n\t\t\tnode {\n\t\t\t\t__typename\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_events",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541521",
+    "updated_at": "2025-08-06T16:32:06.541523"
+  },
+  {
+    "name": "Replay Notification Event",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation ReplayNotificationEvent($input: ReplayNotificationEventInput!) {\n  replayNotificationEvent(input: $input) {\n    __typename\n    ... on NotificationEvent {\n      __typename\n      id\n\t  createdAt\n\t  expiresAt\n      node {\n        __typename\n        ... on AuthorizationEvent {\n          id\n          approvedAmount {\n            value\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "input": {
+          "notificationEventId": "{{notificationEventId}}"
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "notification_events",
+        "mutation",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541531",
+    "updated_at": "2025-08-06T16:32:06.541532"
+  },
+  {
+    "name": "Get Delivery Attempts For Notification Event",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetDeliveryAttemptsForNotificationEvent($id: ID!, $after: String, $first: Int) {\n\tnode(id: $id) {\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tdeliveryAttempts(first: $first, after: $after) {\n\t\t\t\t__typename\n\t\t\t\tpageInfo {\n\t\t\t\t\t__typename\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\tedges {\n\t\t\t\t\t__typename\n\t\t\t\t\tcursor\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t  httpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\turi\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "id": "{{notificationEventId}}",
+        "first": 10
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_events",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541541",
+    "updated_at": "2025-08-06T16:32:06.541543"
+  },
+  {
+    "name": "Get Notification Events Filtered By Name",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEventsFilteredByName($filterBy: NotificationEventsFilterInput!, $first: Int) {\n\tnotificationEvents(filterBy: $filterBy, first: $first) {\n\t\t__typename\n\t\tpageInfo {\n\t\t\tstartCursor\n\t\t\tendCursor\n\t\t\thasNextPage\n\t\t\thasPreviousPage\n\t\t}\n\t\tedges {\n\t\t\tcursor\n\t\t\t__typename\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": [
+            "INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_COMPLETED"
+          ]
+        },
+        "first": 20
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_events",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541552",
+    "updated_at": "2025-08-06T16:32:06.541554"
+  },
+  {
+    "name": "Get Unsuccessful Notification Events",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetNotificationEvents($id: ID!, $first: Int, $after: String, $filterBy: WebhookNotificationTargetEventFilterInput) {\n  node(id: $id) {\n    ... on WebhookNotificationTarget {\n      id\n      status\n      webhookNotificationTargetEvents(first: $first, after: $after, filterBy: $filterBy) {\n        pageInfo {\n          startCursor\n          endCursor\n          hasPreviousPage\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            event {\n              id\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "ntt_0de84d6c005049be8f6feafbcaaf5043",
+        "first": 20,
+        "after": null,
+        "filterBy": {
+          "eventCreatedAt": {
+            "between": {
+              "start": null,
+              "end": null
+            }
+          },
+          "hasSuccessfulDelivery": false
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Notification Events",
+      "path": "Reporting/Notifications/Notification Events",
+      "description": "",
+      "tags": [
+        "query",
+        "notification_events",
+        "get",
+        "reporting",
+        "notifications"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541565",
+    "updated_at": "2025-08-06T16:32:06.541567"
+  },
+  {
+    "name": "Initiate Organization Report",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "mutation",
+    "graphql": {
+      "query": "mutation InitiateOrganizationReport($input: InitiateOrganizationReportInput!) {\n  initiateOrganizationReport(input: $input) {\n    __typename\n    ... on Report {\n      id\n      download {\n        url\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "reportType": "LEDGER_ENTRY",
+          "parameters": {
+            "between": {
+              "start": "2023-01-01",
+              "end": "2024-03-02"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Reports",
+      "path": "Reporting/Reports",
+      "description": "",
+      "tags": [
+        "mutation",
+        "reporting",
+        "reports"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541575",
+    "updated_at": "2025-08-06T16:32:06.541577"
+  },
+  {
+    "name": "Get Report",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetReport($id: ID!) {\n  node(id: $id) {\n    ... on Report {\n      download {\n        url\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "REPORT_ID"
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Reports",
+      "path": "Reporting/Reports",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "reporting",
+        "reports"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541584",
+    "updated_at": "2025-08-06T16:32:06.541586"
+  },
+  {
+    "name": "Get Report Usage",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query ReportUsage {\n  reportUsage {\n    limit\n    limitRemaining\n    periodEnd\n    reportType\n  }\n}",
+      "variables": {}
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Reports",
+      "path": "Reporting/Reports",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "reporting",
+        "reports"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541594",
+    "updated_at": "2025-08-06T16:32:06.541596"
+  },
+  {
+    "name": "Get Reports",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query Reports($first: Int, $after: String, $input: ReportFilterInput) {\n  reports(first: $first, after: $after, filterBy: $input) {\n    ... on ReportConnection {\n      edges {\n        ... on ReportEdge {\n          node {\n            __typename\n            id\n            status\n            reportType\n            download {\n              url\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "status": {
+            "includes": [
+              "COMPLETED"
+            ]
+          }
+        }
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Reports",
+      "path": "Reporting/Reports",
+      "description": "",
+      "tags": [
+        "query",
+        "get",
+        "reporting",
+        "reports"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541605",
+    "updated_at": "2025-08-06T16:32:06.541607"
+  },
+  {
+    "name": "Get Schema Changelogs",
+    "program_type": "trip.com.postman_collection",
+    "operation_type": "query",
+    "graphql": {
+      "query": "query GetSchemaChangelogs($first: Int) {\n    schemaChangelogs(first: $first) {\n        edges {\n            node {\n                id\n                createdAt\n                changes {\n                    rootPath\n                    changes {\n                        changeType\n                        criticality {\n                            level\n                        }\n                        message\n                        path\n                    }\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "first": 20
+      }
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "metadata": {
+      "category": "Schema Changelogs",
+      "path": "Reporting/Schema Changelogs",
+      "description": "",
+      "tags": [
+        "query",
+        "schema_changelogs",
+        "get",
+        "reporting"
+      ],
+      "requires": [],
+      "produces": []
+    },
+    "version": "1.0.0",
+    "created_at": "2025-08-06T16:32:06.541614",
+    "updated_at": "2025-08-06T16:32:06.541616"
+  }
+]
