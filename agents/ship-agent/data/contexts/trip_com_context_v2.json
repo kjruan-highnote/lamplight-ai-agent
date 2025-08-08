@@ -1,0 +1,217 @@
+{
+  "customer": {
+    "name": "TripLink.com",
+    "industry": "Travel Services",
+    "entity": "TripLink",
+    "type": "B2B Travel Platform",
+    "contacts": [
+      {
+        "name": "Jessica Wang",
+        "email": "jessica.wang@trip.com",
+        "role": "Business Development Manager"
+      },
+      {
+        "name": "Jensen Cai",
+        "email": "jensen.cai@trip.com",
+        "role": "Regional Head, HK & Head of Global Partnership"
+      },
+      {
+        "name": "Theodas Shen",
+        "email": "jr_shen@trip.com",
+        "role": "Operations Manager"
+      }
+    ]
+  },
+  
+  "business_context": {
+    "current_state": {
+      "description": "TripLink is leveraging 4 providers today, under the PM model. They're currently phasing out their 4th provider.",
+      "pain_points": [
+        "Multiple provider management complexity",
+        "High operational costs",
+        "Legacy API limitations",
+        "Collateral account funding requirements"
+      ]
+    },
+    
+    "objectives": {
+      "primary": [
+        "Consolidate remaining providers to cut costs",
+        "Upgrade to a more modern API stack",
+        "Move from collateral account to bank guarantee model"
+      ],
+      "secondary": [
+        "Improve operational efficiency",
+        "Enhance reporting capabilities",
+        "Streamline supplier payments"
+      ]
+    },
+    
+    "business_model": {
+      "description": "TripLink issues cards directly to the US business entity and pays suppliers directly on behalf of TripLink customers.",
+      "key_points": [
+        "TripLink would be the cardholder (1 account)",
+        "Direct supplier payment model",
+        "B2B2C payment flow"
+      ]
+    }
+  },
+  
+  "use_cases": {
+    "primary": [
+      {
+        "title": "Supplier Direct Payments",
+        "description": "Pay travel suppliers directly on behalf of customers",
+        "scenarios": [
+          "Hotel payment at checkout",
+          "Airline ticket purchase",
+          "Car rental reservations",
+          "Travel insurance payments"
+        ],
+        "value_proposition": "Eliminates customer credit exposure and simplifies reconciliation"
+      },
+      {
+        "title": "Virtual Card Management",
+        "description": "Issue and manage virtual cards for specific transactions",
+        "scenarios": [
+          "Single-use cards for bookings",
+          "Merchant-specific cards",
+          "Time-limited cards for reservations",
+          "Amount-restricted cards for budgets"
+        ],
+        "value_proposition": "Enhanced control and fraud prevention"
+      }
+    ],
+    
+    "secondary": [
+      {
+        "title": "Multi-Currency Processing",
+        "description": "Handle international transactions seamlessly",
+        "scenarios": [
+          "Cross-border hotel payments",
+          "Foreign currency conversions",
+          "Multi-region supplier networks"
+        ]
+      },
+      {
+        "title": "Automated Reconciliation",
+        "description": "Streamline financial operations",
+        "scenarios": [
+          "Automatic invoice matching",
+          "Real-time transaction reporting",
+          "Supplier statement reconciliation"
+        ]
+      }
+    ]
+  },
+  
+  "requirements": {
+    "business": [
+      "Support for high transaction volumes during peak travel seasons",
+      "Real-time card issuance and activation",
+      "Comprehensive transaction data for reconciliation",
+      "Multi-level approval workflows for high-value transactions"
+    ],
+    
+    "operational": [
+      "24/7 system availability for global operations",
+      "Sub-second authorization response times",
+      "Automated exception handling",
+      "Self-service portal for card management"
+    ],
+    
+    "financial": [
+      "Eliminate collateral account requirements",
+      "Reduce per-transaction costs by 30%",
+      "Improve cash flow with on-demand funding",
+      "Minimize foreign exchange fees"
+    ]
+  },
+  
+  "success_metrics": {
+    "kpis": [
+      {
+        "metric": "Cost Reduction",
+        "target": "30% reduction in payment processing costs",
+        "timeline": "6 months"
+      },
+      {
+        "metric": "API Performance",
+        "target": "< 500ms response time for 95% of requests",
+        "timeline": "Immediate"
+      },
+      {
+        "metric": "Operational Efficiency",
+        "target": "50% reduction in manual reconciliation effort",
+        "timeline": "3 months"
+      },
+      {
+        "metric": "Supplier Satisfaction",
+        "target": "< 24 hour payment settlement",
+        "timeline": "Immediate"
+      }
+    ],
+    
+    "milestones": [
+      {
+        "phase": "Pilot",
+        "description": "Launch with select suppliers",
+        "timeline": "Month 1-2",
+        "success_criteria": "100 successful transactions"
+      },
+      {
+        "phase": "Expansion",
+        "description": "Roll out to all US suppliers",
+        "timeline": "Month 3-4",
+        "success_criteria": "1000 daily transactions"
+      },
+      {
+        "phase": "Full Production",
+        "description": "Complete migration from legacy providers",
+        "timeline": "Month 5-6",
+        "success_criteria": "All volume migrated"
+      }
+    ]
+  },
+  
+  "stakeholders": {
+    "executive_sponsor": "CFO - Cost optimization initiative",
+    "business_owner": "VP of Supplier Relations",
+    "technical_lead": "Director of Payment Systems",
+    "end_users": [
+      "Finance team for reconciliation",
+      "Supplier management team",
+      "Customer service for dispute resolution"
+    ]
+  },
+  
+  "integration_landscape": {
+    "internal_systems": [
+      "TripLink booking platform",
+      "Financial reporting system",
+      "Supplier management portal",
+      "Customer service tools"
+    ],
+    
+    "external_partners": [
+      "Global hotel chains",
+      "Airlines and GDS systems",
+      "Car rental companies",
+      "Travel insurance providers"
+    ]
+  },
+  
+  "risk_considerations": {
+    "business_risks": [
+      "Supplier adoption and onboarding",
+      "Migration from existing providers",
+      "Peak season transaction volumes"
+    ],
+    
+    "mitigation_strategies": [
+      "Phased rollout approach",
+      "Maintain parallel systems during transition",
+      "Comprehensive testing before peak seasons"
+    ]
+  }
+}

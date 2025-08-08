@@ -20,7 +20,7 @@ from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 
 # Import sync utility
-from postman_sync import PostmanToOperationsSync, PostmanOperationExtractor
+from src.postman_sync import PostmanToOperationsSync, PostmanOperationExtractor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

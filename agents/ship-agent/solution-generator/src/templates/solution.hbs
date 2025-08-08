@@ -1,0 +1,259 @@
+# {{program.program_type}} Program for {{customer.customer.name}}
+
+**Document Version:** 1.0  
+**Generated:** {{metadata.generatedAt}}  
+**Program Type:** {{program.program_type}}  
+**Vendor:** {{program.vendor}}  
+**API Type:** {{program.api_type}}
+
+## Executive Summary
+
+{{#if customer.overview}}
+{{customer.overview}}
+{{else}}
+This document outlines the {{program.program_type}} integration solution for {{customer.customer.name}} using {{program.vendor}}'s {{program.api_type}} API platform.
+{{/if}}
+
+{{#if customer.objectives}}
+### Objectives
+
+{{#each customer.objectives}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if program.capabilities}}
+### Key Capabilities
+
+{{#each program.capabilities}}
+- **{{this}}**
+{{/each}}
+{{/if}}
+
+## Technical Overview
+
+### Architecture
+
+The solution is built on a modern {{program.api_type}} API architecture providing:
+
+{{#if (eq program.api_type "graphql")}}
+- **Single Endpoint**: Unified GraphQL endpoint for all operations
+- **Strong Typing**: Type-safe operations with comprehensive schema
+- **Efficient Queries**: Request only needed data
+- **Real-time Updates**: Webhook notifications for events
+{{else}}
+- **RESTful Design**: Standard REST API patterns
+- **Resource-based**: Clear resource hierarchy
+- **Stateless**: Each request contains all necessary information
+- **Cacheable**: Responses can be cached for performance
+{{/if}}
+
+{{#if program.capabilities}}
+### Capabilities
+
+{{#each program.capabilities}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if program.performance}}
+### Performance Requirements
+
+{{#if program.performance.rate_limits}}
+#### Rate Limits
+{{#each program.performance.rate_limits}}
+- **{{@key}}**: {{this}}
+{{/each}}
+{{/if}}
+
+{{#if program.performance.sla}}
+#### Service Level Agreement
+{{#each program.performance.sla}}
+- **{{@key}}**: {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if customer.use_cases}}
+## Use Cases
+
+{{#if customer.use_cases.primary}}
+### Primary Use Cases
+
+{{#each customer.use_cases.primary}}
+#### {{title}}
+
+{{description}}
+
+{{#if scenarios}}
+{{#each scenarios}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if value_proposition}}
+**Value:** {{value_proposition}}
+{{/if}}
+
+{{/each}}
+{{/if}}
+
+{{#if customer.use_cases.secondary}}
+### Secondary Use Cases
+
+{{#each customer.use_cases.secondary}}
+#### {{title}}
+
+{{description}}
+
+{{#if scenarios}}
+{{#each scenarios}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if workflowsWithDiagrams}}
+## Implementation Workflows
+
+{{#each workflowsWithDiagrams}}
+### {{name}}
+
+{{#if description}}
+{{description}}
+{{/if}}
+
+{{#if diagram}}
+{{{diagram}}}
+{{/if}}
+
+**Steps:**
+
+{{#each steps}}
+{{#if required}}
+{{add @index 1}}. **{{operation}}** (Required)
+{{else}}
+{{add @index 1}}. **{{operation}}** (Optional)
+{{/if}}
+{{#if description}}
+   - {{description}}
+{{/if}}
+{{#if condition}}
+   - Condition: {{condition}}
+{{/if}}
+{{/each}}
+
+{{/each}}
+{{/if}}
+
+{{#if program.operations}}
+## API Operations Reference
+
+### Operations by Category
+
+{{#each program.operations}}
+#### {{@key}}
+
+{{#if this.0.description}}
+{{this.0.description}}
+{{/if}}
+
+Total operations: {{this.length}}
+
+| Operation | Type | Required | Description |
+|-----------|------|----------|-------------|
+{{#each this}}
+| {{name}} | {{type}} | {{#if required}}Yes{{else}}No{{/if}} | {{#if description}}{{description}}{{else}}Operation{{/if}} |
+{{/each}}
+
+{{/each}}
+{{/if}}
+
+## Integration Guide
+
+### Prerequisites
+
+1. **API Credentials**
+   - Organization ID
+   - API Key with appropriate permissions
+   - Webhook endpoint for async events
+
+2. **Environment Setup**
+   - Sandbox environment for testing
+   - Production environment credentials
+
+### Authentication
+
+- **Type**: {{#if program.auth_type}}{{program.auth_type}}{{else}}API Key{{/if}}
+- **Header**: Authorization
+
+### Quick Start
+
+1. Obtain API credentials
+2. Configure webhook endpoints
+3. Test connectivity with ping operation
+4. Implement core workflows
+5. Perform end-to-end testing
+
+### Best Practices
+
+- Implement exponential backoff for retries
+- Use idempotency keys for mutations
+- Monitor rate limits
+- Implement proper error handling
+- Use webhook events for async operations
+
+{{#if customer.requirements}}
+## Requirements
+
+{{#if customer.requirements.functional}}
+### Functional Requirements
+
+{{#each customer.requirements.functional}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.requirements.technical}}
+### Technical Requirements
+
+{{#each customer.requirements.technical}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.requirements.compliance}}
+### Compliance Requirements
+
+{{#each customer.requirements.compliance}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+## Appendices
+
+### Appendix A: Glossary
+
+| Term | Definition |
+|------|------------|
+| API | Application Programming Interface |
+| GraphQL | Query language for APIs |
+| REST | Representational State Transfer |
+| Webhook | HTTP callback for events |
+| Mutation | Operation that modifies data |
+| Query | Operation that retrieves data |
+
+### Appendix B: Resources
+
+- API Documentation
+- Developer Portal
+- Support Channels
+- Status Page
+
+---
+
+*Generated on {{metadata.generatedAt}} using Solution Generator v{{metadata.version}}*

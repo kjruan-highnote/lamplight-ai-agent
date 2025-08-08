@@ -1,251 +1,379 @@
-# AP Automation Program Configuration
+# AP Automation Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
 program_type: ap_automation
-vendor: highnote
-version: "1.0.0"
+vendor: Highnote Inc.
+version: "2.0.0"
 api_type: graphql
 
 metadata:
-  description: "AP Automation Program - Highnote"
+  name: "AP Automation Program"
+  description: "Accounts payable automation with virtual card payments"
   base_url: "{{apiUrl}}"
   authentication:
-    type: "bearer"
-    header: "Authorization"
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
 
+# Core capabilities this program provides
+capabilities:
+  - virtual_card_issuance
+  - on_demand_funding
+  - collaborative_authorization
+  - spend_controls
+  - velocity_rules
+  - real_time_webhooks
+  - transaction_monitoring
+  - multi_currency
+
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+      - operation: CreateCardProductWithTemplate
+        required: false
+        description: "Alternative setup with template"
+        
+  onboarding:
+    name: "Customer Onboarding"
+    description: "Onboard new card program"
+    required: true
+    steps:
+      - operation: CreateCardProduct
+        required: true
+      - operation: GetCardProductAccounts
+        required: true
+      - operation: EnableOnDemandFundingFeature
+        required: false
+        condition: "if using on-demand funding"
+      - operation: EnableCollaborativeAuthorizationFeature
+        required: false
+        condition: "if using collaborative auth"
+        
+  card_issuance:
+    name: "Card Issuance Flow"
+    description: "Issue and activate virtual cards"
+    required: true
+    steps:
+      - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        required: true
+      - operation: ActivatePaymentCard
+        required: true
+      - operation: AttachSpendRule
+        required: false
+        condition: "if spend controls needed"
+        
+  transaction_processing:
+    name: "Transaction Processing"
+    description: "Process card transactions"
+    required: true
+    steps:
+      - operation: SimulateAuthorization
+        required: false
+        condition: "sandbox only"
+      - operation: SimulateClearing
+        required: false
+        condition: "sandbox only"
+      - operation: GetTransactionEvent
+        required: true
+      - operation: TransactionEventsByPaymentCardAndTransactionId
+        required: true
+        
+  card_lifecycle:
+    name: "Card Lifecycle Management"
+    description: "Manage card states"
+    required: true
+    steps:
+      - operation: ActivatePaymentCard
+        required: true
+      - operation: SuspendPaymentCard
+        required: true
+      - operation: ClosePaymentCard
+        required: true
+
+# Core entities managed by this program
+entities:
+  - name: Account
+    description: "Core account management"
+    primary: true
+  - name: Application
+    description: "Application management"
+    primary: true
+  - name: PaymentCard
+    description: "Virtual payment cards"
+    primary: true
+  - name: Authorization
+    description: "Transaction authorizations"
+    primary: true
+  - name: SpendRule
+    description: "Spending controls and limits"
+  - name: VelocityRule
+    description: "Velocity controls"
+  - name: CardProduct
+    description: "Card product configuration"
+  - name: FinancialAccount
+    description: "Financial account management"
+
+# Operation categories with enhanced metadata
 categories:
-  - name: api_key_management
-    description: "API key creation, retrieval, and management"
+  - name: api_keys
+    display_name: "API Keys"
+    description: "API key management operations"
+    order: 1
     operations:
-      - GetAllApiKeys
-      - CreateApiKey
-      - RevokeApiKey
-      
-  - name: organization
-    description: "Organization setup and configuration"
-    operations:
-      - GetAllOrganizations
-      - GetOrganizationById
-      - UpdateOrganizationProfileDisplayName
-      
-  - name: setup
-    description: "General setup and system configuration"
-    operations:
-      - Ping
-      - Introspection
-      
+      - name: GetAllApiKeys
+        type: query
+        required: false
+      - name: CreateSecretApiKey
+        type: mutation
+        required: true
+      - name: RevokeApiKey
+        type: mutation
+        required: false
+        
   - name: card_product
-    description: "AP automation card product setup and configuration"
+    display_name: "Card Product"
+    description: "Card product configuration"
+    order: 2
     operations:
-      - CreateCardProduct
-      - GetCardProduct
-      - GetCardProductAccounts
-      - SimulateDeposit
-      
-  - name: financial_accounts
-    description: "Financial account issuance and management"
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: CreateCardProductWithTemplate
+        type: mutation
+        required: false
+      - name: GetCardProductAccounts
+        type: query
+        required: true
+      - name: GetAllCardProductDetails
+        type: query
+        required: false
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+      - name: GetDepositTransfer
+        type: query
+        required: false
+      - name: EnableOnDemandFundingFeature
+        type: mutation
+        required: true
+      - name: EnableCollaborativeAuthorizationFeature
+        type: mutation
+        required: true
+        
+  - name: collaborative_authorization
+    display_name: "Collaborative Authorization"
+    description: "Real-time authorization management"
+    order: 3
     operations:
-      - IssueFinancialAccountForApplicationWithOdfSource
-      - GetFinancialAccountById
-      
-  - name: on_demand_funding
-    description: "On-demand funding and balance management"
-    operations:
-      - EnableOnDemandFundingFeature
-      - IssueFinancialAccountForApplicationWithOdfSource
-      
-  - name: funding
-    description: "Funding operations and account management"
-    operations:
-      - GetCardProductAccounts
-      - SimulateDeposit
-      
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: GetCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: GetCollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+        
   - name: payment_cards
-    description: "Payment card issuance and lifecycle management"
+    display_name: "Payment Cards"
+    description: "Virtual card issuance and management"
+    order: 4
     operations:
-      - IssuePaymentCardForFinancialAccount
-      - GenerateClientTokenToSetPin
-      - GenerateClientTokenForRestrictedDetail
-      - ViewPaymentCardRestrictedDetails
-      - ActivatePaymentCard
-      - SetPinForPaymentCard
-      - SuspendPaymentCard
-      - ReissuePaymentCard
-      - ClosePaymentCard
-      
-  - name: transactions
-    description: "Transaction processing and history"
-    operations:
-      - GetTransactionEvent
-      - TransactionEventsByPaymentCardAndTransactionid
-      
+      - name: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        type: mutation
+        required: true
+      - name: ActivatePaymentCard
+        type: mutation
+        required: true
+      - name: GenerateClientTokenForRestrictedDetails
+        type: mutation
+        required: false
+      - name: GetPaymentCardRestrictedDetails
+        type: query
+        required: false
+      - name: SuspendPaymentCard
+        type: mutation
+        required: true
+      - name: ClosePaymentCard
+        type: mutation
+        required: true
+      - name: GetPaymentCard
+        type: query
+        required: true
+        
   - name: spend_rules
-    description: "Spending control rules and merchant restrictions"
+    display_name: "Spend Rules"
+    description: "Spending controls and limits"
+    order: 5
     operations:
-      - CreateAmountLimitSpendRule
-      - CreateMerchantCategorySpendRule
-      - AttachSpendRuleToCardProduct
-      - UpdateMerchantCategorySpendRule
-      - AttachSpendRuleToPaymentCard
-      - DetachSpendRuleFromCardProduct
-      - DetachSpendRuleFromPaymentCard
-      
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+        
   - name: velocity_rules
-    description: "Transaction velocity and amount limit controls"
+    display_name: "Velocity Rules"
+    description: "Transaction velocity controls"
+    order: 6
     operations:
-      - CreateAmountLimitSpendRule
-      - CreateVelocityRule
-      - GetAllVelocityRules
-      - GetPaymentCardVelocityRule
-      - GetFinancialAccountWithVelocityBalance
-      - AttachPaymentCardVelocityRule
-      - DetachPaymentCardVelocityRule
-      - AttachCardProductVelocityRule
-      - DetachCardProductVelocityRule
-      
-  - name: collaborative_authorization_copy
-    description: "Real-time authorization decision making"
+      - name: CreateVelocityRule
+        type: mutation
+        required: false
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: false
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: GetAllVelocityRules
+        type: query
+        required: false
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: false
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+        
+  - name: transactions
+    display_name: "Transactions"
+    description: "Transaction processing and monitoring"
+    order: 7
     operations:
-      - AddCollaborativeAuthorizationEndpoint
-      - ActivateCollaborativeAuthorizationEndpoint
-      - GetCollaborativeAuthorizationEndpoint
-      - DeactivateCollaborativeAuthorizationEndpoint
-      - RemoveCollaborativeAuthorizationEndpoint
-      - GetCollaborativeAuthorizationEndpoints
-      - RenameCollaborativeAuthorizationEndpoint
-      
-  - name: notification_targets
-    description: "Webhook endpoints and notification delivery"
-    operations:
-      - AddWebhookNotificationTarget
-      - GetAllWebhookNotificationTargets
-      - DeactivateNotificationTarget
-      - ActivateNotificationTarget
-      - GetWebhookNotificationTarget
-      - GetNotificationTargetDeliveryAttempts
-      - AddSubscriptionsToNotificationTarget
-      - RemoveSubscriptionsFromNotificationTarget
-      
-  - name: notification_events
-    description: "Event notifications and delivery management"
-    operations:
-      - GetAllNotificationEvents
-      - GetNotificationEvent
-      - ReplayNotificationEvent
-      - GetDeliveryAttemptsForNotificationEvent
-      - GetNotificationEventsFilteredByName
-      
-  - name: reports
-    description: "Business reporting and analytics"
-    operations:
-      - InitiateOrganizationReport
-      - GetReport
-      - GetReportUsage
-      - GetReports
-      
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: true
+      - name: GetCardProductTransactionEvents
+        type: query
+        required: false
+      - name: LedgerEntry
+        type: query
+        required: false
+        
   - name: simulation
-    description: "Transaction and payment simulation"
+    display_name: "Simulation"
+    description: "Sandbox testing operations"
+    order: 8
+    sandbox_only: true
     operations:
-      - SimulateAuthorization
-      - SimulateClearing
-      - SimulateReversal
-      - SimulateRefund
-      - SimulateSingleStepAuthAndClear
+      - name: SimulateAuthorization
+        type: mutation
+        required: false
+      - name: SimulateReversal
+        type: mutation
+        required: false
+      - name: SimulateClearing
+        type: mutation
+        required: false
+      - name: SimulateRefund
+        type: mutation
+        required: false
+      - name: SimulateSingleStepAuthAndClear
+        type: mutation
+        required: false
 
-dimensions:
-  customer_segments:
-    - small_business_ap
-    - mid_market_ap
-    - enterprise_ap
-    - supplier_payments
-    - vendor_management
-    
-  program_variants:
-    - standard_ap_automation
-    - integrated_ap_automation
-    - supplier_portal_ap
-    - invoice_processing_ap
-    - payment_automation
-    
-  integration_types:
-    - erp_integration
-    - accounting_software
-    - supplier_portals
-    - invoice_management
-    - procurement_systems
-    
-  payment_methods:
-    - virtual_cards
-    - physical_cards
-    - ach_payments
-    - wire_transfers
-    - check_payments
-    
-  features:
-    - automated_invoice_processing
-    - supplier_onboarding
-    - approval_workflows
-    - spend_analytics
-    - compliance_reporting
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+      
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: "KYC/AML procedures"
+    - name: OFAC
+      description: "Sanctions screening"
+    - name: REG_E
+      description: "Electronic funds transfer protections"
+      
+  security:
+    encryption:
+      in_transit: "TLS 1.2+"
+      at_rest: "AES-256"
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: "7 years"
+      card_data: "tokenized"
 
-operation_flows:
-  standard_ap_automation_setup:
-    description: "Complete setup for AP automation program"
-    steps:
-      - CreateCardProduct
-      - EnableOnDemandFundingFeature
-      - IssueFinancialAccountForApplicationWithOdfSource
-      - IssuePaymentCardForFinancialAccount
-      - ActivatePaymentCard
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
       
-  comprehensive_spend_controls:
-    description: "Set up comprehensive spending and velocity controls for AP"
-    steps:
-      - CreateMerchantCategorySpendRule
-      - CreateAmountLimitSpendRule
-      - AttachSpendRuleToCardProduct
-      - CreateVelocityRule
-      - AttachCardProductVelocityRule
-      - AddCollaborativeAuthorizationEndpoint
-      - ActivateCollaborativeAuthorizationEndpoint
-      
-  payment_processing_flow:
-    description: "Complete payment processing lifecycle for AP"
-    steps:
-      - SimulateAuthorization
-      - SimulateClearing
-      - GetTransactionEvent
-      - TransactionEventsByPaymentCardAndTransactionid
-      
-  notification_system_setup:
-    description: "Configure comprehensive webhook notification system for AP"
-    steps:
-      - AddWebhookNotificationTarget
-      - AddSubscriptionsToNotificationTarget
-      - ActivateNotificationTarget
-      - GetAllNotificationEvents
-      - ReplayNotificationEvent
-      
-  reporting_and_analytics:
-    description: "Set up reporting and analytics for AP automation"
-    steps:
-      - InitiateOrganizationReport
-      - GetReport
-      - GetReportUsage
-      - GetReports
-      
-  supplier_payment_management:
-    description: "Manage supplier payments and cards"
-    steps:
-      - GetCardProduct
-      - GetCardProductAccounts
-      - IssuePaymentCardForFinancialAccount
-      - ViewPaymentCardRestrictedDetails
-      - SuspendPaymentCard
-      - ReissuePaymentCard
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
 
-tags:
-  - ap_automation
-  - graphql
-  - highnote
-  - accounts_payable
-  - supplier_payments
-  - virtual_cards
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000

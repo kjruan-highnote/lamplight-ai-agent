@@ -54,7 +54,7 @@ echo ""
 echo -e "${YELLOW}Testing Options:${NC}"
 echo ""
 echo "1. MCP Inspector:"
-echo "   npx @modelcontextprotocol/inspector python -m src.solutions_mcp_server"
+echo "   npx @modelcontextprotocol/inspector python -m src.solutions_mcp_server_v2"
 echo ""
 echo "2. Claude Desktop:"
 echo "   Already configured as 'lamplight-solutions'"
@@ -88,4 +88,4 @@ echo "Starting server..."
 echo ""
 
 cd "$SCRIPT_DIR"
-python -m src.solutions_mcp_server
+python -m src.solutions_mcp_server_v2

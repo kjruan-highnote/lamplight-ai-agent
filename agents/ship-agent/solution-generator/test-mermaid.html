@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mermaid Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.9.0/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>Testing Mermaid 11.9.0</h1>
+    
+    <h2>Test 1: Basic Sequence Diagram</h2>
+    <div class="mermaid">
+sequenceDiagram
+    autonumber
+    title Test Workflow
+    
+    participant CUSTOMER as TripLinkcom
+    participant VENDOR as Highnote
+    
+    Note over CUSTOMER: Start workflow
+    
+    CUSTOMER->>+VENDOR: Request
+    VENDOR-->>-CUSTOMER: Response
+    
+    Note over CUSTOMER,VENDOR: Complete
+    </div>
+    
+    <h2>Test 2: With Additional Participants</h2>
+    <div class="mermaid">
+sequenceDiagram
+    autonumber
+    title Complex Workflow
+    
+    participant CUSTOMER as Trip com
+    participant VENDOR as Highnote
+    participant WEBHOOK as Webhook Service
+    
+    CUSTOMER->>+VENDOR: CreateProduct [Required]
+    VENDOR-->>-CUSTOMER: Created (201)
+    
+    alt if condition
+        CUSTOMER->>+WEBHOOK: GetEvent
+        WEBHOOK-->>-CUSTOMER: Data Response (200)
+    end
+    
+    Note over CUSTOMER,VENDOR: Workflow Complete
+    </div>
+</body>
+</html>
