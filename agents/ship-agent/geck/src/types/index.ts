@@ -84,34 +84,60 @@ export interface CustomerContext {
 
 export interface ProgramConfig {
   _id?: string;
-  program_type: string;
-  name: string;
+  // Core program identification
+  program_type: string; // e.g., 'ap_automation', 'consumer_prepaid'
+  vendor: string; // e.g., 'Highnote Inc.', 'Marqeta'
   version: string;
-  vendor: string;
-  api_type: string;
-  config: {
-    metadata: {
-      name: string;
-      description: string;
-      base_url: string;
-      authentication: {
-        type: string;
-        header: string;
-      };
+  api_type: 'graphql' | 'rest' | 'soap';
+  
+  // Program classification
+  program_class?: 'template' | 'subscriber'; // template = reusable, subscriber = specific implementation
+  parent_template_id?: string; // If subscriber, reference to parent template
+  customer_id?: string; // If subscriber, reference to customer context
+  
+  // Metadata
+  metadata: {
+    name: string;
+    description: string;
+    base_url: string;
+    authentication: {
+      type: string; // 'Basic', 'Bearer', 'API Key', etc.
+      header: string; // 'Authorization', 'X-API-Key', etc.
+      format?: string; // Optional format like 'Basic <BASE64_ENCODED_API_KEY>'
     };
-    capabilities: string[];
-    workflows: Record<string, Workflow>;
-    entities: Entity[];
-    categories: Category[];
-    compliance?: ComplianceConfig;
-    integrations?: IntegrationConfig;
-    performance?: PerformanceConfig;
-    resources?: ResourceConfig;
   };
+  
+  // Core capabilities
+  capabilities: string[];
+  
+  // Workflows define the business processes
+  workflows: Record<string, Workflow>;
+  
+  // Core entities managed by the program
+  entities: Entity[];
+  
+  // Operation categories
+  categories: Category[];
+  
+  // Compliance requirements
+  compliance?: ComplianceConfig;
+  
+  // Integration requirements
+  integrations?: IntegrationConfig;
+  
+  // Performance requirements
+  performance?: PerformanceConfig;
+  
+  // Resource links
+  resources?: ResourceConfig;
+  
+  // System fields
   createdAt?: Date;
   updatedAt?: Date;
   lastSyncedFromPostman?: Date;
+  createdBy?: string;
   tags?: string[];
+  status?: 'draft' | 'active' | 'archived';
 }
 
 export interface Workflow {
@@ -143,8 +169,11 @@ export interface Category {
 
 export interface Operation {
   name: string;
-  type: 'query' | 'mutation';
+  type: 'query' | 'mutation' | 'subscription';
   required: boolean;
+  description?: string;
+  parameters?: Record<string, any>;
+  response?: Record<string, any>;
 }
 
 export interface ComplianceConfig {

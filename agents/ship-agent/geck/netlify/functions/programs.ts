@@ -2,6 +2,7 @@ import { Handler } from '@netlify/functions';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase, headers } from './db';
 import { withErrorLogging } from './_middleware';
+import { logActivity } from './activity';
 
 const programHandler: Handler = async (event) => {
   // Handle CORS preflight
@@ -100,6 +101,15 @@ const programHandler: Handler = async (event) => {
           
           const result = await collection.insertOne(duplicate);
           
+          // Log activity
+          await logActivity(db, {
+            type: 'program',
+            action: 'created',
+            name: duplicate.name || duplicate.program_type || 'Unnamed Program',
+            entityId: result.insertedId.toString(),
+            details: { duplicatedFrom: id }
+          });
+          
           return {
             statusCode: 201,
             headers,
@@ -115,6 +125,14 @@ const programHandler: Handler = async (event) => {
           };
           
           const result = await collection.insertOne(newProgram);
+          
+          // Log activity
+          await logActivity(db, {
+            type: 'program',
+            action: 'created',
+            name: newProgram.name || newProgram.program_type || 'Unnamed Program',
+            entityId: result.insertedId.toString()
+          });
           
           return {
             statusCode: 201,
@@ -154,6 +172,14 @@ const programHandler: Handler = async (event) => {
           };
         }
         
+        // Log activity
+        await logActivity(db, {
+          type: 'program',
+          action: 'modified',
+          name: updateResult.name || updateResult.program_type || 'Unnamed Program',
+          entityId: id
+        });
+        
         return {
           statusCode: 200,
           headers,
@@ -169,6 +195,11 @@ const programHandler: Handler = async (event) => {
           };
         }
         
+        // Get program name before deletion for activity log
+        const programToDelete = await collection.findOne({ 
+          _id: new ObjectId(id) 
+        });
+        
         const deleteResult = await collection.deleteOne({ 
           _id: new ObjectId(id) 
         });
@@ -180,6 +211,14 @@ const programHandler: Handler = async (event) => {
             body: JSON.stringify({ error: 'Program not found' })
           };
         }
+        
+        // Log activity
+        await logActivity(db, {
+          type: 'program',
+          action: 'deleted',
+          name: programToDelete?.name || programToDelete?.program_type || 'Unnamed Program',
+          entityId: id
+        });
         
         return {
           statusCode: 200,

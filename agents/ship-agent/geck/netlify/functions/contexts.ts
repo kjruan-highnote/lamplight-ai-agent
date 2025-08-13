@@ -2,6 +2,7 @@ import { Handler } from '@netlify/functions';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase, headers } from './db';
 import { withErrorLogging } from './_middleware';
+import { logActivity } from './activity';
 
 const contextHandler: Handler = async (event) => {
   // Handle CORS preflight
@@ -103,6 +104,15 @@ const contextHandler: Handler = async (event) => {
           
           const result = await collection.insertOne(duplicate);
           
+          // Log activity
+          await logActivity(db, {
+            type: 'context',
+            action: 'created',
+            name: duplicate.customer?.name || duplicate.name || 'Unnamed Context',
+            entityId: result.insertedId.toString(),
+            details: { duplicatedFrom: id }
+          });
+          
           return {
             statusCode: 201,
             headers,
@@ -118,6 +128,14 @@ const contextHandler: Handler = async (event) => {
           };
           
           const result = await collection.insertOne(newContext);
+          
+          // Log activity
+          await logActivity(db, {
+            type: 'context',
+            action: 'created',
+            name: newContext.customer?.name || newContext.name || 'Unnamed Context',
+            entityId: result.insertedId.toString()
+          });
           
           return {
             statusCode: 201,
@@ -164,6 +182,14 @@ const contextHandler: Handler = async (event) => {
           };
         }
         
+        // Log activity
+        await logActivity(db, {
+          type: 'context',
+          action: 'modified',
+          name: updateResult.customer?.name || updateResult.name || 'Unnamed Context',
+          entityId: id
+        });
+        
         return {
           statusCode: 200,
           headers,
@@ -186,6 +212,9 @@ const contextHandler: Handler = async (event) => {
           deleteQuery._id = id;
         }
         
+        // Get context name before deletion for activity log
+        const contextToDelete = await collection.findOne(deleteQuery);
+        
         const deleteResult = await collection.deleteOne(deleteQuery);
         
         if (deleteResult.deletedCount === 0) {
@@ -195,6 +224,14 @@ const contextHandler: Handler = async (event) => {
             body: JSON.stringify({ error: 'Context not found' })
           };
         }
+        
+        // Log activity
+        await logActivity(db, {
+          type: 'context',
+          action: 'deleted',
+          name: contextToDelete?.customer?.name || contextToDelete?.name || 'Unnamed Context',
+          entityId: id
+        });
         
         return {
           statusCode: 200,

@@ -126,6 +126,28 @@ class ApiClient {
         message?: string;
       }>(`${API_BASE}/postman-sync`),
   };
+
+  // Dashboard
+  dashboard = {
+    getStats: () =>
+      this.request<{
+        contexts: number;
+        programs: number;
+        recentActivity: Array<{
+          _id?: string;
+          type: 'context' | 'program' | 'sync' | 'system';
+          name: string;
+          action: 'created' | 'modified' | 'deleted' | 'synced';
+          timestamp: Date;
+          user?: string;
+        }>;
+        lastSync?: Date;
+        systemHealth: {
+          database: 'connected' | 'disconnected';
+          lastCheck: Date;
+        };
+      }>(`${API_BASE}/dashboard`),
+  };
 }
 
 export const api = new ApiClient();
