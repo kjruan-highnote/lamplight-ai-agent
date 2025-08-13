@@ -4,10 +4,12 @@
   publish = "build"
 
 [dev]
-  command = "npm start"
+  command = "npm run start:app"
   port = 8888
   targetPort = 3000
+  functionsPort = 9000
   autoLaunch = false
+  framework = "#custom"
 
 [[redirects]]
   from = "/api/*"

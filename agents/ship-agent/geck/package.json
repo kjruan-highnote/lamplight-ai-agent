@@ -34,10 +34,16 @@
     "zustand": "^5.0.7"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "node scripts/start-dev.js",
+    "start:concurrent": "concurrently --kill-others -n \"APP,FUNC\" -c \"cyan,magenta\" \"npm run start:app\" \"npm run start:functions\"",
+    "start:app": "craco start",
+    "start:functions": "netlify functions:serve --port 9000",
+    "start:netlify": "netlify dev",
+    "build": "craco build && npm run build:functions",
+    "build:functions": "netlify functions:build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "logs:functions": "netlify functions:serve --port 9000 --debug"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +65,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.0",
+    "netlify-cli": "^23.1.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17"
   }

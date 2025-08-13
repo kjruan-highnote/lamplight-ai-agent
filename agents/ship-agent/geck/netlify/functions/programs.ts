@@ -1,8 +1,9 @@
 import { Handler } from '@netlify/functions';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase, headers } from './db';
+import { withErrorLogging } from './_middleware';
 
-export const handler: Handler = async (event) => {
+const programHandler: Handler = async (event) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
@@ -17,9 +18,14 @@ export const handler: Handler = async (event) => {
       case 'GET':
         if (id) {
           // Get single program
-          const program = await collection.findOne({ 
-            _id: new ObjectId(id) 
-          });
+          let query: any = {};
+          if (/^[0-9a-fA-F]{24}$/.test(id)) {
+            query._id = new ObjectId(id);
+          } else {
+            query._id = id;
+          }
+          
+          const program = await collection.findOne(query);
           
           if (!program) {
             return {
@@ -197,3 +203,5 @@ export const handler: Handler = async (event) => {
     };
   }
 };
+
+export const handler = withErrorLogging(programHandler);

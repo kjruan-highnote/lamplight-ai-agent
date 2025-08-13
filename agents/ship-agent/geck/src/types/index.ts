@@ -1,28 +1,80 @@
+export interface Contact {
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface UseCase {
+  title: string;
+  description: string;
+  scenarios: string[];
+  value_proposition?: string;
+}
+
+export interface KPI {
+  metric: string;
+  target: string;
+  timeline: string;
+}
+
+export interface Milestone {
+  phase: string;
+  description: string;
+  timeline: string;
+  success_criteria: string;
+}
+
 export interface CustomerContext {
   _id?: string;
-  name: string;
-  customer: string;
-  version: string;
-  data: {
-    customer_name: string;
+  name?: string;
+  version?: string;
+  customer: {
+    name: string;
     industry: string;
-    company_size: string;
-    business_model: string;
-    current_challenges: string[];
-    technical_requirements: {
-      integration_complexity: string;
-      security_requirements: string;
-      compliance_needs: string[];
-      scalability_needs: string;
+    entity: string;
+    type: string;
+    contacts: Contact[];
+  };
+  business_context: {
+    current_state: {
+      description: string;
+      pain_points: string[];
     };
-    business_objectives: string[];
-    success_metrics: string[];
-    implementation_timeline: string;
-    budget_range: string;
-    stakeholders: Array<{
-      role: string;
-      concerns: string[];
-    }>;
+    objectives: {
+      primary: string[];
+      secondary: string[];
+    };
+    business_model: {
+      description: string;
+      key_points: string[];
+    };
+  };
+  use_cases: {
+    primary: UseCase[];
+    secondary: UseCase[];
+  };
+  requirements: {
+    business: string[];
+    operational: string[];
+    financial: string[];
+  };
+  success_metrics: {
+    kpis: KPI[];
+    milestones: Milestone[];
+  };
+  stakeholders: {
+    executive_sponsor: string;
+    business_owner: string;
+    technical_lead: string;
+    end_users: string[];
+  };
+  integration_landscape: {
+    internal_systems: string[];
+    external_partners: string[];
+  };
+  risk_considerations: {
+    business_risks: string[];
+    mitigation_strategies: string[];
   };
   createdAt?: Date;
   updatedAt?: Date;

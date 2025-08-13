@@ -1,8 +1,9 @@
 import { Handler } from '@netlify/functions';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase, headers } from './db';
+import { withErrorLogging } from './_middleware';
 
-export const handler: Handler = async (event) => {
+const contextHandler: Handler = async (event) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
@@ -17,9 +18,17 @@ export const handler: Handler = async (event) => {
       case 'GET':
         if (id) {
           // Get single context
-          const context = await collection.findOne({ 
-            _id: new ObjectId(id) 
-          });
+          let query: any = {};
+          
+          // Check if ID is a valid ObjectId format (24 hex chars)
+          if (/^[0-9a-fA-F]{24}$/.test(id)) {
+            query._id = new ObjectId(id);
+          } else {
+            // For non-ObjectId formats, search by string ID
+            query._id = id;
+          }
+          
+          const context = await collection.findOne(query);
           
           if (!context) {
             return {
@@ -66,9 +75,14 @@ export const handler: Handler = async (event) => {
       case 'POST':
         if (action === 'duplicate' && id) {
           // Duplicate existing context
-          const original = await collection.findOne({ 
-            _id: new ObjectId(id) 
-          });
+          let query: any = {};
+          if (/^[0-9a-fA-F]{24}$/.test(id)) {
+            query._id = new ObjectId(id);
+          } else {
+            query._id = id;
+          }
+          
+          const original = await collection.findOne(query);
           
           if (!original) {
             return {
@@ -124,8 +138,15 @@ export const handler: Handler = async (event) => {
         const updateData = JSON.parse(event.body || '{}');
         const { _id, ...dataToUpdate } = updateData;
         
+        let updateQuery: any = {};
+        if (/^[0-9a-fA-F]{24}$/.test(id)) {
+          updateQuery._id = new ObjectId(id);
+        } else {
+          updateQuery._id = id;
+        }
+        
         const updateResult = await collection.findOneAndUpdate(
-          { _id: new ObjectId(id) },
+          updateQuery,
           { 
             $set: {
               ...dataToUpdate,
@@ -158,9 +179,14 @@ export const handler: Handler = async (event) => {
           };
         }
         
-        const deleteResult = await collection.deleteOne({ 
-          _id: new ObjectId(id) 
-        });
+        let deleteQuery: any = {};
+        if (/^[0-9a-fA-F]{24}$/.test(id)) {
+          deleteQuery._id = new ObjectId(id);
+        } else {
+          deleteQuery._id = id;
+        }
+        
+        const deleteResult = await collection.deleteOne(deleteQuery);
         
         if (deleteResult.deletedCount === 0) {
           return {
@@ -192,3 +218,5 @@ export const handler: Handler = async (event) => {
     };
   }
 };
+
+export const handler = withErrorLogging(contextHandler);

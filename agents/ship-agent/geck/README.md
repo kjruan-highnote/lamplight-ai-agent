@@ -5,12 +5,13 @@ A Fallout-themed configuration management system for API integrations, built wit
 ## Features
 
 - 🎮 **Vault-Tec Terminal UI** - Authentic Fallout terminal aesthetic with CRT effects
-- 📝 **Context Management** - Create and edit customer contexts with JSON editor
+- 📝 **Context Management** - Create and edit customer contexts with comprehensive data model
 - 🔧 **Program Configuration** - Build API program configs with YAML support
 - 💾 **MongoDB Atlas** - Cloud database storage for all configurations
-- ⚡ **Netlify Functions** - Serverless backend API
+- ⚡ **Netlify Functions** - Serverless backend API with enhanced error logging
 - 🔄 **Postman Sync** - Import and sync Postman collections
 - 🎨 **Monaco Editor** - VS Code's editor for JSON/YAML editing
+- 📊 **Enhanced Logging** - Color-coded console output with timestamps and error tracking
 
 ## Setup
 
@@ -46,14 +47,19 @@ npm install
 ### 4. Run Development Server
 
 ```bash
-# Run with Netlify Dev (includes functions)
-netlify dev
-
-# Or run React app only
+# Run both React app and Netlify Functions with enhanced logging
 npm start
+
+# Alternative commands:
+npm run start:netlify      # Run with Netlify Dev
+npm run start:concurrent   # Run with concurrently
+npm run logs:functions     # Functions with debug logging
 ```
 
-The app will be available at http://localhost:8888 (with Netlify Dev) or http://localhost:3000 (React only).
+The app will be available at:
+- React App: http://localhost:3000
+- Netlify Functions: http://localhost:9000/.netlify/functions
+- Combined (with Netlify Dev): http://localhost:8888
 
 ## Development
 
@@ -76,9 +82,12 @@ geck/
 
 ### Available Scripts
 
-- `npm start` - Run React development server
-- `npm run build` - Build for production
-- `netlify dev` - Run with Netlify Functions locally
+- `npm start` - Run both React app and Netlify Functions with enhanced logging
+- `npm run start:app` - Run React development server only
+- `npm run start:functions` - Run Netlify Functions only  
+- `npm run start:netlify` - Run with Netlify Dev
+- `npm run build` - Build both app and functions for production
+- `npm run logs:functions` - Run functions with debug logging
 - `netlify deploy` - Deploy to Netlify
 
 ### API Endpoints

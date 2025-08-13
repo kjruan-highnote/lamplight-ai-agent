@@ -1,6 +1,9 @@
 import { CustomerContext, ProgramConfig } from '../types';
 
-const API_BASE = '/.netlify/functions';
+// Use local functions port in development, otherwise use Netlify functions path
+const API_BASE = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:9000/.netlify/functions'
+  : '/.netlify/functions';
 
 class ApiClient {
   private async request<T>(
