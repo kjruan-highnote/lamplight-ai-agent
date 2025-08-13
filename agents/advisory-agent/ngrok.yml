@@ -1,0 +1,18 @@
+version: "2"
+authtoken: ${NGROK_AUTHTOKEN}
+
+tunnels:
+  advisory-agent:
+    proto: http
+    addr: 8002
+    domain: ${NGROK_DOMAIN}
+    inspect: true
+    schemes:
+      - https
+    metadata:
+      service: "highnote-advisory-agent"
+    request_header:
+      add:
+        - "X-Forwarded-Proto:https"
+      remove:
+        - "X-Forwarded-For"

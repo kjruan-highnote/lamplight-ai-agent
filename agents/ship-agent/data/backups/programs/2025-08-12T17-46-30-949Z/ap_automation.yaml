@@ -1,0 +1,410 @@
+# AP Automation Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
+program_type: ap_automation
+vendor: Highnote Inc.
+version: "2.0.0"
+api_type: graphql
+
+metadata:
+  name: "AP Automation Program"
+  description: "Accounts payable automation with virtual card payments"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
+
+# Core capabilities this program provides
+capabilities:
+  - virtual_card_issuance
+  - on_demand_funding
+  - collaborative_authorization
+  - spend_controls
+  - velocity_rules
+  - real_time_webhooks
+  - transaction_monitoring
+  - multi_currency
+
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+      - operation: CreateCardProductWithTemplate
+        required: false
+        description: "Alternative setup with template"
+        
+  onboarding:
+    name: "Customer Onboarding"
+    description: "Onboard new card program"
+    required: true
+    steps:
+      - operation: CreateCardProduct
+        required: true
+      - operation: GetCardProductAccounts
+        required: true
+      - operation: EnableOnDemandFundingFeature
+        required: false
+        condition: "if using on-demand funding"
+      - operation: EnableCollaborativeAuthorizationFeature
+        required: false
+        condition: "if using collaborative auth"
+        
+  card_issuance:
+    name: "Card Issuance Flow"
+    description: "Issue and activate virtual cards"
+    required: true
+    steps:
+      - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        required: true
+      - operation: ActivatePaymentCard
+        required: true
+      - operation: AttachSpendRule
+        required: false
+        condition: "if spend controls needed"
+        
+  transaction_processing:
+    name: "Transaction Processing"
+    description: "Process card transactions"
+    required: true
+    steps:
+      - operation: SimulateAuthorization
+        required: false
+        condition: "sandbox only"
+      - operation: SimulateClearing
+        required: false
+        condition: "sandbox only"
+      - operation: GetTransactionEvent
+        required: true
+      - operation: TransactionEventsByPaymentCardAndTransactionId
+        required: true
+        
+  card_lifecycle:
+    name: "Card Lifecycle Management"
+    description: "Manage card states"
+    required: true
+    steps:
+      - operation: ActivatePaymentCard
+        required: true
+      - operation: SuspendPaymentCard
+        required: true
+      - operation: ClosePaymentCard
+        required: true
+
+# Core entities managed by this program
+entities:
+  - name: Account
+    description: "Core account management"
+    primary: true
+  - name: Application
+    description: "Application management"
+    primary: true
+  - name: PaymentCard
+    description: "Virtual payment cards"
+    primary: true
+  - name: Authorization
+    description: "Transaction authorizations"
+    primary: true
+  - name: SpendRule
+    description: "Spending controls and limits"
+  - name: VelocityRule
+    description: "Velocity controls"
+  - name: CardProduct
+    description: "Card product configuration"
+  - name: FinancialAccount
+    description: "Financial account management"
+
+# Operation categories with enhanced metadata
+categories:
+  - name: api_keys
+    display_name: "API Keys"
+    description: "API key management operations"
+    order: 1
+    operations:
+      - name: GetAllApiKeys
+        type: query
+        required: false
+      - name: CreateSecretApiKey
+        type: mutation
+        required: true
+      - name: RevokeApiKey
+        type: mutation
+        required: false
+        
+  - name: card_product
+    display_name: "Card Product"
+    description: "Card product configuration"
+    order: 2
+    operations:
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: CreateCardProductWithTemplate
+        type: mutation
+        required: false
+      - name: GetCardProductAccounts
+        type: query
+        required: true
+      - name: GetAllCardProductDetails
+        type: query
+        required: false
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+      - name: GetDepositTransfer
+        type: query
+        required: false
+      - name: EnableOnDemandFundingFeature
+        type: mutation
+        required: true
+      - name: EnableCollaborativeAuthorizationFeature
+        type: mutation
+        required: true
+        
+  - name: collaborative_authorization
+    display_name: "Collaborative Authorization"
+    description: "Real-time authorization management"
+    order: 3
+    operations:
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: GetCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: GetCollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+        
+  - name: payment_cards
+    display_name: "Payment Cards"
+    description: "Virtual card issuance and management"
+    order: 4
+    operations:
+      - name: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        type: mutation
+        required: true
+      - name: ActivatePaymentCard
+        type: mutation
+        required: true
+      - name: GenerateClientTokenForRestrictedDetails
+        type: mutation
+        required: false
+      - name: GetPaymentCardRestrictedDetails
+        type: query
+        required: false
+      - name: SuspendPaymentCard
+        type: mutation
+        required: true
+      - name: ClosePaymentCard
+        type: mutation
+        required: true
+      - name: GetPaymentCard
+        type: query
+        required: true
+        
+  - name: spend_rules
+    display_name: "Spend Rules"
+    description: "Spending controls and limits"
+    order: 5
+    operations:
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+        
+  - name: velocity_rules
+    display_name: "Velocity Rules"
+    description: "Transaction velocity controls"
+    order: 6
+    operations:
+      - name: CreateVelocityRule
+        type: mutation
+        required: false
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: false
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: GetAllVelocityRules
+        type: query
+        required: false
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: false
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+        
+  - name: transactions
+    display_name: "Transactions"
+    description: "Transaction processing and monitoring"
+    order: 7
+    operations:
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: true
+      - name: GetCardProductTransactionEvents
+        type: query
+        required: false
+      - name: LedgerEntry
+        type: query
+        required: false
+        
+  - name: simulation
+    display_name: "Simulation"
+    description: "Sandbox testing operations"
+    order: 8
+    sandbox_only: true
+    operations:
+      - name: SimulateAuthorization
+        type: mutation
+        required: false
+      - name: SimulateReversal
+        type: mutation
+        required: false
+      - name: SimulateClearing
+        type: mutation
+        required: false
+      - name: SimulateRefund
+        type: mutation
+        required: false
+      - name: SimulateSingleStepAuthAndClear
+        type: mutation
+        required: false
+
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+      
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: "KYC/AML procedures"
+    - name: OFAC
+      description: "Sanctions screening"
+    - name: REG_E
+      description: "Electronic funds transfer protections"
+      
+  security:
+    encryption:
+      in_transit: "TLS 1.2+"
+      at_rest: "AES-256"
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: "7 years"
+      card_data: "tokenized"
+
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
+      
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
+
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000
+
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: "Postman Collection - Please contact Highnote Implementation Team"
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: "Email: support@highnote.com"
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

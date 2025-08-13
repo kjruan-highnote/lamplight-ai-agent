@@ -1,0 +1,272 @@
+{
+  "collection": "Consumer Prepaid Authorized Users",
+  "program_type": "consumer_prepaid_authorized_users",
+  "extraction_date": "2025-08-12T17:46:30.856Z",
+  "total_operations": 11,
+  "categories": [
+    {
+      "name": "primary_person_account_holder",
+      "operations": [
+        {
+          "name": "CreateUSPersonAccountHolder",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetUSPersonAccountHolder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "UpdateUSPersonAccountHolderBillingAddress",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetUSPersonAccountHolderCardProductApplications",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateAccountHolderCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssueFinancialAccountForApplication",
+          "type": "mutation",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "authorized_user_person_account_holder",
+      "operations": [
+        {
+          "name": "CreateUSPersonAccountHolder",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "CreateAuthorizedUserCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssueFinancialAccountForApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssuePaymentCardForFinancialAccount",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssuePaymentCardForAuthorizedUserApplication",
+          "type": "mutation",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "CreateUSPersonAccountHolder",
+      "type": "mutation",
+      "required": true,
+      "category": "primary_person_account_holder",
+      "graphql": "mutation CreateUSPersonAccountHolder($input: CreateUSPersonAccountHolderInput!) {\n    createUSPersonAccountHolder(input: $input) {\n        ... on USPersonAccountHolder {\n            id\n            externalId\n        }\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tcode\n\t\t\t\tpath\n\t\t\t}\n\t\t}\n    }\n}",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "name": {
+              "givenName": "Primary",
+              "familyName": "Person"
+            },
+            "email": "test@email.com",
+            "dateOfBirth": "1976-03-30",
+            "billingAddress": {
+              "countryCodeAlpha3": "USA",
+              "region": "CA",
+              "locality": "San Francisco",
+              "postalCode": "12345",
+              "streetAddress": "123 Test St"
+            },
+            "phoneNumber": {
+              "label": "MOBILE",
+              "countryCode": "1",
+              "number": "123-123-1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GetUSPersonAccountHolder",
+      "type": "query",
+      "required": true,
+      "category": "primary_person_account_holder",
+      "graphql": "query GetUSPersonAccountHolder(\n  $id: ID!\n) {\n   node(id: $id){\n    ...on USPersonAccountHolder {\n      id\n      billingAddress {\n        streetAddress\n        postalCode\n        locality\n        region\n        countryCodeAlpha3\n      }\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n          }\n        }\n      }\n      name {\n        givenName\n        middleName\n        familyName\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{personAccountHolderId}}"
+      }
+    },
+    {
+      "name": "UpdateUSPersonAccountHolderBillingAddress",
+      "type": "mutation",
+      "required": false,
+      "category": "primary_person_account_holder",
+      "graphql": "mutation UpdateUSPersonAccountHolderBillingAddress($input: UpdateUSPersonAccountHolderBillingAddressInput!) {\n  updateUSPersonAccountHolderBillingAddress(input: $input) {\n    ... on USPersonAccountHolder {\n      id\n      billingAddress {\n        streetAddress\n      }\n      name {\n        givenName\n        familyName\n      }\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{personAccountHolderId}}",
+          "billingAddress": {
+            "streetAddress": "123 Test St.",
+            "postalCode": "77777",
+            "locality": "Seatlle",
+            "region": "WA",
+            "countryCodeAlpha3": "USA"
+          }
+        }
+      }
+    },
+    {
+      "name": "GetUSPersonAccountHolderCardProductApplications",
+      "type": "query",
+      "required": true,
+      "category": "primary_person_account_holder",
+      "graphql": "query GetUSPersonAccountHolderCardProductApplications (\n  $id: ID!\n) {\n  node(id: $id){\n    ...on USPersonAccountHolder {\n      id\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n            cardProduct {\n              id\n              name\n            }\n            createdAt\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{personAccountHolderId}}"
+      }
+    },
+    {
+      "name": "CreateAccountHolderCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "primary_person_account_holder",
+      "graphql": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{personAccountHolderId}}",
+          "cardHolderAgreementConsent": {
+            "consentTimestamp": "2025-01-01T12:00:00.000Z",
+            "primaryAuthorizedPersonId": "{{personAccountHolderId}}"
+          },
+          "cardProductId": "{{cardProductId}}",
+          "ipAddress": {
+            "v4": "1.1.1.1"
+          }
+        }
+      }
+    },
+    {
+      "name": "IssueFinancialAccountForApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "primary_person_account_holder",
+      "graphql": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "{{personAccountHolderApplicationId}}",
+          "name": "Card Account {{currentTimestampFormatted}}"
+        }
+      }
+    },
+    {
+      "name": "CreateUSPersonAccountHolder",
+      "type": "mutation",
+      "required": true,
+      "category": "authorized_user_person_account_holder",
+      "graphql": "mutation CreateUSPersonAccountHolder($input: CreateUSPersonAccountHolderInput!) {\n    createUSPersonAccountHolder(input: $input) {\n        ... on USPersonAccountHolder {\n            id\n            externalId\n        }\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tcode\n\t\t\t\tpath\n\t\t\t}\n\t\t}\n    }\n}",
+      "variables": {
+        "input": {
+          "personAccountHolder": {
+            "name": {
+              "givenName": "Authorized",
+              "familyName": "Person"
+            },
+            "email": "test@email.com",
+            "dateOfBirth": "1976-03-30",
+            "billingAddress": {
+              "countryCodeAlpha3": "USA",
+              "region": "CA",
+              "locality": "San Francisco",
+              "postalCode": "12345",
+              "streetAddress": "123 Test St"
+            },
+            "phoneNumber": {
+              "label": "MOBILE",
+              "countryCode": "1",
+              "number": "123-123-1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "CreateAuthorizedUserCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "authorized_user_person_account_holder",
+      "graphql": "mutation CreateAuthorizedUserCardProductApplication($input: CreateAuthorizedUserCardProductApplicationInput!) {\n  createAuthorizedUserCardProductApplication(input: $input) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          authorizedUserCurrent {\n            id\n          }\n        }\n      }\n      accountHolderCardProductApplication {\n        id\n        cardProduct {\n          id\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "authorizedUserId": "{{authorizedUserPersonAccountHolderId}}",
+          "accountHolderCardProductApplicationId": "{{personAccountHolderApplicationId}}",
+          "financialAccountId": "{{financialAccountId}}",
+          "cardHolderAgreementConsent": {
+            "primaryAuthorizedPersonId": "{{authorizedUserPersonAccountHolderId}}",
+            "consentTimestamp": "2024-01-31T01:01:01.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "IssueFinancialAccountForApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "authorized_user_person_account_holder",
+      "graphql": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        errorPath\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "{{authorizedUserApplicationId}}",
+          "name": "Card Account {{currentTimestampFormatted}}"
+        }
+      }
+    },
+    {
+      "name": "IssuePaymentCardForFinancialAccount",
+      "type": "mutation",
+      "required": true,
+      "category": "authorized_user_person_account_holder",
+      "graphql": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      revisionSnapshots {\n        edges {\n            node {\n                createdAt\n            }\n        }\n      }\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n\t\t\t\t... on AccountHolderCardProductApplication {\n\t\t\t\t\tid\n\t\t\t\t\tapplicationState {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t}\n\t\t\t\t\taccountHolderSnapshot {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\t\t\tname {\n\t\t\t\t\t\t\t\tgivenName\n\t\t\t\t\t\t\t\tfamilyName\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\t\t\tlocality\n\t\t\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\t\treason\n\t\t\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{authorizedUserFinancialAccountId}}",
+          "options": {
+            "activateOnCreate": true,
+            "expirationDate": "2028-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "IssuePaymentCardForAuthorizedUserApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "authorized_user_person_account_holder",
+      "graphql": "mutation IssuePaymentCardForAuthorizedUserApplication($input: IssuePaymentCardForAuthorizedUserApplicationInput!) {\n  issuePaymentCardForAuthorizedUserApplication(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      network\n      expirationYear\n      expirationMonth\n      expirationDate\n      status\n      formFactor\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{authorizedUserApplicationId}}",
+          "options": {
+            "expirationDate": "2027-01-01T23:59:59Z",
+            "activateOnCreate": true
+          }
+        }
+      }
+    }
+  ]
+}

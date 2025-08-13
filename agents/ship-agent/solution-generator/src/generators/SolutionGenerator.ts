@@ -5,6 +5,16 @@ import Handlebars from 'handlebars';
 import { DiagramGenerator } from './DiagramGenerator.js';
 import { TemplateEngine } from './TemplateEngine.js';
 import type { ProgramConfig, CustomerContext, SolutionData } from '../types/index.js';
+import { 
+  formatProgramName, 
+  formatCapability, 
+  formatVendorName, 
+  formatApiType,
+  formatCustomerName,
+  formatOperationCategory,
+  formatRateLimit,
+  formatPerformanceMetric
+} from '../utils/formatters.js';
 
 export class SolutionGenerator {
   private diagramGenerator: DiagramGenerator;
@@ -32,6 +42,36 @@ export class SolutionGenerator {
       return JSON.stringify(context, null, 2);
     });
 
+    // Formatting helpers
+    Handlebars.registerHelper('formatProgramName', (name: string) => {
+      return formatProgramName(name);
+    });
+
+    Handlebars.registerHelper('formatCapability', (capability: string) => {
+      return formatCapability(capability);
+    });
+
+    Handlebars.registerHelper('formatVendorName', (vendor: string) => {
+      return formatVendorName(vendor);
+    });
+
+    Handlebars.registerHelper('formatApiType', (apiType: string) => {
+      return formatApiType(apiType);
+    });
+
+    Handlebars.registerHelper('formatCustomerName', (customer: string) => {
+      return formatCustomerName(customer);
+    });
+
+    Handlebars.registerHelper('formatOperationCategory', (category: string) => {
+      return formatOperationCategory(category);
+    });
+
+    Handlebars.registerHelper('formatRateLimit', (value: any) => {
+      return formatRateLimit(value);
+    });
+
+    // Comparison helpers
     Handlebars.registerHelper('eq', (a: any, b: any) => {
       return a === b;
     });
@@ -56,6 +96,7 @@ export class SolutionGenerator {
       return a >= b;
     });
 
+    // Logical helpers
     Handlebars.registerHelper('and', (a: any, b: any) => {
       return a && b;
     });
@@ -68,6 +109,7 @@ export class SolutionGenerator {
       return !a;
     });
 
+    // Math helpers
     Handlebars.registerHelper('add', (a: number, b: number) => {
       return a + b;
     });
@@ -86,15 +128,19 @@ export class SolutionGenerator {
     // Load customer context
     const context = await this.loadCustomerContext(customerName);
 
+    // Format the config data
+    const formattedConfig = this.formatProgramConfig(config);
+    
     // Prepare solution data
     const solutionData: SolutionData = {
-      program: config,
+      program: formattedConfig,
       customer: context,
       metadata: {
         generatedAt: new Date().toISOString(),
         version: '1.0.0',
         programType,
-        customerName: context.customer?.name || customerName
+        customerName: formatCustomerName(context.customer?.name || customerName),
+        formattedProgramName: formatProgramName(programType)
       }
     };
 
@@ -146,24 +192,65 @@ export class SolutionGenerator {
   }
 
   private async loadCustomerContext(customerName: string): Promise<CustomerContext> {
-    const contextPath = path.join(this.dataPath, 'contexts', `${customerName}.yaml`);
+    // Try JSON first, then YAML
+    const jsonPath = path.join(this.dataPath, 'contexts', `${customerName}.json`);
+    const yamlPath = path.join(this.dataPath, 'contexts', `${customerName}.yaml`);
     
-    if (!await fs.pathExists(contextPath)) {
-      console.warn(`Customer context not found: ${customerName}, using defaults`);
-      return {
-        customer: {
-          name: customerName,
-          industry: 'Unknown'
-        },
-        vendor: {
-          name: 'Highnote',
-          type: 'Payment Platform'
-        }
-      };
+    // Check for JSON file
+    if (await fs.pathExists(jsonPath)) {
+      console.log(`Loading customer context from JSON: ${customerName}`);
+      const content = await fs.readFile(jsonPath, 'utf-8');
+      return JSON.parse(content);
     }
-
-    const content = await fs.readFile(contextPath, 'utf-8');
-    return yaml.parse(content);
+    
+    // Check for YAML file
+    if (await fs.pathExists(yamlPath)) {
+      console.log(`Loading customer context from YAML: ${customerName}`);
+      const content = await fs.readFile(yamlPath, 'utf-8');
+      return yaml.parse(content);
+    }
+    
+    // Also check for variations with underscores and _context suffix
+    const alternativeNames = [
+      `${customerName}_context`,
+      `${customerName.replace(/_/g, '')}_context`,
+      `${customerName}_context_v2`,
+      `${customerName.replace(/_/g, '')}_context_v2`
+    ];
+    
+    // Special handling for trip_com / triplink
+    if (customerName === 'trip_com' || customerName === 'tripcom') {
+      alternativeNames.push('triplink_context_v2', 'triplink_context', 'triplink');
+    }
+    
+    for (const altName of alternativeNames) {
+      const altJsonPath = path.join(this.dataPath, 'contexts', `${altName}.json`);
+      const altYamlPath = path.join(this.dataPath, 'contexts', `${altName}.yaml`);
+      
+      if (await fs.pathExists(altJsonPath)) {
+        console.log(`Loading customer context from JSON: ${altName}`);
+        const content = await fs.readFile(altJsonPath, 'utf-8');
+        return JSON.parse(content);
+      }
+      
+      if (await fs.pathExists(altYamlPath)) {
+        console.log(`Loading customer context from YAML: ${altName}`);
+        const content = await fs.readFile(altYamlPath, 'utf-8');
+        return yaml.parse(content);
+      }
+    }
+    
+    console.warn(`Customer context not found: ${customerName}, using defaults`);
+    return {
+      customer: {
+        name: customerName,
+        industry: 'Unknown'
+      },
+      vendor: {
+        name: 'Highnote',
+        type: 'Payment Platform'
+      }
+    };
   }
 
   private async saveDocument(programType: string, customerName: string, document: string): Promise<string> {
@@ -198,8 +285,56 @@ export class SolutionGenerator {
     }
     
     const files = await fs.readdir(contextsDir);
-    return files
-      .filter(f => f.endsWith('.yaml'))
-      .map(f => f.replace('.yaml', ''));
+    const customers = new Set<string>();
+    
+    files.forEach(f => {
+      if (f.endsWith('.yaml') || f.endsWith('.json')) {
+        // Extract customer name from various patterns
+        let customerName = f.replace(/\.(yaml|json)$/, '');
+        
+        // Remove common suffixes
+        customerName = customerName.replace(/_context(_v\d+)?$/, '');
+        
+        // Map specific customer names
+        if (customerName === 'triplink' || customerName === 'trip_com') {
+          customers.add('trip_com');
+        } else {
+          customers.add(customerName);
+        }
+      }
+    });
+    
+    return Array.from(customers);
+  }
+
+  private formatProgramConfig(config: ProgramConfig): ProgramConfig {
+    // Create a deep copy to avoid modifying original
+    const formatted = JSON.parse(JSON.stringify(config));
+    
+    // Format vendor name
+    if (formatted.vendor) {
+      formatted.formattedVendor = formatVendorName(formatted.vendor);
+    }
+    
+    // Format API type
+    if (formatted.api_type) {
+      formatted.formattedApiType = formatApiType(formatted.api_type);
+    }
+    
+    // Format capabilities
+    if (formatted.capabilities) {
+      formatted.formattedCapabilities = formatted.capabilities.map((cap: string) => formatCapability(cap));
+    }
+    
+    // Format operation categories
+    if (formatted.operations) {
+      formatted.formattedOperations = {};
+      for (const [category, ops] of Object.entries(formatted.operations)) {
+        const formattedCategory = formatOperationCategory(category);
+        formatted.formattedOperations[formattedCategory] = ops;
+      }
+    }
+    
+    return formatted;
   }
 }

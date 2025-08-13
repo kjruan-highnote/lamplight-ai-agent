@@ -15,14 +15,12 @@ metadata:
 
 # Core capabilities this program provides
 capabilities:
-  - virtual_card_issuance
   - on_demand_funding
   - collaborative_authorization
   - spend_controls
   - velocity_rules
   - real_time_webhooks
   - transaction_monitoring
-  - multi_currency
 
 # Standard workflows for this program
 workflows:
@@ -37,25 +35,6 @@ workflows:
       - operation: CreateCardProduct
         required: true
         description: "Setup card product"
-      - operation: CreateCardProductWithTemplate
-        required: false
-        description: "Alternative setup with template"
-        
-  onboarding:
-    name: "Customer Onboarding"
-    description: "Onboard new card program"
-    required: true
-    steps:
-      - operation: CreateCardProduct
-        required: true
-      - operation: GetCardProductAccounts
-        required: true
-      - operation: EnableOnDemandFundingFeature
-        required: false
-        condition: "if using on-demand funding"
-      - operation: EnableCollaborativeAuthorizationFeature
-        required: false
-        condition: "if using collaborative auth"
         
   card_issuance:
     name: "Card Issuance Flow"
@@ -64,40 +43,20 @@ workflows:
     steps:
       - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
         required: true
+        description: "Issue virtual card"
       - operation: ActivatePaymentCard
         required: true
-      - operation: AttachSpendRule
-        required: false
-        condition: "if spend controls needed"
+        description: "Activate the card"
         
   transaction_processing:
     name: "Transaction Processing"
     description: "Process card transactions"
     required: true
     steps:
-      - operation: SimulateAuthorization
-        required: false
-        condition: "sandbox only"
-      - operation: SimulateClearing
-        required: false
-        condition: "sandbox only"
       - operation: GetTransactionEvent
         required: true
-      - operation: TransactionEventsByPaymentCardAndTransactionId
-        required: true
+        description: "Retrieve transaction details"
         
-  card_lifecycle:
-    name: "Card Lifecycle Management"
-    description: "Manage card states"
-    required: true
-    steps:
-      - operation: ActivatePaymentCard
-        required: true
-      - operation: SuspendPaymentCard
-        required: true
-      - operation: ClosePaymentCard
-        required: true
-
 # Core entities managed by this program
 entities:
   - name: Account
@@ -123,183 +82,110 @@ entities:
 
 # Operation categories with enhanced metadata
 categories:
-  - name: api_keys
-    display_name: "API Keys"
-    description: "API key management operations"
+  - name: initialization
+    display_name: "Initialization"
+    description: "Initialization operations"
     order: 1
     operations:
-      - name: GetAllApiKeys
+      - name: GetAllAPIKeys
         type: query
-        required: false
-      - name: CreateSecretApiKey
+        required: true
+      - name: CreateSecretAPIKey
         type: mutation
         required: true
-      - name: RevokeApiKey
+      - name: RevokeAPIKey
         type: mutation
         required: false
-        
-  - name: card_product
-    display_name: "Card Product"
-    description: "Card product configuration"
-    order: 2
-    operations:
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: UpdateOrganizationProfileDisplayName
+        type: mutation
+        required: false
       - name: CreateCardProduct
         type: mutation
         required: true
       - name: CreateCardProductWithTemplate
         type: mutation
-        required: false
-      - name: GetCardProductAccounts
+        required: true
+      - name: GetCardProduct
         type: query
         required: true
-      - name: GetAllCardProductDetails
+      - name: GetAllOrganizations
         type: query
-        required: false
+        required: true
       - name: SimulateDeposit
         type: mutation
         required: false
       - name: GetDepositTransfer
         type: query
-        required: false
+        required: true
       - name: EnableOnDemandFundingFeature
         type: mutation
         required: true
-      - name: EnableCollaborativeAuthorizationFeature
-        type: mutation
-        required: true
-        
-  - name: collaborative_authorization
-    display_name: "Collaborative Authorization"
-    description: "Real-time authorization management"
-    order: 3
-    operations:
-      - name: AddCollaborativeAuthorizationEndpoint
-        type: mutation
-        required: true
-      - name: ActivateCollaborativeAuthorizationEndpoint
-        type: mutation
-        required: true
-      - name: GetCollaborativeAuthorizationEndpoint
+      - name: Ping
         type: query
         required: false
-      - name: DeactivateCollaborativeAuthorizationEndpoint
-        type: mutation
-        required: false
-      - name: RemoveCollaborativeAuthorizationEndpoint
-        type: mutation
-        required: false
-      - name: GetCollaborativeAuthorizationEndpoints
-        type: query
-        required: false
-      - name: RenameCollaborativeAuthorizationEndpoint
+      - name: IntrospectionQuery
         type: mutation
         required: false
         
-  - name: payment_cards
-    display_name: "Payment Cards"
-    description: "Virtual card issuance and management"
-    order: 4
+  - name: issuance
+    display_name: "Issuance"
+    description: "Issuance operations"
+    order: 2
     operations:
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
       - name: IssuePaymentCardForApplicationWithOnDemandFundingSource
         type: mutation
         required: true
       - name: ActivatePaymentCard
         type: mutation
         required: true
-      - name: GenerateClientTokenForRestrictedDetails
+      - name: GeneratePaymentCardClientToken
         type: mutation
         required: false
       - name: GetPaymentCardRestrictedDetails
         type: query
-        required: false
+        required: true
       - name: SuspendPaymentCard
         type: mutation
-        required: true
+        required: false
       - name: ClosePaymentCard
         type: mutation
-        required: true
+        required: false
       - name: GetPaymentCard
         type: query
         required: true
-        
-  - name: spend_rules
-    display_name: "Spend Rules"
-    description: "Spending controls and limits"
-    order: 5
-    operations:
-      - name: CreateMerchantCategorySpendRule
+      - name: IssueFinancialAccountForApplication
         type: mutation
-        required: false
-      - name: AttachSpendRuleToCardProduct
+        required: true
+      - name: IssueFinancialAccountForApplicationWithOnDemandFundingSource
         type: mutation
-        required: false
-      - name: AttachSpendRuleToPaymentCard
-        type: mutation
-        required: false
-      - name: UpdateMerchantCategorySpendRule
-        type: mutation
-        required: false
-      - name: DetachSpendRuleFromCardProduct
-        type: mutation
-        required: false
-      - name: DetachSpendRuleFromPaymentCard
-        type: mutation
-        required: false
-        
-  - name: velocity_rules
-    display_name: "Velocity Rules"
-    description: "Transaction velocity controls"
-    order: 6
-    operations:
-      - name: CreateVelocityRule
-        type: mutation
-        required: false
-      - name: CreateAmountLimitSpendRule
-        type: mutation
-        required: false
-      - name: AttachPaymentCardVelocityRule
-        type: mutation
-        required: false
-      - name: DetachPaymentCardVelocityRule
-        type: mutation
-        required: false
-      - name: GetAllVelocityRules
-        type: query
-        required: false
-      - name: GetPaymentCardVelocityRule
-        type: query
-        required: false
-      - name: AttachCardProductVelocityRule
-        type: mutation
-        required: false
-      - name: DetachCardProductVelocityRule
-        type: mutation
-        required: false
-        
-  - name: transactions
-    display_name: "Transactions"
-    description: "Transaction processing and monitoring"
-    order: 7
-    operations:
-      - name: GetTransactionEvent
+        required: true
+      - name: GetFinancialAccount
         type: query
         required: true
-      - name: TransactionEventsByPaymentCardAndTransactionId
+      - name: GetFinancialAccountActivities
         type: query
         required: true
-      - name: GetCardProductTransactionEvents
+      - name: GetFinancialAccountLedgerEntries
         type: query
-        required: false
-      - name: LedgerEntry
+        required: true
+      - name: GetFinancialAccountLedgerEntries
         type: query
+        required: true
+      - name: SuspendFinancialAccount
+        type: mutation
         required: false
-        
-  - name: simulation
-    display_name: "Simulation"
-    description: "Sandbox testing operations"
-    order: 8
-    sandbox_only: true
-    operations:
+      - name: UnsuspendFinancialAccount
+        type: mutation
+        required: false
       - name: SimulateAuthorization
         type: mutation
         required: false
@@ -315,7 +201,151 @@ categories:
       - name: SimulateSingleStepAuthAndClear
         type: mutation
         required: false
-
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: false
+      - name: GetCardProductTransactionEvents
+        type: query
+        required: true
+      - name: FindFinancialAccountLedgerActivity
+        type: query
+        required: false
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: true
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+      - name: CreateVelocityRule
+        type: mutation
+        required: true
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: true
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: GetAllVelocityRules
+        type: query
+        required: true
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: true
+      - name: GetFinancialAccountWithVelocityBalance
+        type: query
+        required: true
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: EnableCollaborativeAuthorizationFeature
+        type: mutation
+        required: true
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: FindCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: CollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+        
+  - name: reporting
+    display_name: "Reporting"
+    description: "Reporting operations"
+    order: 3
+    operations:
+      - name: AddWebhookNotificationTarget
+        type: mutation
+        required: true
+      - name: GetAllWebhookNotificationTargets
+        type: query
+        required: true
+      - name: DeactivateNotificationTarget
+        type: mutation
+        required: false
+      - name: ActivateNotificationTarget
+        type: mutation
+        required: true
+      - name: GetWebhookNotificationTarget
+        type: query
+        required: true
+      - name: GetNotificationTargetDeliveryAttempts
+        type: query
+        required: true
+      - name: AddSubscriptionsToNotificationTarget
+        type: mutation
+        required: true
+      - name: RemoveSubscriptionsFromNotificationTarget
+        type: mutation
+        required: false
+      - name: GetAllNotificationEvents
+        type: query
+        required: true
+      - name: GetNotificationEvent
+        type: query
+        required: true
+      - name: ReplayNotificationEvent
+        type: mutation
+        required: false
+      - name: GetDeliveryAttemptsForNotificationEvent
+        type: query
+        required: true
+      - name: GetNotificationEventsFilteredByName
+        type: query
+        required: true
+      - name: GetNotificationEvents
+        type: query
+        required: true
+      - name: InitiateOrganizationReport
+        type: mutation
+        required: false
+      - name: GetReport
+        type: query
+        required: true
+      - name: ReportUsage
+        type: query
+        required: false
+      - name: Reports
+        type: query
+        required: false
+      - name: GetSchemaChangelogs
+        type: query
+        required: true
+        
 # Compliance and security requirements
 compliance:
   standards:
@@ -324,26 +354,24 @@ compliance:
       required: true
     - name: SOC2_TYPE2
       required: true
-      
   regulations:
     - name: USA_PATRIOT_ACT
-      description: "KYC/AML procedures"
+      description: KYC/AML procedures
     - name: OFAC
-      description: "Sanctions screening"
+      description: Sanctions screening
     - name: REG_E
-      description: "Electronic funds transfer protections"
-      
+      description: Electronic funds transfer protections
   security:
     encryption:
-      in_transit: "TLS 1.2+"
-      at_rest: "AES-256"
+      in_transit: TLS 1.2+
+      at_rest: AES-256
     authentication:
       - type: api_key
         rotation_days: 90
       - type: bearer_token
     data_retention:
-      transaction_data: "7 years"
-      card_data: "tokenized"
+      transaction_data: 7 years
+      card_data: tokenized
 
 # Integration requirements
 integrations:
@@ -355,7 +383,6 @@ integrations:
       - transaction.authorized
       - transaction.cleared
       - transaction.declined
-      
   reporting:
     formats:
       - CSV
@@ -377,3 +404,34 @@ performance:
     availability: 99.9
   transactions:
     collaborative_authorization_time_ms: 2000
+
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: Postman Collection - Please contact Highnote Implementation Team
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: 'Email: support@highnote.com'
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

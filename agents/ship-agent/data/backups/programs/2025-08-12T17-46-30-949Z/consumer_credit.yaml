@@ -1,0 +1,425 @@
+# Consumer Credit Card Program Configuration
+program_type: consumer_credit
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Consumer Credit Card Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+  
+categories:
+  - name: api_key_management
+    description: "API key creation, retrieval, and management"
+    operations:
+      - GetAllApiKeys
+      - CreateApiKey
+      - RevokeApiKey
+      
+  - name: organization
+    description: "Organization setup and configuration"
+    operations:
+      - GetAllOrganizations
+      - GetOrganizationById
+      - UpdateOrganizationProfileDisplayName
+      
+  - name: consumer_credit_card_product
+    description: "Credit card product setup and configuration"
+    operations:
+      - CreateCardProduct
+      - EnableCreditCardFeature
+      - GetCardProductCreditPlanTemplates
+      - CreateCreditPlan
+      - ActivateCreditPlan
+      - EnableCollaborativeApplicationUnderwritingFeature
+      - GetCardProductCreditConfiguration
+      - GetCardProductCreditPlans
+      
+  - name: setup
+    description: "General setup and system configuration"
+    operations:
+      - Ping
+      - Introspection
+      
+  - name: manual_review
+    description: "Manual review processes and fraud prevention"
+    operations:
+      - CreatePersonAccountHolderInReview
+      - CreatePersonAccountHolderDeny
+      - CreatePersonAccountCreditFreeze
+      - CreatePersonAccountCreditFraudAlert
+      
+  - name: person_account_holder
+    description: "Account holder creation and management"
+    operations:
+      - CreatePersonAccountHolder
+      - SearchPersonAccountHolders
+      - UpdatePersonAccountHolderAddress
+      - UpdatePersonAccountHolderPhone
+      - UpdatePersonAccountHolderEmail
+      - UpdatePersonAccountHolderCreditRiskAttributes
+      - GetAllPersonAccountHolders
+      - GetPersonAccountHolderById
+      
+  - name: application
+    description: "Application processing and underwriting"
+    operations:
+      - CreatePersonAccountHolderApplication
+      - GetPersonAccountHolderApplication
+      - GetPersonAccountHolderCreditApplicationResultsById
+      - ApproveApplicationUnderwriting
+      - DenyApplicationUnderwriting
+      
+  - name: adverse_actions
+    description: "Adverse action handling for declined applications"
+    operations:
+      - CreatePersonAccountHolderWithInsufficientIncome
+      - CreatePersonAccountHolderWithDelinquentCreditObligations
+      - CreatePersonAccountHolderWithInsufficientIncomeAndDelinquentCreditObligations
+      
+  - name: underwriting
+    description: "Credit underwriting and risk assessment"
+    operations:
+      - CreatePersonAccountHolderWithCreditFreeze
+      - CreatePersonAccountHolderWithFraudAlert
+      
+  - name: financial_accounts
+    description: "Financial account issuance and management"
+    operations:
+      - IssueFinancialAccountForApplication
+      - GetFinancialAccountById
+      - GetFinancialAccountCreditPlan
+      
+  - name: credit_limit
+    description: "Credit limit management and updates"
+    operations:
+      - SetCreditLimitForFinancialAccount
+      - GetFinancialAccountCreditLimitUpdate
+      
+  - name: payment_cards
+    description: "Payment card issuance and lifecycle management"
+    operations:
+      - IssuePaymentCardForFinancialAccount
+      - GenerateClientTokenToSetPin
+      - GenerateClientTokenForRestrictedDetail
+      - ViewPaymentCardRestrictedDetails
+      - ActivatePaymentCard
+      - SetPinForPaymentCard
+      - SuspendPaymentCard
+      - ReissuePaymentCard
+      - ClosePaymentCard
+      
+  - name: transactions
+    description: "Transaction processing and history"
+    operations:
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      - GetFinancialAccountActivititiesByFinancialAccountId
+      
+  - name: spend_rules
+    description: "Spending control rules and merchant restrictions"
+    operations:
+      - AttachSpendRuleToCardProduct
+      - CreateMerchantCategorySpendRule
+      - UpdateMerchantCategorySpendRule
+      - AttachSpendRuleToPaymentCard
+      - DetachSpendRuleFromCardProduct
+      - DetachSpendRuleFromPaymentCard
+      
+  - name: velocity_rules
+    description: "Transaction velocity and amount limit controls"
+    operations:
+      - CreateVelocityRule
+      - CreateAmountLimitSpendRule
+      - AttachPaymentCardVelocityRule
+      - DetachPaymentCardVelocityRule
+      - GetAllVelocityRules
+      - GetPaymentCardVelocityRule
+      - GetFinancialAccountWithVelocityBalance
+      - AttachCardProductVelocityRule
+      - DetachCardProductVelocityRule
+      
+  - name: collaborative_authorization
+    description: "Real-time authorization decision making"
+    operations:
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      - GetCollaborativeAuthorizationEndpoint
+      - DeactivateCollaborativeAuthorizationEndpoint
+      - RemoveCollaborativeAuthorizationEndpoint
+      - GetCollaborativeAuthorizationEndpoints
+      - RenameCollaborativeAuthorizationEndpoint
+      
+  - name: product_funding_account
+    description: "Direct deposit and funding account management"
+    operations:
+      - GenerateDirectDepositDetailClientToken
+      - GetDirectDepositDetailsByIdWithClientToken
+      - GetProductFundingAccountDirectDepositId
+      - SimulateDeposit
+      
+  - name: integrator_initiated_originated_ach
+    description: "ACH transfers initiated by the integrator"
+    operations:
+      - AddExternalBankAccountVerifiedThroughPlaid
+      - AddExternalBankAccountVerifiedThroughFinicity
+      - GetExternalFinancialAccountsByAccountHolder
+      - InitiateFundsDepositAchTransfer
+      - InitiateFundsWithdrawalAchTransfer
+      - SimulateProcessingIntegratorInitiatedStatusChange
+      - SimulateProcessedIntegratorInitiatedStatusChange
+      - SimulateReturnedIntegratorInitiatedStatusChange
+      
+  - name: externally_initiated_nonoriginated_ach
+    description: "ACH transfers initiated by external parties"
+    operations:
+      - SimulateExternallyInitiatedAchTransfer
+      - SimulateProcessingExternallyInitiatedStatusChange
+      
+  - name: funding
+    description: "Inter-account fund transfers"
+    operations:
+      - InitiateTransferFromFundingFinancialAccountToPaymentCardFinancialAccount
+      - InitiateTransferBetweenFinancialAccounts
+      
+  - name: physical_card
+    description: "Physical card ordering and fulfillment"
+    operations:
+      - OrderPhysicalPaymentCard
+      - FindPhysicalPaymentCardOrder
+      - CancelPhysicalPaymentCardOrder
+      
+  - name: notification_targets
+    description: "Webhook endpoints and notification delivery"
+    operations:
+      - AddWebhookNotificationTarget
+      - GetAllWebhookNotificationTargets
+      - DeactivateNotificationTarget
+      - ActivateNotificationTarget
+      - GetWebhookNotificationTarget
+      - GetNotificationTargetDeliveryAttempts
+      - AddSubscriptionsToNotificationTarget
+      - RemoveSubscriptionsFromNotificationTarget
+      
+  - name: notification_events
+    description: "Event notifications and delivery management"
+    operations:
+      - GetAllNotificationEvents
+      - GetNotificationEvent
+      - ReplayNotificationEvent
+      - GetDeliveryAttemptsForNotificationEvent
+      - GetNotificationEventsFilteredByName
+      
+  - name: reports
+    description: "Business reporting and analytics"
+    operations:
+      - InitiateOrganizationReport
+      - GetReport
+      - GetReportUsage
+      - GetReports
+      
+  - name: statements
+    description: "Billing statements and account summaries"
+    operations:
+      - GetCurrentBillingStatementByFinancialAccountId
+      - GetLatestClosedBillingStatementByFinancialAccountId
+      
+  - name: delinquency
+    description: "Delinquency management and collections"
+    operations:
+      - SimulateDelinquency
+      
+  - name: scheduled_transfers
+    description: "Recurring and scheduled payment transfers"
+    operations:
+      - ScheduleRecurringAchTransfer
+      - ScheduleOneTimeAchTransfer
+      
+  - name: redemption
+    description: "Rewards redemption and statement credits"
+    operations:
+      - CreateRewardRedemptionConfiguration
+      - AttachRewardRedemptionConfigurationToProduct
+      - UpdateRewardRedemptionConfigurationAttachment
+      - RedeemRewardsForStatementCredit
+      
+  - name: secure_document_upload
+    description: "Secure document upload for applications"
+    operations:
+      - GetDocumentUploadSessionByApplicationId
+      - GetDocumentUploadSessionBySessionId
+      - GenerateDocumentUploadClientToken
+      - StartDocumentUploadSession
+      - CreateDocumentUploadSecureLink
+      - EndDocumentUploadSession
+      
+  - name: simulation
+    description: "Transaction and lifecycle event simulation"
+    operations:
+      - SimulateApplicationDocumentReview
+      - SimulateApplicationVerificationStatusChange
+      - SimulateApplicationStatusChange
+      - SimulateAuthorization
+      - SimulateClearing
+      - SimulateReversal
+      - SimulateRefund
+      - SimulateSingleStepAuthAndClear
+      - SimulateSendToPrinter
+      - SimulateApproval
+      - SimulateShipmentFailed
+      - SimulateShipped
+      - SimulateRolloverCurrentStatementPeriod
+      - SimulateShiftCurrentStatementPeriod
+      - SimulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriod
+
+dimensions:
+  customer_segments:
+    - consumer
+    - high_net_worth_consumer
+    - student
+    - young_adult
+    
+  program_variants:
+    - standard_credit
+    - secured_credit
+    - rewards_cashback
+    - rewards_points
+    - travel_rewards
+    - business_rewards
+    
+  risk_tiers:
+    - prime
+    - near_prime
+    - subprime
+    - super_prime
+    - thin_file
+    
+  card_types:
+    - physical
+    - virtual
+    - both
+    
+  underwriting_methods:
+    - traditional_bureau
+    - alternative_data
+    - income_based
+    - collaborative
+
+operation_flows:
+  standard_onboarding:
+    description: "Complete onboarding flow for approved consumer credit application"
+    steps:
+      - CreatePersonAccountHolder
+      - CreatePersonAccountHolderApplication
+      - ApproveApplicationUnderwriting
+      - IssueFinancialAccountForApplication
+      - SetCreditLimitForFinancialAccount
+      - IssuePaymentCardForFinancialAccount
+      - ActivatePaymentCard
+      
+  adverse_action_insufficient_income:
+    description: "Handle application denial due to insufficient income"
+    steps:
+      - CreatePersonAccountHolderWithInsufficientIncome
+      - CreatePersonAccountHolderApplication
+      - DenyApplicationUnderwriting
+      
+  manual_review_process:
+    description: "Process application requiring manual review"
+    steps:
+      - CreatePersonAccountHolderInReview
+      - CreatePersonAccountHolderApplication
+      - GetPersonAccountHolderCreditApplicationResultsById
+      - ApproveApplicationUnderwriting
+      - IssueFinancialAccountForApplication
+      
+  fraud_prevention_flow:
+    description: "Handle applications with fraud alerts or credit freezes"
+    steps:
+      - CreatePersonAccountHolderWithCreditFreeze
+      - CreatePersonAccountCreditFraudAlert
+      - CreatePersonAccountHolderInReview
+      - ApproveApplicationUnderwriting
+      
+  comprehensive_spend_controls:
+    description: "Set up comprehensive spending and velocity controls"
+    steps:
+      - CreateMerchantCategorySpendRule
+      - CreateAmountLimitSpendRule
+      - AttachSpendRuleToPaymentCard
+      - CreateVelocityRule
+      - AttachPaymentCardVelocityRule
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      
+  setup_complete_notifications:
+    description: "Configure comprehensive webhook notification system"
+    steps:
+      - AddWebhookNotificationTarget
+      - AddSubscriptionsToNotificationTarget
+      - ActivateNotificationTarget
+      - GetAllNotificationEvents
+      - ReplayNotificationEvent
+      
+  physical_card_complete_lifecycle:
+    description: "Complete physical card ordering and fulfillment lifecycle"
+    steps:
+      - OrderPhysicalPaymentCard
+      - FindPhysicalPaymentCardOrder
+      - SimulateSendToPrinter
+      - SimulateApproval
+      - SimulateShipped
+      
+  ach_funding_setup:
+    description: "Set up ACH funding with external bank account"
+    steps:
+      - AddExternalBankAccountVerifiedThroughPlaid
+      - GetExternalFinancialAccountsByAccountHolder
+      - InitiateFundsDepositAchTransfer
+      - SimulateProcessingIntegratorInitiatedStatusChange
+      - SimulateProcessedIntegratorInitiatedStatusChange
+      
+  rewards_redemption_setup:
+    description: "Configure rewards redemption for statement credits"
+    steps:
+      - CreateRewardRedemptionConfiguration
+      - AttachRewardRedemptionConfigurationToProduct
+      - UpdateRewardRedemptionConfigurationAttachment
+      - RedeemRewardsForStatementCredit
+      
+  transaction_simulation_flow:
+    description: "Complete transaction lifecycle simulation"
+    steps:
+      - SimulateAuthorization
+      - SimulateClearing
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      - GetFinancialAccountActivititiesByFinancialAccountId
+      
+  delinquency_management:
+    description: "Handle delinquent accounts and scheduled transfers"
+    steps:
+      - SimulateDelinquency
+      - ScheduleRecurringAchTransfer
+      - ScheduleOneTimeAchTransfer
+      
+  document_upload_process:
+    description: "Secure document upload for application verification"
+    steps:
+      - StartDocumentUploadSession
+      - GenerateDocumentUploadClientToken
+      - CreateDocumentUploadSecureLink
+      - GetDocumentUploadSessionByApplicationId
+      - EndDocumentUploadSession
+
+tags:
+  - consumer_credit
+  - graphql
+  - highnote
+  - credit_card
+  - rewards
+  - underwriting
+  - ach_funding

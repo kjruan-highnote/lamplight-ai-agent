@@ -1,42 +1,337 @@
-[
-  {
-    "name": "GetAllApiKeys",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
+{
+  "collection": "Commercial Credit",
+  "program_type": "commercial_credit",
+  "extraction_date": "2025-08-12T17:46:30.909Z",
+  "total_operations": 59,
+  "categories": [
+    {
+      "name": "initialization",
+      "operations": [
+        {
+          "name": "GetAllAPIKeys",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateSecretAPIKey",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "RevokeAPIKey",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetAllOrganizations",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetAllOrganizations",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "UpdateOrganizationProfileDisplayName",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetCardProductWithCreditPlanTemplates",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateCardProductCreditPlan",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "ActivateCardProductCreditPlan",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetCardProductCreditPlans",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateCardProduct",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "EnableCreditCardFeature",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "EnableCollaborativeApplicationUnderwritingFeature",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetCardProductWithCreditConfigs",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetProductFundingAccount",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "Ping",
+          "type": "query",
+          "required": false
+        },
+        {
+          "name": "IntrospectionQuery",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateDeposit",
+          "type": "mutation",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "onboarding",
+      "operations": [
+        {
+          "name": "CreateUSBusiniessAccountHolderInReview",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "CreateUSBusinessAccountHolderCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "StartDocumentUploadSession",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GenerateDocumentUploadClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateDocumentUploadSecureLink",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetDocumentUploadSession",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetDocumentUploadSessionsViaApplicationID",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "SimulateApplicationDocumentReview",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateApplicationVerificationStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateApplicationStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateUSBusinessAccountHolderFromToken",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GenerateTokenizeAccountHolderClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "TokenizeUSBusinessAccountHolder",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateUSBusiniessAccountHolder",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetUSBusinessAccountHolder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "UpdateUSBusinessAccountHolderBillingAddress",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateAccountHolderCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetUSBusinessAccountHolderCardProductApplications",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateUSPersonAuthorizedUser",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "CreateAuthorizedUserCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssuePaymentCardForAuthorizedUserApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetAuthorizedPersonCardProductApplication",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetAccountHolderAuthorizedUsers",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "UpdateUSPersonAuthorizedUserBillingAddress",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "UpdateUSPersonAuthorizedUserPhone",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "UpdateUSPersonAuthorizedUserEmail",
+          "type": "mutation",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "issuance",
+      "operations": [
+        {
+          "name": "IssueFinancialAccountForApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetFinancialAccount",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "SuspendFinancialAccount",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "UnsuspendFinancialAccount",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "IssuePaymentCardForFinancialAccount",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GeneratePaymentCardClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GeneratePaymentCardClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetPaymentCardRestrictedDetails",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "ActivatePaymentCard",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "SetPinForPaymentCard",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SuspendPaymentCard",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "ReissuePaymentCard",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "ClosePaymentCard",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "InitiateFinancialAccountCreditLimitUpdateFromProductFunding",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetFinancialAccountCreditLimitUpdate",
+          "type": "query",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "GetAllAPIKeys",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetAllAPIKeys($first: Int, $after: String) {\n  organizations {\n    apiKeys(first: $first, after: $after) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          redactedKey\n          createdAt\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "first": 10
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "api_keys",
-      "path": "Initialization/API Keys/Get All API Keys",
-      "description": "",
-      "tags": [
-        "api_keys",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "organizations",
-        "pageInfo"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573549",
-    "updated_at": "2025-08-04T16:18:34.573556"
-  },
-  {
-    "name": "CreateSecretApiKey",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
+    {
+      "name": "CreateSecretAPIKey",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation CreateSecretAPIKey($input: CreateSecretAPIKeyInput!) {\n  createSecretAPIKey(input: $input) {\n    __typename  \n    ... on APIKey {\n      id\n      name\n      key\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "secretKey": {
@@ -45,125 +340,40 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "api_keys",
-      "path": "Initialization/API Keys/Create Secret API Key",
-      "description": "",
-      "tags": [
-        "api_keys",
-        "creation"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573588",
-    "updated_at": "2025-08-04T16:18:34.573589"
-  },
-  {
-    "name": "RevokeApiKey",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
+    {
+      "name": "RevokeAPIKey",
+      "type": "mutation",
+      "required": false,
+      "category": "initialization",
+      "graphql": "mutation RevokeAPIKey($input: RevokeAPIKeyInput!) {\n  revokeAPIKey(input: $input) {\n    ...on APIKey {\n      id\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "apiKeyId": "API_KEY_ID"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "api_keys",
-      "path": "Initialization/API Keys/Revoke API Key",
-      "description": "",
-      "tags": [
-        "api_keys"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573602",
-    "updated_at": "2025-08-04T16:18:34.573603"
-  },
-  {
-    "name": "GetAllOrganizations",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetAllOrganizations",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    accounts {\n      edges {\n        node {\n          createdAt\n          updatedAt\n          __typename\n          id\n          name\n          ledgers {\n            creditBalance {\n              value\n            }\n            debitBalance {\n              value\n            }\n          }\n        }\n      }\n    }\n    cardProducts(first: 20) {\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {}
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "organizations",
-      "path": "Initialization/Organizations/Get All Organizations",
-      "description": "",
-      "tags": [
-        "organizations",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "organizations",
-        "edges",
-        "creditBalance",
-        "pageInfo",
-        "edges"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573628",
-    "updated_at": "2025-08-04T16:18:34.573629"
-  },
-  {
-    "name": "GetAllOrganizationsCardProducts",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    cardProducts(first: 20) {\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n                features {\n                  ... on DirectDepositFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PrePaidPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on DebitPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollEmployerAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NegativeBalanceReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on JustInTimeFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductFundingFinancialAccountFeature {\n                    enabled\n                  }\n                  ... on SecuredCreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on FleetCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CommercialCreditPayInFullCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on VendorProvidedBankFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on AchCapableFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NonVerifiedFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PointRewardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CardFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetAllOrganizations",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetAllOrganizations {\n  organizations {\n    id\n    profile {\n      displayName\n      environment\n      region\n    }\n    cardProducts(first: 20) {\n      edges {\n        cursor\n        node {\n          __typename\n          id\n          name\n          usage\n          vertical\n          accounts {\n            edges {\n              node {\n                id\n                name\n                features {\n                  ... on DirectDepositFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PrePaidPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on DebitPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PayrollEmployerAdvanceFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NegativeBalanceReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductReserveFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on JustInTimeFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on ProductFundingFinancialAccountFeature {\n                    enabled\n                  }\n                  ... on SecuredCreditPaymentCardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on FleetCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CommercialCreditPayInFullCardAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on VendorProvidedBankFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on AchCapableFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on NonVerifiedFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on PointRewardFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                  ... on CardFundingFinancialAccountFeature {\n                    __typename\n                    enabled\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      pageInfo {\n        startCursor\n        endCursor\n        hasNextPage\n        hasPreviousPage\n      }\n    }\n  }\n}\n",
       "variables": {}
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "organizations",
-      "path": "Initialization/Organizations/Get All Organizations Card Products",
-      "description": "",
-      "tags": [
-        "organizations",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "organizations",
-        "edges",
-        "edges"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573667",
-    "updated_at": "2025-08-04T16:18:34.573667"
-  },
-  {
-    "name": "UpdateOrganizationProfileDisplayName",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
+    {
+      "name": "UpdateOrganizationProfileDisplayName",
+      "type": "mutation",
+      "required": false,
+      "category": "initialization",
+      "graphql": "mutation UpdateOrganizationProfileDisplayName($input: UpdateOrganizationProfileDisplayNameInput!) {\n  updateOrganizationProfileDisplayName(input: $input) {\n    ... on Organization {\n      id\n      profile {\n        displayName\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "id": "{{organizationId}}",
@@ -171,65 +381,22 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "organizations",
-      "path": "Initialization/Organizations/Update Organization Profile Display Name",
-      "description": "",
-      "tags": [
-        "organizations",
-        "modification"
-      ],
-      "requires": [
-        "organizationId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573684",
-    "updated_at": "2025-08-04T16:18:34.573684"
-  },
-  {
-    "name": "GetCardProductCreditPlanTemplates",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetCardProductWithCreditPlanTemplates($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlanTemplates {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              variableAprIndex\n              scraApr\n            }\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            maximumCreditLimit {\n              currencyCode\n              value\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetCardProductWithCreditPlanTemplates",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetCardProductWithCreditPlanTemplates($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlanTemplates {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              variableAprIndex\n              scraApr\n            }\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            maximumCreditLimit {\n              currencyCode\n              value\n            }\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "{{cardProductId}}"
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_plan",
-      "path": "Initialization/Card Product/Credit Plan/Get Card Product Credit Plan Templates",
-      "description": "",
-      "tags": [
-        "credit_plan",
-        "retrieval"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "pageInfo"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573708",
-    "updated_at": "2025-08-04T16:18:34.573709"
-  },
-  {
-    "name": "CreateCreditPlan",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateCardProductCreditPlan($input: CreateCardProductCreditPlanInput!) {\n  createCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      name\n      planType\n      status\n      createdAt\n      updatedAt\n      interestPolicy {\n        rateType\n        accrualType\n        accrualMethod\n        assessmentSchedule\n        defaultApr\n        scraApr\n      }\n      percentageOfCreditLimit\n      balanceType\n      effectiveFromDate\n      effectiveThroughDate\n      riskBasedPricingPolicy {\n        isRiskBased\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "CreateCardProductCreditPlan",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation CreateCardProductCreditPlan($input: CreateCardProductCreditPlanInput!) {\n  createCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      name\n      planType\n      status\n      createdAt\n      updatedAt\n      interestPolicy {\n        rateType\n        accrualType\n        accrualMethod\n        assessmentSchedule\n        defaultApr\n        scraApr\n      }\n      percentageOfCreditLimit\n      balanceType\n      effectiveFromDate\n      effectiveThroughDate\n      riskBasedPricingPolicy {\n        isRiskBased\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "productId": "{{cardProductId}}",
@@ -240,34 +407,12 @@
         }
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_plan",
-      "path": "Initialization/Card Product/Credit Plan/Create Credit Plan",
-      "description": "",
-      "tags": [
-        "credit_plan",
-        "creation"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573728",
-    "updated_at": "2025-08-04T16:18:34.573729"
-  },
-  {
-    "name": "ActivateCreditPlan",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation ActivateCardProductCreditPlan($input: ActivateCardProductCreditPlanInput!) {\n  activateCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      effectiveFromDate\n      effectiveThroughDate\n      updatedAt\n      createdAt\n      name\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "ActivateCardProductCreditPlan",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation ActivateCardProductCreditPlan($input: ActivateCardProductCreditPlanInput!) {\n  activateCardProductCreditPlan(input: $input) {\n    ... on CreditPlan {\n      id\n      effectiveFromDate\n      effectiveThroughDate\n      updatedAt\n      createdAt\n      name\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "id": "{{creditPlanId}}",
@@ -276,66 +421,22 @@
         }
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_plan",
-      "path": "Initialization/Card Product/Credit Plan/Activate Credit Plan",
-      "description": "",
-      "tags": [
-        "credit_plan",
-        "activation"
-      ],
-      "requires": [
-        "creditPlanId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573743",
-    "updated_at": "2025-08-04T16:18:34.573744"
-  },
-  {
-    "name": "GetCardProductCreditPlans",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetCardProductCreditPlans($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlans {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            percentageOfCreditLimit\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              defaultApr\n              scraApr\n            }\n            effectiveFromDate\n            effectiveThroughDate\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetCardProductCreditPlans",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetCardProductCreditPlans($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditPlans {\n        pageInfo {\n          hasNextPage\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            name\n            status\n            planType\n            balanceType\n            riskBasedPricingPolicy {\n              isRiskBased\n            }\n            percentageOfCreditLimit\n            interestPolicy {\n              rateType\n              accrualType\n              accrualMethod\n              assessmentSchedule\n              defaultApr\n              scraApr\n            }\n            effectiveFromDate\n            effectiveThroughDate\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "{{cardProductId}}"
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_plan",
-      "path": "Initialization/Card Product/Credit Plan/Get Card Product Credit Plans",
-      "description": "",
-      "tags": [
-        "credit_plan",
-        "retrieval"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "pageInfo"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573759",
-    "updated_at": "2025-08-04T16:18:34.573760"
-  },
-  {
-    "name": "CreateCardProduct",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateCardProduct",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation CreateCardProduct($input: CreateCardProductInput!) {\n  createCardProduct(input: $input) {\n    __typename\n    ... on CardProduct {\n      id\n      name\n      usage\n      vertical\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "cardProduct": {
@@ -346,35 +447,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "card_product",
-      "path": "Initialization/Card Product/Create Card Product",
-      "description": "",
-      "tags": [
-        "card_product",
-        "creation"
-      ],
-      "requires": [
-        "currentTimestampFormatted"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573775",
-    "updated_at": "2025-08-04T16:18:34.573776"
-  },
-  {
-    "name": "EnableCreditCardFeature",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation EnableCreditCardFeature(\n\t$input: EnableCreditCardFeatureInput!\n) {\n\tenableCreditCardFeature(input: $input) {\n\t\t__typename\t\t\t\n\t\t... on CardProduct {\n\t\t\tid\n\t\t\tfeatures {\n\t\t\t\t__typename\n\t\t\t\tenabled\n\t\t\t}\n\t\t}\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t}\n}",
+    {
+      "name": "EnableCreditCardFeature",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation EnableCreditCardFeature(\n\t$input: EnableCreditCardFeatureInput!\n) {\n\tenableCreditCardFeature(input: $input) {\n\t\t__typename\t\t\t\n\t\t... on CardProduct {\n\t\t\tid\n\t\t\tfeatures {\n\t\t\t\t__typename\n\t\t\t\tenabled\n\t\t\t}\n\t\t}\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t}\n}",
       "variables": {
         "input": {
           "cardProductId": "{{cardProductId}}",
@@ -382,183 +460,58 @@
         }
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "card_product",
-      "path": "Initialization/Card Product/Enable Credit Card Feature",
-      "description": "",
-      "tags": [
-        "card_product"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573790",
-    "updated_at": "2025-08-04T16:18:34.573791"
-  },
-  {
-    "name": "EnableCollaborativeApplicationUnderwritingFeature",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation EnableCollaborativeApplicationUnderwritingFeature($input: EnableCollaborativeApplicationUnderwritingFeatureInput!) {\n  enableCollaborativeApplicationUnderwritingFeature(input: $input) {\n    ... on CardProduct {\n      id\n      name\n      features {\n        ... on CollaborativeApplicationUnderwritingCardProductFeature {\n          enabled\n          createdAt\n          updatedAt\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "EnableCollaborativeApplicationUnderwritingFeature",
+      "type": "mutation",
+      "required": true,
+      "category": "initialization",
+      "graphql": "mutation EnableCollaborativeApplicationUnderwritingFeature($input: EnableCollaborativeApplicationUnderwritingFeatureInput!) {\n  enableCollaborativeApplicationUnderwritingFeature(input: $input) {\n    ... on CardProduct {\n      id\n      name\n      features {\n        ... on CollaborativeApplicationUnderwritingCardProductFeature {\n          enabled\n          createdAt\n          updatedAt\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "cardProductId": "{{cardProductId}}"
         }
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "card_product",
-      "path": "Initialization/Card Product/Enable Collaborative Application Underwriting Feature",
-      "description": "",
-      "tags": [
-        "card_product"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573807",
-    "updated_at": "2025-08-04T16:18:34.573807"
-  },
-  {
-    "name": "GetCardProductCreditConfiguration",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetCardProductWithCreditConfigs($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditConfiguration {\n        accountAging {\n          delinquentInDays\n          suspendedInDays\n          chargeOffInDays\n          lateFeeGracePeriodInDays\n        }\n        billingCycleConfiguration {\n          billingCycleGracePeriodInDays\n          billingCycleGracePeriodType\n          billingCyclePeriod\n        }\n        interest {\n          includesFees\n          includesPurchase\n        }\n        minimumPayment {\n          includesInterestAmount\n          includesFeesCharged\n          includesPastDueAmount\n          percentage\n          thresholdAmount {\n            currencyCode\n            value\n          }\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetCardProductWithCreditConfigs",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetCardProductWithCreditConfigs($id: ID!) {\n  node(id: $id) {\n    ... on CardProduct {\n      __typename\n      id\n      creditConfiguration {\n        accountAging {\n          delinquentInDays\n          suspendedInDays\n          chargeOffInDays\n          lateFeeGracePeriodInDays\n        }\n        billingCycleConfiguration {\n          billingCycleGracePeriodInDays\n          billingCycleGracePeriodType\n          billingCyclePeriod\n        }\n        interest {\n          includesFees\n          includesPurchase\n        }\n        minimumPayment {\n          includesInterestAmount\n          includesFeesCharged\n          includesPastDueAmount\n          percentage\n          thresholdAmount {\n            currencyCode\n            value\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "{{cardProductId}}"
       }
     },
-    "headers": {
-      "content-type": "application/json"
-    },
-    "metadata": {
-      "category": "card_product",
-      "path": "Initialization/Card Product/Get Card Product Credit Configuration",
-      "description": "",
-      "tags": [
-        "card_product",
-        "retrieval"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "accountAging"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573824",
-    "updated_at": "2025-08-04T16:18:34.573824"
-  },
-  {
-    "name": "GetCardProductAccounts",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetProductFundingAccount($id: ID!) {\n  node (id: $id) {\n    ... on CardProduct {\n      accounts {\n        edges {\n          node {\n            id\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetProductFundingAccount",
+      "type": "query",
+      "required": true,
+      "category": "initialization",
+      "graphql": "query GetProductFundingAccount($id: ID!) {\n  node (id: $id) {\n    ... on CardProduct {\n      accounts {\n        edges {\n          node {\n            id\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "{{cardProductId}}"
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "card_product",
-      "path": "Initialization/Card Product/Get Card Product Accounts",
-      "description": "",
-      "tags": [
-        "card_product",
-        "retrieval"
-      ],
-      "requires": [
-        "cardProductId"
-      ],
-      "produces": [
-        "accounts",
-        "node"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573836",
-    "updated_at": "2025-08-04T16:18:34.573837"
-  },
-  {
-    "name": "Ping",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query Ping {\n  ping\n  organizations {\n    id\n    profile {\n      displayName\n    }\n  }\n}",
-      "variables": {}
-    },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
+    {
+      "name": "Ping",
+      "type": "query",
+      "required": false,
       "category": "initialization",
-      "path": "Initialization/Ping",
-      "description": "",
-      "tags": [
-        "initialization"
-      ],
-      "requires": [],
-      "produces": []
+      "graphql": "query Ping {\n  ping\n  organizations {\n    id\n    profile {\n      displayName\n    }\n  }\n}"
     },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573856",
-    "updated_at": "2025-08-04T16:18:34.573857"
-  },
-  {
-    "name": "IntrospectionQuery",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
-      "variables": {}
-    },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
+    {
+      "name": "IntrospectionQuery",
+      "type": "mutation",
+      "required": false,
       "category": "initialization",
-      "path": "Initialization/Introspection Query",
-      "description": "",
-      "tags": [
-        "initialization"
-      ],
-      "requires": [],
-      "produces": [
-        "__schema"
-      ]
+      "graphql": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
     },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573879",
-    "updated_at": "2025-08-04T16:18:34.573879"
-  },
-  {
-    "name": "SimulateDeposit",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on Transfer {\n      id\n      status\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "SimulateDeposit",
+      "type": "mutation",
+      "required": false,
+      "category": "initialization",
+      "graphql": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    __typename\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on Transfer {\n      id\n      status\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "amount": {
@@ -571,35 +524,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "initialization",
-      "path": "Initialization/Simulate Deposit",
-      "description": "",
-      "tags": [
-        "initialization",
-        "simulation"
-      ],
-      "requires": [
-        "productFundingFinancialAccountId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573896",
-    "updated_at": "2025-08-04T16:18:34.573896"
-  },
-  {
-    "name": "CreateBusinessAccountHolderInReview",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSBusiniessAccountHolderInReview($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    __typename\n      ... on USBusinessAccountHolder {\n      id\n      externalId\n\t    primaryAuthorizedPerson {\n\t    \tid\n\t    }\n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateUSBusiniessAccountHolderInReview",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateUSBusiniessAccountHolderInReview($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    __typename\n      ... on USBusinessAccountHolder {\n      id\n      externalId\n\t    primaryAuthorizedPerson {\n\t    \tid\n\t    }\n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "primaryAuthorizedPerson": {
@@ -692,33 +622,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Create Business Account Holder In Review",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573959",
-    "updated_at": "2025-08-04T16:18:34.573960"
-  },
-  {
-    "name": "CreateBusinessAccountHolderApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSBusinessAccountHolderCardProductApplication(\n  $input: CreateAccountHolderCardProductApplicationInput!\n) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+    {
+      "name": "CreateUSBusinessAccountHolderCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateUSBusinessAccountHolderCardProductApplication(\n  $input: CreateAccountHolderCardProductApplicationInput!\n) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "ACCOUNT_HOLDER_ID",
@@ -730,66 +639,24 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Create Business Account Holder Application",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573977",
-    "updated_at": "2025-08-04T16:18:34.573977"
-  },
-  {
-    "name": "StartDocumentUploadSession",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation StartDocumentUploadSession($input: StartDocumentUploadSessionInput!) {\n  startDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "StartDocumentUploadSession",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation StartDocumentUploadSession($input: StartDocumentUploadSessionInput!) {\n  startDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Start Document Upload Session",
-      "description": "",
-      "tags": [
-        "manual_review"
-      ],
-      "requires": [],
-      "produces": [
-        "constraints",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.573992",
-    "updated_at": "2025-08-04T16:18:34.573992"
-  },
-  {
-    "name": "GenerateDocumentUploadClientToken",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GenerateDocumentUploadClientToken($input: GenerateDocumentUploadClientTokenInput!) {\n  generateDocumentUploadClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+    {
+      "name": "GenerateDocumentUploadClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation GenerateDocumentUploadClientToken($input: GenerateDocumentUploadClientTokenInput!) {\n  generateDocumentUploadClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
       "variables": {
         "input": {
           "documentUploadSessionId": "DOCUMENT_UPLOAD_SESSION_ID",
@@ -799,128 +666,40 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
+    {
+      "name": "CreateDocumentUploadSecureLink",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateDocumentUploadSecureLink(\n  $input: CreateDocumentUploadLinkInput!\n) {\n  createDocumentUploadLink(input: $input) {\n    __typename\n    ... on DocumentUploadLink {\n      id\n      documentUploadSession {\n        id\n        status\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          uploadRequirements {\n            constraints {\n              ... on DocumentUploadRequirementConstraint {\n                documentType\n                numberOfDocuments\n              }\n            }\n          }\n        }\n      }\n      documentType\n      status\n      documentCategoryType\n      uploadUrl\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": "{\n  \"input\": {\n    \"documentUploadSessionId\": \"DOCUMENT_UPLOAD_SESSION_ID\",\n    \"documentType\": \"BANK_STATEMENT\" // Provide correct enum\n  }\n}\n"
     },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Generate Document Upload Client Token",
-      "description": "",
-      "tags": [
-        "manual_review"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574006",
-    "updated_at": "2025-08-04T16:18:34.574006"
-  },
-  {
-    "name": "CreateDocumentUploadLink",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateDocumentUploadSecureLink(\n  $input: CreateDocumentUploadLinkInput!\n) {\n  createDocumentUploadLink(input: $input) {\n    __typename\n    ... on DocumentUploadLink {\n      id\n      documentUploadSession {\n        id\n        status\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          uploadRequirements {\n            constraints {\n              ... on DocumentUploadRequirementConstraint {\n                documentType\n                numberOfDocuments\n              }\n            }\n          }\n        }\n      }\n      documentType\n      status\n      documentCategoryType\n      uploadUrl\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
-      "variables": {}
-    },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Create Document Upload Link",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "uploadRequirements",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574026",
-    "updated_at": "2025-08-04T16:18:34.574026"
-  },
-  {
-    "name": "GetDocumentUploadSession",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetDocumentUploadSession($id: ID!) {\n  node(id: $id) {\n    ... on DocumentUploadSession {\n      id\n      createdAt\n      updatedAt\n      status\n      documents {\n        ... on DocumentUploadLink {\n          id\n          status\n          uploadUrl\n          documentType\n          documentCategoryType\n        }\n      }\n    }\n    ... on AccountHolderCardProductApplication {\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n        ... on USBusinessAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetDocumentUploadSession",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "query GetDocumentUploadSession($id: ID!) {\n  node(id: $id) {\n    ... on DocumentUploadSession {\n      id\n      createdAt\n      updatedAt\n      status\n      documents {\n        ... on DocumentUploadLink {\n          id\n          status\n          uploadUrl\n          documentType\n          documentCategoryType\n        }\n      }\n    }\n    ... on AccountHolderCardProductApplication {\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n        ... on USBusinessAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "DOCUMENT_UPLOAD_SESSION_ID"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Get Document Upload Session",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "accountHolderSnapshot",
-        "currentVerification",
-        "documentUploadSession",
-        "constraints",
-        "currentVerification"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574046",
-    "updated_at": "2025-08-04T16:18:34.574046"
-  },
-  {
-    "name": "GetDocumentUploadSessionsViaApplicationId",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetDocumentUploadSessionsViaApplicationID(\n  $id: ID!\n  $firstApplicationHistory: Int\n) {\n  node(id: $id) {\n    ... on AccountHolderCardProductApplication {\n      __typename\n      applicationState {\n        status\n      }\n      cardProduct {\n        name\n      }\n      accountHolderSnapshot {\n        ...USPersonAccountHolderSnapshot\n        ...USBusinessAccountHolderSnapshot\n      }\n    }\n  }\n}\n\nfragment USPersonAccountHolderSnapshot on USPersonAccountHolderSnapshot {\n  __typename\n  currentVerification {\n    status\n    reason\n    results {\n      code\n      description\n    }\n    requiredDocuments {\n      createdAt\n      referenceIdentifier\n      updatedAt\n      status\n      documentUploadSession {\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          status\n          id\n        }\n      }\n      uploadedDocuments {\n        ... on AccountHolderApplicationDocument {\n          status\n          type\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n}\n\nfragment USBusinessAccountHolderSnapshot on USBusinessAccountHolderSnapshot {\n  __typename\n  primaryAuthorizedPerson {\n    currentVerification {\n      status\n      reason\n      requiredDocuments {\n        createdAt\n        referenceIdentifier\n        updatedAt\n        status\n        documentUploadSession {\n          ... on USAccountHolderApplicationDocumentUploadSession {\n            status\n            id\n          }\n        }\n        uploadedDocuments {\n          ... on AccountHolderApplicationDocument {\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n  businessProfile {\n    currentVerification {\n      status\n      reason\n      requiredDocuments {\n        createdAt\n        referenceIdentifier\n        updatedAt\n        status\n        documentUploadSession {\n          ... on USAccountHolderApplicationDocumentUploadSession {\n            status\n            id\n          }\n        }\n        uploadedDocuments {\n          ... on AccountHolderApplicationDocument {\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n    ultimateBeneficialOwners {\n      currentVerification {\n        status\n        reason\n        requiredDocuments {\n          createdAt\n          referenceIdentifier\n          updatedAt\n          status\n          documentUploadSession {\n            ... on USAccountHolderApplicationDocumentUploadSession {\n              status\n              id\n            }\n          }\n          uploadedDocuments {\n            ... on AccountHolderApplicationDocument {\n              status\n              type\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetDocumentUploadSessionsViaApplicationID",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "query GetDocumentUploadSessionsViaApplicationID(\n  $id: ID!\n  $firstApplicationHistory: Int\n) {\n  node(id: $id) {\n    ... on AccountHolderCardProductApplication {\n      __typename\n      applicationState {\n        status\n      }\n      cardProduct {\n        name\n      }\n      accountHolderSnapshot {\n        ...USPersonAccountHolderSnapshot\n        ...USBusinessAccountHolderSnapshot\n      }\n    }\n  }\n}\n\nfragment USPersonAccountHolderSnapshot on USPersonAccountHolderSnapshot {\n  __typename\n  currentVerification {\n    status\n    reason\n    results {\n      code\n      description\n    }\n    requiredDocuments {\n      createdAt\n      referenceIdentifier\n      updatedAt\n      status\n      documentUploadSession {\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          status\n          id\n        }\n      }\n      uploadedDocuments {\n        ... on AccountHolderApplicationDocument {\n          status\n          type\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n}\n\nfragment USBusinessAccountHolderSnapshot on USBusinessAccountHolderSnapshot {\n  __typename\n  primaryAuthorizedPerson {\n    currentVerification {\n      status\n      reason\n      requiredDocuments {\n        createdAt\n        referenceIdentifier\n        updatedAt\n        status\n        documentUploadSession {\n          ... on USAccountHolderApplicationDocumentUploadSession {\n            status\n            id\n          }\n        }\n        uploadedDocuments {\n          ... on AccountHolderApplicationDocument {\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n  businessProfile {\n    currentVerification {\n      status\n      reason\n      requiredDocuments {\n        createdAt\n        referenceIdentifier\n        updatedAt\n        status\n        documentUploadSession {\n          ... on USAccountHolderApplicationDocumentUploadSession {\n            status\n            id\n          }\n        }\n        uploadedDocuments {\n          ... on AccountHolderApplicationDocument {\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    }\n    ultimateBeneficialOwners {\n      currentVerification {\n        status\n        reason\n        requiredDocuments {\n          createdAt\n          referenceIdentifier\n          updatedAt\n          status\n          documentUploadSession {\n            ... on USAccountHolderApplicationDocumentUploadSession {\n              status\n              id\n            }\n          }\n          uploadedDocuments {\n            ... on AccountHolderApplicationDocument {\n              status\n              type\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "APPLICATION_ID"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Get Document Upload Sessions Via Application ID",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "currentVerification",
-        "currentVerification",
-        "currentVerification"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574076",
-    "updated_at": "2025-08-04T16:18:34.574077"
-  },
-  {
-    "name": "SimulateApplicationDocumentReview",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationDocumentReview($input: SimulateApplicationDocumentReviewInput!) {\n  simulateApplicationDocumentReview(input: $input) {\n    ... on AccountHolderApplicationDocument {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationDocumentReview",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation SimulateApplicationDocumentReview($input: SimulateApplicationDocumentReviewInput!) {\n  simulateApplicationDocumentReview(input: $input) {\n    ... on AccountHolderApplicationDocument {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "ap_CARD_PRODUCT_APPLICATION_ID",
@@ -930,33 +709,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Simulate Application Document Review",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "simulation"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574092",
-    "updated_at": "2025-08-04T16:18:34.574093"
-  },
-  {
-    "name": "SimulateApplicationVerificationStatusChange",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationVerificationStatusChange($input: SimulateApplicationVerificationStatusChangeInput!) {\n  simulateApplicationVerificationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationVerificationStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation SimulateApplicationVerificationStatusChange($input: SimulateApplicationVerificationStatusChangeInput!) {\n  simulateApplicationVerificationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicantId": "ACCOUNT_HOLDER_ID",
@@ -965,31 +723,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Simulate Application Verification Status Change",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "simulation"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574107",
-    "updated_at": "2025-08-04T16:18:34.574108"
-  },
-  {
-    "name": "SimulateApplicationStatusChange",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationStatusChange($input: SimulateApplicationStatusChangeInput!) {\n  simulateApplicationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation SimulateApplicationStatusChange($input: SimulateApplicationStatusChangeInput!) {\n  simulateApplicationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "APPLICATION_ID",
@@ -997,96 +736,32 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "manual_review",
-      "path": "Onboarding/Business Account Holders/Manual Review/Simulate Application Status Change",
-      "description": "",
-      "tags": [
-        "manual_review",
-        "simulation"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574121",
-    "updated_at": "2025-08-04T16:18:34.574122"
-  },
-  {
-    "name": "CreateBusinessAccountHolderFromToken",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSBusinessAccountHolderFromToken(\n\t$input:  CreateUSBusinessAccountHolderFromTokenInput!\n) {\n\tcreateUSBusinessAccountHolderFromToken(input: $input) {\n\t  __typename\n\t\t      ... on USBusinessAccountHolder {\n        externalId\n        id\n        createdAt\n        updatedAt\n        primaryAuthorizedPerson {\n          id\n          email\n          dateOfBirth\n          percentageOwnership\n          authorizingPersonTitle\n          createdAt\n          updatedAt\n          name {\n            givenName\n            familyName\n            title\n            suffix\n            middleName\n          }\n          homeAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          identificationDocument {\n            socialSecurityNumber {\n              numberHash\n              countryCodeAlpha3\n            }\n          }\n        }\n        businessProfile {\n          id\n          website\n          businessType\n          createdAt\n          updatedAt\n          name {\n            legalBusinessName\n            doingBusinessAsName\n          }\n          billingAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          identificationDocument {\n            employerIdentificationNumber {\n              numberHash\n              countryCodeAlpha3\n            }\n          }\n          ultimateBeneficialOwners {\n            id\n            percentageOwnership\n            dateOfBirth\n            email\n            createdAt\n            updatedAt\n            name {\n              givenName\n              familyName\n              title\n              suffix\n              middleName\n            }\n            homeAddress {\n              streetAddress\n              extendedAddress\n              postalCode\n              region\n              locality\n              countryCodeAlpha3\n            }\n            phoneNumbers {\n              countryCode\n              number\n              label\n            }\n            identificationDocument {\n              socialSecurityNumber {\n                numberHash\n                countryCodeAlpha3\n              }\n            }\n          }\n        }\n      }\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t\t... on AccessDeniedError {\n\t\t\tmessage\n\t\t}\n\t}\n}",
+    {
+      "name": "CreateUSBusinessAccountHolderFromToken",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateUSBusinessAccountHolderFromToken(\n\t$input:  CreateUSBusinessAccountHolderFromTokenInput!\n) {\n\tcreateUSBusinessAccountHolderFromToken(input: $input) {\n\t  __typename\n\t\t      ... on USBusinessAccountHolder {\n        externalId\n        id\n        createdAt\n        updatedAt\n        primaryAuthorizedPerson {\n          id\n          email\n          dateOfBirth\n          percentageOwnership\n          authorizingPersonTitle\n          createdAt\n          updatedAt\n          name {\n            givenName\n            familyName\n            title\n            suffix\n            middleName\n          }\n          homeAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          identificationDocument {\n            socialSecurityNumber {\n              numberHash\n              countryCodeAlpha3\n            }\n          }\n        }\n        businessProfile {\n          id\n          website\n          businessType\n          createdAt\n          updatedAt\n          name {\n            legalBusinessName\n            doingBusinessAsName\n          }\n          billingAddress {\n            streetAddress\n            extendedAddress\n            postalCode\n            region\n            locality\n            countryCodeAlpha3\n          }\n          phoneNumbers {\n            countryCode\n            number\n            label\n          }\n          identificationDocument {\n            employerIdentificationNumber {\n              numberHash\n              countryCodeAlpha3\n            }\n          }\n          ultimateBeneficialOwners {\n            id\n            percentageOwnership\n            dateOfBirth\n            email\n            createdAt\n            updatedAt\n            name {\n              givenName\n              familyName\n              title\n              suffix\n              middleName\n            }\n            homeAddress {\n              streetAddress\n              extendedAddress\n              postalCode\n              region\n              locality\n              countryCodeAlpha3\n            }\n            phoneNumbers {\n              countryCode\n              number\n              label\n            }\n            identificationDocument {\n              socialSecurityNumber {\n                numberHash\n                countryCodeAlpha3\n              }\n            }\n          }\n        }\n      }\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t\t... on AccessDeniedError {\n\t\t\tmessage\n\t\t}\n\t}\n}",
       "variables": {
         "input": {
           "token": "CLIENT_TOKEN"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "tokenization",
-      "path": "Onboarding/Business Account Holders/Tokenization/Create Business Account Holder From Token",
-      "description": "",
-      "tags": [
-        "tokenization",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "socialSecurityNumber",
-        "employerIdentificationNumber",
-        "socialSecurityNumber",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574151",
-    "updated_at": "2025-08-04T16:18:34.574152"
-  },
-  {
-    "name": "GenerateTokenizeAccountHolderClientToken",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GenerateTokenizeAccountHolderClientToken {\n  generateTokenizeAccountHolderClientToken {\n    ... on ClientToken {\n      expirationDate\n      usage\n      value\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "GenerateTokenizeAccountHolderClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation GenerateTokenizeAccountHolderClientToken {\n  generateTokenizeAccountHolderClientToken {\n    ... on ClientToken {\n      expirationDate\n      usage\n      value\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {}
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "tokenization",
-      "path": "Onboarding/Business Account Holders/Tokenization/Generate Tokenize Account Holder Client Token",
-      "description": "",
-      "tags": [
-        "tokenization"
-      ],
-      "requires": [],
-      "produces": [
-        "generateTokenizeAccountHolderClientToken",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574164",
-    "updated_at": "2025-08-04T16:18:34.574164"
-  },
-  {
-    "name": "TokenizeBusinessAccountHolder",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation TokenizeUSBusinessAccountHolder($input: CreateUSBusinessAccountHolderInput) {\n\ttokenizeUSBusinessAccountHolder(input: $input) {\n\t\t... on USBusinessAccountHolderToken {\n\t\t\ttoken\n\t\t}\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t\t... on AccessDeniedError {\n\t\t\tmessage\n\t\t}\n\t}\n}",
+    {
+      "name": "TokenizeUSBusinessAccountHolder",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation TokenizeUSBusinessAccountHolder($input: CreateUSBusinessAccountHolderInput) {\n\ttokenizeUSBusinessAccountHolder(input: $input) {\n\t\t... on USBusinessAccountHolderToken {\n\t\t\ttoken\n\t\t}\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tpath\n\t\t\t\tcode\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n\t\t... on AccessDeniedError {\n\t\t\tmessage\n\t\t}\n\t}\n}",
       "variables": {
         "input": {
           "externalId": "bluejay",
@@ -1178,32 +853,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "tokenization",
-      "path": "Onboarding/Business Account Holders/Tokenization/Tokenize Business Account Holder",
-      "description": "",
-      "tags": [
-        "tokenization"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574214",
-    "updated_at": "2025-08-04T16:18:34.574214"
-  },
-  {
-    "name": "CreateBusinessAccountHolder",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSBusiniessAccountHolder($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    __typename\n    ... on USBusinessAccountHolder {\n      id\n      externalId\n\t\t\tprimaryAuthorizedPerson {\n\t\t\t\tid\n\t\t\t}\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateUSBusiniessAccountHolder",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateUSBusiniessAccountHolder($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    __typename\n    ... on USBusinessAccountHolder {\n      id\n      externalId\n\t\t\tprimaryAuthorizedPerson {\n\t\t\t\tid\n\t\t\t}\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "primaryAuthorizedPerson": {
@@ -1304,59 +959,22 @@
         }
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "business_account_holders",
-      "path": "Onboarding/Business Account Holders/Create Business Account Holder",
-      "description": "",
-      "tags": [
-        "business_account_holders",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574267",
-    "updated_at": "2025-08-04T16:18:34.574267"
-  },
-  {
-    "name": "GetBusinessAccountHolder",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "  query GetUSBusinessAccountHolder($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on USBusinessAccountHolder {\n      __typename\n      id\n      businessProfile {\n        businessType\n        name {\n          doingBusinessAsName\n          legalBusinessName\n        }\n        billingAddress {\n          streetAddress\n          postalCode\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        name {\n          givenName\n          middleName\n          familyName\n        }\n        authorizingPersonTitle\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetUSBusinessAccountHolder",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "  query GetUSBusinessAccountHolder($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on USBusinessAccountHolder {\n      __typename\n      id\n      businessProfile {\n        businessType\n        name {\n          doingBusinessAsName\n          legalBusinessName\n        }\n        billingAddress {\n          streetAddress\n          postalCode\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        name {\n          givenName\n          middleName\n          familyName\n        }\n        authorizingPersonTitle\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "ACCOUNT_HOLDER_ID"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "business_account_holders",
-      "path": "Onboarding/Business Account Holders/Get Business Account Holder",
-      "description": "",
-      "tags": [
-        "business_account_holders",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574284",
-    "updated_at": "2025-08-04T16:18:34.574285"
-  },
-  {
-    "name": "UpdateBusinessAccountHolderBillingAddress",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UpdateUSBusinessAccountHolderBillingAddress($input: UpdateUSBusinessAccountHolderBillingAddressInput!) {\n  updateUSBusinessAccountHolderBillingAddress(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n          }\n        }\n      }\n      businessProfile {\n        billingAddress {\n          streetAddress\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "UpdateUSBusinessAccountHolderBillingAddress",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation UpdateUSBusinessAccountHolderBillingAddress($input: UpdateUSBusinessAccountHolderBillingAddressInput!) {\n  updateUSBusinessAccountHolderBillingAddress(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n          }\n        }\n      }\n      businessProfile {\n        billingAddress {\n          streetAddress\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "ACCOUNT_HOLDER_ID",
@@ -1371,34 +989,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "business_account_holders",
-      "path": "Onboarding/Business Account Holders/Update Business Account Holder Billing Address",
-      "description": "",
-      "tags": [
-        "business_account_holders",
-        "modification"
-      ],
-      "requires": [],
-      "produces": [
-        "edges",
-        "billingAddress"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574306",
-    "updated_at": "2025-08-04T16:18:34.574307"
-  },
-  {
-    "name": "CreateBusinessAccountHolderApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
+    {
+      "name": "CreateAccountHolderCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "{{businessAccountHolderId}}",
@@ -1413,68 +1009,22 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "business_account_holders",
-      "path": "Onboarding/Business Account Holders/Create Business Account Holder Application",
-      "description": "",
-      "tags": [
-        "business_account_holders",
-        "creation"
-      ],
-      "requires": [
-        "businessAccountHolderPrimaryAuthorizedPersonId",
-        "businessAccountHolderId",
-        "cardProductId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574326",
-    "updated_at": "2025-08-04T16:18:34.574326"
-  },
-  {
-    "name": "GetBusinessAccountHolderApplications",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetUSBusinessAccountHolderCardProductApplications (\n  $id: ID!\n) {\n  node(id: $id){\n    ...on USBusinessAccountHolder {\n      id\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n            cardProduct {\n              id\n              name\n            }\n            createdAt\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetUSBusinessAccountHolderCardProductApplications",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "query GetUSBusinessAccountHolderCardProductApplications (\n  $id: ID!\n) {\n  node(id: $id){\n    ...on USBusinessAccountHolder {\n      id\n      cardProductApplications {\n        edges {\n          node {\n            id\n            applicationState {\n              status\n            }\n            cardProduct {\n              id\n              name\n            }\n            createdAt\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "US_BUSINESS_ACCOUNT_HOLDER_ID"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "business_account_holders",
-      "path": "Onboarding/Business Account Holders/Get Business Account Holder Applications",
-      "description": "",
-      "tags": [
-        "business_account_holders",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "edges"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574340",
-    "updated_at": "2025-08-04T16:18:34.574341"
-  },
-  {
-    "name": "CreatePersonAuthorizedUser",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSPersonAuthorizedUser(\n  $input: CreateUSPersonAuthorizedUserInput!\n) {\n  createUSPersonAuthorizedUser(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      name {\n        givenName\n        familyName\n      }\n      email\n      phoneNumbers {\n        label\n        countryCode\n        number\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        locality\n        region\n        postalCode\n        countryCodeAlpha3\n      }\n      dateOfBirth\n      externalId\n      associatedAccountHolders {\n        ... on AccountHolderConnection {\n          edges {\n            node {\n              ... on USBusinessAccountHolder {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateUSPersonAuthorizedUser",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateUSPersonAuthorizedUser(\n  $input: CreateUSPersonAuthorizedUserInput!\n) {\n  createUSPersonAuthorizedUser(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      name {\n        givenName\n        familyName\n      }\n      email\n      phoneNumbers {\n        label\n        countryCode\n        number\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        locality\n        region\n        postalCode\n        countryCodeAlpha3\n      }\n      dateOfBirth\n      externalId\n      associatedAccountHolders {\n        ... on AccountHolderConnection {\n          edges {\n            node {\n              ... on USBusinessAccountHolder {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "accountHolderId": "{{businessAccountHolderId}}",
@@ -1503,36 +1053,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Create Person Authorized User",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "creation"
-      ],
-      "requires": [
-        "businessAccountHolderId"
-      ],
-      "produces": [
-        "edges",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574372",
-    "updated_at": "2025-08-04T16:18:34.574372"
-  },
-  {
-    "name": "CreateAuthorizedUserCardProductApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateAuthorizedUserCardProductApplication($input: CreateAuthorizedUserCardProductApplicationInput!) {\n  createAuthorizedUserCardProductApplication(input: $input) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          authorizedUserCurrent {\n            id\n          }\n        }\n      }\n      accountHolderCardProductApplication {\n        id\n        cardProduct {\n          id\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "CreateAuthorizedUserCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation CreateAuthorizedUserCardProductApplication($input: CreateAuthorizedUserCardProductApplicationInput!) {\n  createAuthorizedUserCardProductApplication(input: $input) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          authorizedUserCurrent {\n            id\n          }\n        }\n      }\n      accountHolderCardProductApplication {\n        id\n        cardProduct {\n          id\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "authorizedUserId": "{{authorizedUserId}}",
@@ -1545,38 +1071,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Create Authorized User Card Product Application",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "creation"
-      ],
-      "requires": [
-        "authorizedUserId",
-        "businessAccountHolderApplicationId",
-        "financialAccountId"
-      ],
-      "produces": [
-        "name",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574394",
-    "updated_at": "2025-08-04T16:18:34.574394"
-  },
-  {
-    "name": "IssuePaymentCardForAuthorizedUserApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation IssuePaymentCardForAuthorizedUserApplication($input: IssuePaymentCardForAuthorizedUserApplicationInput!) {\n  issuePaymentCardForAuthorizedUserApplication(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      network\n      expirationYear\n      expirationMonth\n      expirationDate\n      status\n      formFactor\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "IssuePaymentCardForAuthorizedUserApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "mutation IssuePaymentCardForAuthorizedUserApplication($input: IssuePaymentCardForAuthorizedUserApplicationInput!) {\n  issuePaymentCardForAuthorizedUserApplication(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      network\n      expirationYear\n      expirationMonth\n      expirationDate\n      status\n      formFactor\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "{{authorizedUserApplicationId}}",
@@ -1587,102 +1087,32 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Issue Payment Card For Authorized User Application",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "issuance"
-      ],
-      "requires": [
-        "authorizedUserApplicationId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574411",
-    "updated_at": "2025-08-04T16:18:34.574411"
-  },
-  {
-    "name": "GetAuthorizedPersonCardProductApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetAuthorizedPersonCardProductApplication($id: ID!) {\n  node(id: $id) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      accountHolderCardProductApplication {\n        id\n      }\n      financialAccount {\n        id\n      }\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          authorizedUserCurrent {\n            id\n            name {\n              givenName\n              familyName\n            }\n            billingAddress {\n              streetAddress\n              locality\n              region\n              countryCodeAlpha3\n              postalCode\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetAuthorizedPersonCardProductApplication",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "query GetAuthorizedPersonCardProductApplication($id: ID!) {\n  node(id: $id) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      accountHolderCardProductApplication {\n        id\n      }\n      financialAccount {\n        id\n      }\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          authorizedUserCurrent {\n            id\n            name {\n              givenName\n              familyName\n            }\n            billingAddress {\n              streetAddress\n              locality\n              region\n              countryCodeAlpha3\n              postalCode\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "{{authorizedUserApplicationId}}"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Get Authorized Person Card Product Application",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "retrieval"
-      ],
-      "requires": [
-        "authorizedUserApplicationId"
-      ],
-      "produces": [
-        "authorizedUserCurrent"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574428",
-    "updated_at": "2025-08-04T16:18:34.574428"
-  },
-  {
-    "name": "GetAccountHolderAuthorizedUsers",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetAccountHolderAuthorizedUsers($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    ... on USBusinessAccountHolder {\n      businessProfile {\n        authorizedUsers(first: $first, after: $after) {\n          pageInfo {\n            startCursor\n            endCursor\n            hasNextPage\n          }\n          edges {\n            node {\n              id\n              createdAt\n              name {\n                givenName\n                familyName\n              }\n              email\n              externalId\n              cardProductApplications {\n                edges {\n                  node {\n                    id\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetAccountHolderAuthorizedUsers",
+      "type": "query",
+      "required": true,
+      "category": "onboarding",
+      "graphql": "query GetAccountHolderAuthorizedUsers($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    ... on USBusinessAccountHolder {\n      businessProfile {\n        authorizedUsers(first: $first, after: $after) {\n          pageInfo {\n            startCursor\n            endCursor\n            hasNextPage\n          }\n          edges {\n            node {\n              id\n              createdAt\n              name {\n                givenName\n                familyName\n              }\n              email\n              externalId\n              cardProductApplications {\n                edges {\n                  node {\n                    id\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "ACCOUNT_HOLDER_ID"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Get Account Holder Authorized Users",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": [
-        "businessProfile",
-        "pageInfo",
-        "node",
-        "edges"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574442",
-    "updated_at": "2025-08-04T16:18:34.574443"
-  },
-  {
-    "name": "UpdatePersonAuthorizedUserBillingAddress",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UpdateUSPersonAuthorizedUserBillingAddress($input: UpdateUSPersonAuthorizedUserBillingAddressInput!) {\n  updateUSPersonAuthorizedUserBillingAddress(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n    }\n  }\n}",
+    {
+      "name": "UpdateUSPersonAuthorizedUserBillingAddress",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation UpdateUSPersonAuthorizedUserBillingAddress($input: UpdateUSPersonAuthorizedUserBillingAddressInput!) {\n  updateUSPersonAuthorizedUserBillingAddress(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "ACCOUNT_HOLDER_ID",
@@ -1698,33 +1128,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Update Person Authorized User Billing Address",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "modification"
-      ],
-      "requires": [
-        "authorizedUserId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574462",
-    "updated_at": "2025-08-04T16:18:34.574462"
-  },
-  {
-    "name": "UpdatePersonAuthorizedUserPhone",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UpdateUSPersonAuthorizedUserPhone($input: UpdateUSPersonAuthorizedUserPhoneInput!) {\n  updateUSPersonAuthorizedUserPhone(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+    {
+      "name": "UpdateUSPersonAuthorizedUserPhone",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation UpdateUSPersonAuthorizedUserPhone($input: UpdateUSPersonAuthorizedUserPhoneInput!) {\n  updateUSPersonAuthorizedUserPhone(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "ACCOUNT_HOLDER_ID",
@@ -1737,35 +1146,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Update Person Authorized User Phone",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "modification"
-      ],
-      "requires": [
-        "authorizedUserId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574479",
-    "updated_at": "2025-08-04T16:18:34.574480"
-  },
-  {
-    "name": "UpdatePersonAuthorizedUserEmail",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UpdateUSPersonAuthorizedUserEmail($input: UpdateUSPersonAuthorizedUserEmailInput!) {\n  updateUSPersonAuthorizedUserEmail(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      email\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+    {
+      "name": "UpdateUSPersonAuthorizedUserEmail",
+      "type": "mutation",
+      "required": false,
+      "category": "onboarding",
+      "graphql": "mutation UpdateUSPersonAuthorizedUserEmail($input: UpdateUSPersonAuthorizedUserEmailInput!) {\n  updateUSPersonAuthorizedUserEmail(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      email\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "accountHolderId": "ACCOUNT_HOLDER_ID",
@@ -1774,35 +1160,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "authorized_users",
-      "path": "Onboarding/Authorized Users/Update Person Authorized User Email",
-      "description": "",
-      "tags": [
-        "authorized_users",
-        "modification"
-      ],
-      "requires": [
-        "authorizedUserId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574535",
-    "updated_at": "2025-08-04T16:18:34.574535"
-  },
-  {
-    "name": "IssueFinancialAccountForApplication",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+    {
+      "name": "IssueFinancialAccountForApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "issuance",
+      "graphql": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "applicationId": "{{businessAccountHolderApplicationId}}",
@@ -1810,69 +1173,22 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "financial_accounts",
-      "path": "Issuance/Financial Accounts/Issue Financial Account For Application",
-      "description": "",
-      "tags": [
-        "financial_accounts",
-        "issuance"
-      ],
-      "requires": [
-        "businessAccountHolderApplicationId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574563",
-    "updated_at": "2025-08-04T16:18:34.574563"
-  },
-  {
-    "name": "GetFinancialAccount",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetFinancialAccount($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetFinancialAccount",
+      "type": "query",
+      "required": true,
+      "category": "issuance",
+      "graphql": "query GetFinancialAccount($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "{{financialAccountId}}"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "financial_accounts",
-      "path": "Issuance/Financial Accounts/Get Financial Account",
-      "description": "",
-      "tags": [
-        "financial_accounts",
-        "retrieval"
-      ],
-      "requires": [
-        "financialAccountId"
-      ],
-      "produces": [
-        "edges",
-        "amount"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574585",
-    "updated_at": "2025-08-04T16:18:34.574586"
-  },
-  {
-    "name": "SuspendFinancialAccount",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SuspendFinancialAccount($input: SuspendFinancialAccountInput!) {\n  suspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+    {
+      "name": "SuspendFinancialAccount",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation SuspendFinancialAccount($input: SuspendFinancialAccountInput!) {\n  suspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "id": "{{financialAccountId}}",
@@ -1881,32 +1197,12 @@
         }
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "financial_accounts",
-      "path": "Issuance/Financial Accounts/Suspend Financial Account",
-      "description": "",
-      "tags": [
-        "financial_accounts",
-        "suspension"
-      ],
-      "requires": [
-        "financialAccountId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574600",
-    "updated_at": "2025-08-04T16:18:34.574600"
-  },
-  {
-    "name": "UnsuspendFinancialAccount",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation UnsuspendFinancialAccount($input: UnsuspendFinancialAccountInput!) {\n  unsuspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n      globalNotes {\n        ... on GlobalNoteConnection {\n          edges {\n            node {\n              id\n              createdAt\n              message\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+    {
+      "name": "UnsuspendFinancialAccount",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation UnsuspendFinancialAccount($input: UnsuspendFinancialAccountInput!) {\n  unsuspendFinancialAccount(input: $input) {\n    ... on FinancialAccount {\n      accountStatus\n      financialAccountAttributesWithReason {\n        attribute\n        reason\n      }\n      globalNotes {\n        ... on GlobalNoteConnection {\n          edges {\n            node {\n              id\n              createdAt\n              message\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "id": "{{financialAccountId}}",
@@ -1914,33 +1210,12 @@
         }
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "financial_accounts",
-      "path": "Issuance/Financial Accounts/Unsuspend Financial Account",
-      "description": "",
-      "tags": [
-        "financial_accounts",
-        "suspension"
-      ],
-      "requires": [
-        "financialAccountId"
-      ],
-      "produces": [
-        "edges",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574614",
-    "updated_at": "2025-08-04T16:18:34.574615"
-  },
-  {
-    "name": "IssuePaymentCardForFinancialAccount",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n\t\t\t\t... on AccountHolderCardProductApplication {\n\t\t\t\t\tid\n\t\t\t\t\tapplicationState {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t}\n\t\t\t\t\taccountHolderSnapshot {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\t\t\tname {\n\t\t\t\t\t\t\t\tgivenName\n\t\t\t\t\t\t\t\tfamilyName\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\t\t\tlocality\n\t\t\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\t\treason\n\t\t\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "IssuePaymentCardForFinancialAccount",
+      "type": "mutation",
+      "required": true,
+      "category": "issuance",
+      "graphql": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n\t\t\t\t... on AccountHolderCardProductApplication {\n\t\t\t\t\tid\n\t\t\t\t\tapplicationState {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t}\n\t\t\t\t\taccountHolderSnapshot {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\t\t\tname {\n\t\t\t\t\t\t\t\tgivenName\n\t\t\t\t\t\t\t\tfamilyName\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\t\t\tlocality\n\t\t\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\t\treason\n\t\t\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "financialAccountId": "{{financialAccountId}}",
@@ -1951,37 +1226,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Issue Payment Card For Financial Account",
-      "description": "",
-      "tags": [
-        "payment_cards",
-        "issuance"
-      ],
-      "requires": [
-        "financialAccountId"
-      ],
-      "produces": [
-        "ledgers",
-        "name",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574640",
-    "updated_at": "2025-08-04T16:18:34.574641"
-  },
-  {
-    "name": "GenerateClientTokenToSetPin",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "GeneratePaymentCardClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "paymentCardId": "PAYMENT_CARD_ID",
@@ -1989,32 +1239,12 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Generate Client Token To Set PIN",
-      "description": "",
-      "tags": [
-        "payment_cards"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574655",
-    "updated_at": "2025-08-04T16:18:34.574655"
-  },
-  {
-    "name": "GenerateClientTokenForRestrictedDetail",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "GeneratePaymentCardClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "paymentCardId": "PAYMENT_CARD_ID",
@@ -2022,94 +1252,34 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Generate Client Token For Restricted Detail",
-      "description": "",
-      "tags": [
-        "payment_cards"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574669",
-    "updated_at": "2025-08-04T16:18:34.574669"
-  },
-  {
-    "name": "ViewPaymentCardRestrictedDetails",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
+    {
+      "name": "GetPaymentCardRestrictedDetails",
+      "type": "query",
+      "required": true,
+      "category": "issuance",
+      "graphql": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
       "variables": {
         "id": ""
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/View Payment Card Restricted Details",
-      "description": "",
-      "tags": [
-        "payment_cards"
-      ],
-      "requires": [],
-      "produces": [
-        "restrictedDetails"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574681",
-    "updated_at": "2025-08-04T16:18:34.574681"
-  },
-  {
-    "name": "ActivatePaymentCard",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "ActivatePaymentCard",
+      "type": "mutation",
+      "required": true,
+      "category": "issuance",
+      "graphql": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "paymentCardId": "{{paymentCardId}}"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Activate Payment Card",
-      "description": "",
-      "tags": [
-        "payment_cards",
-        "activation"
-      ],
-      "requires": [
-        "paymentCardId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574692",
-    "updated_at": "2025-08-04T16:18:34.574693"
-  },
-  {
-    "name": "SetPinForPaymentCard",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SetPinForPaymentCard($input: SetPinForPaymentCardInput!) {\n  setPinForPaymentCard(input: $input) {\n    __typename\n    ... on PaymentCard {\n      id\n      bin\n      last4\n    }\nreq_06f2e9d7416d41eeaa473efa19375e48    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}\n",
+    {
+      "name": "SetPinForPaymentCard",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation SetPinForPaymentCard($input: SetPinForPaymentCardInput!) {\n  setPinForPaymentCard(input: $input) {\n    __typename\n    ... on PaymentCard {\n      id\n      bin\n      last4\n    }\nreq_06f2e9d7416d41eeaa473efa19375e48    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "paymentCardId": "PAYMENT_CARD_ID",
@@ -2117,65 +1287,24 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Set Pin For Payment Card",
-      "description": "",
-      "tags": [
-        "payment_cards"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574706",
-    "updated_at": "2025-08-04T16:18:34.574706"
-  },
-  {
-    "name": "SuspendPaymentCard",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+    {
+      "name": "SuspendPaymentCard",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation SuspendPaymentCard($input: SuspendPaymentCardInput!) {\n  suspendPaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "paymentCardId": "PAYMENT_CARD_ID"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Suspend Payment Card",
-      "description": "",
-      "tags": [
-        "payment_cards",
-        "suspension"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574717",
-    "updated_at": "2025-08-04T16:18:34.574717"
-  },
-  {
-    "name": "ReissuePaymentCard",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation ReissuePaymentCard($input: ReissuePaymentCardInput!) {\n  reissuePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      physicalPaymentCardOrders {\n        id\n      }\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "ReissuePaymentCard",
+      "type": "mutation",
+      "required": true,
+      "category": "issuance",
+      "graphql": "mutation ReissuePaymentCard($input: ReissuePaymentCardInput!) {\n  reissuePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      physicalPaymentCardOrders {\n        id\n      }\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "options": {
@@ -2190,65 +1319,24 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Reissue Payment Card",
-      "description": "",
-      "tags": [
-        "payment_cards",
-        "issuance"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574732",
-    "updated_at": "2025-08-04T16:18:34.574733"
-  },
-  {
-    "name": "ClosePaymentCard",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+    {
+      "name": "ClosePaymentCard",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation ClosePaymentCard($input: ClosePaymentCardInput!) {\n  closePaymentCard(input: $input) {\n    ...on PaymentCard {\n      id\n      status\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "paymentCardId": "PAYMENT_CARD_ID"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "payment_cards",
-      "path": "Issuance/Payment Cards/Close Payment Card",
-      "description": "",
-      "tags": [
-        "payment_cards"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574743",
-    "updated_at": "2025-08-04T16:18:34.574744"
-  },
-  {
-    "name": "SetCreditLimitForFinancialAccount",
-    "program_type": "commercial_credit",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation InitiateFinancialAccountCreditLimitUpdateFromProductFunding($input: InitiateFinancialAccountCreditLimitUpdateFromProductFundingInput!) {\n  initiateFinancialAccountCreditLimitUpdateFromProductFunding(input: $input) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      createdAt\n      updatedAt\n      amount {\n        value\n        currencyCode\n      }\n      status\n      statusReason\n      memo\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "InitiateFinancialAccountCreditLimitUpdateFromProductFunding",
+      "type": "mutation",
+      "required": false,
+      "category": "issuance",
+      "graphql": "mutation InitiateFinancialAccountCreditLimitUpdateFromProductFunding($input: InitiateFinancialAccountCreditLimitUpdateFromProductFundingInput!) {\n  initiateFinancialAccountCreditLimitUpdateFromProductFunding(input: $input) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      createdAt\n      updatedAt\n      amount {\n        value\n        currencyCode\n      }\n      status\n      statusReason\n      memo\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "financialAccountId": "{{financialAccountId}}",
@@ -2260,56 +1348,15 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.6.0",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_limit",
-      "path": "Issuance/Credit Limit/Set Credit Limit For Financial Account",
-      "description": "",
-      "tags": [
-        "credit_limit"
-      ],
-      "requires": [
-        "financialAccountId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574763",
-    "updated_at": "2025-08-04T16:18:34.574764"
-  },
-  {
-    "name": "GetFinancialAccountCreditLimitUpdate",
-    "program_type": "commercial_credit",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetFinancialAccountCreditLimitUpdate($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      status\n      statusReason\n      amount {\n        value\n      }\n      memo\n      ledgers {\n        name\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        financialAccount {\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+    {
+      "name": "GetFinancialAccountCreditLimitUpdate",
+      "type": "query",
+      "required": false,
+      "category": "issuance",
+      "graphql": "query GetFinancialAccountCreditLimitUpdate($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccountCreditLimitUpdateFromProductFunding {\n      id\n      status\n      statusReason\n      amount {\n        value\n      }\n      memo\n      ledgers {\n        name\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        financialAccount {\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
       "variables": {
         "id": "FINANCIAL_ACCOUNT_ID"
       }
-    },
-    "headers": {
-      "User-Agent": "insomnia/8.6.0",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "credit_limit",
-      "path": "Issuance/Credit Limit/Get Financial Account Credit Limit Update",
-      "description": "",
-      "tags": [
-        "credit_limit",
-        "modification",
-        "retrieval"
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.574778",
-    "updated_at": "2025-08-04T16:18:34.574779"
-  }
-]
+    }
+  ]
+}

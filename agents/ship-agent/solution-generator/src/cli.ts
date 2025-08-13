@@ -138,6 +138,78 @@ program
     console.log('For now, use: solution-generator generate -p <program> -c <customer>');
   });
 
+// Feedback management
+program
+  .command('feedback')
+  .description('Manage customer feedback and document iterations')
+  .action(async () => {
+    // Import and create feedback command dynamically
+    const { createFeedbackCommand } = await import('./commands/feedback.js');
+    const feedbackCmd = createFeedbackCommand();
+    
+    // Show feedback command help
+    feedbackCmd.outputHelp();
+  });
+
+// Add feedback subcommands directly
+const feedbackCmd = program
+  .command('feedback-start')
+  .description('Start a feedback session for a generated document')
+  .requiredOption('-d, --document <path>', 'Path to the generated document')
+  .requiredOption('-p, --program <type>', 'Program type (e.g., ap_automation)')
+  .requiredOption('-c, --customer <name>', 'Customer name (e.g., trip_com)')
+  .action(async (options) => {
+    const { FeedbackWorkflow } = await import('./feedback/FeedbackWorkflow.js');
+    const workflow = new FeedbackWorkflow();
+    
+    try {
+      const sessionId = await workflow.startFeedbackSession(
+        options.document,
+        options.program,
+        options.customer
+      );
+      console.log(chalk.green(`✅ Feedback session started: ${sessionId}`));
+    } catch (error) {
+      console.error(chalk.red('❌ Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('feedback-process')
+  .description('Process feedback from an edited document')
+  .requiredOption('-s, --session <id>', 'Feedback session ID')
+  .requiredOption('-d, --document <path>', 'Path to the edited document')
+  .action(async (options) => {
+    const { FeedbackWorkflow } = await import('./feedback/FeedbackWorkflow.js');
+    const workflow = new FeedbackWorkflow();
+    
+    try {
+      await workflow.processFeedback(options.session, options.document);
+      console.log(chalk.green('✅ Feedback processed successfully'));
+    } catch (error) {
+      console.error(chalk.red('❌ Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('feedback-analyze')
+  .description('Analyze changes in an edited document')
+  .requiredOption('-d, --document <path>', 'Path to the edited document')
+  .action(async (options) => {
+    const { FeedbackAnalyzer } = await import('./feedback/FeedbackAnalyzer.js');
+    const analyzer = new FeedbackAnalyzer();
+    
+    try {
+      const reportPath = await analyzer.generateDiffReport(options.document);
+      console.log(chalk.green(`✅ Analysis complete: ${reportPath}`));
+    } catch (error) {
+      console.error(chalk.red('❌ Error:', error.message));
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
 
 // Show help if no command provided

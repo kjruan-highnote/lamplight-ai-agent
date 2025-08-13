@@ -1,0 +1,32 @@
+# Highnote Api Program Configuration
+program_type: highnote_api
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Highnote Api Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+# Categories will be auto-populated from operations
+categories: []
+
+# Define your program-specific dimensions
+dimensions:
+  customer_segments: []
+  program_variants: []
+  features: []
+
+# Define operation flows for common use cases
+operation_flows:
+  standard_flow:
+    description: "Standard flow for highnote_api"
+    steps: []
+
+tags:
+  - highnote_api
+  - graphql
+  - highnote

@@ -1,0 +1,316 @@
+# Consumer Prepaid Program Configuration
+program_type: consumer_prepaid
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Consumer Prepaid Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+categories:
+  - name: api_key_management
+    description: "API key creation, retrieval, and management"
+    operations:
+      - GetAllApiKeys
+      - CreateApiKey
+      - RevokeApiKey
+      
+  - name: organization
+    description: "Organization setup and configuration"
+    operations:
+      - GetAllOrganizations
+      - GetOrganizationById
+      - UpdateOrganizationProfileDisplayName
+      
+  - name: setup
+    description: "General setup and system configuration"
+    operations:
+      - Ping
+      - Introspection
+      
+  - name: card_product
+    description: "Prepaid card product setup and configuration"
+    operations:
+      - CreateCardProduct
+      - GetCardProductFinancialAccounts
+      
+  - name: person_account_holder
+    description: "Account holder creation and management"
+    operations:
+      - CreatePersonAccountHolder
+      - SearchPersonAccountHolders
+      - UpdatePersonAccountHolderAddress
+      - UpdatePersonAccountHolderPhone
+      - UpdatePersonAccountHolderEmail
+      - GetAllPersonAccountHolders
+      - GetPersonAccountHolderById
+      
+  - name: application
+    description: "Application processing for prepaid accounts"
+    operations:
+      - CreatePersonAccountHolderApplication
+      - GetPersonAccountHolderApplicationById
+      
+  - name: financial_accounts
+    description: "Financial account issuance and management"
+    operations:
+      - IssueFinancialAccountForApplication
+      - GetFinancialAccountById
+      
+  - name: on_demand_funding
+    description: "On-demand funding and balance management"
+    operations:
+      - EnableOnDemandFundingFeature
+      - IssueFundingFinancialAccountForApplication
+      - IssueFinancialAccountForApplicationWithOdfSource
+      - InitiateFinancialAccountPseudoBalanceUpdate
+      
+  - name: payment_cards
+    description: "Payment card issuance and lifecycle management"
+    operations:
+      - IssuePaymentCardForFinancialAccount
+      - GenerateClientTokenToSetPin
+      - GenerateClientTokenForRestrictedDetail
+      - ViewPaymentCardRestrictedDetails
+      - ActivatePaymentCard
+      - SetPinForPaymentCard
+      - SuspendPaymentCard
+      - ReissuePaymentCard
+      - ClosePaymentCard
+      
+  - name: transactions
+    description: "Transaction processing and history"
+    operations:
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      
+  - name: spend_rules
+    description: "Spending control rules and merchant restrictions"
+    operations:
+      - AttachSpendRuleToCardProduct
+      - CreateMerchantCategorySpendRule
+      - UpdateMerchantCategorySpendRule
+      - AttachSpendRuleToPaymentCard
+      - DetachSpendRuleFromCardProduct
+      - DetachSpendRuleFromPaymentCard
+      
+  - name: velocity_rules
+    description: "Transaction velocity and amount limit controls"
+    operations:
+      - GetAllVelocityRules
+      - GetPaymentCardVelocityRule
+      - GetFinancialAccountWithVelocityBalance
+      - CreateVelocityRule
+      - CreateAmountLimitSpendRule
+      - AttachPaymentCardVelocityRule
+      - DetachPaymentCardVelocityRule
+      - AttachCardProductVelocityRule
+      - DetachCardProductVelocityRule
+      
+  - name: collaborative_authorization
+    description: "Real-time authorization decision making"
+    operations:
+      - GetCollaborativeAuthorizationEndpoint
+      - GetCollaborativeAuthorizationEndpoints
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      - DeactivateCollaborativeAuthorizationEndpoint
+      - RemoveCollaborativeAuthorizationEndpoint
+      - RenameCollaborativeAuthorizationEndpoint
+      
+  - name: product_funding_account
+    description: "Direct deposit and funding account management"
+    operations:
+      - GenerateDirectDepositDetailClientToken
+      - GetDirectDepositDetailsByIdWithClientToken
+      - GetProductFundingAccountDirectDepositId
+      
+  - name: integrator_initiated_originated_ach
+    description: "ACH transfers initiated by the integrator"
+    operations:
+      - AddExternalBankAccountVerifiedThroughPlaid
+      - AddExternalBankAccountVerifiedThroughFinicity
+      - GetExternalFinancialAccountsByAccountHolder
+      - InitiateFundsDepositAchTransfer
+      - InitiateFundsWithdrawalAchTransfer
+      - SimulateProcessingIntegratorInitiatedStatusChange
+      - SimulateProcessedIntegratorInitiatedStatusChange
+      - SimulateReturnedIntegratorInitiatedStatusChange
+      
+  - name: externally_initiated_nonoriginated_ach
+    description: "ACH transfers initiated by external parties"
+    operations:
+      - SimulateExternallyInitiatedAchTransfer
+      - SimulateProcessingExternallyInitiatedStatusChange
+      
+  - name: ach_transfer_simulation
+    description: "ACH transfer simulation and testing"
+    operations:
+      - SimulateDeposit
+      
+  - name: physical_card
+    description: "Physical card ordering and fulfillment"
+    operations:
+      - OrderPhysicalPaymentCard
+      - FindPhysicalPaymentCardOrder
+      - CancelPhysicalPaymentCardOrder
+      
+  - name: notification_targets
+    description: "Webhook endpoints and notification delivery"
+    operations:
+      - AddWebhookNotificationTarget
+      - GetAllWebhookNotificationTargets
+      - DeactivateNotificationTarget
+      - ActivateNotificationTarget
+      - GetWebhookNotificationTarget
+      - GetNotificationTargetDeliveryAttempts
+      - AddSubscriptionsToNotificationTarget
+      - RemoveSubscriptionsFromNotificationTarget
+      
+  - name: notification_events
+    description: "Event notifications and delivery management"
+    operations:
+      - GetAllNotificationEvents
+      - GetNotificationEvent
+      - ReplayNotificationEvent
+      - GetDeliveryAttemptsForNotificationEvent
+      - GetNotificationEventsFilteredByName
+      
+  - name: reports
+    description: "Business reporting and analytics"
+    operations:
+      - InitiateOrganizationReport
+      - GetReport
+      - GetReportUsage
+      - GetReports
+      
+  - name: simulation
+    description: "Transaction and lifecycle event simulation"
+    operations:
+      - SimulateAuthorization
+      - SimulateClearing
+      - SimulateReversal
+      - SimulateRefund
+      - SimulateSingleStepAuthAndClear
+      - SimulateSendToPrinter
+      - SimulateApproval
+      - SimulateShipmentFailed
+      - SimulateShipped
+
+dimensions:
+  customer_segments:
+    - general_purpose_reloadable
+    - payroll
+    - government_benefits
+    - teen_prepaid
+    - travel_prepaid
+    
+  program_variants:
+    - standard_prepaid
+    - rewards_prepaid
+    - budgeting_prepaid
+    - secured_prepaid
+    - corporate_prepaid
+    
+  funding_sources:
+    - direct_deposit
+    - bank_transfer
+    - cash_reload
+    - mobile_check_deposit
+    - on_demand_funding
+    
+  card_types:
+    - physical
+    - virtual
+    - both
+    
+  features:
+    - spend_controls
+    - budgeting_tools
+    - savings_goals
+    - bill_pay
+    - mobile_banking
+
+operation_flows:
+  standard_prepaid_onboarding:
+    description: "Complete onboarding flow for prepaid account"
+    steps:
+      - CreatePersonAccountHolder
+      - CreatePersonAccountHolderApplication
+      - IssueFinancialAccountForApplication
+      - IssuePaymentCardForFinancialAccount
+      - ActivatePaymentCard
+      
+  on_demand_funding_setup:
+    description: "Set up on-demand funding for prepaid account"
+    steps:
+      - EnableOnDemandFundingFeature
+      - IssueFundingFinancialAccountForApplication
+      - IssueFinancialAccountForApplicationWithOdfSource
+      - InitiateFinancialAccountPseudoBalanceUpdate
+      
+  comprehensive_spend_controls:
+    description: "Set up comprehensive spending and velocity controls"
+    steps:
+      - CreateMerchantCategorySpendRule
+      - CreateAmountLimitSpendRule
+      - AttachSpendRuleToPaymentCard
+      - CreateVelocityRule
+      - AttachPaymentCardVelocityRule
+      - AddCollaborativeAuthorizationEndpoint
+      - ActivateCollaborativeAuthorizationEndpoint
+      
+  ach_funding_setup:
+    description: "Set up ACH funding with external bank account"
+    steps:
+      - AddExternalBankAccountVerifiedThroughPlaid
+      - GetExternalFinancialAccountsByAccountHolder
+      - InitiateFundsDepositAchTransfer
+      - SimulateProcessingIntegratorInitiatedStatusChange
+      - SimulateProcessedIntegratorInitiatedStatusChange
+      
+  direct_deposit_setup:
+    description: "Configure direct deposit for prepaid account"
+    steps:
+      - GenerateDirectDepositDetailClientToken
+      - GetDirectDepositDetailsByIdWithClientToken
+      - GetProductFundingAccountDirectDepositId
+      - SimulateDeposit
+      
+  physical_card_fulfillment:
+    description: "Complete physical card ordering and fulfillment lifecycle"
+    steps:
+      - OrderPhysicalPaymentCard
+      - FindPhysicalPaymentCardOrder
+      - SimulateSendToPrinter
+      - SimulateApproval
+      - SimulateShipped
+      
+  transaction_simulation_flow:
+    description: "Complete transaction lifecycle simulation"
+    steps:
+      - SimulateAuthorization
+      - SimulateClearing
+      - GetTransactionEvent
+      - TransactionEventsByPaymentCardAndTransactionid
+      
+  notification_system_setup:
+    description: "Configure comprehensive webhook notification system"
+    steps:
+      - AddWebhookNotificationTarget
+      - AddSubscriptionsToNotificationTarget
+      - ActivateNotificationTarget
+      - GetAllNotificationEvents
+      - ReplayNotificationEvent
+
+tags:
+  - consumer_prepaid
+  - graphql
+  - highnote
+  - prepaid_card
+  - on_demand_funding
+  - direct_deposit

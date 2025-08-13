@@ -1,0 +1,222 @@
+# Commercial Credit Program Configuration
+program_type: commercial_credit
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Commercial Credit Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+categories:
+  - name: api_keys
+    description: "API key management and authentication"
+    operations:
+      - GetAllApiKeys
+      - CreateSecretApiKey
+      - RevokeApiKey
+      
+  - name: organizations
+    description: "Organization setup and management"
+    operations:
+      - GetAllOrganizations
+      - GetAllOrganizationsCardProducts
+      - UpdateOrganizationProfileDisplayName
+      
+  - name: initialization
+    description: "System initialization and health checks"
+    operations:
+      - Ping
+      - IntrospectionQuery
+      - SimulateDeposit
+      
+  - name: card_product
+    description: "Credit card product configuration and management"
+    operations:
+      - CreateCardProduct
+      - EnableCreditCardFeature
+      - EnableCollaborativeApplicationUnderwritingFeature
+      - GetCardProductCreditConfiguration
+      - GetCardProductAccounts
+      
+  - name: credit_plan
+    description: "Credit plan templates and configuration"
+    operations:
+      - GetCardProductCreditPlanTemplates
+      - CreateCreditPlan
+      - ActivateCreditPlan
+      - GetCardProductCreditPlans
+      
+  - name: business_account_holders
+    description: "Business account holder creation and management"
+    operations:
+      - CreateBusinessAccountHolder
+      - GetBusinessAccountHolder
+      - UpdateBusinessAccountHolderBillingAddress
+      - CreateBusinessAccountHolderApplication
+      - GetBusinessAccountHolderApplications
+      
+  - name: authorized_users
+    description: "Authorized user management and card issuance"
+    operations:
+      - CreatePersonAuthorizedUser
+      - CreateAuthorizedUserCardProductApplication
+      - IssuePaymentCardForAuthorizedUserApplication
+      - GetAuthorizedPersonCardProductApplication
+      - GetAccountHolderAuthorizedUsers
+      - UpdatePersonAuthorizedUserBillingAddress
+      - UpdatePersonAuthorizedUserPhone
+      - UpdatePersonAuthorizedUserEmail
+      
+  - name: manual_review
+    description: "Manual review processes and document handling"
+    operations:
+      - CreateBusinessAccountHolderInReview
+      - CreateBusinessAccountHolderApplication
+      - StartDocumentUploadSession
+      - GenerateDocumentUploadClientToken
+      - CreateDocumentUploadLink
+      - GetDocumentUploadSession
+      - GetDocumentUploadSessionsViaApplicationId
+      - SimulateApplicationDocumentReview
+      - SimulateApplicationVerificationStatusChange
+      - SimulateApplicationStatusChange
+      
+  - name: financial_accounts
+    description: "Financial account lifecycle management"
+    operations:
+      - IssueFinancialAccountForApplication
+      - GetFinancialAccount
+      - SuspendFinancialAccount
+      - UnsuspendFinancialAccount
+      
+  - name: credit_limit
+    description: "Credit limit management and updates"
+    operations:
+      - SetCreditLimitForFinancialAccount
+      - GetFinancialAccountCreditLimitUpdate
+      
+  - name: payment_cards
+    description: "Payment card issuance and lifecycle management"
+    operations:
+      - IssuePaymentCardForFinancialAccount
+      - GenerateClientTokenToSetPin
+      - GenerateClientTokenForRestrictedDetail
+      - ViewPaymentCardRestrictedDetails
+      - ActivatePaymentCard
+      - SetPinForPaymentCard
+      - SuspendPaymentCard
+      - ReissuePaymentCard
+      - ClosePaymentCard
+      
+  - name: tokenization
+    description: "Account holder tokenization and secure data handling"
+    operations:
+      - CreateBusinessAccountHolderFromToken
+      - GenerateTokenizeAccountHolderClientToken
+      - TokenizeBusinessAccountHolder
+
+dimensions:
+  customer_segments:
+    - small_business
+    - medium_business
+    - enterprise
+    - startup
+    - franchise
+    
+  program_variants:
+    - standard_commercial_credit
+    - rewards_commercial_credit
+    - fleet_commercial_credit
+    - corporate_travel_credit
+    - procurement_credit
+    
+  business_types:
+    - llc
+    - corporation
+    - partnership
+    - sole_proprietorship
+    - nonprofit
+    
+  risk_tiers:
+    - established_business
+    - growing_business
+    - new_business
+    - high_risk_industry
+    
+  card_types:
+    - physical
+    - virtual
+    - both
+    
+  features:
+    - authorized_users
+    - expense_management
+    - integration_capabilities
+    - multi_account_support
+
+operation_flows:
+  standard_business_onboarding:
+    description: "Complete onboarding flow for business credit application"
+    steps:
+      - CreateBusinessAccountHolder
+      - CreateBusinessAccountHolderApplication
+      - IssueFinancialAccountForApplication
+      - SetCreditLimitForFinancialAccount
+      - IssuePaymentCardForFinancialAccount
+      - ActivatePaymentCard
+      
+  manual_review_business_onboarding:
+    description: "Business onboarding requiring manual review"
+    steps:
+      - CreateBusinessAccountHolderInReview
+      - CreateBusinessAccountHolderApplication
+      - StartDocumentUploadSession
+      - GenerateDocumentUploadClientToken
+      - SimulateApplicationDocumentReview
+      - SimulateApplicationVerificationStatusChange
+      - IssueFinancialAccountForApplication
+      
+  authorized_user_setup:
+    description: "Add authorized users to business account"
+    steps:
+      - CreatePersonAuthorizedUser
+      - CreateAuthorizedUserCardProductApplication
+      - IssuePaymentCardForAuthorizedUserApplication
+      - GetAuthorizedPersonCardProductApplication
+      
+  tokenized_account_creation:
+    description: "Create business account using tokenization"
+    steps:
+      - GenerateTokenizeAccountHolderClientToken
+      - TokenizeBusinessAccountHolder
+      - CreateBusinessAccountHolderFromToken
+      - CreateBusinessAccountHolderApplication
+      
+  credit_plan_configuration:
+    description: "Set up custom credit plan for business"
+    steps:
+      - GetCardProductCreditPlanTemplates
+      - CreateCreditPlan
+      - ActivateCreditPlan
+      - GetCardProductCreditPlans
+      
+  financial_account_management:
+    description: "Manage financial account status and limits"
+    steps:
+      - GetFinancialAccount
+      - SetCreditLimitForFinancialAccount
+      - GetFinancialAccountCreditLimitUpdate
+      - SuspendFinancialAccount
+      - UnsuspendFinancialAccount
+
+tags:
+  - commercial_credit
+  - graphql
+  - highnote
+  - business_credit
+  - authorized_users
+  - tokenization

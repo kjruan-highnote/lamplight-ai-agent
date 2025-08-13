@@ -1,0 +1,1593 @@
+{
+  "collection": "Vic.ai",
+  "program_type": "vic_ai",
+  "extraction_date": "2025-08-12T17:46:30.919Z",
+  "total_operations": 72,
+  "categories": [
+    {
+      "name": "commercial_prepaid",
+      "operations": [
+        {
+          "name": "Ping",
+          "type": "query",
+          "required": false
+        },
+        {
+          "name": "IntrospectionQuery",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateUSBusinessAccountHolder",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetUSBusinessAccountHolder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateAccountHolderCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetBusinessAccountHolderByApplicationID",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "CreateUSPersonAuthorizedUser",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "CreateAuthorizedUserCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssuePaymentCardForAuthorizedUserApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetAuthorizedPersonCardProductApplication",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetAccountHolderAuthorizedUsers",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "IssueFinancialAccountForApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetFinancialAccountByID",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "IssuePaymentCardForFinancialAccount",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GeneratePaymentCardClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GeneratePaymentCardClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetPaymentCardRestrictedDetails",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "ActivatePaymentCard",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "simulatePhysicalPaymentCardOrderSendToPrinter",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "simulatePhysicalPaymentCardOrderApproval",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "simulatePhysicalPaymentCardOrderShipmentFailed",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "simulatePhysicalPaymentCardOrderShipped",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "OrderPhysicalPaymentCard",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "FindPhysicalPaymentCardOrder",
+          "type": "query",
+          "required": false
+        },
+        {
+          "name": "CancelPhysicalPaymentCardOrder",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GenerateDirectDepositDetailClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetDirectDepositDetailsByIDWithClientToken",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetProductFundingAccountByCardProductID",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "AddExternalBankAccountVerifiedThroughPlaid",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "AddExternalBankAccountVerifiedThroughFinicity",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetExternalFinancialAccountsByAccountHolder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "InitiateFundsDepositACHTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "InitiateFundsWithdrawalACHTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateProcessingIntegratorInitiatedStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateProcessedIntegratorInitiatedStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateReturnedIntegratorInitiatedStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateExternallyInitiatedACHTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateProcessingExternallyInitiatedStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateNonOriginatedAchTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateAchTransferProcessing",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateAchTransferReturn",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetNonOriginatedACHTransfer",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "AddNonVerifiedExternalUSFinancialBankAccount",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetNonVerifiedExternalBankAccount",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GenerateExternalBankAccountDetailClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetNonVerifiedExternalBankAccount",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "AddExternalBankAccountVerifiedThroughPlaid",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "AddExternalBankAccountVerifiedThroughPlaid",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "AddExternalBankAccountVerifiedThroughFinicity",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetExternalFinancialAccountsByAccountHolder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "InitiateAchTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "InitiateAchTransfer",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateAchTransferProcessing",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateAchTransferReturn",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetOriginatedACHTransfer",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "SimulateDeposit",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "EnableOnDemandFundingFeature",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssueFundingFinancialAccountForApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "IssueFinancialAccountForApplicationWithOnDemandFundingSource",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "AddWebhookNotificationTarget",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetAllWebhookNotificationTargets",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "DeactivateNotificationTarget",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "ActivateNotificationTarget",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetWebhookNotificationTarget",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetNotificationTargetDeliveryAttempts",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "AddSubscriptionsToNotificationTarget",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "RemoveSubscriptionsFromNotificationTarget",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetAllNotificationEvents",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetNotificationEvent",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "ReplayNotificationEvent",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetDeliveryAttemptsForNotificationEvent",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetNotificationEventsFilteredByName",
+          "type": "query",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "Ping",
+      "type": "query",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "query Ping {\n  ping\n}",
+      "variables": {}
+    },
+    {
+      "name": "IntrospectionQuery",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "query IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    subscriptionType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      description\n\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}\n\nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) {\n    name\n    description\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    description\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\n\nfragment InputValue on __InputValue {\n  name\n  description\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\n\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {}
+    },
+    {
+      "name": "CreateUSBusinessAccountHolder",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation CreateUSBusinessAccountHolder($input: CreateUSBusinessAccountHolderInput!) {\n  createUSBusinessAccountHolder(input: $input) {\n    ... on USBusinessAccountHolder {\n      id\n      externalId\n      primaryAuthorizedPerson {\n          ... on USBusinessAuthorizedPerson {\n              id\n          }\n      }\n    }\n\t\t... on UserError {\n\t\t\terrors {\n\t\t\t\tcode\n\t\t\t\tpath\n\t\t\t\tdescription\n\t\t\t}\n\t\t}\n  }\n}",
+      "variables": {
+        "input": {
+          "primaryAuthorizedPerson": {
+            "name": {
+              "givenName": "Ian",
+              "familyName": "Somnia"
+            },
+            "email": "foo@example.com",
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": "312"
+            },
+            "homeAddress": {
+              "streetAddress": "123 Maple St.",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            },
+            "identificationDocument": {
+              "socialSecurityNumber": {
+                "number": "111-11-1111",
+                "countryCodeAlpha3": "USA"
+              }
+            },
+            "dateOfBirth": "1980-09-01",
+            "percentageOwnership": 25,
+            "authorizingPersonTitle": "PRESIDENT"
+          },
+          "businessProfile": {
+            "name": {
+              "legalBusinessName": "Test",
+              "doingBusinessAsName": "D'Souza asdf"
+            },
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": "312"
+            },
+            "billingAddress": {
+              "streetAddress": "123 Decline St.",
+              "postalCode": "66666",
+              "locality": "San Jose",
+              "region": "CA",
+              "countryCodeAlpha3": "USA"
+            },
+            "identificationDocument": {
+              "employerIdentificationNumber": {
+                "number": "11-1111111",
+                "countryCodeAlpha3": "USA"
+              }
+            },
+            "website": "https://www.foowebsite.com",
+            "businessType": "PARTNERSHIP",
+            "ultimateBeneficialOwners": [
+              {
+                "email": "foobo@example.com",
+                "name": {
+                  "givenName": "Scott",
+                  "familyName": "Someone"
+                },
+                "homeAddress": {
+                  "streetAddress": "123 Main Street",
+                  "postalCode": "60654",
+                  "locality": "Chicago",
+                  "region": "IL",
+                  "countryCodeAlpha3": "USA"
+                },
+                "phoneNumber": {
+                  "countryCode": "1",
+                  "number": "5555555555",
+                  "label": "MOBILE",
+                  "extension": "312"
+                },
+                "identificationDocument": {
+                  "socialSecurityNumber": {
+                    "number": "111-11-1111",
+                    "countryCodeAlpha3": "USA"
+                  }
+                },
+                "dateOfBirth": "1980-09-01",
+                "percentageOwnership": 75
+              }
+            ]
+          },
+          "externalId": "user-id-in-your-system"
+        }
+      }
+    },
+    {
+      "name": "GetUSBusinessAccountHolder",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "  query GetUSBusinessAccountHolder($id: ID!) {\n  node(id: $id) {\n    __typename\n    ... on USBusinessAccountHolder {\n      __typename\n      id\n      businessProfile {\n        businessType\n        name {\n          doingBusinessAsName\n          legalBusinessName\n        }\n        billingAddress {\n          streetAddress\n          postalCode\n        }\n      }\n      primaryAuthorizedPerson {\n        id\n        name {\n          givenName\n          middleName\n          familyName\n        }\n        authorizingPersonTitle\n        homeAddress {\n          streetAddress\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{businessAccountHolderId}}"
+      }
+    },
+    {
+      "name": "CreateAccountHolderCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation CreateAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n        errors {\n            code\n            description\n            path\n        }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "cardHolderAgreementConsent": {
+            "consentTimestamp": "2024-01-01T23:59:59Z",
+            "primaryAuthorizedPersonId": "{{businessAccountHolderPrimaryAuthorizedPersonId}}"
+          },
+          "cardProductId": "{{cardProductId}}",
+          "ipAddress": {
+            "v4": "CLIENT_IP_ADDRESS"
+          }
+        }
+      }
+    },
+    {
+      "name": "GetBusinessAccountHolderByApplicationID",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetBusinessAccountHolderByApplicationID($id: ID!) {\n  node (id: $id) {\n    ... on AccountHolderCardProductApplication {\n      id\n      cardProduct {\n        id\n        name\n      }\n      createdAt\n      applicationState {\n        status\n      }\n      \n      accountHolderSnapshot {\n        ... on USBusinessAccountHolderSnapshot {\n          primaryAuthorizedPerson {\n            name {\n              givenName\n              familyName\n              title\n              suffix\n            }\n            currentVerification {\n              reason\n              status\n            }\n          }\n          businessProfile {\n            name {\n              doingBusinessAsName\n              legalBusinessName\n            }\n            currentVerification {\n              reason\n              status\n            }\n            ultimateBeneficialOwners {\n              name {\n                givenName\n                familyName\n                title\n                suffix\n              }\n              currentVerification {\n                reason\n                status\n              }\n            }  \n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "{{cardProductApplicationId}}"
+      }
+    },
+    {
+      "name": "CreateUSPersonAuthorizedUser",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation CreateUSPersonAuthorizedUser(\n  $input: CreateUSPersonAuthorizedUserInput!\n) {\n  createUSPersonAuthorizedUser(input: $input) {\n    ... on USPersonAuthorizedUser {\n      id\n      name {\n        givenName\n        familyName\n      }\n      email\n      phoneNumbers {\n        label\n        countryCode\n        number\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        locality\n        region\n        postalCode\n        countryCodeAlpha3\n      }\n      dateOfBirth\n      externalId\n      associatedAccountHolders {\n        ... on AccountHolderConnection {\n          edges {\n            node {\n              ... on USBusinessAccountHolder {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "personAuthorizedUser": {
+            "email": "foo@example.com",
+            "name": {
+              "givenName": "Bob",
+              "familyName": "Barker"
+            },
+            "billingAddress": {
+              "streetAddress": "123 Main Street",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            },
+            "phoneNumber": {
+              "countryCode": "1",
+              "number": "5555555555",
+              "label": "MOBILE",
+              "extension": "312"
+            },
+            "dateOfBirth": "1940-12-12",
+            "externalId": "some-id"
+          }
+        }
+      }
+    },
+    {
+      "name": "CreateAuthorizedUserCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation CreateAuthorizedUserCardProductApplication($input: CreateAuthorizedUserCardProductApplicationInput!) {\n  createAuthorizedUserCardProductApplication(input: $input) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          name {\n            givenName\n            middleName\n            familyName\n            suffix\n            title\n          }\n          authorizedUserCurrent {\n            id\n          }\n        }\n      }\n      accountHolderCardProductApplication {\n        id\n        cardProduct {\n          id\n          name\n        }\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "authorizedUserId": "{{authorizedUserId}}",
+          "accountHolderCardProductApplicationId": "APPLICATION_ID",
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "cardHolderAgreementConsent": {
+            "primaryAuthorizedPersonId": "{{authorizedUserId}}",
+            "consentTimestamp": "2024-01-31T01:01:01.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "IssuePaymentCardForAuthorizedUserApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation IssuePaymentCardForAuthorizedUserApplication($input: IssuePaymentCardForAuthorizedUserApplicationInput!) {\n  issuePaymentCardForAuthorizedUserApplication(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      network\n      expirationYear\n      expirationMonth\n      expirationDate\n      status\n      formFactor\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{authorizedUserApplicationId}}",
+          "options": {
+            "expirationDate": "2027-01-01T23:59:59Z",
+            "activateOnCreate": true
+          }
+        }
+      }
+    },
+    {
+      "name": "GetAuthorizedPersonCardProductApplication",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetAuthorizedPersonCardProductApplication($id: ID!) {\n  node(id: $id) {\n    ... on AuthorizedUserCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      accountHolderCardProductApplication {\n        id\n      }\n      financialAccount {\n        id\n      }\n      authorizedUserSnapshot {\n        ... on USPersonAuthorizedUserSnapshot {\n          authorizedUserCurrent {\n            id\n            name {\n              givenName\n              familyName\n            }\n            billingAddress {\n              streetAddress\n              locality\n              region\n              countryCodeAlpha3\n              postalCode\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{authorizedUserApplicationId}}"
+      }
+    },
+    {
+      "name": "GetAccountHolderAuthorizedUsers",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetAccountHolderAuthorizedUsers($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    ... on USBusinessAccountHolder {\n      businessProfile {\n        authorizedUsers(first: $first, after: $after) {\n          pageInfo {\n            startCursor\n            endCursor\n            hasNextPage\n          }\n          edges {\n            node {\n              id\n              createdAt\n              name {\n                givenName\n                familyName\n              }\n              email\n              externalId\n              cardProductApplications {\n                edges {\n                  node {\n                    id\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "ACCOUNT_HOLDER_ID"
+      }
+    },
+    {
+      "name": "IssueFinancialAccountForApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation IssueFinancialAccountForApplication($input: IssueFinancialAccountForApplicationInput!) {\n  issueFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      __typename\n      id\n      name\n      owner {\n        __typename\n      }\n      ledgers {\n        name\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            __typename\n            message\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "applicationId": "{{cardProductApplicationId}}",
+          "name": "Financial Account 1"
+        }
+      }
+    },
+    {
+      "name": "GetFinancialAccountByID",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetFinancialAccountByID($id: ID!) {\n  node(id: $id) {\n    ... on FinancialAccount {\n      __typename\n      id\n      createdAt\n      name\n      owner {\n        __typename\n      }\n      cardProduct {\n        id\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        creditBalance {\n          value\n        }\n        debitBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              __typename\n              id\n              createdAt\n              amount {\n                value\n                currencyCode\n              }\n              financialEvent {\n                ... on Transfer {\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      features {\n        __typename\n        enabled\n        createdAt\n        updatedAt\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                postalCode\n              }\n            }\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{financialAccountId}}"
+      }
+    },
+    {
+      "name": "IssuePaymentCardForFinancialAccount",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation IssuePaymentCardForFinancialAccount($input: IssuePaymentCardForFinancialAccountInput!) {\n  issuePaymentCardForFinancialAccount(input: $input) {\n    ... on PaymentCard {\n      id\n      bin\n      last4\n      expirationDate\n      network\n      status\n      formFactor\n      financialAccounts {\n        ledgers {\n          normalBalance\n          creditBalance {\n            value\n          }\n          debitBalance {\n            value\n          }\n        }\n      }\n      cardProductApplication {\n        ... on AccountHolderCardProductApplication {\n\t\t\tid\n\t\t\tapplicationState {\n\t\t\t\tstatus\n\t\t\t}\n\t\t\taccountHolderSnapshot {\n\t\t\t\t__typename\n\t\t\t\t... on USPersonAccountHolderSnapshot {\n\t\t\t\t\tname {\n\t\t\t\t\t\tgivenName\n\t\t\t\t\t\tfamilyName\n\t\t\t\t\t}\n\t\t\t\t\tbillingAddress {\n\t\t\t\t\t\tstreetAddress\n\t\t\t\t\t\tlocality\n\t\t\t\t\t\tpostalCode\n\t\t\t\t\t\tcountryCodeAlpha3\n\t\t\t\t\t}\n\t\t\t\t\tcurrentVerification {\n\t\t\t\t\t\tstatus\n\t\t\t\t\t\treason\n\t\t\t\t\t\tresults {\n\t\t\t\t\t\t\tcode\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n        }\n      }\n      \n      restrictedDetails {\n        ... on PaymentCardRestrictedDetails {\n          cvv\n          number\n        }\n        ... on AccessDeniedError {\n          message\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "financialAccountId": "{{financialAccountId}}",
+          "options": {
+            "activateOnCreate": false,
+            "expirationDate": "2026-01-01T23:59:59Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "GeneratePaymentCardClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "SET_PAYMENT_CARD_PIN"
+        }
+      }
+    },
+    {
+      "name": "GeneratePaymentCardClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation GeneratePaymentCardClientToken($input: GeneratePaymentCardClientTokenInput!) {\n  generatePaymentCardClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    {
+      "name": "GetPaymentCardRestrictedDetails",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetPaymentCardRestrictedDetails($id: ID!) {\n    node (id: $id) {\n        ... on PaymentCard {\n            restrictedDetails {\n                ... on PaymentCardRestrictedDetails {\n                    number\n                    cvv\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "PAYMENT_CARD_ID"
+      }
+    },
+    {
+      "name": "ActivatePaymentCard",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation ActivatePaymentCard($input: ActivatePaymentCardInput!) {\n  activatePaymentCard(input: $input) {\n    ... on PaymentCard {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID"
+        }
+      }
+    },
+    {
+      "name": "simulatePhysicalPaymentCardOrderSendToPrinter",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation simulatePhysicalPaymentCardOrderSendToPrinter\n($input: SimulatePhysicalPaymentCardSendToPrinterInput!) {\n  simulatePhysicalPaymentCardOrderSendToPrinter(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    {
+      "name": "simulatePhysicalPaymentCardOrderApproval",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation simulatePhysicalPaymentCardOrderApproval($input: SimulatePhysicalPaymentCardApprovalInput!) {\n  simulatePhysicalPaymentCardOrderApproval(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    {
+      "name": "simulatePhysicalPaymentCardOrderShipmentFailed",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation simulatePhysicalPaymentCardOrderShipmentFailed($input: SimulatePhysicalPaymentCardShipmentFailedInput!) {\n  simulatePhysicalPaymentCardOrderShipmentFailed(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    {
+      "name": "simulatePhysicalPaymentCardOrderShipped",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation simulatePhysicalPaymentCardOrderShipped\n($input: SimulatePhysicalPaymentCardShippedInput!) {\n  simulatePhysicalPaymentCardOrderShipped(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID",
+          "trackingNumber": "trackingNumber",
+          "actualShipDate": "YYYY-MM-DD"
+        }
+      }
+    },
+    {
+      "name": "OrderPhysicalPaymentCard",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation OrderPhysicalPaymentCard($input: OrderPhysicalPaymentCardInput!) {\n  orderPhysicalPaymentCard(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "paymentCardId": "PAYMENT_CARD_ID",
+          "deliveryDetails": {
+            "name": {
+              "givenName": "John",
+              "middleName": "D",
+              "familyName": "Doe"
+            },
+            "companyName": "Highnote",
+            "address": {
+              "streetAddress": "123 Main St",
+              "extendedAddress": "",
+              "postalCode": "60654",
+              "locality": "Chicago",
+              "region": "IL",
+              "countryCodeAlpha3": "USA"
+            }
+          },
+          "requestedShipDate": "2021-08-20",
+          "courier": {
+            "method": "UPS_GROUND",
+            "signatureRequiredOnDelivery": false
+          },
+          "cardPersonalization": {
+            "textLines": {
+              "line1": "John Doe"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "FindPhysicalPaymentCardOrder",
+      "type": "query",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "query FindPhysicalPaymentCardOrder($id: ID!) {\n  node(id: $id) {\n    ... on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      paymentCardShipment {\n        courier {\n          method\n          signatureRequiredOnDelivery\n          tracking {\n            trackingNumber\n            actualShipDateLocal\n          }\n        }\n        requestedShipDate\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n  }\n}",
+      "variables": {
+        "id": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+      }
+    },
+    {
+      "name": "CancelPhysicalPaymentCardOrder",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation CancelPhysicalPaymentCardOrder($input: CancelPhysicalPaymentCardOrderInput!) {\n  cancelPhysicalPaymentCardOrder(input: $input) {\n    __typename\n    ...on PhysicalPaymentCardOrder {\n      id\n      orderState {\n        status\n      }\n      stateHistory {\n        previousStatus\n        newStatus\n        createdAt\n      }\n      paymentCard {\n        id\n      }\n      createdAt\n      updatedAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "physicalPaymentCardOrderId": "PHYSICAL_PAYMENT_CARD_ORDER_ID"
+        }
+      }
+    },
+    {
+      "name": "GenerateDirectDepositDetailClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation GenerateDirectDepositDetailClientToken($input: GenerateDirectDepositDetailClientTokenInput!) {\n  generateDirectDepositDetailClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "directDepositDetailId": "DIRECT_DEPOSIT_DETAIL_ID",
+          "permissions": [
+            "READ_RESTRICTED_DETAILS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GetDirectDepositDetailsByIDWithClientToken",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetDirectDepositDetailsByIDWithClientToken($id: ID!) {\n  node(id: $id) {\n    ... on DirectDepositDetail {\n      id\n      restrictedDetails {\n        ... on DirectDepositDetailRestrictedDetails {\n          number\n          routingNumber\n          bank {\n            name\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "DIRECT_DEPOSIT_DETAIL_ID"
+      }
+    },
+    {
+      "name": "GetProductFundingAccountByCardProductID",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetProductFundingAccountByCardProductID($id: ID!, $filterBy: AccountHolderFinancialAccountsFilterInput!) {\n  node(id: $id) {\n    ... on CardProduct {\n      accounts(filterBy: $filterBy) {\n        edges {\n          node {\n            id\n            name\n            features {\n              __typename\n              enabled\n              createdAt\n              updatedAt\n            }\n            directDepositDetails {\n              id\n              createdAt\n              updatedAt\n              restrictedDetails {\n                ... on DirectDepositDetailRestrictedDetails {\n                  number\n                  routingNumber\n                  bank {\n                    name\n                    address {\n                      streetAddress\n                      extendedAddress\n                      postalCode\n                      region\n                      locality\n                      countryCodeAlpha3\n                    }\n                  }\n                  type\n                }\n                ... on AccessDeniedError {\n                  message\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "CARD_PRODUCT_ID",
+        "filterBy": {
+          "features": {
+            "equals": "PRODUCT_FUNDING"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddExternalBankAccountVerifiedThroughPlaid",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddExternalBankAccountVerifiedThroughPlaid($input: AddExternalBankAccountVerifiedThroughPlaidInput!) {\n  addExternalBankAccountVerifiedThroughPlaid(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "externalToken": {
+            "value": "processor-token-success"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddExternalBankAccountVerifiedThroughFinicity",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddExternalBankAccountVerifiedThroughFinicity($input: AddExternalBankAccountVerifiedThroughFinicityInput!) {\n  addExternalBankAccountVerifiedThroughFinicity(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      owner {\n        ... on USPersonAccountHolder {\n          id\n          externalId\n        }\n        ... on USBusinessAccountHolder {\n          id\n          externalId\n        }\n      }\n      name\n      provider\n      accountStatus\n      createdAt\n      updatedAt\n      externalBankAccountDetails {\n        id\n        last4\n        type\n        routingNumber\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "ACCOUNT_HOLDER_ID",
+          "name": "Finicity Checking",
+          "bankAccountType": "CHECKING",
+          "externalToken": {
+            "receiptId": "processor-token-success",
+            "customerId": "5543088633794259024",
+            "products": [
+              {
+                "productType": "ACH_DETAILS",
+                "accountId": "8977412844634022494",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "CURRENT_BALANCE",
+                "accountId": "1045023535892401594",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "APPROXIMATE_BALANCE",
+                "accountId": "7895597441790621692",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "ACH_OWNER_DETAILS",
+                "accountId": "5200183909259568542",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "GetExternalFinancialAccountsByAccountHolder",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetExternalFinancialAccountsByAccountHolder($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n    ... on USBusinessAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "ORGANIZATION_ID"
+      }
+    },
+    {
+      "name": "InitiateFundsDepositACHTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation InitiateFundsDepositACHTransfer($input: InitiateFundsDepositACHTransferInput!) {\n  initiateFundsDepositACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 1000,
+            "currencyCode": "USD"
+          },
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "descriptor": {
+            "companyEntryDescription": "Company",
+            "individualIdentificationNumber": "",
+            "individualName": "Baja ABC"
+          },
+          "transferAgreementConsent": {
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "consentTimestamp": "2022-12-07T14:42:52.453Z",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "InitiateFundsWithdrawalACHTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation InitiateFundsWithdrawalACHTransfer($input: InitiateFundsWithdrawalACHTransferInput!) {\n  initiateFundsWithdrawalACHTransfer(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      createdAt\n      updatedAt\n      companyName\n      companyIdentifier\n      settlementDate\n      fundsAvailableDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "fromFinancialAccountId": "FROM_FINANCIAL_ACCOUNT_ID",
+          "toFinancialAccountId": "TO_FINANCIAL_ACCOUNT_ID",
+          "amount": {
+            "value": 10000,
+            "currencyCode": "USD"
+          },
+          "descriptor": {
+            "companyEntryDescription": "Test Entry",
+            "individualName": "Test",
+            "individualIdentificationNumber": "1234"
+          },
+          "transferAgreementConsent": {
+            "consentTimestamp": "2023-12-07T14:42:52.453Z",
+            "authorizedPersonId": "AUTHORIZED_PERSON_ID",
+            "template": {
+              "consentTemplateId": "consent",
+              "consentTemplateVersion": "0"
+            }
+          },
+          "idempotencyKey": "abcde123",
+          "cancellationPeriodMillis": 0,
+          "sameDay": false
+        }
+      }
+    },
+    {
+      "name": "SimulateProcessingIntegratorInitiatedStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateProcessingIntegratorInitiatedStatusChange($input: SimulateProcessingIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessingIntegratorInitiatedStatusChange(input: $input) {\n    ... on IntegratorInitiatedFundsWithdrawalACHTransfer {\n      id\n      amount {\n        value\n        currencyCode\n      }\n      fundsAvailableDate\n      settlementDate\n      companyIdentifier\n      descriptor {\n        companyEntryDescription\n        individualName\n        individualIdentificationNumber\n      }\n      updatedAt\n      createdAt\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n      fromFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        ... on FinancialAccount {\n          id\n        }\n      }\n      companyName\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    {
+      "name": "SimulateProcessedIntegratorInitiatedStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateProcessedIntegratorInitiatedStatusChange($input: SimulateProcessedIntegratorInitiatedStatusChangeInput!) {\n  simulateProcessedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureCardBalanceRepaymentACHTransfer {\n      __typename\n      id\n      amount {\n        currencyCode\n        value\n      }\n      status {\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          status\n        }\n        ... on FailureIntegratorInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n          ledgers {\n            id\n            name\n            ledgerEntries {\n              edges {\n                node {\n                  financialEvent {\n                    __typename\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ... on IntegratorInitiatedFundsDepositACHTransfer {\n      id\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    {
+      "name": "SimulateReturnedIntegratorInitiatedStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateReturnedIntegratorInitiatedStatusChange($input: SimulateReturnedIntegratorInitiatedStatusChangeInput!) {\n  simulateReturnedIntegratorInitiatedStatusChange(input: $input) {\n    ... on UserError {\n      errors {\n        __typename\n        path\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      __typename\n      message\n    }\n    __typename\n    ... on SecureDepositACHTransfer {\n      createdAt\n      updatedAt\n      id\n      amount {\n        value\n        currencyCode\n      }\n      \n      status {\n        __typename\n        ... on FailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n          statusReasonCode\n        }\n        ... on NonFailureIntegratorInitiatedACHStatus {\n          __typename\n          status\n        }\n      }\n      fromFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n      toFinancialAccount {\n        __typename\n        ... on FinancialAccount {\n          id\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "ID",
+          "reasonCode": "INSUFFICIENT_FUNDS_IN_HIGHNOTE_ACCOUNT"
+        }
+      }
+    },
+    {
+      "name": "SimulateExternallyInitiatedACHTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateExternallyInitiatedACHTransfer($input: SimulateExternallyInitiatedACHTransferInput!) {\n  simulateExternallyInitiatedACHTransfer(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      __typename\n      id\n      createdAt\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "amount": {
+            "value": 200000,
+            "currencyCode": "USD"
+          },
+          "companyEntryDescription": "TestDesc",
+          "companyIdentifier": "TestID",
+          "companyName": "TestName",
+          "financialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "individualIdentificationNumber": "TestInDID",
+          "individualName": "TestIndName",
+          "settlementDate": "2022-07-28",
+          "transferType": "CREDIT"
+        }
+      }
+    },
+    {
+      "name": "SimulateProcessingExternallyInitiatedStatusChange",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateProcessingExternallyInitiatedStatusChange($input: SimulateProcessingExternallyInitiatedStatusChangeInput!) {\n  simulateProcessingExternallyInitiatedStatusChange(input: $input) {\n    ... on ExternallyInitiatedACHTransfer {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on CreditFunds {\n      amount {\n        value\n      }\n      status {\n        ... on NonFailureExternallyInitiatedACHStatus {\n          status\n        }\n        ... on FailureExternallyInitiatedACHStatus {\n          status\n          statusReasonCode\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "TRANSFER_ID"
+        }
+      }
+    },
+    {
+      "name": "SimulateNonOriginatedAchTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateNonOriginatedAchTransfer($input: SimulateNonOriginatedAchTransferInput!) {\n  simulateNonOriginatedAchTransfer(input: $input) {\n    ... on NonOriginatedAchTransfer {\n      id\n      amount {\n        value\n        decimalPlaces\n        currencyCode\n      }\n      createdAt\n      type\n      purpose\n      paymentRelatedInformation\n      traceNumber\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "idempotencyKey": "{{$guid}}",
+          "financialAccountId": "{{financialAccountId}}",
+          "amount": {
+            "value": 500000,
+            "currencyCode": "USD"
+          },
+          "purpose": "DEPOSIT",
+          "companyIdentifier": "12345",
+          "companyName": "THESAMPLECOMPANY",
+          "companyEntryDescription": "TestDesc",
+          "individualName": "Test Ind",
+          "settlementDate": "{{$isoTimestamp}}",
+          "companyDiscretionaryData": "123456",
+          "individualIdentificationNumber": "123",
+          "paymentRelatedInformation": "RMR*IV*0123456789**999.99"
+        }
+      }
+    },
+    {
+      "name": "SimulateAchTransferProcessing",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateAchTransferProcessing($input: SimulateAchTransferProcessingInput!) {\n  simulateAchTransferProcessing(input: $input) {\n    ... on NonOriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{nonOriginatedAchTransferId}}"
+        }
+      }
+    },
+    {
+      "name": "SimulateAchTransferReturn",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateAchTransferReturn($input: SimulateAchTransferReturnInput!) {\n  simulateAchTransferReturn(input: $input) {\n    ... on NonOriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      status\n      statusFailureReason\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{nonOriginatedAchTransferId}}",
+          "statusFailureReason": "DUPLICATE_ENTRY"
+        }
+      }
+    },
+    {
+      "name": "GetNonOriginatedACHTransfer",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNonOriginatedACHTransfer($id: ID!) {\n  node(id: $id) {\n    ... on NonOriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      failedAt\n      processedAt\n      returnSentToBankAt\n      settlementDate\n      amount {\n        value\n        decimalPlaces\n        currencyCode\n      }\n      sign\n      companyEntryDescription\n      companyIdentifier\n      companyName\n      individualIdentificationNumber\n      individualName\n      paymentRelatedInformation\n      purpose\n      status\n      statusFailureReason\n      traceNumber\n      type\n    }\n  }\n}",
+      "variables": {
+        "id": "{{nonOriginatedAchTransferId}}"
+      }
+    },
+    {
+      "name": "AddNonVerifiedExternalUSFinancialBankAccount",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddNonVerifiedExternalUSFinancialBankAccount($input: AddNonVerifiedExternalUSFinancialBankAccountInput!) {\n  addNonVerifiedExternalUSFinancialBankAccount(input: $input) {\n    ... on NonVerifiedExternalUSFinancialBankAccount {\n      id\n      name\n      accountStatus\n      externalBankAccountDetails {\n        id\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{personAccountHolderId}}",
+          "accountNumber": "123456789",
+          "routingNumber": "074000010",
+          "bankAccountType": "CHECKING",
+          "name": "Test Non-Verified External Account"
+        }
+      }
+    },
+    {
+      "name": "GetNonVerifiedExternalBankAccount",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNonVerifiedExternalBankAccount($id: ID!) {\n    node(id: $id) {\n        ... on NonVerifiedExternalUSFinancialBankAccount {\n            id\n            name\n            externalBankAccountDetails {\n                id\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "{{nonVerifiedExternalBankAccountId}}"
+      }
+    },
+    {
+      "name": "GenerateExternalBankAccountDetailClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation GenerateExternalBankAccountDetailClientToken($input: GenerateExternalBankAccountDetailClientTokenInput!) {\n  generateExternalBankAccountDetailClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      usage\n      expirationDate\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "externalBankAccountDetailId": "{{nonVerifiedExternalBankAccountDetailId}}",
+          "permissions": "READ_RESTRICTED_DETAILS"
+        }
+      }
+    },
+    {
+      "name": "GetNonVerifiedExternalBankAccount",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNonVerifiedExternalBankAccount($id: ID!) {\n    node(id: $id) {\n        ... on NonVerifiedExternalUSFinancialBankAccountDetail {\n            id\n            last4\n            routingNumber\n            restrictedDetails {\n                ... on NonVerifiedExternalUSFinancialBankAccountRestrictedDetails {\n                    number\n                    routingNumber\n                }\n                ... on AccessDeniedError {\n                    message\n                }\n            }\n        }\n    }\n}",
+      "variables": {
+        "id": "{{nonVerifiedExternalBankAccountDetailId}}"
+      }
+    },
+    {
+      "name": "AddExternalBankAccountVerifiedThroughPlaid",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddExternalBankAccountVerifiedThroughPlaid($input: AddExternalBankAccountVerifiedThroughPlaidInput!) {\n  addExternalBankAccountVerifiedThroughPlaid(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      externalBankAccountDetails {\n        id\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "externalToken": {
+            "value": "processor-token-success"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddExternalBankAccountVerifiedThroughPlaid",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddExternalBankAccountVerifiedThroughPlaid($input: AddExternalBankAccountVerifiedThroughPlaidUsingThirdPartyProcessorTokenInput!) {\n  addExternalBankAccountVerifiedThroughPlaidUsingThirdPartyProcessorToken(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      externalBankAccountDetails {\n        id\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "externalToken": {
+            "value": "processor-token-success"
+          },
+          "thirdPartyProcessorToken": {
+            "value": "checkbok-token-success"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddExternalBankAccountVerifiedThroughFinicity",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddExternalBankAccountVerifiedThroughFinicity($input: AddExternalBankAccountVerifiedThroughFinicityInput!) {\n  addExternalBankAccountVerifiedThroughFinicity(input: $input) {\n    ... on ExternalFinancialBankAccount {\n      id\n      owner {\n        ... on USPersonAccountHolder {\n          id\n          externalId\n        }\n        ... on USBusinessAccountHolder {\n          id\n          externalId\n        }\n      }\n      name\n      provider\n      accountStatus\n      createdAt\n      updatedAt\n      externalBankAccountDetails {\n        id\n        last4\n        type\n        routingNumber\n        createdAt\n        updatedAt\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "accountHolderId": "{{businessAccountHolderId}}",
+          "name": "Finicity Checking",
+          "bankAccountType": "CHECKING",
+          "externalToken": {
+            "receiptId": "processor-token-success",
+            "customerId": "5543088633794259024",
+            "products": [
+              {
+                "productType": "ACH_DETAILS",
+                "accountId": "8977412844634022494",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "CURRENT_BALANCE",
+                "accountId": "1045023535892401594",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "APPROXIMATE_BALANCE",
+                "accountId": "7895597441790621692",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              },
+              {
+                "productType": "ACH_OWNER_DETAILS",
+                "accountId": "5200183909259568542",
+                "callLimit": 1000,
+                "expirationDetail": {
+                  "start": "2022-03-10T06:06:20Z",
+                  "expiry": "2023-03-10T06:06:20Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "GetExternalFinancialAccountsByAccountHolder",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetExternalFinancialAccountsByAccountHolder($id: ID!) {\n  node(id: $id) {\n    ... on USPersonAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n    ... on USBusinessAccountHolder {\n      externalFinancialAccounts {\n        edges {\n          cursor\n          node {\n            __typename\n            ... on ExternalFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n              provider\n              createdAt\n              updatedAt\n            }\n            ... on NonVerifiedExternalUSFinancialBankAccount {\n              id\n              name\n              externalBankAccountDetails {\n                last4\n                type\n              }\n              accountStatus\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "id": "{{businessAccountHolderId}}"
+      }
+    },
+    {
+      "name": "InitiateAchTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation InitiateAchTransfer($input: InitiateAchTransferInput!) {\n  initiateAchTransfer(input: $input) {\n    ... on OriginatedAchTransfer {\n      id\n      createdAt\n      amount {\n        value\n        decimalPlaces\n        currencyCode\n      }\n      type\n      purpose\n      paymentRelatedInformation\n      traceNumber\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "idempotencyKey": "{{$guid}}",
+          "fromFinancialAccountId": "{{verifiedExternalBankAccountId}}",
+          "toFinancialAccountId": "{{financialAccountId}}",
+          "purpose": "DEPOSIT",
+          "amount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          },
+          "transferAgreementConsent": {
+            "consentTimestamp": "{{$isoTimestamp}}",
+            "authorizedPersonId": "{{businessAccountHolderPrimaryAuthorizedPersonId}}",
+            "template": {
+              "consentTemplateId": "1234",
+              "consentTemplateVersion": "1.0"
+            }
+          },
+          "companyEntryDescription": "TestCo",
+          "individualName": "Test Business"
+        }
+      }
+    },
+    {
+      "name": "InitiateAchTransfer",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation InitiateAchTransfer($input: InitiateAchTransferInput!) {\n  initiateAchTransfer(input: $input) {\n    ... on OriginatedAchTransfer {\n      id\n      createdAt\n      amount {\n        value\n        decimalPlaces\n        currencyCode\n      }\n      type\n      purpose\n      paymentRelatedInformation\n      traceNumber\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "idempotencyKey": "{{$guid}}",
+          "fromFinancialAccountId": "{{financialAccountId}}",
+          "toFinancialAccountId": "{{verifiedExternalBankAccountId}}",
+          "purpose": "WITHDRAWAL",
+          "amount": {
+            "value": 100000,
+            "currencyCode": "USD"
+          },
+          "transferAgreementConsent": {
+            "consentTimestamp": "{{$isoTimestamp}}",
+            "authorizedPersonId": "{{businessAccountHolderPrimaryAuthorizedPersonId}}",
+            "template": {
+              "consentTemplateId": "1234",
+              "consentTemplateVersion": "1.0"
+            }
+          },
+          "companyEntryDescription": "TestCo",
+          "individualName": "Test Business"
+        }
+      }
+    },
+    {
+      "name": "SimulateAchTransferProcessing",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateAchTransferProcessing($input: SimulateAchTransferProcessingInput!) {\n  simulateAchTransferProcessing(input: $input) {\n    ... on OriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{originatedAchTransferId}}"
+        }
+      }
+    },
+    {
+      "name": "SimulateAchTransferReturn",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateAchTransferReturn($input: SimulateAchTransferReturnInput!) {\n  simulateAchTransferReturn(input: $input) {\n    ... on OriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      status\n      statusFailureReason\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "id": "{{originatedAchTransferId}}",
+          "statusFailureReason": "DUPLICATE_ENTRY"
+        }
+      }
+    },
+    {
+      "name": "GetOriginatedACHTransfer",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetOriginatedACHTransfer($id: ID!) {\n  node(id: $id) {\n    ... on OriginatedAchTransfer {\n      id\n      createdAt\n      updatedAt\n      failedAt\n      processedAt\n      effectiveEntryDate\n      sentToBankAt\n      expectedProcessedAt\n      processedAt\n      returnProcessedAt\n      canceledAt\n      amount {\n        value\n        decimalPlaces\n        currencyCode\n      }\n      sign\n      companyEntryDescription\n      companyIdentifier\n      companyName\n      individualIdentificationNumber\n      individualName\n      paymentRelatedInformation\n      purpose\n      status\n      statusFailureReason\n      traceNumber\n      type\n    }\n  }\n}",
+      "variables": {
+        "id": "{{originatedAchTransferId}}"
+      }
+    },
+    {
+      "name": "SimulateDeposit",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation SimulateDeposit($input: SimulateDepositInput!) {\n  simulateDeposit(input: $input) {\n    ...on Transfer {\n      id\n      status\n      createdAt\n      updatedAt\n      amount {\n        value\n      }\n      ledgers {\n        id\n        name\n        normalBalance\n        financialAccount {\n          id\n        }\n        debitBalance {\n          value\n        }\n        creditBalance {\n          value\n        }\n        ledgerEntries {\n          edges {\n            node {\n              financialEvent {\n                ... on Transfer {\n                  id\n                  amount {\n                    value\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    ...on UserError {\n      errors {\n        code\n        path\n        description\n      }\n    }\n  }\n}\n",
+      "variables": {
+        "input": {
+          "toFinancialAccountId": "FINANCIAL_ACCOUNT_ID",
+          "source": "WIRE",
+          "memo": "Initial Card Funding",
+          "amount": {
+            "value": 50000000,
+            "currencyCode": "USD"
+          }
+        }
+      }
+    },
+    {
+      "name": "EnableOnDemandFundingFeature",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation EnableOnDemandFundingFeature($input: EnableOnDemandFundingFeatureInput!) {\n  enableOnDemandFundingFeature(input: $input) {\n    ... on CardProduct {\n      features {\n        __typename\n        createdAt\n        updatedAt\n        enabled\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "cardProductId": "CARD_PRODUCT_ID",
+          "pseudoBalanceEnabled": false
+        }
+      }
+    },
+    {
+      "name": "IssueFundingFinancialAccountForApplication",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation IssueFundingFinancialAccountForApplication($input: IssueFundingFinancialAccountForApplicationInput!) {\n  issueFundingFinancialAccountForApplication(input: $input) {\n    ... on FinancialAccount {\n      id\n      name\n      cardProduct {\n        id\n        name\n        usage\n        vertical\n        commercial\n      }\n      directDepositDetails {\n        id\n        restrictedDetails {\n          ... on DirectDepositDetailRestrictedDetails {\n            number\n            routingNumber\n            bank {\n              name\n              address {\n                streetAddress\n                extendedAddress\n                postalCode\n                region\n                locality\n                countryCodeAlpha3\n              }\n            }\n            type\n          }\n          ... on AccessDeniedError {\n            message\n          }\n        }\n        createdAt\n        updatedAt\n      }\n      accountStatus\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "APPLICATION_ID",
+          "name": "Test Business Funding Account"
+        }
+      }
+    },
+    {
+      "name": "IssueFinancialAccountForApplicationWithOnDemandFundingSource",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation IssueFinancialAccountForApplicationWithOnDemandFundingSource($input: IssueFinancialAccountForApplicationWithOnDemandFundingSourceInput!) {\n  issueFinancialAccountForApplicationWithOnDemandFundingSource(input: $input) {\n    ... on FinancialAccount {\n      id\n      features {\n        __typename\n        enabled\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n        path\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "applicationId": "{{businessAccountHolderApplicationId}}",
+          "name": "Test Financial Account",
+          "sourceFinancialAccountId": "{{fundingFinancialAccountId}}"
+        }
+      }
+    },
+    {
+      "name": "AddWebhookNotificationTarget",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddWebhookNotificationTarget($input: AddWebhookNotificationTargetInput!) {\n  addWebhookNotificationTarget(input: $input) {\n    __typename\n    ...on WebhookNotificationTarget {\n      id\n      name\n      uri\n      subscriptions\n      createdAt\n      status\n      updatedAt\n      signingKeys {\n        id\n        secret\n      }\n    }\n    ...on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "name": "My Target",
+          "uri": "<URI>",
+          "subscriptions": [
+            "PAYMENT_CARD_ACTIVATED",
+            "AUTHORIZED_USER_CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_APPROVED",
+            "CARD_PRODUCT_APPLICATION_IN_REVIEW",
+            "CARD_PRODUCT_APPLICATION_MANUAL_REVIEW",
+            "CARD_PRODUCT_APPLICATION_DENIED",
+            "CARD_PRODUCT_APPLICATION_CLOSED",
+            "PAYMENT_CARD_TRANSACTION_DISPUTE_CASE_STATUS_INITIATED",
+            "PAYMENT_CARD_TRANSACTION_CHARGEBACK_PROVISIONAL_CREDIT_ISSUED"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GetAllWebhookNotificationTargets",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetAllWebhookNotificationTargets($firstTargets: Int, $afterTargets: String) {\n\torganizations {\n\t\tid\n\n\t\twebhookNotificationTargets(first: $firstTargets, after: $afterTargets) {\n\t\t\tpageInfo {\n\t\t\t\thasNextPage\n\t\t\t\thasPreviousPage\n\t\t\t\tstartCursor\n\t\t\t\tendCursor\n\t\t\t}\n\n\t\t\tedges {\n\t\t\t\tcursor\n\t\t\t\tnode {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tdeactivatedAt\n\t\t\t\t\tsubscriptions\n\n\t\t\t\t\tstatusHistory {\n\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\tpageInfo {\n\t\t\t\t\t\t\thasNextPage\n\t\t\t\t\t\t\thasPreviousPage\n\t\t\t\t\t\t\tstartCursor\n\t\t\t\t\t\t\tendCursor\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tedges {\n\t\t\t\t\t\t\tcursor\n\n\t\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\t\t__typename\n\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n"
+    },
+    {
+      "name": "DeactivateNotificationTarget",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation DeactivateNotificationTarget($input: DeactivateNotificationTargetInput!) {\n\tdeactivateNotificationTarget(input: $input) {\n\t\t... on WebhookNotificationTarget {\n\t\t\tid\n\t\t\tstatus\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "<ID>"
+        }
+      }
+    },
+    {
+      "name": "ActivateNotificationTarget",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "fragment Target on WebhookNotificationTarget {\n\t__typename\n\tid\n\tname\n\turi\n\tsubscriptions\n\tstatus\n\tcreatedAt\n\tupdatedAt\n\tsigningKeys {\n\t\tid\n\t\tsecret\n\t\tcreatedAt\n\t}\n}\n\nmutation ActivateNotificationTarget($input: ActivateNotificationTargetInput!) {\n\tactivateNotificationTarget(input: $input) {\n\t\t...Target\n\t}\n}\n",
+      "variables": {
+        "input": {
+          "targetId": "<ID>"
+        }
+      }
+    },
+    {
+      "name": "GetWebhookNotificationTarget",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetWebhookNotificationTarget($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on WebhookNotificationTarget {\n\t\t\tstatus\n\t\t\tid\n\n\t\t\tdeliveryAttempts {\n\t\t\t\t__typename\n\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\turi\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t\thttpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tevent {\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tstatusHistory {\n\t\t\t\t__typename\n\t\t\t\t\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\t\t\t\t\t\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\t\n\t\t\t\t\t\tid\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\tnewStatus\n\t\t\t\t\t\tpreviousStatus\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    {
+      "name": "GetNotificationTargetDeliveryAttempts",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNotificationTargetDeliveryAttempts($id: ID!, $first: Int, $after: String) {\n  node(id: $id) {\n    __typename\n    ... on WebhookNotificationTarget {\n      id\n      deliveryAttempts(first: $first, after: $after) {\n        __typename\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n        edges {\n          cursor\n          node {\n            __typename\n            id\n            uri\n            response {\n\t\t\t\thttpStatusCode\n\t\t\t}\n            deliveryAttemptStatus\n            createdAt\n            event {\n              name\n              id\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "variables": {
+        "id": "WEBHOOK_NOTIFICATION_TARGET_ID"
+      }
+    },
+    {
+      "name": "AddSubscriptionsToNotificationTarget",
+      "type": "mutation",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "mutation AddSubscriptionsToNotificationTarget($input: AddSubscriptionsToNotificationTargetInput!) {\n  addSubscriptionsToNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "WEBHOOK_NOTIFICATION_TARGET_ID",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RemoveSubscriptionsFromNotificationTarget",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation RemoveSubscriptionsFromNotificationTarget($input: RemoveSubscriptionsFromNotificationTargetInput!) {\n  removeSubscriptionsFromNotificationTarget(input: $input) {\n    ... on WebhookNotificationTarget {\n      id\n      name\n      subscriptions\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}",
+      "variables": {
+        "input": {
+          "targetId": "WEBHOOK_NOTIFICATION_TARGET_ID",
+          "subscriptions": [
+            "ACCOUNT_STATUS_CLOSED"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GetAllNotificationEvents",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetAllNotificationEvents($after: String, $first: Int) {\n\tnotificationEvents(after: $after, first: $first) {\n\t\tedges {\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t\tnode {\n                        __typename\n\t\t\t\t\t\t... on PaymentCardTransactionDispute {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\tchargebacks {\n                                id, \n                                status, \n                                dispute {\n                                    id\n                                }, \n                                creditStatus\n                            }\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on PaymentCardTransactionChargeback {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\tcreditStatus\n\t\t\t\t\t\t\tdispute {\n                                id,\n                                status,\n                                amount { \n                                    value\n\t\t\t\t\t\t\t    }\n                            }\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "first": 150
+      }
+    },
+    {
+      "name": "GetNotificationEvent",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNotificationEvent($id: ID!) {\n\tnode(id: $id) {\n\t\t__typename\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tcreatedAt\n\t\t\texpiresAt\n\t\t\tname\n\t\t\tnode {\n\t\t\t\t__typename\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "id": "<ID>"
+      }
+    },
+    {
+      "name": "ReplayNotificationEvent",
+      "type": "mutation",
+      "required": false,
+      "category": "commercial_prepaid",
+      "graphql": "mutation ReplayNotificationEvent($input: ReplayNotificationEventInput!) {\n  replayNotificationEvent(input: $input) {\n    __typename\n    ... on NotificationEvent {\n      __typename\n      id\n\t  createdAt\n\t  expiresAt\n      node {\n        ... on AuthorizationEvent {\n          id\n          approvedAmount {\n            value\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n\n",
+      "variables": {
+        "input": {
+          "notificationEventId": "<ID>"
+        }
+      }
+    },
+    {
+      "name": "GetDeliveryAttemptsForNotificationEvent",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetDeliveryAttemptsForNotificationEvent($id: ID!, $after: String, $first: Int) {\n\tnode(id: $id) {\n\t\t... on NotificationEvent {\n\t\t\t__typename\n\t\t\tid\n\t\t\tdeliveryAttempts(first: $first, after: $after) {\n\t\t\t\t__typename\n\t\t\t\tpageInfo {\n\t\t\t\t\t__typename\n\t\t\t\t\thasNextPage\n\t\t\t\t\thasPreviousPage\n\t\t\t\t\tstartCursor\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t\tedges {\n\t\t\t\t\t__typename\n\t\t\t\t\tcursor\n\t\t\t\t\tnode {\n\t\t\t\t\t\t__typename\n\t\t\t\t\t\tid\n\t\t\t\t\t\tresponse {\n\t\t\t\t\t\t  httpStatusCode\n\t\t\t\t\t\t}\n\t\t\t\t\t\tdeliveryAttemptStatus\n\t\t\t\t\t\turi\n\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
+      "variables": {
+        "id": "<ID>",
+        "first": 10
+      }
+    },
+    {
+      "name": "GetNotificationEventsFilteredByName",
+      "type": "query",
+      "required": true,
+      "category": "commercial_prepaid",
+      "graphql": "query GetNotificationEventsFilteredByName($filterBy: NotificationEventsFilterInput!, $first: Int) {\n\tnotificationEvents(filterBy: $filterBy, first: $first) {\n\t\t__typename\n\t\tpageInfo {\n\t\t\tstartCursor\n\t\t\tendCursor\n\t\t\thasNextPage\n\t\t\thasPreviousPage\n\t\t}\n\t\tedges {\n\t\t\tcursor\n\t\t\t__typename\n\t\t\tnode {\n\t\t\t\t... on NotificationEvent {\n\t\t\t\t\t__typename\n\t\t\t\t\tid\n\t\t\t\t\tcreatedAt\n\t\t\t\t\tname\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n",
+      "variables": {
+        "filterBy": {
+          "name": [
+            "INTERNAL_TRANSFER_BETWEEN_FINANCIAL_ACCOUNTS_COMPLETED"
+          ]
+        },
+        "first": 20
+      }
+    }
+  ]
+}

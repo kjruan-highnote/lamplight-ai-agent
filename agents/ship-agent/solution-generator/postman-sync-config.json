@@ -1,0 +1,33 @@
+{
+  "postman": {
+    "apiKey": "YOUR_POSTMAN_API_KEY",
+    "workspaceId": "dca6e8ba-6bac-43b7-b246-385f1134f2aa"
+  },
+  "paths": {
+    "collectionsDir": "../data/postman",
+    "operationsDir": "../data/operations",
+    "programsDir": "../data/programs",
+    "backupsDir": "../data/backups"
+  },
+  "schedule": {
+    "enabled": false,
+    "cronPattern": "0 0 * * *",
+    "timezone": "America/Los_Angeles"
+  },
+  "options": {
+    "autoBackup": true,
+    "autoMerge": false,
+    "generateReports": true,
+    "notifyOnChanges": false
+  },
+  "programMappings": {
+    "Trip.com": "ap_automation",
+    "TripLink": "ap_automation",
+    "Consumer Credit": "consumer_credit",
+    "Consumer Prepaid": "consumer_prepaid",
+    "Commercial Credit": "commercial_credit",
+    "Commercial Prepaid": "commercial_prepaid",
+    "Consumer Charge": "consumer_charge",
+    "Commercial Charge": "commercial_charge"
+  }
+}

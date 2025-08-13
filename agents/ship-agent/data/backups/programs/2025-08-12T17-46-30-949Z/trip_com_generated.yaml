@@ -1,0 +1,379 @@
+program_type: trip_com
+vendor: highnote
+version: 1.0.0
+api_type: graphql
+metadata:
+  name: Trip.com
+  description: Trip.com program configuration
+  base_url: '{{apiUrl}}'
+  authentication:
+    type: bearer
+    header: Authorization
+  generated_from: postman/Trip.com.postman_collection.json
+  generated_at: '2025-08-08T08:29:13.785043'
+capabilities:
+- collaborative_authorization
+- on_demand_funding
+- real_time_webhooks
+- reporting_analytics
+- spend_controls
+- transaction_monitoring
+- velocity_controls
+- virtual_card_issuance
+workflows:
+  card_issuance:
+    name: Card Issuance
+    description: Issue and activate payment cards
+    required: true
+    steps:
+    - operation: ActivatePaymentCard
+      required: true
+      description: ''
+    - operation: CreateCardProduct
+      required: false
+      description: ''
+    - operation: CreateCardProductWithTemplate
+      required: false
+      description: ''
+    - operation: GeneratePaymentCardClientToken
+      required: false
+      description: ''
+    - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+      required: true
+      description: ''
+  transaction_processing:
+    name: Transaction Processing
+    description: Process and manage transactions
+    required: false
+    steps:
+    - operation: SimulateClearing
+      required: false
+      description: ''
+    - operation: SimulateSingleStepAuthAndClear
+      required: false
+      description: ''
+    - operation: GetTransactionEvent
+      required: false
+      description: ''
+    - operation: TransactionEventsByPaymentCardAndTransactionId
+      required: false
+      description: ''
+    - operation: GetCardProductTransactionEvents
+      required: false
+      description: ''
+entities:
+- name: Card
+  description: Card management and operations
+  primary: true
+- name: Transfer
+  description: Transfer management and operations
+  primary: false
+- name: Transaction
+  description: Transaction management and operations
+  primary: true
+- name: Account
+  description: Account management and operations
+  primary: true
+- name: Webhook
+  description: Webhook management and operations
+  primary: false
+- name: Rule
+  description: Rule management and operations
+  primary: false
+- name: Report
+  description: Report management and operations
+  primary: false
+categories:
+- name: reporting
+  display_name: Reporting
+  description: Reporting operations
+  operations:
+  - name: GetAllAPIKeys
+    type: query
+    required: false
+  - name: GetAllOrganizations
+    type: query
+    required: false
+  - name: GetAllOrganizations
+    type: query
+    required: false
+  - name: InitiateOrganizationReport
+    type: mutation
+    required: false
+  - name: GetReport
+    type: query
+    required: false
+  - name: ReportUsage
+    type: query
+    required: false
+  - name: Reports
+    type: query
+    required: false
+- name: authentication
+  display_name: Authentication
+  description: Authentication operations
+  operations:
+  - name: CreateSecretAPIKey
+    type: mutation
+    required: false
+  - name: RevokeAPIKey
+    type: mutation
+    required: false
+  - name: SimulateSingleStepAuthAndClear
+    type: mutation
+    required: false
+- name: general
+  display_name: General
+  description: General operations
+  operations:
+  - name: UpdateOrganizationProfileDisplayName
+    type: mutation
+    required: false
+  - name: Ping
+    type: query
+    required: false
+  - name: IntrospectionQuery
+    type: query
+    required: false
+  - name: SimulateReversal
+    type: mutation
+    required: false
+  - name: GetSchemaChangelogs
+    type: query
+    required: false
+- name: card_management
+  display_name: Card Management
+  description: Card Management operations
+  operations:
+  - name: CreateCardProduct
+    type: mutation
+    required: false
+  - name: CreateCardProductWithTemplate
+    type: mutation
+    required: false
+  - name: GetCardProduct
+    type: query
+    required: false
+  - name: IssuePaymentCardForApplicationWithOnDemandFundingSource
+    type: mutation
+    required: true
+  - name: ActivatePaymentCard
+    type: mutation
+    required: true
+  - name: GeneratePaymentCardClientToken
+    type: mutation
+    required: false
+  - name: GetPaymentCardRestrictedDetails
+    type: query
+    required: false
+  - name: SuspendPaymentCard
+    type: mutation
+    required: false
+  - name: ClosePaymentCard
+    type: mutation
+    required: false
+  - name: GetPaymentCard
+    type: query
+    required: false
+  - name: TransactionEventsByPaymentCardAndTransactionId
+    type: query
+    required: false
+  - name: GetCardProductTransactionEvents
+    type: unknown
+    required: false
+  - name: AttachSpendRuleToCardProduct
+    type: mutation
+    required: false
+  - name: AttachSpendRuleToPaymentCard
+    type: mutation
+    required: false
+  - name: DetachSpendRuleFromCardProduct
+    type: mutation
+    required: false
+  - name: DetachSpendRuleFromPaymentCard
+    type: mutation
+    required: false
+  - name: AttachPaymentCardVelocityRule
+    type: mutation
+    required: false
+  - name: DetachPaymentCardVelocityRule
+    type: mutation
+    required: false
+  - name: GetPaymentCardVelocityRule
+    type: query
+    required: false
+  - name: AttachCardProductVelocityRule
+    type: mutation
+    required: false
+  - name: DetachCardProductVelocityRule
+    type: mutation
+    required: false
+- name: funding
+  display_name: Funding
+  description: Funding operations
+  operations:
+  - name: SimulateDeposit
+    type: mutation
+    required: false
+  - name: GetDepositTransfer
+    type: query
+    required: false
+  - name: EnableOnDemandFundingFeature
+    type: mutation
+    required: false
+  - name: SimulateRefund
+    type: mutation
+    required: false
+- name: transaction_processing
+  display_name: Transaction Processing
+  description: Transaction Processing operations
+  operations:
+  - name: EnableCollaborativeAuthorizationFeature
+    type: mutation
+    required: false
+  - name: SimulateAuthorization
+    type: mutation
+    required: false
+  - name: SimulateClearing
+    type: mutation
+    required: false
+  - name: GetTransactionEvent
+    type: query
+    required: false
+  - name: AddCollaborativeAuthorizationEndpoint
+    type: mutation
+    required: false
+  - name: ActivateCollaborativeAuthorizationEndpoint
+    type: mutation
+    required: true
+  - name: FindCollaborativeAuthorizationEndpoint
+    type: query
+    required: false
+  - name: DeactivateCollaborativeAuthorizationEndpoint
+    type: mutation
+    required: true
+  - name: RemoveCollaborativeAuthorizationEndpoint
+    type: mutation
+    required: false
+  - name: CollaborativeAuthorizationEndpoints
+    type: query
+    required: false
+  - name: RenameCollaborativeAuthorizationEndpoint
+    type: mutation
+    required: false
+- name: account_management
+  display_name: Account Management
+  description: Account Management operations
+  operations:
+  - name: GetFinancialAccount
+    type: query
+    required: false
+  - name: GetFinancialAccountActivities
+    type: unknown
+    required: false
+  - name: GetFinancialAccountLedgerEntries
+    type: unknown
+    required: false
+  - name: SuspendFinancialAccount
+    type: mutation
+    required: false
+  - name: UnsuspendFinancialAccount
+    type: mutation
+    required: false
+  - name: FindFinancialAccountLedgerActivity
+    type: query
+    required: false
+  - name: GetFinancialAccountWithVelocityBalance
+    type: query
+    required: false
+- name: spend_controls
+  display_name: Spend Controls
+  description: Spend Controls operations
+  operations:
+  - name: CreateMerchantCategorySpendRule
+    type: mutation
+    required: false
+  - name: UpdateMerchantCategorySpendRule
+    type: mutation
+    required: false
+  - name: CreateAmountLimitSpendRule
+    type: mutation
+    required: false
+- name: velocity_controls
+  display_name: Velocity Controls
+  description: Velocity Controls operations
+  operations:
+  - name: CreateVelocityRule
+    type: mutation
+    required: false
+  - name: GetAllVelocityRules
+    type: query
+    required: false
+- name: webhooks
+  display_name: Webhooks
+  description: Webhooks operations
+  operations:
+  - name: AddWebhookNotificationTarget
+    type: mutation
+    required: false
+  - name: GetAllWebhookNotificationTargets
+    type: query
+    required: false
+  - name: DeactivateNotificationTarget
+    type: mutation
+    required: true
+  - name: ActivateNotificationTarget
+    type: unknown
+    required: true
+  - name: GetWebhookNotificationTarget
+    type: query
+    required: false
+  - name: GetNotificationTargetDeliveryAttempts
+    type: query
+    required: false
+  - name: AddSubscriptionsToNotificationTarget
+    type: mutation
+    required: false
+  - name: RemoveSubscriptionsFromNotificationTarget
+    type: mutation
+    required: false
+  - name: GetAllNotificationEvents
+    type: query
+    required: false
+  - name: GetNotificationEvent
+    type: query
+    required: false
+  - name: ReplayNotificationEvent
+    type: mutation
+    required: false
+  - name: GetDeliveryAttemptsForNotificationEvent
+    type: query
+    required: false
+  - name: GetNotificationEventsFilteredByName
+    type: query
+    required: false
+  - name: GetNotificationEvents
+    type: query
+    required: false
+compliance:
+  standards:
+  - name: PCI_DSS
+    level: 1
+    required: true
+  regulations:
+  - name: OFAC
+    description: Sanctions screening
+  security:
+    encryption:
+      in_transit: TLS 1.2+
+      at_rest: AES-256
+    authentication:
+    - type: api_key
+      rotation_days: 90
+performance:
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  rate_limits:
+    requests_per_second: 100
+    burst_limit: 500

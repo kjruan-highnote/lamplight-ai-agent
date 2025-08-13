@@ -9,7 +9,9 @@
     "dev": "tsx watch src/cli.ts",
     "start": "node dist/cli.js",
     "generate": "tsx src/cli.ts",
-    "test": "jest"
+    "test": "jest",
+    "postman:sync": "tsx src/postman/PostmanSyncAutomation.ts",
+    "postman:check": "tsx src/cli/check-workspace.ts"
   },
   "keywords": [
     "solution",
@@ -22,15 +24,22 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^20.10.0",
+    "axios": "^1.6.2",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
+    "cron": "^3.1.6",
+    "diff": "^5.2.0",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8",
+    "inquirer": "^9.3.7",
+    "js-yaml": "^4.1.0",
     "markdown-it": "^14.0.0",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-toc-done-right": "^4.2.0",
     "mermaid": "^10.6.1",
+    "ora": "^7.0.1",
     "puppeteer": "^23.0.0",
+    "simple-git": "^3.28.0",
     "yaml": "^2.3.4"
   },
   "devDependencies": {

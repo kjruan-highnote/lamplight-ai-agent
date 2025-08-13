@@ -1,2 +1,3 @@
-/data/postman/auto_export/
+data/postman/
 node_modules/
+dist/

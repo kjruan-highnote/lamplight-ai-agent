@@ -1,0 +1,493 @@
+# Fasten Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
+program_type: fasten
+vendor: Highnote Inc.
+version: "2.0.0"
+api_type: graphql
+
+metadata:
+  name: "Fasten Program"
+  description: "Fasten Program management"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
+
+# Core capabilities this program provides
+capabilities:
+  - collaborative_authorization
+  - spend_controls
+  - velocity_rules
+  - transaction_monitoring
+
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+        
+  card_issuance:
+    name: "Card Issuance Flow"
+    description: "Issue and activate virtual cards"
+    required: true
+    steps:
+      - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        required: true
+        description: "Issue virtual card"
+      - operation: ActivatePaymentCard
+        required: true
+        description: "Activate the card"
+        
+  transaction_processing:
+    name: "Transaction Processing"
+    description: "Process card transactions"
+    required: true
+    steps:
+      - operation: GetTransactionEvent
+        required: true
+        description: "Retrieve transaction details"
+        
+# Core entities managed by this program
+entities:
+  - name: Organization
+    description: "The top-level entity representing the card program"
+    primary: true
+  - name: CardProduct
+    description: "Configuration for card products and their features"
+  - name: AccountHolder
+    description: "Individual or business entity that holds an account"
+  - name: PaymentCard
+    description: "Physical or virtual payment cards"
+    primary: true
+  - name: Transaction
+    description: "Card transactions and authorizations"
+
+# Operation categories with enhanced metadata
+categories:
+  - name: consumer_credit
+    display_name: "Consumer Credit"
+    description: "Consumer Credit operations"
+    order: 1
+    operations:
+      - name: GetAllAPIKeys
+        type: query
+        required: true
+      - name: CreateSecretAPIKey
+        type: mutation
+        required: true
+      - name: RevokeAPIKey
+        type: mutation
+        required: false
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: GetOrganizationByID
+        type: query
+        required: true
+      - name: UpdateOrganizationProfileDisplayName
+        type: mutation
+        required: false
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: EnableCreditCardFeature
+        type: mutation
+        required: true
+      - name: GetCardProductWithCreditPlanTemplates
+        type: query
+        required: true
+      - name: CreateCardProductCreditPlan
+        type: mutation
+        required: true
+      - name: ActivateCardProductCreditPlan
+        type: mutation
+        required: true
+      - name: EnableCollaborativeApplicationUnderwritingFeature
+        type: mutation
+        required: true
+      - name: GetCardProductWithCreditConfigs
+        type: query
+        required: true
+      - name: GetCardProductWithCreditPlans
+        type: query
+        required: true
+      - name: Ping
+        type: query
+        required: false
+      - name: IntrospectionQuery
+        type: mutation
+        required: false
+      - name: CreateUSPersonAccountHolder
+        type: mutation
+        required: true
+      - name: GenerateTokenizeAccountHolderClientToken
+        type: mutation
+        required: false
+      - name: TokenizeUSPersonAccountHolder
+        type: mutation
+        required: false
+      - name: CreateUSPersonAccountHolderFromToken
+        type: mutation
+        required: true
+      - name: CreateUSPersonAccountHolder
+        type: mutation
+        required: true
+      - name: SearchPersonAccountHolders
+        type: query
+        required: false
+      - name: UpdateUSPersonAccountHolderBillingAddress
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAccountHolderPhone
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAccountHolderEmail
+        type: mutation
+        required: false
+      - name: ListAccountHolders
+        type: query
+        required: false
+      - name: GetUSPersonAccountHolderByID
+        type: query
+        required: true
+      - name: SimulateApplicationDocumentReview
+        type: mutation
+        required: false
+      - name: SimulateApplicationVerificationStatusChange
+        type: mutation
+        required: false
+      - name: SimulateApplicationStatusChange
+        type: mutation
+        required: false
+      - name: GetAccountHolderCardProductApplicationStatus
+        type: query
+        required: true
+      - name: GetDocumentUpload_via_SessionID
+        type: query
+        required: true
+      - name: GenerateDocumentUploadClientToken
+        type: mutation
+        required: false
+      - name: StartDocumentUploadSession
+        type: mutation
+        required: false
+      - name: CreateDocumentUploadSecureLink
+        type: mutation
+        required: true
+      - name: EndDocumentUploadSession
+        type: mutation
+        required: false
+      - name: CreateAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: GetPersonAccountHolderByApplicationID
+        type: query
+        required: true
+      - name: ApproveCreditProductApplicationUnderwriting
+        type: mutation
+        required: false
+      - name: DenyCreditProductApplicationUnderwriting
+        type: mutation
+        required: false
+      - name: InitiateFinancialAccountCreditLimitUpdateFromProductFunding
+        type: mutation
+        required: false
+      - name: GetFinancialAccountCreditLimitUpdate
+        type: query
+        required: false
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: GeneratePaymentCardClientToken
+        type: mutation
+        required: false
+      - name: ActivatePaymentCard
+        type: mutation
+        required: true
+      - name: SetPinForPaymentCard
+        type: mutation
+        required: false
+      - name: SuspendPaymentCard
+        type: mutation
+        required: false
+      - name: ReissuePaymentCard
+        type: mutation
+        required: true
+      - name: ClosePaymentCard
+        type: mutation
+        required: false
+      - name: IssueFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: GetFinancialAccountByID
+        type: query
+        required: true
+      - name: SimulateAuthorization
+        type: mutation
+        required: false
+      - name: SimulateClearing
+        type: mutation
+        required: false
+      - name: SimulateReversal
+        type: mutation
+        required: false
+      - name: SimulateRefund
+        type: mutation
+        required: false
+      - name: SimulateSingleStepAuthAndClear
+        type: mutation
+        required: false
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: false
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: true
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+      - name: GetAllVelocityRules
+        type: query
+        required: true
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: true
+      - name: GetFinancialAccountWithVelocityBalance
+        type: query
+        required: true
+      - name: CreateVelocityRule
+        type: mutation
+        required: true
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: true
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: FindCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: CollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderSendToPrinter
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderApproval
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipmentFailed
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipped
+        type: mutation
+        required: false
+      - name: OrderPhysicalPaymentCard
+        type: mutation
+        required: false
+      - name: FindPhysicalPaymentCardOrder
+        type: query
+        required: false
+      - name: CancelPhysicalPaymentCardOrder
+        type: mutation
+        required: false
+      - name: GenerateDirectDepositDetailClientToken
+        type: mutation
+        required: false
+      - name: GetDirectDepositDetailsByIDWithClientToken
+        type: query
+        required: true
+      - name: GetProductFundingAccountByCardProductID
+        type: query
+        required: true
+      - name: AddExternalBankAccountVerifiedThroughPlaid
+        type: mutation
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughFinicity
+        type: mutation
+        required: false
+      - name: GetExternalFinancialAccountsByAccountHolder
+        type: query
+        required: true
+      - name: InitiateFundsDepositACHTransfer
+        type: mutation
+        required: false
+      - name: InitiateFundsWithdrawalACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateProcessedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateReturnedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateExternallyInitiatedACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingExternallyInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: CreateRecurringACHTransfer
+        type: mutation
+        required: true
+      - name: CreateOneTimeACHTransfer
+        type: mutation
+        required: true
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+      - name: SimulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriod
+        type: mutation
+        required: false
+      - name: SimulateRolloverCurrentFinancialAccountStatementPeriod
+        type: mutation
+        required: false
+      - name: SimulateShiftCurrentFinancialAccountStatementPeriod
+        type: mutation
+        required: false
+      - name: GetCurrentBillingStatementByFinancialAccountID
+        type: query
+        required: true
+      - name: GetLatestClosedBillingStatementByFinancialAccountID
+        type: query
+        required: false
+        
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: KYC/AML procedures
+    - name: OFAC
+      description: Sanctions screening
+    - name: REG_E
+      description: Electronic funds transfer protections
+  security:
+    encryption:
+      in_transit: TLS 1.2+
+      at_rest: AES-256
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: 7 years
+      card_data: tokenized
+
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
+
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000
+
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: Postman Collection - Please contact Highnote Implementation Team
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: 'Email: support@highnote.com'
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

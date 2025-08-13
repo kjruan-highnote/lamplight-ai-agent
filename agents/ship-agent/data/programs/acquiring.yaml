@@ -1,32 +1,147 @@
-# Acquiring Program Configuration
+# Acquiring Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
 program_type: acquiring
-vendor: highnote
-version: "1.0.0"
+vendor: Highnote Inc.
+version: "2.0.0"
 api_type: graphql
 
 metadata:
-  description: "Acquiring Program - Highnote"
+  name: "Acquiring Program"
+  description: "Acquiring Program management"
   base_url: "{{apiUrl}}"
   authentication:
-    type: "bearer"
-    header: "Authorization"
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
 
-# Categories will be auto-populated from operations
-categories: []
+# Core capabilities this program provides
+capabilities:
 
-# Define your program-specific dimensions
-dimensions:
-  customer_segments: []
-  program_variants: []
-  features: []
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+        
+# Core entities managed by this program
+entities:
+  - name: Organization
+    description: "The top-level entity representing the card program"
+    primary: true
+  - name: CardProduct
+    description: "Configuration for card products and their features"
+  - name: AccountHolder
+    description: "Individual or business entity that holds an account"
+  - name: PaymentCard
+    description: "Physical or virtual payment cards"
+    primary: true
+  - name: Transaction
+    description: "Card transactions and authorizations"
 
-# Define operation flows for common use cases
-operation_flows:
-  standard_flow:
-    description: "Standard flow for acquiring"
-    steps: []
+# Operation categories with enhanced metadata
+categories:
+  - name: payment_method_tokenization
+    display_name: "Payment Method Tokenization"
+    description: "Payment Method Tokenization operations"
+    order: 1
+    operations:
+      - name: GeneratePaymentMethodTokenizationClientToken
+        type: mutation
+        required: false
+        
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: KYC/AML procedures
+    - name: OFAC
+      description: Sanctions screening
+    - name: REG_E
+      description: Electronic funds transfer protections
+  security:
+    encryption:
+      in_transit: TLS 1.2+
+      at_rest: AES-256
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: 7 years
+      card_data: tokenized
 
-tags:
-  - acquiring
-  - graphql
-  - highnote
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
+
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000
+
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: Postman Collection - Please contact Highnote Implementation Team
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: 'Email: support@highnote.com'
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

@@ -1,1 +1,25 @@
-[]
+{
+  "collection": "Speedchain",
+  "program_type": "speedchain",
+  "extraction_date": "2025-08-12T17:46:30.904Z",
+  "total_operations": 1,
+  "categories": [
+    {
+      "name": "uncategorized",
+      "operations": [
+        {
+          "name": "NewRequest",
+          "type": "query",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "NewRequest",
+      "type": "query",
+      "required": false
+    }
+  ]
+}

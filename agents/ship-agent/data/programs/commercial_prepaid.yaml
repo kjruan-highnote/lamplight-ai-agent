@@ -1,368 +1,572 @@
-# Commercial Prepaid Program Configuration
+# Commercial Prepaid Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
 program_type: commercial_prepaid
-vendor: highnote
-version: "1.0.0"
+vendor: Highnote Inc.
+version: "2.0.0"
 api_type: graphql
 
 metadata:
-  description: "Commercial Prepaid Program - Highnote"
+  name: "Commercial Prepaid Program"
+  description: "Commercial prepaid card program for businesses"
   base_url: "{{apiUrl}}"
   authentication:
-    type: "bearer"
-    header: "Authorization"
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
 
+# Core capabilities this program provides
+capabilities:
+  - on_demand_funding
+  - collaborative_authorization
+  - spend_controls
+  - velocity_rules
+  - real_time_webhooks
+  - transaction_monitoring
+  - prepaid_funding
+  - balance_management
+
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+        
+  card_issuance:
+    name: "Card Issuance Flow"
+    description: "Issue and activate virtual cards"
+    required: true
+    steps:
+      - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        required: true
+        description: "Issue virtual card"
+      - operation: ActivatePaymentCard
+        required: true
+        description: "Activate the card"
+        
+  transaction_processing:
+    name: "Transaction Processing"
+    description: "Process card transactions"
+    required: true
+    steps:
+      - operation: GetTransactionEvent
+        required: true
+        description: "Retrieve transaction details"
+        
+# Core entities managed by this program
+entities:
+  - name: Organization
+    description: "The top-level entity representing the card program"
+    primary: true
+  - name: CardProduct
+    description: "Configuration for card products and their features"
+  - name: AccountHolder
+    description: "Individual or business entity that holds an account"
+  - name: PaymentCard
+    description: "Physical or virtual payment cards"
+    primary: true
+  - name: Transaction
+    description: "Card transactions and authorizations"
+
+# Operation categories with enhanced metadata
 categories:
-  - name: api_key_management
-    description: "API key creation, retrieval, and management"
-    operations:
-      - GetAllApiKeys
-      - CreateApiKey
-      - RevokeApiKey
-      
-  - name: organization
-    description: "Organization setup and configuration"
-    operations:
-      - GetAllOrganizations
-      - GetOrganizationById
-      - UpdateOrganizationProfileDisplayName
-      
   - name: setup
-    description: "General setup and system configuration"
+    display_name: "Setup"
+    description: "Setup operations"
+    order: 1
     operations:
-      - Ping
-      - Introspection
-      
-  - name: card_product
-    description: "Commercial prepaid card product setup and configuration"
+      - name: GetAllAPIKeys
+        type: query
+        required: true
+      - name: CreateSecretAPIKey
+        type: mutation
+        required: true
+      - name: RevokeAPIKey
+        type: mutation
+        required: false
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: GetOrganizationByID
+        type: query
+        required: true
+      - name: UpdateOrganizationProfileDisplayName
+        type: mutation
+        required: false
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: GetProductFundingAccount
+        type: query
+        required: true
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+      - name: Ping
+        type: query
+        required: false
+      - name: IntrospectionQuery
+        type: mutation
+        required: false
+        
+  - name: onboarding
+    display_name: "Onboarding"
+    description: "Onboarding operations"
+    order: 2
     operations:
-      - CreateCardProduct
-      - GetCardProductAccounts
-      - SimulateDeposit
-      
-  - name: business_account_holder
-    description: "Business account holder creation and management"
+      - name: CreateUSBusiniessAccountHolder
+        type: mutation
+        required: true
+      - name: GetUSBusinessAccountHolder
+        type: query
+        required: true
+      - name: UpdateUSBusinessAccountHolderBillingAddress
+        type: mutation
+        required: false
+      - name: UpdateUSBusinessAccountHolderWebsite
+        type: mutation
+        required: false
+      - name: UpdateUSBusinessAccountHolderPhone
+        type: mutation
+        required: false
+      - name: SimulateApplicationDocumentReview
+        type: mutation
+        required: false
+      - name: SimulateApplicationVerificationStatusChange
+        type: mutation
+        required: false
+      - name: SimulateApplicationStatusChange
+        type: mutation
+        required: false
+      - name: CreateUSBusiniessAccountHolderInReview
+        type: mutation
+        required: true
+      - name: CreateUSBusinessAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: GetDocumentUploadSessionsViaApplicationID
+        type: query
+        required: true
+      - name: GenerateDocumentUploadClientToken
+        type: mutation
+        required: false
+      - name: GetDocumentUploadSession
+        type: query
+        required: true
+      - name: StartDocumentUploadSession
+        type: mutation
+        required: false
+      - name: CreateDocumentUploadSecureLink
+        type: mutation
+        required: true
+      - name: UploadDocument
+        type: put
+        required: false
+      - name: EndDocumentUploadSession
+        type: mutation
+        required: false
+      - name: CreateAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: GetBusinessAccountHolderByApplicationID
+        type: query
+        required: true
+      - name: GetUSBusinessAccountHolderCardProductApplications
+        type: query
+        required: true
+      - name: CreateUSPersonAuthorizedUser
+        type: mutation
+        required: true
+      - name: CreateAuthorizedUserCardProductApplication
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForAuthorizedUserApplication
+        type: mutation
+        required: true
+      - name: GetAuthorizedPersonCardProductApplication
+        type: query
+        required: true
+      - name: GetAccountHolderAuthorizedUsers
+        type: query
+        required: true
+      - name: UpdateUSPersonAuthorizedUserBillingAddress
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAuthorizedUserPhone
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAuthorizedUserEmail
+        type: mutation
+        required: false
+        
+  - name: issuance
+    display_name: "Issuance"
+    description: "Issuance operations"
+    order: 3
     operations:
-      - CreateBusinessAccountHolder
-      - GetBusinessAccountHolderById
-      - UpdateBusinessAccountHolderBillingAddress
-      - UpdateBusinessAccountHolderWebsite
-      - UpdateBusinessAccountHolderPhone
-      
-  - name: application
-    description: "Application processing for commercial prepaid accounts"
-    operations:
-      - CreateBusinessAccountHolderApplication
-      - GetBusinessAccountHolderApplication
-      - GetBusinessAccountHolderApplications
-      
-  - name: authorized_users
-    description: "Authorized user management and card issuance"
-    operations:
-      - CreatePersonAuthorizedUser
-      - CreateAuthorizedUserCardProductApplication
-      - IssuePaymentCardForAuthorizedUserApplication
-      - GetAuthorizedPersonCardProductApplication
-      - GetAccountHolderAuthorizedUsers
-      - UpdatePersonAuthorizedUserBillingAddress
-      - UpdatePersonAuthorizedUserPhone
-      - UpdatePersonAuthorizedUserEmail
-      
-  - name: manual_review
-    description: "Manual review processes and document handling"
-    operations:
-      - CreateBusinessAccountHolderInReview
-      - CreateBusinessAccountHolderApplication
-      - GetDocumentUploadSessionsByApplicationId
-      - GenerateDocumentUploadClientToken
-      - GetDocumentUploadSession
-      - StartDocumentUploadSession
-      - CreateDocumentUploadLink
-      - EndDocumentUploadSessionCopy
-      
-  - name: financial_accounts
-    description: "Financial account issuance and management"
-    operations:
-      - IssueFinancialAccountForApplication
-      - GetFinancialAccountById
-      
-  - name: on_demand_funding
-    description: "On-demand funding and balance management"
-    operations:
-      - EnableOnDemandFundingFeature
-      - IssueFundingFinancialAccountForApplication
-      - IssueFinancialAccountForApplicationWithOdfSource
-      
-  - name: payment_cards
-    description: "Payment card issuance and lifecycle management"
-    operations:
-      - IssuePaymentCardForFinancialAccount
-      - GenerateClientTokenToSetPin
-      - GenerateClientTokenForRestrictedDetail
-      - ViewPaymentCardRestrictedDetails
-      - ActivatePaymentCard
-      - SetPinForPaymentCard
-      - SuspendPaymentCard
-      - ReissuePaymentCard
-      - ClosePaymentCard
-      - GetPaymentCard
-      
-  - name: transactions
-    description: "Transaction processing and history"
-    operations:
-      - GetTransactionEvent
-      - TransactionEventsByPaymentCardAndTransactionid
-      
-  - name: spend_rules
-    description: "Spending control rules and merchant restrictions"
-    operations:
-      - CreateAmountLimitSpendRule
-      - CreateMerchantCategorySpendRule
-      - AttachSpendRuleToCardProduct
-      - UpdateMerchantCategorySpendRule
-      - AttachSpendRuleToPaymentCard
-      - DetachSpendRuleFromCardProduct
-      - DetachSpendRuleFromPaymentCard
-      
-  - name: velocity_rules
-    description: "Transaction velocity and amount limit controls"
-    operations:
-      - CreateAmountLimitSpendRule
-      - UpdateAmountLimitSpendRule
-      - CreateVelocityRule
-      - GetAllVelocityRules
-      - GetPaymentCardVelocityRule
-      - GetFinancialAccountWithVelocityBalance
-      - AttachPaymentCardVelocityRule
-      - DetachPaymentCardVelocityRule
-      - AttachCardProductVelocityRule
-      - DetachCardProductVelocityRule
-      
-  - name: collaborative_authorization_copy
-    description: "Real-time authorization decision making"
-    operations:
-      - AddCollaborativeAuthorizationEndpoint
-      - ActivateCollaborativeAuthorizationEndpoint
-      - GetCollaborativeAuthorizationEndpoint
-      - DeactivateCollaborativeAuthorizationEndpoint
-      - RemoveCollaborativeAuthorizationEndpoint
-      - GetCollaborativeAuthorizationEndpoints
-      - RenameCollaborativeAuthorizationEndpoint
-      
-  - name: product_funding_account
-    description: "Direct deposit and funding account management"
-    operations:
-      - GenerateDirectDepositDetailClientToken
-      - GetDirectDepositDetailsByIdWithClientToken
-      - GetProductFundingAccountDirectDepositId
-      
-  - name: integrator_initiated_originated_ach
-    description: "ACH transfers initiated by the integrator"
-    operations:
-      - AddExternalBankAccountVerifiedThroughPlaid
-      - GetExternalFinancialAccountsByAccountHolder
-      - InitiateFundsDepositAchTransfer
-      - InitiateFundsWithdrawalAchTransfer
-      - SimulateProcessingIntegratorInitiatedStatusChange
-      - SimulateProcessedIntegratorInitiatedStatusChange
-      - SimulateReturnedIntegratorInitiatedStatusChange
-      
-  - name: externally_initiated_nonoriginated_ach
-    description: "ACH transfers initiated by external parties"
-    operations:
-      - SimulateExternallyInitiatedAchTransfer
-      - SimulateProcessingExternallyInitiatedStatusChange
-      
-  - name: internal_transfer
-    description: "Internal transfers between financial accounts"
-    operations:
-      - InitiateTransferBetweenFinancialAccounts
-      - GetInterFinancialAccountTransferStatusCopy
-      
+      - name: IssueFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: GetFinancialAccountByID
+        type: query
+        required: true
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: GeneratePaymentCardClientToken
+        type: mutation
+        required: false
+      - name: GeneratePaymentCardClientToken
+        type: mutation
+        required: false
+      - name: GetPaymentCardRestrictedDetails
+        type: query
+        required: true
+      - name: ActivatePaymentCard
+        type: mutation
+        required: true
+      - name: SetPinForPaymentCard
+        type: mutation
+        required: false
+      - name: SuspendPaymentCard
+        type: mutation
+        required: false
+      - name: ReissuePaymentCard
+        type: mutation
+        required: true
+      - name: ClosePaymentCard
+        type: mutation
+        required: false
+      - name: GetPaymentCard
+        type: query
+        required: true
+      - name: SimulateAuthorization
+        type: mutation
+        required: false
+      - name: SimulateClearing
+        type: mutation
+        required: false
+      - name: SimulateReversal
+        type: mutation
+        required: false
+      - name: SimulateRefund
+        type: mutation
+        required: false
+      - name: SimulateSingleStepAuthAndClear
+        type: mutation
+        required: false
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: false
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: true
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: true
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: true
+      - name: UpdateAmountLimitSpendRule
+        type: mutation
+        required: false
+      - name: CreateVelocityRule
+        type: mutation
+        required: true
+      - name: GetAllVelocityRules
+        type: query
+        required: true
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: true
+      - name: GetFinancialAccountWithVelocityBalance
+        type: query
+        required: true
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: FindCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: CollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+        
   - name: physical_card
-    description: "Physical card ordering and fulfillment"
+    display_name: "Physical Card"
+    description: "Physical Card operations"
+    order: 4
     operations:
-      - OrderPhysicalPaymentCard
-      - FindPhysicalPaymentCardOrder
-      - CancelPhysicalPaymentCardOrder
-      
-  - name: notification_targets
-    description: "Webhook endpoints and notification delivery"
+      - name: simulatePhysicalPaymentCardOrderSendToPrinter
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderApproval
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipmentFailed
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipped
+        type: mutation
+        required: false
+      - name: OrderPhysicalPaymentCard
+        type: mutation
+        required: false
+      - name: FindPhysicalPaymentCardOrder
+        type: query
+        required: false
+      - name: CancelPhysicalPaymentCardOrder
+        type: mutation
+        required: false
+        
+  - name: funding
+    display_name: "Funding"
+    description: "Funding operations"
+    order: 5
     operations:
-      - AddWebhookNotificationTarget
-      - GetAllWebhookNotificationTargets
-      - DeactivateNotificationTarget
-      - ActivateNotificationTarget
-      - GetWebhookNotificationTarget
-      - GetNotificationTargetDeliveryAttempts
-      - AddSubscriptionsToNotificationTarget
-      - RemoveSubscriptionsFromNotificationTarget
-      
-  - name: notification_events
-    description: "Event notifications and delivery management"
+      - name: GenerateDirectDepositDetailClientToken
+        type: mutation
+        required: false
+      - name: GetDirectDepositDetailsByIDWithClientToken
+        type: query
+        required: true
+      - name: GetProductFundingAccountByCardProductID
+        type: query
+        required: true
+      - name: AddExternalBankAccountVerifiedThroughPlaid
+        type: mutation
+        required: false
+      - name: GetExternalFinancialAccountsByAccountHolder
+        type: query
+        required: true
+      - name: InitiateFundsDepositACHTransfer
+        type: mutation
+        required: false
+      - name: InitiateFundsWithdrawalACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateProcessedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateReturnedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateExternallyInitiatedACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingExternallyInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: InitiateTransferBetweenFinancialAccounts
+        type: mutation
+        required: false
+      - name: CheckAccountTransferStatus
+        type: query
+        required: false
+      - name: EnableOnDemandFundingFeature
+        type: mutation
+        required: true
+      - name: IssueFundingFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: IssueFinancialAccountForApplicationWithOnDemandFundingSource
+        type: mutation
+        required: true
+        
+  - name: reporting
+    display_name: "Reporting"
+    description: "Reporting operations"
+    order: 6
     operations:
-      - GetAllNotificationEvents
-      - GetNotificationEvent
-      - ReplayNotificationEvent
-      - GetDeliveryAttemptsForNotificationEvent
-      - GetNotificationEventsFilteredByName
-      
-  - name: reports
-    description: "Business reporting and analytics"
-    operations:
-      - InitiateOrganizationReport
-      - GetReport
-      - GetReportUsage
-      - GetReports
-      
-  - name: simulation
-    description: "Transaction and lifecycle event simulation"
-    operations:
-      - SimulateApplicationDocumentReview
-      - SimulateApplicationVerificationStatusChange
-      - SimulateApplicationStatusChange
-      - SimulateAuthorization
-      - SimulateClearing
-      - SimulateReversal
-      - SimulateRefund
-      - SimulateSingleStepAuthAndClear
-      - SimulateSendToPrinter
-      - SimulateApproval
-      - SimulateShipmentFailed
-      - SimulateShipped
+      - name: AddWebhookNotificationTarget
+        type: mutation
+        required: true
+      - name: GetAllWebhookNotificationTargets
+        type: query
+        required: true
+      - name: DeactivateNotificationTarget
+        type: mutation
+        required: false
+      - name: ActivateNotificationTarget
+        type: mutation
+        required: true
+      - name: GetWebhookNotificationTarget
+        type: query
+        required: true
+      - name: GetNotificationTargetDeliveryAttempts
+        type: query
+        required: true
+      - name: AddSubscriptionsToNotificationTarget
+        type: mutation
+        required: true
+      - name: RemoveSubscriptionsFromNotificationTarget
+        type: mutation
+        required: false
+      - name: GetAllNotificationEvents
+        type: query
+        required: true
+      - name: GetNotificationEvent
+        type: query
+        required: true
+      - name: ReplayNotificationEvent
+        type: mutation
+        required: false
+      - name: GetDeliveryAttemptsForNotificationEvent
+        type: query
+        required: true
+      - name: GetNotificationEventsFilteredByName
+        type: query
+        required: true
+      - name: InitiateOrganizationReport
+        type: mutation
+        required: false
+      - name: GetReport
+        type: query
+        required: true
+      - name: ReportUsage
+        type: query
+        required: false
+      - name: Reports
+        type: query
+        required: false
+        
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: KYC/AML procedures
+    - name: OFAC
+      description: Sanctions screening
+    - name: REG_E
+      description: Electronic funds transfer protections
+  security:
+    encryption:
+      in_transit: TLS 1.2+
+      at_rest: AES-256
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: 7 years
+      card_data: tokenized
 
-dimensions:
-  customer_segments:
-    - payroll_cards
-    - expense_management
-    - fleet_cards
-    - travel_expense
-    - corporate_spending
-    
-  program_variants:
-    - standard_commercial_prepaid
-    - rewards_commercial_prepaid
-    - fleet_commercial_prepaid
-    - travel_commercial_prepaid
-    - expense_management_prepaid
-    
-  business_types:
-    - small_business
-    - medium_business
-    - enterprise
-    - government
-    - nonprofit
-    
-  funding_sources:
-    - payroll_direct_deposit
-    - corporate_funding
-    - on_demand_funding
-    - bank_transfer
-    - bulk_loading
-    
-  card_types:
-    - physical
-    - virtual
-    - both
-    
-  features:
-    - authorized_users
-    - expense_controls
-    - reporting_analytics
-    - multi_account_support
-    - integration_capabilities
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
 
-operation_flows:
-  standard_business_prepaid_onboarding:
-    description: "Complete onboarding flow for business prepaid account"
-    steps:
-      - CreateBusinessAccountHolder
-      - CreateBusinessAccountHolderApplication
-      - IssueFinancialAccountForApplication
-      - IssuePaymentCardForFinancialAccount
-      - ActivatePaymentCard
-      
-  manual_review_business_onboarding:
-    description: "Business prepaid onboarding requiring manual review"
-    steps:
-      - CreateBusinessAccountHolderInReview
-      - CreateBusinessAccountHolderApplication
-      - StartDocumentUploadSession
-      - GenerateDocumentUploadClientToken
-      - SimulateApplicationDocumentReview
-      - SimulateApplicationVerificationStatusChange
-      - IssueFinancialAccountForApplication
-      
-  authorized_user_setup:
-    description: "Add authorized users to business prepaid account"
-    steps:
-      - CreatePersonAuthorizedUser
-      - CreateAuthorizedUserCardProductApplication
-      - IssuePaymentCardForAuthorizedUserApplication
-      - GetAuthorizedPersonCardProductApplication
-      
-  on_demand_funding_setup:
-    description: "Set up on-demand funding for business prepaid account"
-    steps:
-      - EnableOnDemandFundingFeature
-      - IssueFundingFinancialAccountForApplication
-      - IssueFinancialAccountForApplicationWithOdfSource
-      
-  comprehensive_spend_controls:
-    description: "Set up comprehensive spending and velocity controls"
-    steps:
-      - CreateMerchantCategorySpendRule
-      - CreateAmountLimitSpendRule
-      - AttachSpendRuleToPaymentCard
-      - CreateVelocityRule
-      - AttachPaymentCardVelocityRule
-      - AddCollaborativeAuthorizationEndpoint
-      - ActivateCollaborativeAuthorizationEndpoint
-      
-  ach_funding_setup:
-    description: "Set up ACH funding with external bank account"
-    steps:
-      - AddExternalBankAccountVerifiedThroughPlaid
-      - GetExternalFinancialAccountsByAccountHolder
-      - InitiateFundsDepositAchTransfer
-      - SimulateProcessingIntegratorInitiatedStatusChange
-      - SimulateProcessedIntegratorInitiatedStatusChange
-      
-  internal_transfer_management:
-    description: "Manage internal transfers between accounts"
-    steps:
-      - InitiateTransferBetweenFinancialAccounts
-      - GetInterFinancialAccountTransferStatusCopy
-      
-  physical_card_fulfillment:
-    description: "Complete physical card ordering and fulfillment lifecycle"
-    steps:
-      - OrderPhysicalPaymentCard
-      - FindPhysicalPaymentCardOrder
-      - SimulateSendToPrinter
-      - SimulateApproval
-      - SimulateShipped
-      
-  transaction_simulation_flow:
-    description: "Complete transaction lifecycle simulation"
-    steps:
-      - SimulateAuthorization
-      - SimulateClearing
-      - GetTransactionEvent
-      - TransactionEventsByPaymentCardAndTransactionid
-      
-  notification_system_setup:
-    description: "Configure comprehensive webhook notification system"
-    steps:
-      - AddWebhookNotificationTarget
-      - AddSubscriptionsToNotificationTarget
-      - ActivateNotificationTarget
-      - GetAllNotificationEvents
-      - ReplayNotificationEvent
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000
 
-tags:
-  - commercial_prepaid
-  - graphql
-  - highnote
-  - business_prepaid
-  - authorized_users
-  - expense_management
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: Postman Collection - Please contact Highnote Implementation Team
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: 'Email: support@highnote.com'
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

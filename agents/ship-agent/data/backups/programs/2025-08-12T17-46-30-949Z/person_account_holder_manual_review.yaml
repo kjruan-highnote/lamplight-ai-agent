@@ -1,0 +1,32 @@
+# Person Account Holder Manual Review Program Configuration
+program_type: person_account_holder_manual_review
+vendor: highnote
+version: "1.0.0"
+api_type: graphql
+
+metadata:
+  description: "Person Account Holder Manual Review Program - Highnote"
+  base_url: "{{apiUrl}}"
+  authentication:
+    type: "bearer"
+    header: "Authorization"
+
+# Categories will be auto-populated from operations
+categories: []
+
+# Define your program-specific dimensions
+dimensions:
+  customer_segments: []
+  program_variants: []
+  features: []
+
+# Define operation flows for common use cases
+operation_flows:
+  standard_flow:
+    description: "Standard flow for person_account_holder_manual_review"
+    steps: []
+
+tags:
+  - person_account_holder_manual_review
+  - graphql
+  - highnote

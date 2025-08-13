@@ -1,10 +1,81 @@
-[
-  {
-    "name": "CreatePersonAccountHolderForManualReview",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSPersonAccountHolderInManualReview(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  createUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+{
+  "collection": "Person Account Holder Manual Review",
+  "program_type": "person_account_holder_manual_review",
+  "extraction_date": "2025-08-12T17:46:30.854Z",
+  "total_operations": 12,
+  "categories": [
+    {
+      "name": "uncategorized",
+      "operations": [
+        {
+          "name": "CreateUSPersonAccountHolderInManualReview",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "CreateUSPersonAccountHolderCardProductApplication",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetDocumentUploadSessionsViaApplicationID",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GenerateDocumentUploadClientToken",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "StartDocumentUploadSession",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "CreateDocumentUploadSecureLink",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "EndDocumentUploadSession",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "GetDocumentUploadSession",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "SimulateApplicationDocumentReview",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateCreateApplicationDocumentsUploadSessions",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateApplicationVerificationStatusChange",
+          "type": "mutation",
+          "required": false
+        },
+        {
+          "name": "SimulateApplicationStatusChange",
+          "type": "mutation",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "CreateUSPersonAccountHolderInManualReview",
+      "type": "mutation",
+      "required": true,
+      "graphql": "mutation CreateUSPersonAccountHolderInManualReview(\n  $input: CreateUSPersonAccountHolderInput!\n) {\n  createUSPersonAccountHolder(input: $input) {\n    __typename\n    ... on USPersonAccountHolder {\n      id\n      email\n      dateOfBirth\n      externalId\n      updatedAt\n      createdAt\n      name {\n        givenName\n        familyName\n        title\n        suffix\n        middleName\n      }\n      billingAddress {\n        streetAddress\n        extendedAddress\n        postalCode\n        region\n        locality\n        countryCodeAlpha3\n      }\n      phoneNumbers {\n        countryCode\n        number\n        label\n      }\n      identificationDocument {\n        socialSecurityNumber {\n          numberHash\n          countryCodeAlpha3\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "personAccountHolder": {
@@ -38,34 +109,11 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Create Person Account Holder For Manual Review",
-      "description": "",
-      "tags": [
-        "",
-        "creation"
-      ],
-      "requires": [],
-      "produces": [
-        "socialSecurityNumber",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787428",
-    "updated_at": "2025-08-04T16:18:34.787433"
-  },
-  {
-    "name": "CreatePersonAccountHolderCardProductApplication",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateUSPersonAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n      ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      cardProduct {\n        id\n      }  \n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          accountHolderCurrent {\n            id\n          }\n          name {\n            givenName\n            familyName\n          }\n          billingAddress {\n            streetAddress\n            locality\n            region\n            countryCodeAlpha3\n            postalCode\n          }\n          currentVerification {\n            reason\n            status\n          }\n        }\n      }    \n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateUSPersonAccountHolderCardProductApplication",
+      "type": "mutation",
+      "required": true,
+      "graphql": "mutation CreateUSPersonAccountHolderCardProductApplication($input: CreateAccountHolderCardProductApplicationInput!) {\n  createAccountHolderCardProductApplication(input: $input) {\n    __typename\n      ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n      cardProduct {\n        id\n      }  \n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          accountHolderCurrent {\n            id\n          }\n          name {\n            givenName\n            familyName\n          }\n          billingAddress {\n            streetAddress\n            locality\n            region\n            countryCodeAlpha3\n            postalCode\n          }\n          currentVerification {\n            reason\n            status\n          }\n        }\n      }    \n      updatedAt\n      createdAt\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "accountHolderId": "{{personAccountHolderId}}",
@@ -77,68 +125,20 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Create Person Account Holder Card Product Application",
-      "description": "",
-      "tags": [
-        "",
-        "creation"
-      ],
-      "requires": [
-        "personAccountHolderId",
-        "cardProductId"
-      ],
-      "produces": [
-        "accountHolderCurrent",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787462",
-    "updated_at": "2025-08-04T16:18:34.787463"
-  },
-  {
-    "name": "GetApplicationDocumentUploadSessions",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetDocumentUploadSessionsViaApplicationID(\n  $id: ID!\n  $firstApplicationHistory: Int\n) {\n  node(id: $id) {\n    ... on AccountHolderCardProductApplication {\n      __typename\n      applicationState {\n        status\n      }\n      cardProduct {\n        name\n      }\n      accountHolderSnapshot {\n        ...USPersonAccountHolderSnapshot\n      }\n    }\n  }\n}\n\nfragment USPersonAccountHolderSnapshot on USPersonAccountHolderSnapshot {\n  __typename\n  currentVerification {\n    status\n    reason\n    results {\n      code\n      description\n    }\n    requiredDocuments {\n      createdAt\n      referenceIdentifier\n      updatedAt\n      status\n      documentUploadSession {\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          status\n          id\n        }\n      }\n      uploadedDocuments {\n        ... on AccountHolderApplicationDocument {\n          status\n          type\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n}",
+    {
+      "name": "GetDocumentUploadSessionsViaApplicationID",
+      "type": "query",
+      "required": true,
+      "graphql": "query GetDocumentUploadSessionsViaApplicationID(\n  $id: ID!\n  $firstApplicationHistory: Int\n) {\n  node(id: $id) {\n    ... on AccountHolderCardProductApplication {\n      __typename\n      applicationState {\n        status\n      }\n      cardProduct {\n        name\n      }\n      accountHolderSnapshot {\n        ...USPersonAccountHolderSnapshot\n      }\n    }\n  }\n}\n\nfragment USPersonAccountHolderSnapshot on USPersonAccountHolderSnapshot {\n  __typename\n  currentVerification {\n    status\n    reason\n    results {\n      code\n      description\n    }\n    requiredDocuments {\n      createdAt\n      referenceIdentifier\n      updatedAt\n      status\n      documentUploadSession {\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          status\n          id\n        }\n      }\n      uploadedDocuments {\n        ... on AccountHolderApplicationDocument {\n          status\n          type\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "id": "{{personAccountHolderCardProductApplicationId}}"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Get Application Document Upload Sessions",
-      "description": "",
-      "tags": [
-        "",
-        "retrieval"
-      ],
-      "requires": [
-        "personAccountHolderCardProductApplicationId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787486",
-    "updated_at": "2025-08-04T16:18:34.787487"
-  },
-  {
-    "name": "GenerateDocumentUploadClientToken",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GenerateDocumentUploadClientToken($input: GenerateDocumentUploadClientTokenInput!) {\n  generateDocumentUploadClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
+    {
+      "name": "GenerateDocumentUploadClientToken",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation GenerateDocumentUploadClientToken($input: GenerateDocumentUploadClientTokenInput!) {\n  generateDocumentUploadClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n    }\n  }\n}",
       "variables": {
         "input": {
           "documentUploadSessionId": "{{personAccountHolderDocumentUploadSessionId}}",
@@ -148,67 +148,22 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Generate Document Upload Client Token",
-      "description": "",
-      "tags": [
-        ""
-      ],
-      "requires": [
-        "personAccountHolderDocumentUploadSessionId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787502",
-    "updated_at": "2025-08-04T16:18:34.787502"
-  },
-  {
-    "name": "StartDocumentUploadSession",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation StartDocumentUploadSession($input: StartDocumentUploadSessionInput!) {\n  startDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "StartDocumentUploadSession",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation StartDocumentUploadSession($input: StartDocumentUploadSessionInput!) {\n  startDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "documentUploadSessionId": "{{personAccountHolderDocumentUploadSessionId}}"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Start Document Upload Session",
-      "description": "",
-      "tags": [
-        ""
-      ],
-      "requires": [
-        "personAccountHolderDocumentUploadSessionId"
-      ],
-      "produces": [
-        "constraints",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787519",
-    "updated_at": "2025-08-04T16:18:34.787519"
-  },
-  {
-    "name": "CreateDocumentUploadLink",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateDocumentUploadSecureLink(\n  $input: CreateDocumentUploadLinkInput!\n) {\n  createDocumentUploadLink(input: $input) {\n    __typename\n    ... on DocumentUploadLink {\n      id\n      documentUploadSession {\n        id\n        status\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          uploadRequirements {\n            constraints {\n              ... on DocumentUploadRequirementConstraint {\n                documentType\n                numberOfDocuments\n              }\n            }\n          }\n        }\n      }\n      documentType\n      status\n      documentCategoryType\n      uploadUrl\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
+    {
+      "name": "CreateDocumentUploadSecureLink",
+      "type": "mutation",
+      "required": true,
+      "graphql": "mutation CreateDocumentUploadSecureLink(\n  $input: CreateDocumentUploadLinkInput!\n) {\n  createDocumentUploadLink(input: $input) {\n    __typename\n    ... on DocumentUploadLink {\n      id\n      documentUploadSession {\n        id\n        status\n        ... on USAccountHolderApplicationDocumentUploadSession {\n          uploadRequirements {\n            constraints {\n              ... on DocumentUploadRequirementConstraint {\n                documentType\n                numberOfDocuments\n              }\n            }\n          }\n        }\n      }\n      documentType\n      status\n      documentCategoryType\n      uploadUrl\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "documentUploadSessionId": "{{documentUploadSessionId}}",
@@ -216,106 +171,31 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Create Document Upload Link",
-      "description": "",
-      "tags": [
-        "",
-        "creation"
-      ],
-      "requires": [
-        "documentUploadSessionId"
-      ],
-      "produces": [
-        "uploadRequirements",
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787540",
-    "updated_at": "2025-08-04T16:18:34.787540"
-  },
-  {
-    "name": "EndDocumentUploadSession",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation EndDocumentUploadSession($input: EndDocumentUploadSessionInput!) {\n  endDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "EndDocumentUploadSession",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation EndDocumentUploadSession($input: EndDocumentUploadSessionInput!) {\n  endDocumentUploadSession(input: $input) {\n    __typename\n    ... on USAccountHolderApplicationDocumentUploadSession {\n      id\n      status\n      primaryDocumentTypes\n      secondaryDocumentTypes\n      supportingDocumentTypes\n      uploadRequirements {\n        constraints {\n          ... on DocumentUploadRequirementConstraint {\n            documentType\n            numberOfDocuments\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "input": {
           "documentUploadSessionId": "{{documentUploadSessionClientToken}}"
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "End Document Upload Session",
-      "description": "",
-      "tags": [
-        ""
-      ],
-      "requires": [
-        "documentUploadSessionClientToken"
-      ],
-      "produces": [
-        "constraints"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787554",
-    "updated_at": "2025-08-04T16:18:34.787555"
-  },
-  {
-    "name": "GetDocumentUploadSession",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetDocumentUploadSession($id: ID!) {\n  node(id: $id) {\n    ... on DocumentUploadSession {\n      id\n      createdAt\n      updatedAt\n      status\n      documents {\n        ... on DocumentUploadLink {\n          id\n          status\n          uploadUrl\n          documentType\n          documentCategoryType\n        }\n      }\n    }\n    ... on AccountHolderCardProductApplication {\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    {
+      "name": "GetDocumentUploadSession",
+      "type": "query",
+      "required": true,
+      "graphql": "query GetDocumentUploadSession($id: ID!) {\n  node(id: $id) {\n    ... on DocumentUploadSession {\n      id\n      createdAt\n      updatedAt\n      status\n      documents {\n        ... on DocumentUploadLink {\n          id\n          status\n          uploadUrl\n          documentType\n          documentCategoryType\n        }\n      }\n    }\n    ... on AccountHolderCardProductApplication {\n      accountHolderSnapshot {\n        ... on USPersonAccountHolderSnapshot {\n          currentVerification {\n            requiredDocuments {\n              documentUploadSession {\n                ... on USAccountHolderApplicationDocumentUploadSession {\n                  id\n                  status\n                  primaryDocumentTypes\n                  secondaryDocumentTypes\n                  supportingDocumentTypes\n                  uploadRequirements {\n                    constraints {\n                      ... on DocumentUploadRequirementConstraint {\n                        documentType\n                        numberOfDocuments\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
       "variables": {
         "id": "{{documentUploadSessionId}}"
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Get Document Upload Session",
-      "description": "",
-      "tags": [
-        "",
-        "retrieval"
-      ],
-      "requires": [
-        "documentUploadSessionId"
-      ],
-      "produces": [
-        "accountHolderSnapshot",
-        "currentVerification",
-        "documentUploadSession",
-        "constraints"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787571",
-    "updated_at": "2025-08-04T16:18:34.787571"
-  },
-  {
-    "name": "SimulateApplicationDocumentReview",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationDocumentReview($input: SimulateApplicationDocumentReviewInput!) {\n  simulateApplicationDocumentReview(input: $input) {\n    ... on AccountHolderApplicationDocument {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationDocumentReview",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation SimulateApplicationDocumentReview($input: SimulateApplicationDocumentReviewInput!) {\n  simulateApplicationDocumentReview(input: $input) {\n    ... on AccountHolderApplicationDocument {\n      id\n      status\n    }\n    ... on UserError {\n      errors {\n        code\n        description\n      }\n    }\n    ... on AccessDeniedError {\n      message\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "{{personAccountHolderCardProductApplicationId}}",
@@ -325,37 +205,11 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Simulate Application Document Review",
-      "description": "",
-      "tags": [
-        "",
-        "simulation"
-      ],
-      "requires": [
-        "personAccountHolderCardProductApplicationId",
-        "documentUploadLinkId",
-        "documentUploadSessionId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787588",
-    "updated_at": "2025-08-04T16:18:34.787589"
-  },
-  {
-    "name": "SimulateCreateApplicationDocumentUploadSession",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateCreateApplicationDocumentsUploadSessions($input: SimulateCreateApplicationDocumentsUploadSessionsInput!) {\n  simulateCreateApplicationDocumentsUploadSessions(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n      errors {\n        description\n        code\n        errorPath\n      }\n    }\n  }\n}",
+    {
+      "name": "SimulateCreateApplicationDocumentsUploadSessions",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation SimulateCreateApplicationDocumentsUploadSessions($input: SimulateCreateApplicationDocumentsUploadSessionsInput!) {\n  simulateCreateApplicationDocumentsUploadSessions(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n      errors {\n        description\n        code\n        errorPath\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "{{personAccountHolderCardProductApplicationId}}",
@@ -370,37 +224,11 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Simulate Create Application Document Upload Session",
-      "description": "",
-      "tags": [
-        "",
-        "creation",
-        "simulation"
-      ],
-      "requires": [
-        "personAccountHolderId",
-        "personAccountHolderCardProductApplicationId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787608",
-    "updated_at": "2025-08-04T16:18:34.787609"
-  },
-  {
-    "name": "SimulateApplicationVerificationStatusChange",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationVerificationStatusChange($input: SimulateApplicationVerificationStatusChangeInput!) {\n  simulateApplicationVerificationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationVerificationStatusChange",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation SimulateApplicationVerificationStatusChange($input: SimulateApplicationVerificationStatusChangeInput!) {\n  simulateApplicationVerificationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n    ... on UserError {\n        errors {\n            errorPath\n            code\n            description\n        }\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicantId": "{{personAccountHolderId}}",
@@ -409,62 +237,17 @@
         }
       }
     },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Simulate Application Verification Status Change",
-      "description": "",
-      "tags": [
-        "",
-        "simulation"
-      ],
-      "requires": [
-        "personAccountHolderId",
-        "personAccountHolderCardProductApplicationId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787625",
-    "updated_at": "2025-08-04T16:18:34.787625"
-  },
-  {
-    "name": "SimulateApplicationStatusChange",
-    "program_type": "person_account_holder_manual_review",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation SimulateApplicationStatusChange($input: SimulateApplicationStatusChangeInput!) {\n  simulateApplicationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
+    {
+      "name": "SimulateApplicationStatusChange",
+      "type": "mutation",
+      "required": false,
+      "graphql": "mutation SimulateApplicationStatusChange($input: SimulateApplicationStatusChangeInput!) {\n  simulateApplicationStatusChange(input: $input) {\n    ... on AccountHolderCardProductApplication {\n      id\n      applicationState {\n        status\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "applicationId": "{{personAccountHolderCardProductApplicationId}}",
           "newApplicationStatus": "APPROVED"
         }
       }
-    },
-    "headers": {
-      "User-Agent": "insomnia/8.4.2",
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "Simulate Application Status Change",
-      "description": "",
-      "tags": [
-        "",
-        "simulation"
-      ],
-      "requires": [
-        "personAccountHolderCardProductApplicationId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.787642",
-    "updated_at": "2025-08-04T16:18:34.787643"
-  }
-]
+    }
+  ]
+}

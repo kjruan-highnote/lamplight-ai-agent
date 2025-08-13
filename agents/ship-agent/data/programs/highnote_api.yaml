@@ -1,32 +1,1185 @@
-# Highnote Api Program Configuration
+# Highnote Api Program Configuration - Enhanced Version
+# This config defines the technical structure and requirements
 program_type: highnote_api
-vendor: highnote
-version: "1.0.0"
+vendor: Highnote Inc.
+version: "2.0.0"
 api_type: graphql
 
 metadata:
-  description: "Highnote Api Program - Highnote"
-  base_url: "{{apiUrl}}"
+  name: "Highnote Api Program"
+  description: "Highnote Api Program management"
+  base_url: "https://api.us.test.highnote.com/graphql"
   authentication:
-    type: "bearer"
-    header: "Authorization"
+    type: Basic <BASE64_ENCODED_API_KEY>
+    header: Authorization
 
-# Categories will be auto-populated from operations
-categories: []
+# Core capabilities this program provides
+capabilities:
+  - on_demand_funding
+  - collaborative_authorization
+  - spend_controls
+  - velocity_rules
+  - real_time_webhooks
+  - transaction_monitoring
 
-# Define your program-specific dimensions
-dimensions:
-  customer_segments: []
-  program_variants: []
-  features: []
+# Standard workflows for this program
+workflows:
+  initial_setup:
+    name: "Initial Setup"
+    description: "One-time setup for new organizations"
+    required: true
+    steps:
+      - operation: CreateSecretApiKey
+        required: true
+        description: "Create API credentials"
+      - operation: CreateCardProduct
+        required: true
+        description: "Setup card product"
+        
+  card_issuance:
+    name: "Card Issuance Flow"
+    description: "Issue and activate virtual cards"
+    required: true
+    steps:
+      - operation: IssuePaymentCardForApplicationWithOnDemandFundingSource
+        required: true
+        description: "Issue virtual card"
+      - operation: ActivatePaymentCard
+        required: true
+        description: "Activate the card"
+        
+  transaction_processing:
+    name: "Transaction Processing"
+    description: "Process card transactions"
+    required: true
+    steps:
+      - operation: GetTransactionEvent
+        required: true
+        description: "Retrieve transaction details"
+        
+# Core entities managed by this program
+entities:
+  - name: Organization
+    description: "The top-level entity representing the card program"
+    primary: true
+  - name: CardProduct
+    description: "Configuration for card products and their features"
+  - name: AccountHolder
+    description: "Individual or business entity that holds an account"
+  - name: PaymentCard
+    description: "Physical or virtual payment cards"
+    primary: true
+  - name: Transaction
+    description: "Card transactions and authorizations"
 
-# Define operation flows for common use cases
-operation_flows:
-  standard_flow:
-    description: "Standard flow for highnote_api"
-    steps: []
+# Operation categories with enhanced metadata
+categories:
+  - name: initialization
+    display_name: "Initialization"
+    description: "Initialization operations"
+    order: 1
+    operations:
+      - name: GetAllAPIKeys
+        type: query
+        required: true
+      - name: CreateSecretAPIKey
+        type: mutation
+        required: true
+      - name: RevokeAPIKey
+        type: mutation
+        required: false
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: UpdateOrganizationProfileDisplayName
+        type: mutation
+        required: false
+      - name: EnableCreditCardFeature
+        type: mutation
+        required: true
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: GetCardProduct
+        type: query
+        required: true
+      - name: GetAllOrganizations
+        type: query
+        required: true
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+      - name: Ping
+        type: query
+        required: false
+      - name: IntrospectionQuery
+        type: mutation
+        required: false
+        
+  - name: onboarding
+    display_name: "Onboarding"
+    description: "Onboarding operations"
+    order: 2
+    operations:
+      - name: CreateUSPersonAccountHolder
+        type: mutation
+        required: true
+      - name: CreateAuthorizedUserCardProductApplication
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForAuthorizedUserApplication
+        type: mutation
+        required: true
+      - name: GetAuthorizedUserApplication
+        type: get
+        required: true
+      - name: CreateUSPersonAuthorizedUser
+        type: mutation
+        required: true
+      - name: CreateUSPersonAuthorizedUser
+        type: mutation
+        required: true
+      - name: CreateAuthorizedUserCardProductApplication
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForAuthorizedUserApplication
+        type: mutation
+        required: true
+      - name: GetAuthorizedPersonCardProductApplication
+        type: query
+        required: true
+      - name: GetAccountHolderAuthorizedUsers
+        type: query
+        required: true
+      - name: UpdateUSPersonAuthorizedUserBillingAddress
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAuthorizedUserPhone
+        type: mutation
+        required: false
+      - name: UpdateUSPersonAuthorizedUserEmail
+        type: mutation
+        required: false
+      - name: GenerateTokenizeAccountHolderClientToken
+        type: mutation
+        required: false
+      - name: TokenizeUSPersonAccountHolder
+        type: mutation
+        required: false
+      - name: CreateUSPersonAccountHolderFromToken
+        type: mutation
+        required: true
+      - name: CreateUSPersonAccountHolderInManualReview
+        type: mutation
+        required: true
+      - name: CreateUSPersonAccountHolderForManualReview
+        type: mutation
+        required: true
+      - name: CreateUSPersonAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: StartDocumentUploadSession
+        type: mutation
+        required: false
+      - name: GenerateDocumentUploadClientToken
+        type: mutation
+        required: false
+      - name: EndDocumentUploadSession
+        type: mutation
+        required: false
+      - name: GetDocumentUploadSession
+        type: query
+        required: true
+      - name: GetDocumentUploadSessionsViaApplicationID
+        type: query
+        required: true
+      - name: SimulateApplicationDocumentReview
+        type: mutation
+        required: false
+      - name: SimulateCreateApplicationDocumentsUploadSessions
+        type: mutation
+        required: false
+      - name: SimulateApplicationVerificationStatusChange
+        type: mutation
+        required: false
+      - name: SimulateApplicationStatusChange
+        type: mutation
+        required: false
+      - name: provisionAccountHolder
+        type: mutation
+        required: false
+      - name: GetAccountHolderProvisioning
+        type: query
+        required: true
+      - name: CreateUSPersonAccountHolder
+        type: mutation
+        required: true
+      - name: GetUSPersonAccountHolder
+        type: query
+        required: true
+      - name: UpdateUSPersonAccountHolderBillingAddress
+        type: mutation
+        required: false
+      - name: GetUSPersonAccountHolderCardProductApplications
+        type: query
+        required: true
+      - name: CreateAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: CreateUSBusiniessAccountHolderInReview
+        type: mutation
+        required: true
+      - name: CreateUSBusinessAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: StartDocumentUploadSession
+        type: mutation
+        required: false
+      - name: GenerateDocumentUploadClientToken
+        type: mutation
+        required: false
+      - name: CreateDocumentUploadSecureLink
+        type: mutation
+        required: true
+      - name: GetDocumentUploadSession
+        type: query
+        required: true
+      - name: GetApplicationDocumentUploadSessions
+        type: query
+        required: true
+      - name: SimulateApplicationDocumentReview
+        type: mutation
+        required: false
+      - name: SimulateApplicationVerificationStatusChange
+        type: mutation
+        required: false
+      - name: SimulateApplicationStatusChange
+        type: mutation
+        required: false
+      - name: EndDocumentUploadSession
+        type: mutation
+        required: false
+      - name: NewRequest
+        type: get
+        required: false
+      - name: CreateUSBusinessAccountHolderFromToken
+        type: mutation
+        required: true
+      - name: GenerateTokenizeAccountHolderClientToken
+        type: mutation
+        required: false
+      - name: TokenizeUSBusinessAccountHolder
+        type: mutation
+        required: false
+      - name: provisionAccountHolder
+        type: mutation
+        required: false
+      - name: GetAccountHolderProvisioning
+        type: query
+        required: true
+      - name: GetAccountHolderCardProductApplicationRequestedUpdates
+        type: query
+        required: false
+      - name: InitiateUSBusinessProfileRequestedIdentityUpdate
+        type: mutation
+        required: false
+      - name: InitiateUSBusinessProfileRequestedIdentityUpdate
+        type: mutation
+        required: false
+      - name: initiateUSBusinessUltimateBeneficialOwnerRequestedIdentityUpdate
+        type: mutation
+        required: false
+      - name: ConfirmRequestedIdentityUpdate
+        type: mutation
+        required: false
+      - name: CancelRequestedIdentityUpdate
+        type: mutation
+        required: false
+      - name: CreateUSBusiniessAccountHolder
+        type: mutation
+        required: true
+      - name: GetUSBusinessAccountHolder
+        type: query
+        required: true
+      - name: UpdateUSBusinessAccountHolderBillingAddress
+        type: mutation
+        required: false
+      - name: CreateAccountHolderCardProductApplication
+        type: mutation
+        required: true
+      - name: GetUSBusinessAccountHolderCardProductApplications
+        type: query
+        required: true
+      - name: GetUSAccountHolder
+        type: query
+        required: true
+      - name: GetCardProductApplication
+        type: query
+        required: true
+      - name: GetAccountHolderCardProductApplicationStatus
+        type: query
+        required: true
+      - name: provisionAccountHolder
+        type: mutation
+        required: false
+      - name: CheckAccountHolderProvisioning
+        type: query
+        required: false
+      - name: generateRiskApplicationSdkSessionToken
+        type: mutation
+        required: false
+      - name: disableRiskApplicationSdk
+        type: mutation
+        required: false
+      - name: generateRiskApplicationSdkSessionToken
+        type: mutation
+        required: false
+      - name: CreateUSPersonAccountHolder
+        type: mutation
+        required: true
+      - name: LookupApplication
+        type: query
+        required: false
+        
+  - name: issuance
+    display_name: "Issuance"
+    description: "Issuance operations"
+    order: 3
+    operations:
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: ActivatePaymentCard
+        type: mutation
+        required: true
+      - name: GeneratePaymentCardClientToken
+        type: mutation
+        required: false
+      - name: GeneratePaymentCardClientToken
+        type: mutation
+        required: false
+      - name: GetPaymentCardRestrictedDetails
+        type: query
+        required: true
+      - name: SuspendPaymentCard
+        type: mutation
+        required: false
+      - name: SetPinForPaymentCard
+        type: mutation
+        required: false
+      - name: ReissuePaymentCard
+        type: mutation
+        required: true
+      - name: ClosePaymentCard
+        type: mutation
+        required: false
+      - name: FindATMLocationsForPaymentCardByRadius
+        type: query
+        required: false
+      - name: GetPaymentCard
+        type: query
+        required: true
+      - name: IssueFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: IssueFinancialAccountForApplicationWithOnDemandFundingSource
+        type: mutation
+        required: true
+      - name: GetFinancialAccount
+        type: query
+        required: true
+      - name: GetFinancialAccountActivities
+        type: query
+        required: true
+      - name: GetFinancialAccountLedgerEntries
+        type: query
+        required: true
+      - name: GetFinancialAccountLedgerEntries
+        type: query
+        required: true
+      - name: GenerateDirectDepositDetailClientToken
+        type: mutation
+        required: false
+      - name: GetDirectDepositDetailsByIDWithClientToken
+        type: query
+        required: true
+      - name: SuspendFinancialAccount
+        type: mutation
+        required: false
+      - name: UnsuspendFinancialAccount
+        type: mutation
+        required: false
+      - name: simulateInitiateFinancialAccountClosure
+        type: mutation
+        required: false
+      - name: SimulateMastercardFleetClearing
+        type: mutation
+        required: false
+      - name: SimulateMastercardFleetAuthorization
+        type: mutation
+        required: false
+      - name: SimulateMastercardFleetAuthorizationAdvice
+        type: mutation
+        required: false
+      - name: SimulateMastercardFleetEnhancedData
+        type: mutation
+        required: false
+      - name: SimulateVisaFleetAuthorization
+        type: mutation
+        required: false
+      - name: SimulateVisaFleetAuthorizationAdvice
+        type: mutation
+        required: false
+      - name: SimulateVisaFleetClearing
+        type: mutation
+        required: false
+      - name: SimulateAuthorization
+        type: mutation
+        required: false
+      - name: SimulateReversal
+        type: mutation
+        required: false
+      - name: SimulateClearing
+        type: mutation
+        required: false
+      - name: SimulateRefund
+        type: mutation
+        required: false
+      - name: SimulateSingleStepAuthAndClear
+        type: mutation
+        required: false
+      - name: SearchTransactions
+        type: get
+        required: false
+      - name: GetTransactionEvent
+        type: query
+        required: true
+      - name: TransactionEventsByPaymentCardAndTransactionId
+        type: query
+        required: false
+      - name: GetCardProductTransactionEvents
+        type: query
+        required: true
+      - name: FindFinancialAccountLedgerActivity
+        type: query
+        required: false
+      - name: CreateMerchantCategorySpendRule
+        type: mutation
+        required: true
+      - name: AttachSpendRuleToCardProduct
+        type: mutation
+        required: false
+      - name: AttachSpendRuleToPaymentCard
+        type: mutation
+        required: false
+      - name: UpdateMerchantCategorySpendRule
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromCardProduct
+        type: mutation
+        required: false
+      - name: DetachSpendRuleFromPaymentCard
+        type: mutation
+        required: false
+      - name: CreateVelocityRule
+        type: mutation
+        required: true
+      - name: CreateAmountLimitSpendRule
+        type: mutation
+        required: true
+      - name: AttachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: DetachPaymentCardVelocityRule
+        type: mutation
+        required: false
+      - name: GetAllVelocityRules
+        type: query
+        required: true
+      - name: GetPaymentCardVelocityRule
+        type: query
+        required: true
+      - name: GetFinancialAccountWithVelocityBalance
+        type: query
+        required: true
+      - name: AttachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: DetachCardProductVelocityRule
+        type: mutation
+        required: false
+      - name: NewRequest
+        type: get
+        required: false
+      - name: AddCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: ActivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: true
+      - name: FindCollaborativeAuthorizationEndpoint
+        type: query
+        required: false
+      - name: DeactivateCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: RemoveCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: CollaborativeAuthorizationEndpoints
+        type: query
+        required: false
+      - name: RenameCollaborativeAuthorizationEndpoint
+        type: mutation
+        required: false
+      - name: InitiateFinancialAccountCreditLimitUpdateFromProductFunding
+        type: mutation
+        required: false
+      - name: GetFinancialAccountCreditLimitUpdate
+        type: query
+        required: false
+      - name: IncreaseAvailableCreditForFinancialAccount
+        type: mutation
+        required: false
+      - name: DecreaseAvailableCreditForFinancialAccount
+        type: mutation
+        required: false
+      - name: CreateRewardMerchantCategoryEarnRule
+        type: mutation
+        required: true
+      - name: CreateRewardDefaultEarnRule
+        type: mutation
+        required: true
+      - name: AttachRewardEarnRuleToProduct
+        type: mutation
+        required: false
+      - name: UpdateRewardRuleAttachment
+        type: mutation
+        required: false
+      - name: FindRewardEarnRuleById
+        type: query
+        required: false
+      - name: FindCardProductWithRewardRules
+        type: query
+        required: false
+      - name: FindOrganizationWithRewardRules
+        type: query
+        required: false
+      - name: CreateRewardRedemptionConfiguration
+        type: mutation
+        required: true
+      - name: AttachRewardRedemptionConfigurationToProduct
+        type: mutation
+        required: false
+      - name: UpdateRewardRedemptionConfigurationAttachment
+        type: mutation
+        required: false
+      - name: FindRewardRedemptionConfigurationById
+        type: query
+        required: false
+      - name: FindCardProductWithRewardRules
+        type: query
+        required: false
+      - name: FindOrganizationWithRedemptionConfigurations
+        type: query
+        required: false
+      - name: RedeemRewards
+        type: mutation
+        required: false
+      - name: CreateRewardPointsAdjustment
+        type: mutation
+        required: true
+      - name: FindFinancialAccountWithRewardPointTransfers
+        type: query
+        required: false
+      - name: FindFinancialAccountWithRewardPointTransfers
+        type: query
+        required: false
+      - name: FindFinancialAccountWithRewardPointTransfers
+        type: query
+        required: false
+      - name: FindRewardsPointsLedgerByFinancialAccountId
+        type: query
+        required: false
+      - name: FindRedeemableRewardsPointsLedgerByFinancialAccountId
+        type: query
+        required: false
+      - name: FindLedger
+        type: query
+        required: false
+        
+  - name: funding
+    display_name: "Funding"
+    description: "Funding operations"
+    order: 4
+    operations:
+      - name: InitiateTransferBetweenFinancialAccounts
+        type: mutation
+        required: false
+      - name: TransferFromFundingToCardAccount
+        type: mutation
+        required: false
+      - name: TransferFromPaymentCardToProductFunding
+        type: mutation
+        required: false
+      - name: CheckAccountTransferStatus
+        type: query
+        required: false
+      - name: EnableOnDemandFundingFeature
+        type: mutation
+        required: true
+      - name: IssueFundingFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: IssueFinancialAccountForApplicationWithOnDemandFundingSource
+        type: mutation
+        required: true
+      - name: InitiateFinancialAccountPseudoBalanceUpdate
+        type: mutation
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughPlaid
+        type: mutation
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughFinicity
+        type: mutation
+        required: false
+      - name: GetExternalFinancialAccountsByAccountHolder
+        type: query
+        required: true
+      - name: InitiateFundsDepositACHTransfer
+        type: mutation
+        required: false
+      - name: InitiateFundsWithdrawalACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateProcessedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateReturnedIntegratorInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: SimulateExternallyInitiatedACHTransfer
+        type: mutation
+        required: false
+      - name: SimulateProcessingExternallyInitiatedStatusChange
+        type: mutation
+        required: false
+      - name: AddNonVerifiedExternalUSFinancialBankAccount
+        type: mutation
+        required: false
+      - name: GetNonVerifiedExternalBankAccount
+        type: query
+        required: true
+      - name: GetNonVerifiedExternalBankAccount
+        type: query
+        required: true
+      - name: GenerateExternalBankAccountDetailClientToken
+        type: mutation
+        required: false
+      - name: SimulateNonOriginatedAchTransfer
+        type: mutation
+        required: false
+      - name: SimulateAchTransferProcessing
+        type: mutation
+        required: false
+      - name: SimulateAchTransferReturn
+        type: mutation
+        required: false
+      - name: GetNonOriginatedACHTransfer
+        type: query
+        required: true
+      - name: AddNonVerifiedExternalUSFinancialBankAccount
+        type: mutation
+        required: false
+      - name: GetNonVerifiedExternalBankAccount
+        type: query
+        required: true
+      - name: GenerateExternalBankAccountDetailClientToken
+        type: mutation
+        required: false
+      - name: GetNonVerifiedExternalBankAccount
+        type: query
+        required: true
+      - name: GenerateVerifiedExternalBankAccountLinkToken
+        type: mutation
+        required: false
+      - name: ProvisionAccountHolder
+        type: mutation
+        required: false
+      - name: AccountHolderProvisioning
+        type: query
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughPlaid
+        type: mutation
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughPlaid
+        type: mutation
+        required: false
+      - name: AddExternalBankAccountVerifiedThroughFinicity
+        type: mutation
+        required: false
+      - name: GetExternalFinancialAccountsByAccountHolder
+        type: query
+        required: true
+      - name: InitiateAchTransfer
+        type: mutation
+        required: false
+      - name: InitiateAchTransfer
+        type: mutation
+        required: false
+      - name: SimulateAchTransferProcessing
+        type: mutation
+        required: false
+      - name: SimulateAchTransferReturn
+        type: mutation
+        required: false
+      - name: GetOriginatedACHTransfer
+        type: query
+        required: true
+      - name: InitiateAchTransfer
+        type: mutation
+        required: false
+      - name: createUnifiedFundsTransferQuote
+        type: mutation
+        required: true
+      - name: SimulateDeposit
+        type: mutation
+        required: false
+        
+  - name: physical_card_fulfillment
+    display_name: "Physical Card Fulfillment"
+    description: "Physical Card Fulfillment operations"
+    order: 5
+    operations:
+      - name: simulatePhysicalPaymentCardOrderSendToPrinter
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderApproval
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipmentFailed
+        type: mutation
+        required: false
+      - name: simulatePhysicalPaymentCardOrderShipped
+        type: mutation
+        required: false
+      - name: SimulatePhysicalCardGroupOrderSendToPrinter
+        type: mutation
+        required: false
+      - name: SimulatePhysicalCardGroupOrderShipmentFailed
+        type: mutation
+        required: false
+      - name: SimulatePhysicalCardGroupOrderShipped
+        type: mutation
+        required: false
+      - name: SimulatePhysicalCardGroupOrderApproval
+        type: mutation
+        required: false
+      - name: CreatePhysicalCardGroupOrder
+        type: mutation
+        required: true
+      - name: OrderPhysicalPaymentCardForGroup
+        type: mutation
+        required: false
+      - name: CompletePhysicalCardGroupOrder
+        type: mutation
+        required: false
+      - name: CancelPhysicalCardGroupOrder
+        type: mutation
+        required: false
+      - name: GetPhysicalCardGroupOrdersForProduct
+        type: query
+        required: true
+      - name: GetPhysicalPaymentCardGroupOrder
+        type: query
+        required: true
+      - name: ValidateAddress
+        type: mutation
+        required: false
+      - name: OrderPhysicalCardWithValidatedAddress
+        type: mutation
+        required: false
+      - name: CreatePhysicalCardGroupOrderWithValidatedAddress
+        type: mutation
+        required: true
+      - name: OrderPhysicalPaymentCard
+        type: mutation
+        required: false
+      - name: FindPhysicalPaymentCardOrder
+        type: query
+        required: false
+      - name: CancelPhysicalPaymentCardOrder
+        type: mutation
+        required: false
+        
+  - name: external_physical_payment_card_order
+    display_name: "External Physical Payment Card Order"
+    description: "External Physical Payment Card Order operations"
+    order: 6
+    operations:
+      - name: CreateExternalPhysicalPaymentCardOrder
+        type: mutation
+        required: true
+      - name: GetExternalPhysicalPaymentCardOrder
+        type: query
+        required: true
+      - name: GetPaymentCardExternalPhysicalPaymentCardOrders
+        type: query
+        required: true
+        
+  - name: reporting
+    display_name: "Reporting"
+    description: "Reporting operations"
+    order: 7
+    operations:
+      - name: AddWebhookNotificationTarget
+        type: mutation
+        required: true
+      - name: GetAllWebhookNotificationTargets
+        type: query
+        required: true
+      - name: DeactivateNotificationTarget
+        type: mutation
+        required: false
+      - name: ActivateNotificationTarget
+        type: mutation
+        required: true
+      - name: GetWebhookNotificationTarget
+        type: query
+        required: true
+      - name: GetNotificationTargetDeliveryAttempts
+        type: query
+        required: true
+      - name: AddSubscriptionsToNotificationTarget
+        type: mutation
+        required: true
+      - name: RemoveSubscriptionsFromNotificationTarget
+        type: mutation
+        required: false
+      - name: GetAllNotificationEvents
+        type: query
+        required: true
+      - name: GetNotificationEvent
+        type: query
+        required: true
+      - name: ReplayNotificationEvent
+        type: mutation
+        required: false
+      - name: GetDeliveryAttemptsForNotificationEvent
+        type: query
+        required: true
+      - name: GetNotificationEventsFilteredByName
+        type: query
+        required: true
+      - name: GetNotificationEvents
+        type: query
+        required: true
+      - name: InitiateOrganizationReport
+        type: mutation
+        required: false
+      - name: GetReport
+        type: query
+        required: true
+      - name: ReportUsage
+        type: query
+        required: false
+      - name: Reports
+        type: query
+        required: false
+      - name: GetCurrentBillingStatementByFinancialAccountID
+        type: query
+        required: true
+      - name: GetConsumerPrepaidFinancialAccountStatement
+        type: get
+        required: true
+      - name: GetSchemaChangelogs
+        type: query
+        required: true
+        
+  - name: repayment
+    display_name: "Repayment"
+    description: "Repayment operations"
+    order: 8
+    operations:
+      - name: SimulateBackwardShiftAndAgeCurrentFinancialAccountStatementPeriod
+        type: mutation
+        required: false
+      - name: CreateRecurringACHTransfer
+        type: mutation
+        required: true
+      - name: CreateOneTimeACHTransfer
+        type: mutation
+        required: true
+        
+  - name: fees
+    display_name: "Fees"
+    description: "Fees operations"
+    order: 9
+    operations:
+      - name: simulateCreateAndActivateFeeSchedule
+        type: mutation
+        required: false
+      - name: FindFeeSchedule
+        type: query
+        required: false
+      - name: FindFinancialAccount
+        type: query
+        required: false
+      - name: GetCardProductWithLedgers
+        type: query
+        required: true
+      - name: ListFeeTransferEvents
+        type: query
+        required: false
+      - name: waiveFeeTransfer
+        type: mutation
+        required: false
+        
+  - name: global_notes
+    display_name: "Global Notes"
+    description: "Global Notes operations"
+    order: 10
+    operations:
+      - name: CreateGlobalNote
+        type: mutation
+        required: true
+        
+  - name: acquiring
+    display_name: "Acquiring"
+    description: "Acquiring operations"
+    order: 11
+    operations:
+      - name: CreateCardProduct
+        type: mutation
+        required: true
+      - name: createAcquiringAccountForTest
+        type: mutation
+        required: true
+      - name: AuthorizePaymentCard
+        type: mutation
+        required: false
+      - name: ChargePaymentCard
+        type: mutation
+        required: false
+      - name: ChargePaymentCard
+        type: mutation
+        required: false
+      - name: CapturePaymentTransaction
+        type: mutation
+        required: false
+      - name: RefundPaymentTransaction
+        type: mutation
+        required: false
+      - name: GetPaymentTransactions
+        type: query
+        required: true
+      - name: GetPaymentTransaction
+        type: query
+        required: true
+      - name: CreatePaymentOrderWithPaymentInstructions
+        type: mutation
+        required: true
+      - name: ChargePaymentOrderPaymentMethodToken
+        type: mutation
+        required: false
+      - name: GetPaymentOrder
+        type: query
+        required: true
+      - name: GetInstantNetworkTransfer
+        type: query
+        required: true
+      - name: CreateReusablePaymentMethodToken
+        type: mutation
+        required: true
+      - name: CreateTransferQuote
+        type: mutation
+        required: true
+      - name: InitiateUnifiedFundsTransfer
+        type: mutation
+        required: false
+        
+  - name: custom_fields
+    display_name: "Custom Fields"
+    description: "Custom Fields operations"
+    order: 12
+    operations:
+      - name: IssueFinancialAccountForApplication
+        type: mutation
+        required: true
+      - name: IssuePaymentCardForFinancialAccount
+        type: mutation
+        required: true
+      - name: UpdateCustomFields
+        type: mutation
+        required: false
+      - name: DeleteCustomFields
+        type: mutation
+        required: false
+      - name: GetFinancialAccountCustomFields
+        type: query
+        required: true
+      - name: FilterFinancialAccountByCustomField
+        type: query
+        required: false
+      - name: FilterPaymentCardsByCustomField
+        type: query
+        required: false
+        
+  - name: check_payments
+    display_name: "Check Payments"
+    description: "Check Payments operations"
+    order: 13
+    operations:
+      - name: CreateCheckPaymentSignatureDocumentUploadSession
+        type: mutation
+        required: true
+      - name: GetCheckPaymentSignatureDocumentUploadSession
+        type: query
+        required: true
+      - name: GenerateCheckPaymentSignatureDocumentUploadClientToken
+        type: mutation
+        required: false
+      - name: StartCheckPaymentSignatureDocumentUploadSession
+        type: mutation
+        required: false
+      - name: CreateDocumentUploadLink
+        type: mutation
+        required: true
+      - name: UploadCheckPaymentSignatureDocument
+        type: put
+        required: false
+      - name: EndDocumentUploadSession
+        type: mutation
+        required: false
+      - name: InitiatePhysicalCheckPayment
+        type: mutation
+        required: false
+      - name: GetCheckPayment
+        type: query
+        required: true
+      - name: GetCheckPayment
+        type: query
+        required: true
+      - name: GetFinancialAccountCheckPayments
+        type: query
+        required: true
+      - name: SimulateCheckPaymentEvent
+        type: mutation
+        required: false
+      - name: NewRequest
+        type: get
+        required: false
+        
+  - name: universal_search
+    display_name: "Universal Search"
+    description: "Universal Search operations"
+    order: 14
+    operations:
+      - name: searchTransactions
+        type: query
+        required: false
+        
+# Compliance and security requirements
+compliance:
+  standards:
+    - name: PCI_DSS
+      level: 1
+      required: true
+    - name: SOC2_TYPE2
+      required: true
+  regulations:
+    - name: USA_PATRIOT_ACT
+      description: KYC/AML procedures
+    - name: OFAC
+      description: Sanctions screening
+    - name: REG_E
+      description: Electronic funds transfer protections
+  security:
+    encryption:
+      in_transit: TLS 1.2+
+      at_rest: AES-256
+    authentication:
+      - type: api_key
+        rotation_days: 90
+      - type: bearer_token
+    data_retention:
+      transaction_data: 7 years
+      card_data: tokenized
 
-tags:
-  - highnote_api
-  - graphql
-  - highnote
+# Integration requirements
+integrations:
+  webhooks:
+    required: true
+    events:
+      - card.issued
+      - card.activated
+      - transaction.authorized
+      - transaction.cleared
+      - transaction.declined
+  reporting:
+    formats:
+      - CSV
+    frequency:
+      - real_time
+      - daily
+      - monthly
+
+# Performance requirements
+performance:
+  request_rate:
+    api_key: 200 / 10 seconds
+    client_token: 200 / 10 seconds
+  complexity:
+    api_key: 5000 / 10 seconds
+    client_token: 5000 / 10 seconds
+  api:
+    response_time_ms: 500
+    availability: 99.9
+  transactions:
+    collaborative_authorization_time_ms: 2000
+
+# Resource links
+resources:
+  documentation:
+    - name: API Documentation
+      url: https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api
+    - name: GraphQL Schema Reference
+      url: https://highnote.com/docs/reference/query
+    - name: Integration Guides
+      url: https://highnote.com/docs/issuing/templates
+    - name: Webhook Events Reference
+      url: https://highnote.com/docs/basics/events-and-notifications/events-reference
+  developer_tools:
+    - name: Developer Portal
+      url: https://dashboard.highnote.com
+    - name: Prod-Test Environment
+      url: https://api.us.test.highnote.com/graphql
+    - name: API Explorer
+      url: https://highnote.com/docs/explorer/default
+    - name: Postman Collection - Please contact Highnote Implementation Team
+  support:
+    - name: Support Portal
+      url: https://support.highnote.com/hc/en-us
+    - name: Technical Documentation
+      url: https://highnote.com/docs
+    - name: 'Email: support@highnote.com'
+  monitoring:
+    - name: System Status Page
+      url: https://status.highnote.com
+    - name: API Changelog
+      url: https://highnote.com/docs/changelog-api

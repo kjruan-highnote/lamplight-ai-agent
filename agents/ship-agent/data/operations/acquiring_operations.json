@@ -1,56 +1,48 @@
-[
-  {
-    "name": "GeneratePaymentMethodTokenizationClientToken",
-    "program_type": "acquiring",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation GeneratePaymentMethodTokenizationClientToken($input: GeneratePaymentMethodTokenizationClientTokenInput!) {\n  generatePaymentMethodTokenizationClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n      usage\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
+{
+  "collection": "Acquiring",
+  "program_type": "acquiring",
+  "extraction_date": "2025-08-12T17:46:30.891Z",
+  "total_operations": 2,
+  "categories": [
+    {
+      "name": "payment_method_tokenization",
+      "operations": [
+        {
+          "name": "GeneratePaymentMethodTokenizationClientToken",
+          "type": "mutation",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "uncategorized",
+      "operations": [
+        {
+          "name": "Ping",
+          "type": "query",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "GeneratePaymentMethodTokenizationClientToken",
+      "type": "mutation",
+      "required": false,
+      "category": "payment_method_tokenization",
+      "graphql": "mutation GeneratePaymentMethodTokenizationClientToken($input: GeneratePaymentMethodTokenizationClientTokenInput!) {\n  generatePaymentMethodTokenizationClientToken(input: $input) {\n    ... on ClientToken {\n      value\n      expirationDate\n      usage\n    }\n    ... on UserError {\n      errors {\n        path\n        code\n        description\n        errorPath\n      }\n    }\n  }\n}",
       "variables": {
         "input": {
           "permissions": "TOKENIZE_PAYMENT_METHOD"
         }
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "payment_method_tokenization",
-      "path": "Payment Method Tokenization/Generate Payment Method Tokenization Client Token",
-      "description": "",
-      "tags": [
-        "payment_method_tokenization"
-      ],
-      "requires": [],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.536777",
-    "updated_at": "2025-08-04T16:18:34.536781"
-  },
-  {
-    "name": "Ping",
-    "program_type": "acquiring",
-    "operation_type": "query",
-    "graphql": {
-      "query": "{\n    ping\n}",
-      "variables": {}
-    },
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "metadata": {
-      "category": "",
-      "path": "ping",
-      "description": "",
-      "tags": [
-        ""
-      ],
-      "requires": [],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.536800",
-    "updated_at": "2025-08-04T16:18:34.536801"
-  }
-]
+    {
+      "name": "Ping",
+      "type": "query",
+      "required": false,
+      "graphql": "{\n    ping\n}"
+    }
+  ]
+}

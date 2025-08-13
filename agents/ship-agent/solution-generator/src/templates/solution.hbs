@@ -1,10 +1,10 @@
-# {{program.program_type}} Program for {{customer.customer.name}}
+# {{metadata.formattedProgramName}} Program for {{metadata.customerName}}
 
 **Document Version:** 1.0  
-**Generated:** {{metadata.generatedAt}}  
-**Program Type:** {{program.program_type}}  
-**Vendor:** {{program.vendor}}  
-**API Type:** {{program.api_type}}
+**Generated:** {{formatDate metadata.generatedAt}}  
+**Program Type:** {{metadata.formattedProgramName}}  
+**Vendor:** {{program.formattedVendor}}  
+**API Type:** {{program.formattedApiType}}
 
 ## Executive Summary
 
@@ -14,7 +14,51 @@
 This document outlines the {{program.program_type}} integration solution for {{customer.customer.name}} using {{program.vendor}}'s {{program.api_type}} API platform.
 {{/if}}
 
-{{#if customer.objectives}}
+{{#if customer.business_context}}
+### Current State
+
+{{#if customer.business_context.current_state.description}}
+{{customer.business_context.current_state.description}}
+{{/if}}
+
+{{#if customer.business_context.current_state.pain_points}}
+**Pain Points:**
+{{#each customer.business_context.current_state.pain_points}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.business_context.business_model}}
+### Business Model
+
+{{customer.business_context.business_model.description}}
+
+{{#if customer.business_context.business_model.key_points}}
+**Key Points:**
+{{#each customer.business_context.business_model.key_points}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+{{/if}}
+
+{{#if customer.business_context.objectives}}
+### Objectives
+
+{{#if customer.business_context.objectives.primary}}
+**Primary Objectives:**
+{{#each customer.business_context.objectives.primary}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.business_context.objectives.secondary}}
+**Secondary Objectives:**
+{{#each customer.business_context.objectives.secondary}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{else if customer.objectives}}
 ### Objectives
 
 {{#each customer.objectives}}
@@ -22,10 +66,10 @@ This document outlines the {{program.program_type}} integration solution for {{c
 {{/each}}
 {{/if}}
 
-{{#if program.capabilities}}
+{{#if program.formattedCapabilities}}
 ### Key Capabilities
 
-{{#each program.capabilities}}
+{{#each program.formattedCapabilities}}
 - **{{this}}**
 {{/each}}
 {{/if}}
@@ -48,19 +92,52 @@ The solution is built on a modern {{program.api_type}} API architecture providin
 - **Cacheable**: Responses can be cached for performance
 {{/if}}
 
-{{#if program.capabilities}}
+{{#if program.formattedCapabilities}}
 ### Capabilities
 
-{{#each program.capabilities}}
+{{#each program.formattedCapabilities}}
 - {{this}}
+{{/each}}
+{{/if}}
+
+{{#if program.entities}}
+### Core Entities
+
+The solution manages the following core entities:
+
+{{#each program.entities}}
+- **{{name}}**: {{description}}{{#if primary}} (Primary Entity){{/if}}
 {{/each}}
 {{/if}}
 
 {{#if program.performance}}
 ### Performance Requirements
 
-{{#if program.performance.rate_limits}}
+{{#if program.performance.request_rate}}
 #### Rate Limits
+- **API Key**: {{program.performance.request_rate.api_key}}
+- **Client Token**: {{program.performance.request_rate.client_token}}
+{{/if}}
+
+{{#if program.performance.complexity}}
+#### Complexity Limits
+- **API Key**: {{program.performance.complexity.api_key}}
+- **Client Token**: {{program.performance.complexity.client_token}}
+{{/if}}
+
+{{#if program.performance.api}}
+#### API Performance
+- **Response Time**: {{program.performance.api.response_time_ms}}ms
+- **Availability**: {{program.performance.api.availability}}%
+{{/if}}
+
+{{#if program.performance.transactions}}
+#### Transaction Performance
+- **Collaborative Authorization Time**: {{program.performance.transactions.collaborative_authorization_time_ms}}ms
+{{/if}}
+
+{{#if program.performance.rate_limits}}
+#### Additional Rate Limits
 {{#each program.performance.rate_limits}}
 - **{{@key}}**: {{this}}
 {{/each}}
@@ -149,12 +226,37 @@ The solution is built on a modern {{program.api_type}} API architecture providin
 {{/each}}
 {{/if}}
 
-{{#if program.operations}}
+{{#if program.categories}}
 ## API Operations Reference
 
 ### Operations by Category
 
-{{#each program.operations}}
+{{#each program.categories}}
+#### {{#if display_name}}{{display_name}}{{else}}{{formatOperationCategory name}}{{/if}}
+
+{{#if description}}
+{{description}}
+{{/if}}
+
+{{#if sandbox_only}}
+**Note:** These operations are only available in sandbox environment.
+{{/if}}
+
+Total operations: {{operations.length}}
+
+| Operation | Type | Required | Description |
+|-----------|------|----------|-------------|
+{{#each operations}}
+| {{name}} | {{type}} | {{#if required}}Yes{{else}}No{{/if}} | {{#if description}}{{description}}{{else}}-{{/if}} |
+{{/each}}
+
+{{/each}}
+{{else if program.formattedOperations}}
+## API Operations Reference
+
+### Operations by Category
+
+{{#each program.formattedOperations}}
 #### {{@key}}
 
 {{#if this.0.description}}
@@ -170,6 +272,29 @@ Total operations: {{this.length}}
 {{/each}}
 
 {{/each}}
+{{else}}
+{{#if program.operations}}
+## API Operations Reference
+
+### Operations by Category
+
+{{#each program.operations}}
+#### {{formatOperationCategory @key}}
+
+{{#if this.0.description}}
+{{this.0.description}}
+{{/if}}
+
+Total operations: {{this.length}}
+
+| Operation | Type | Required | Description |
+|-----------|------|----------|-------------|
+{{#each this}}
+| {{name}} | {{type}} | {{#if required}}Yes{{else}}No{{/if}} | {{#if description}}{{description}}{{else}}Operation{{/if}} |
+{{/each}}
+
+{{/each}}
+{{/if}}
 {{/if}}
 
 ## Integration Guide
@@ -187,8 +312,16 @@ Total operations: {{this.length}}
 
 ### Authentication
 
+{{#if program.metadata.authentication}}
+- **Type**: {{program.metadata.authentication.type}}
+- **Header**: {{program.metadata.authentication.header}}
+{{else}}
 - **Type**: {{#if program.auth_type}}{{program.auth_type}}{{else}}API Key{{/if}}
 - **Header**: Authorization
+{{/if}}
+{{#if program.metadata.base_url}}
+- **Base URL**: {{program.metadata.base_url}}
+{{/if}}
 
 ### Quick Start
 
@@ -208,6 +341,30 @@ Total operations: {{this.length}}
 
 {{#if customer.requirements}}
 ## Requirements
+
+{{#if customer.requirements.business}}
+### Business Requirements
+
+{{#each customer.requirements.business}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.requirements.operational}}
+### Operational Requirements
+
+{{#each customer.requirements.operational}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.requirements.financial}}
+### Financial Requirements
+
+{{#each customer.requirements.financial}}
+- {{this}}
+{{/each}}
+{{/if}}
 
 {{#if customer.requirements.functional}}
 ### Functional Requirements
@@ -234,9 +391,184 @@ Total operations: {{this.length}}
 {{/if}}
 {{/if}}
 
+{{#if program.compliance}}
+## Compliance and Security
+
+{{#if program.compliance.standards}}
+### Compliance Standards
+
+{{#each program.compliance.standards}}
+- **{{name}}**{{#if level}} (Level {{level}}){{/if}}{{#if required}} - Required{{/if}}
+{{/each}}
+{{/if}}
+
+{{#if program.compliance.regulations}}
+### Regulatory Requirements
+
+{{#each program.compliance.regulations}}
+- **{{name}}**: {{description}}
+{{/each}}
+{{/if}}
+
+{{#if program.compliance.security}}
+### Security Requirements
+
+{{#if program.compliance.security.encryption}}
+#### Encryption
+- **In Transit**: {{program.compliance.security.encryption.in_transit}}
+- **At Rest**: {{program.compliance.security.encryption.at_rest}}
+{{/if}}
+
+{{#if program.compliance.security.authentication}}
+#### Authentication
+{{#each program.compliance.security.authentication}}
+- **Type**: {{type}}{{#if rotation_days}} (Rotation: {{rotation_days}} days){{/if}}
+{{/each}}
+{{/if}}
+
+{{#if program.compliance.security.data_retention}}
+#### Data Retention
+{{#each program.compliance.security.data_retention}}
+- **{{@key}}**: {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+{{/if}}
+
+{{#if program.integrations}}
+## Integration Requirements
+
+{{#if program.integrations.webhooks}}
+### Webhooks
+
+{{#if program.integrations.webhooks.required}}
+**Required**: Yes
+{{/if}}
+
+{{#if program.integrations.webhooks.events}}
+#### Webhook Events
+{{#each program.integrations.webhooks.events}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if program.integrations.reporting}}
+### Reporting
+
+{{#if program.integrations.reporting.formats}}
+#### Supported Formats
+{{#each program.integrations.reporting.formats}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if program.integrations.reporting.frequency}}
+#### Reporting Frequency
+{{#each program.integrations.reporting.frequency}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+{{/if}}
+
+{{#if customer.success_metrics}}
+## Success Metrics
+
+{{#if customer.success_metrics.kpis}}
+### Key Performance Indicators
+
+| Metric | Target | Timeline |
+|--------|--------|----------|
+{{#each customer.success_metrics.kpis}}
+| {{metric}} | {{target}} | {{timeline}} |
+{{/each}}
+{{/if}}
+
+{{#if customer.success_metrics.milestones}}
+### Implementation Milestones
+
+{{#each customer.success_metrics.milestones}}
+#### {{phase}}
+
+**Description:** {{description}}  
+**Timeline:** {{timeline}}  
+**Success Criteria:** {{success_criteria}}
+
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if customer.stakeholders}}
+## Stakeholders
+
+- **Executive Sponsor:** {{customer.stakeholders.executive_sponsor}}
+- **Business Owner:** {{customer.stakeholders.business_owner}}
+- **Technical Lead:** {{customer.stakeholders.technical_lead}}
+
+{{#if customer.stakeholders.end_users}}
+### End Users
+{{#each customer.stakeholders.end_users}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if customer.integration_landscape}}
+## Integration Landscape
+
+{{#if customer.integration_landscape.internal_systems}}
+### Internal Systems
+
+{{#each customer.integration_landscape.internal_systems}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.integration_landscape.external_partners}}
+### External Partners
+
+{{#each customer.integration_landscape.external_partners}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if customer.risk_considerations}}
+## Risk Considerations
+
+{{#if customer.risk_considerations.business_risks}}
+### Business Risks
+
+{{#each customer.risk_considerations.business_risks}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if customer.risk_considerations.mitigation_strategies}}
+### Mitigation Strategies
+
+{{#each customer.risk_considerations.mitigation_strategies}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
 ## Appendices
 
+{{#if customer.customer.contacts}}
+### Appendix A: Customer Contacts
+
+| Name | Role | Email |
+|------|------|-------|
+{{#each customer.customer.contacts}}
+| {{name}} | {{role}} | {{email}} |
+{{/each}}
+
+### Appendix B: Glossary
+{{else}}
 ### Appendix A: Glossary
+{{/if}}
 
 | Term | Definition |
 |------|------------|
@@ -247,13 +579,69 @@ Total operations: {{this.length}}
 | Mutation | Operation that modifies data |
 | Query | Operation that retrieves data |
 
+{{#if customer.customer.contacts}}
+### Appendix C: Resources
+{{else}}
 ### Appendix B: Resources
+{{/if}}
 
-- API Documentation
-- Developer Portal
-- Support Channels
-- Status Page
+{{#if program.resources}}
+{{#if program.resources.documentation}}
+#### Documentation
+{{#each program.resources.documentation}}
+- [{{name}}]({{url}})
+{{/each}}
+{{/if}}
+
+{{#if program.resources.developer_tools}}
+#### Developer Tools
+{{#each program.resources.developer_tools}}
+- [{{name}}]({{url}})
+{{/each}}
+{{/if}}
+
+{{#if program.resources.support}}
+#### Support
+{{#each program.resources.support}}
+{{#if url}}
+- [{{name}}]({{url}})
+{{else}}
+- {{name}}
+{{/if}}
+{{/each}}
+{{/if}}
+
+{{#if program.resources.monitoring}}
+#### Monitoring
+{{#each program.resources.monitoring}}
+- [{{name}}]({{url}})
+{{/each}}
+{{/if}}
+{{else}}
+#### Documentation
+- [API Documentation](https://highnote.com/docs/basics/graphql-api/using-the-highnote-graphql-api)
+- [GraphQL Schema Reference](https://highnote.com/docs/reference/query)
+- [Integration Guides](https://highnote.com/docs/issuing/templates)
+- [Webhook Events Reference](https://highnote.com/docs/basics/events-and-notifications/events-reference)
+
+#### Developer Tools
+- [Developer Portal](https://dashboard.highnote.com)
+- [Prod-Test Environment](https://api.us.test.highnote.com/graphql)
+- [API Explorer](https://highnote.com/docs/explorer/default)
+- [Postman Collection] - Please contact Highnote Implementation Team
+
+#### Support
+- [Support Portal](https://support.highnote.com/hc/en-us)
+- [Technical Documentation](https://highnote.com/docs)
+{{!-- - [Community Forum](https://community.highnote.com) --}}
+- Email: support@highnote.com
+
+#### Monitoring
+- [System Status Page](https://status.highnote.com)
+- [API Changelog](https://highnote.com/docs/changelog-api)
+{{!-- - [Scheduled Maintenance](https://status.highnote.com/calendar) --}}
+{{/if}}
 
 ---
 
-*Generated on {{metadata.generatedAt}} using Solution Generator v{{metadata.version}}*
+{{!-- *Generated on {{metadata.generatedAt}} using Solution Generator v{{metadata.version}}* --}}

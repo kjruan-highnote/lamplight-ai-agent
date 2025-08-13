@@ -1,10 +1,36 @@
-[
-  {
-    "name": "CreateExternalPhysicalPaymentCardOrder",
-    "program_type": "external_physical_payment_card_orders",
-    "operation_type": "mutation",
-    "graphql": {
-      "query": "mutation CreateExternalPhysicalPaymentCardOrder($input: CreateExternalPhysicalPaymentCardOrderInput!) {\n    createExternalPhysicalPaymentCardOrder(input: $input) {\n        ... on ExternalPhysicalPaymentCardOrder {\n            id\n            createdAt\n            updatedAt\n            card {\n                id\n            }\n            embeddedDevice {\n                formFactor\n                image\n                name\n                serialNumber\n                variant\n            }\n            status\n        }\n        ... on UserError {\n            errors {\n                errorPath\n                code\n                description\n            }\n        }\n    }\n}",
+{
+  "collection": "External Physical Payment Card Orders",
+  "program_type": "external_physical_payment_card_orders",
+  "extraction_date": "2025-08-12T17:46:30.859Z",
+  "total_operations": 3,
+  "categories": [
+    {
+      "name": "uncategorized",
+      "operations": [
+        {
+          "name": "CreateExternalPhysicalPaymentCardOrder",
+          "type": "mutation",
+          "required": true
+        },
+        {
+          "name": "GetExternalPhysicalPaymentCardOrder",
+          "type": "query",
+          "required": true
+        },
+        {
+          "name": "GetPaymentCardExternalPhysicalPaymentCardOrders",
+          "type": "query",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "name": "CreateExternalPhysicalPaymentCardOrder",
+      "type": "mutation",
+      "required": true,
+      "graphql": "mutation CreateExternalPhysicalPaymentCardOrder($input: CreateExternalPhysicalPaymentCardOrderInput!) {\n    createExternalPhysicalPaymentCardOrder(input: $input) {\n        ... on ExternalPhysicalPaymentCardOrder {\n            id\n            createdAt\n            updatedAt\n            card {\n                id\n            }\n            embeddedDevice {\n                formFactor\n                image\n                name\n                serialNumber\n                variant\n            }\n            status\n        }\n        ... on UserError {\n            errors {\n                errorPath\n                code\n                description\n            }\n        }\n    }\n}",
       "variables": {
         "input": {
           "paymentCardId": "{{paymentCardId}}",
@@ -18,82 +44,23 @@
         }
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "",
-      "path": "Create External Physical Payment Card Order",
-      "description": "",
-      "tags": [
-        "",
-        "creation"
-      ],
-      "requires": [
-        "paymentCardId"
-      ],
-      "produces": [
-        "errors"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.659754",
-    "updated_at": "2025-08-04T16:18:34.659757"
-  },
-  {
-    "name": "GetExternalPhysicalPaymentCardOrder",
-    "program_type": "external_physical_payment_card_orders",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetExternalPhysicalPaymentCardOrder($id: ID!) {\n    node(id: $id) {\n        ... on ExternalPhysicalPaymentCardOrder {\n            id\n            createdAt\n            updatedAt\n            card {\n                id\n            }\n            embeddedDevice {\n                formFactor\n                image\n                name\n                serialNumber\n                variant\n            }\n            status\n        }\n    }\n}",
+    {
+      "name": "GetExternalPhysicalPaymentCardOrder",
+      "type": "query",
+      "required": true,
+      "graphql": "query GetExternalPhysicalPaymentCardOrder($id: ID!) {\n    node(id: $id) {\n        ... on ExternalPhysicalPaymentCardOrder {\n            id\n            createdAt\n            updatedAt\n            card {\n                id\n            }\n            embeddedDevice {\n                formFactor\n                image\n                name\n                serialNumber\n                variant\n            }\n            status\n        }\n    }\n}",
       "variables": {
         "id": "{{externalPhysicalPaymentCardOrderId}}"
       }
     },
-    "headers": {},
-    "metadata": {
-      "category": "",
-      "path": "Get External Physical Payment Card Order",
-      "description": "",
-      "tags": [
-        "",
-        "retrieval"
-      ],
-      "requires": [
-        "externalPhysicalPaymentCardOrderId"
-      ],
-      "produces": []
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.659775",
-    "updated_at": "2025-08-04T16:18:34.659775"
-  },
-  {
-    "name": "GetPaymentCardExternalPhysicalPaymentCardOrders",
-    "program_type": "external_physical_payment_card_orders",
-    "operation_type": "query",
-    "graphql": {
-      "query": "query GetPaymentCardExternalPhysicalPaymentCardOrders($id: ID!) {\n    node(id: $id) {\n        ... on PaymentCard {\n            externalPhysicalPaymentCardOrders {\n                id\n                createdAt\n                updatedAt\n                card {\n                    id\n                }\n                embeddedDevice {\n                    formFactor\n                    image\n                    name\n                    serialNumber\n                    variant\n                }\n                status\n            }\n        }\n    }\n}",
+    {
+      "name": "GetPaymentCardExternalPhysicalPaymentCardOrders",
+      "type": "query",
+      "required": true,
+      "graphql": "query GetPaymentCardExternalPhysicalPaymentCardOrders($id: ID!) {\n    node(id: $id) {\n        ... on PaymentCard {\n            externalPhysicalPaymentCardOrders {\n                id\n                createdAt\n                updatedAt\n                card {\n                    id\n                }\n                embeddedDevice {\n                    formFactor\n                    image\n                    name\n                    serialNumber\n                    variant\n                }\n                status\n            }\n        }\n    }\n}",
       "variables": {
         "id": "{{paymentCardId}}"
       }
-    },
-    "headers": {},
-    "metadata": {
-      "category": "",
-      "path": "Get Payment Card External Physical Payment Card Orders",
-      "description": "",
-      "tags": [
-        "",
-        "retrieval"
-      ],
-      "requires": [
-        "paymentCardId"
-      ],
-      "produces": [
-        "externalPhysicalPaymentCardOrders"
-      ]
-    },
-    "version": "1.0.0",
-    "created_at": "2025-08-04T16:18:34.659790",
-    "updated_at": "2025-08-04T16:18:34.659791"
-  }
-]
+    }
+  ]
+}
