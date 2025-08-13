@@ -2,6 +2,9 @@
 
 const { spawn } = require('child_process');
 const readline = require('readline');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Color codes for terminal output
 const colors = {

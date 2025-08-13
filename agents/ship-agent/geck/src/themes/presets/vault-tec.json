@@ -1,0 +1,122 @@
+{
+  "id": "vault-tec",
+  "name": "Vault-Tec Terminal",
+  "description": "Classic Fallout terminal theme with green phosphor CRT aesthetic",
+  "author": "GECK Team",
+  "version": "1.0.0",
+  "isDark": true,
+  
+  "colors": {
+    "primary": "#41f76b",
+    "primaryHover": "#52ff7d",
+    "primaryActive": "#33d955",
+    "primaryBorder": "rgba(65, 247, 107, 0.5)",
+    "primaryBackground": "rgba(65, 247, 107, 0.2)",
+    "primaryShadow": "rgba(65, 247, 107, 0.3)",
+    
+    "secondary": "#1f2937",
+    "secondaryHover": "#374151",
+    "secondaryBorder": "#4b5563",
+    "secondaryBackground": "rgba(31, 41, 55, 0.5)",
+    
+    "success": "#41f76b",
+    "warning": "#ffc947",
+    "danger": "#ff4757",
+    "info": "#47b8ff",
+    
+    "background": "#030712",
+    "surface": "#111827",
+    "surfaceHover": "#1f2937",
+    "border": "rgba(65, 247, 107, 0.3)",
+    "borderHover": "#41f76b",
+    
+    "text": "#41f76b",
+    "textSecondary": "rgba(65, 247, 107, 0.8)",
+    "textMuted": "rgba(65, 247, 107, 0.5)",
+    "textInverse": "#000000",
+    "placeholder": "rgba(65, 247, 107, 0.3)"
+  },
+  
+  "typography": {
+    "fontFamily": {
+      "base": "'VT323', monospace",
+      "mono": "'VT323', 'Courier New', monospace",
+      "display": "'VT323', monospace"
+    },
+    "fontSize": {
+      "xs": "0.75rem",
+      "sm": "0.875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "1.875rem"
+    },
+    "fontWeight": {
+      "normal": 400,
+      "medium": 400,
+      "semibold": 400,
+      "bold": 400
+    }
+  },
+  
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2rem",
+    "2xl": "3rem",
+    "3xl": "4rem"
+  },
+  
+  "borders": {
+    "radius": {
+      "none": "0",
+      "sm": "0.125rem",
+      "md": "0.25rem",
+      "lg": "0.5rem",
+      "full": "9999px"
+    },
+    "width": {
+      "thin": "1px",
+      "base": "2px",
+      "thick": "3px"
+    }
+  },
+  
+  "effects": {
+    "shadow": {
+      "none": "none",
+      "sm": "0 0 10px rgba(65, 247, 107, 0.2)",
+      "md": "0 0 20px rgba(65, 247, 107, 0.3)",
+      "lg": "0 0 30px rgba(65, 247, 107, 0.4)",
+      "xl": "0 0 40px rgba(65, 247, 107, 0.5)",
+      "glow": "0 0 20px rgba(65, 247, 107, 0.8)"
+    },
+    "transition": {
+      "fast": "all 0.1s ease",
+      "base": "all 0.2s ease",
+      "slow": "all 0.3s ease"
+    },
+    "blur": {
+      "none": "0",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "16px"
+    },
+    "customEffects": {
+      "textGlow": "0 0 10px rgba(65, 247, 107, 0.8)",
+      "scanlines": "repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px)",
+      "flicker": "flicker 0.15s infinite alternate",
+      "crtCurve": "perspective(1000px) rotateY(2deg)"
+    }
+  },
+  
+  "customClasses": {
+    "terminal-glow": "text-shadow: 0 0 10px rgba(65, 247, 107, 0.8)",
+    "terminal-border": "border: 2px solid rgba(65, 247, 107, 0.5); box-shadow: 0 0 20px rgba(65, 247, 107, 0.3)",
+    "animate-flicker": "animation: flicker 0.15s infinite alternate",
+    "scanlines": "background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px)"
+  }
+}

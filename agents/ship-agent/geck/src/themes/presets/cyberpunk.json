@@ -1,0 +1,122 @@
+{
+  "id": "cyberpunk",
+  "name": "Cyberpunk 2077",
+  "description": "Neon-lit dystopian future theme with hot pink and cyan accents",
+  "author": "GECK Team",
+  "version": "1.0.0",
+  "isDark": true,
+  
+  "colors": {
+    "primary": "#ff2a6d",
+    "primaryHover": "#ff4081",
+    "primaryActive": "#e91e63",
+    "primaryBorder": "rgba(255, 42, 109, 0.5)",
+    "primaryBackground": "rgba(255, 42, 109, 0.15)",
+    "primaryShadow": "rgba(255, 42, 109, 0.4)",
+    
+    "secondary": "#05d9e8",
+    "secondaryHover": "#00e5ff",
+    "secondaryBorder": "rgba(5, 217, 232, 0.5)",
+    "secondaryBackground": "rgba(5, 217, 232, 0.15)",
+    
+    "success": "#01ff70",
+    "warning": "#ffdc00",
+    "danger": "#ff005d",
+    "info": "#05d9e8",
+    
+    "background": "#0a0a0f",
+    "surface": "#1a1a2e",
+    "surfaceHover": "#252541",
+    "border": "rgba(255, 42, 109, 0.3)",
+    "borderHover": "#ff2a6d",
+    
+    "text": "#ffffff",
+    "textSecondary": "#05d9e8",
+    "textMuted": "rgba(255, 255, 255, 0.6)",
+    "textInverse": "#0a0a0f",
+    "placeholder": "rgba(255, 255, 255, 0.3)"
+  },
+  
+  "typography": {
+    "fontFamily": {
+      "base": "'Orbitron', 'Rajdhani', sans-serif",
+      "mono": "'Fira Code', 'JetBrains Mono', monospace",
+      "display": "'Orbitron', sans-serif"
+    },
+    "fontSize": {
+      "xs": "0.75rem",
+      "sm": "0.875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "2rem"
+    },
+    "fontWeight": {
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    }
+  },
+  
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2rem",
+    "2xl": "3rem",
+    "3xl": "4rem"
+  },
+  
+  "borders": {
+    "radius": {
+      "none": "0",
+      "sm": "0.125rem",
+      "md": "0.25rem",
+      "lg": "0.5rem",
+      "full": "9999px"
+    },
+    "width": {
+      "thin": "1px",
+      "base": "2px",
+      "thick": "3px"
+    }
+  },
+  
+  "effects": {
+    "shadow": {
+      "none": "none",
+      "sm": "0 0 20px rgba(255, 42, 109, 0.2)",
+      "md": "0 0 40px rgba(255, 42, 109, 0.3)",
+      "lg": "0 0 60px rgba(255, 42, 109, 0.4)",
+      "xl": "0 0 80px rgba(255, 42, 109, 0.5)",
+      "glow": "0 0 30px rgba(255, 42, 109, 0.8), 0 0 60px rgba(5, 217, 232, 0.4)"
+    },
+    "transition": {
+      "fast": "all 0.1s ease",
+      "base": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+      "slow": "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "blur": {
+      "none": "0",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "16px"
+    },
+    "customEffects": {
+      "neonGlow": "0 0 20px currentColor, 0 0 40px currentColor",
+      "glitch": "glitch 2s infinite",
+      "chromaticAberration": "text-shadow: 2px 0 #ff2a6d, -2px 0 #05d9e8",
+      "hologram": "opacity: 0.9; background: linear-gradient(45deg, transparent 30%, rgba(5, 217, 232, 0.1) 50%, transparent 70%)"
+    }
+  },
+  
+  "customClasses": {
+    "neon-text": "text-shadow: 0 0 20px currentColor, 0 0 40px currentColor",
+    "glitch-effect": "animation: glitch 2s infinite",
+    "cyber-border": "border-image: linear-gradient(45deg, #ff2a6d, #05d9e8) 1",
+    "hologram": "background: linear-gradient(45deg, transparent 30%, rgba(5, 217, 232, 0.1) 50%, transparent 70%)"
+  }
+}
