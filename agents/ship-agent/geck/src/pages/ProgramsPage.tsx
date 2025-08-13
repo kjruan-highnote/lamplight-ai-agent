@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { ProgramConfig } from '../types';
+import { VaultSelect } from '../components/VaultSelect';
+import { VaultSearch } from '../components/VaultInput';
 
 export const ProgramsPage: React.FC = () => {
   const [programs, setPrograms] = useState<ProgramConfig[]>([]);
@@ -222,40 +224,35 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search programs..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
-          />
-        </div>
+        <VaultSearch
+          placeholder="Search programs..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
         {/* Vendor Filter */}
-        <select
+        <VaultSelect
           value={selectedVendor}
-          onChange={(e) => setSelectedVendor(e.target.value)}
-          className="px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-        >
-          <option value="all">All Vendors</option>
-          {vendors.map(vendor => (
-            <option key={vendor} value={vendor}>{vendor}</option>
-          ))}
-        </select>
+          onChange={setSelectedVendor}
+          options={[
+            { value: 'all', label: 'All Vendors' },
+            ...vendors.map(vendor => ({ value: vendor, label: vendor }))
+          ]}
+          placeholder="Select Vendor"
+        />
 
         {/* Status Filter */}
-        <select
+        <VaultSelect
           value={selectedStatus}
-          onChange={(e) => setSelectedStatus(e.target.value)}
-          className="px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-        >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="draft">Draft</option>
-          <option value="archived">Archived</option>
-        </select>
+          onChange={setSelectedStatus}
+          options={[
+            { value: 'all', label: 'All Status' },
+            { value: 'active', label: 'Active' },
+            { value: 'draft', label: 'Draft' },
+            { value: 'archived', label: 'Archived' }
+          ]}
+          placeholder="Select Status"
+        />
 
         {/* Import YAML */}
         <label className="flex items-center justify-center space-x-2 px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-400 hover:text-vault-green hover:border-vault-green/50 cursor-pointer transition-colors">

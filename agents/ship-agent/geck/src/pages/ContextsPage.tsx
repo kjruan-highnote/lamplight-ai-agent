@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Plus, Edit, Copy, Trash2, FileJson, RefreshCw } from 'lucide-react';
 import { api } from '../lib/api';
 import { CustomerContext } from '../types';
+import { VaultSearch } from '../components/VaultInput';
 
 export const ContextsPage: React.FC = () => {
   const [contexts, setContexts] = useState<CustomerContext[]>([]);
@@ -100,16 +101,11 @@ export const ContextsPage: React.FC = () => {
 
       {/* Search Bar */}
       <div className="mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search contexts..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
-          />
-        </div>
+        <VaultSearch
+          placeholder="Search contexts..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       {/* Contexts Grid */}

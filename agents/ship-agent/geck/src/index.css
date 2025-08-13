@@ -28,3 +28,41 @@ code {
   @apply border-2 border-vault-green rounded-lg;
   box-shadow: 0 0 20px rgba(65, 247, 107, 0.3);
 }
+
+/* Animations for dropdowns */
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: animate-in 0.2s ease-out;
+}
+
+/* Custom scrollbar for Vault theme */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-vault-green\/30::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thumb-vault-green\/30::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thumb-vault-green\/30::-webkit-scrollbar-thumb {
+  background-color: rgba(65, 247, 107, 0.3);
+  border-radius: 4px;
+}
+
+.scrollbar-thumb-vault-green\/30::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(65, 247, 107, 0.5);
+}

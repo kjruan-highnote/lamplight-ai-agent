@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { ProgramConfig, Category, Operation, Workflow, Entity, CustomerContext } from '../types';
+import { VaultSelect, VaultSelectNative } from '../components/VaultSelect';
+import { VaultInput, VaultTextarea } from '../components/VaultInput';
 import * as yaml from 'js-yaml';
 
 type TabType = 'general' | 'workflows' | 'operations' | 'compliance' | 'integration' | 'yaml';
@@ -356,17 +358,18 @@ export const ProgramEditor: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Program Class
                 </label>
-                <select
+                <VaultSelect
                   value={program.program_class || 'template'}
-                  onChange={(e) => setProgram(prev => ({ 
+                  onChange={(value) => setProgram(prev => ({ 
                     ...prev, 
-                    program_class: e.target.value as 'template' | 'subscriber' 
+                    program_class: value as 'template' | 'subscriber' 
                   }))}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-                >
-                  <option value="template">Template (Reusable)</option>
-                  <option value="subscriber">Subscriber (Customer-specific)</option>
-                </select>
+                  options={[
+                    { value: 'template', label: 'Template (Reusable)' },
+                    { value: 'subscriber', label: 'Subscriber (Customer-specific)' }
+                  ]}
+                  placeholder="Select Program Class"
+                />
               </div>
 
               {program.program_class === 'subscriber' && (
@@ -374,18 +377,18 @@ export const ProgramEditor: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Customer Context
                   </label>
-                  <select
+                  <VaultSelect
                     value={program.customer_id || ''}
-                    onChange={(e) => setProgram(prev => ({ ...prev, customer_id: e.target.value }))}
-                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-                  >
-                    <option value="">Select Customer</option>
-                    {contexts.map(ctx => (
-                      <option key={ctx._id} value={ctx._id}>
-                        {ctx.customer?.name || ctx.name}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(value) => setProgram(prev => ({ ...prev, customer_id: value }))}
+                    options={[
+                      { value: '', label: 'Select Customer' },
+                      ...contexts.map(ctx => ({
+                        value: ctx._id || '',
+                        label: ctx.customer?.name || ctx.name || 'Unnamed'
+                      }))
+                    ]}
+                    placeholder="Select Customer"
+                  />
                 </div>
               )}
             </div>
@@ -396,24 +399,22 @@ export const ProgramEditor: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Program Type
                 </label>
-                <input
+                <VaultInput
                   type="text"
                   value={program.program_type}
                   onChange={(e) => setProgram(prev => ({ ...prev, program_type: e.target.value }))}
                   placeholder="e.g., ap_automation"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Vendor
                 </label>
-                <input
+                <VaultInput
                   type="text"
                   value={program.vendor}
                   onChange={(e) => setProgram(prev => ({ ...prev, vendor: e.target.value }))}
                   placeholder="e.g., Highnote Inc."
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
             </div>
@@ -423,41 +424,42 @@ export const ProgramEditor: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Version
                 </label>
-                <input
+                <VaultInput
                   type="text"
                   value={program.version}
                   onChange={(e) => setProgram(prev => ({ ...prev, version: e.target.value }))}
                   placeholder="1.0.0"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   API Type
                 </label>
-                <select
+                <VaultSelect
                   value={program.api_type}
-                  onChange={(e) => setProgram(prev => ({ ...prev, api_type: e.target.value as any }))}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-                >
-                  <option value="graphql">GraphQL</option>
-                  <option value="rest">REST</option>
-                  <option value="soap">SOAP</option>
-                </select>
+                  onChange={(value) => setProgram(prev => ({ ...prev, api_type: value as any }))}
+                  options={[
+                    { value: 'graphql', label: 'GraphQL' },
+                    { value: 'rest', label: 'REST' },
+                    { value: 'soap', label: 'SOAP' }
+                  ]}
+                  placeholder="Select API Type"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Status
                 </label>
-                <select
+                <VaultSelect
                   value={program.status || 'draft'}
-                  onChange={(e) => setProgram(prev => ({ ...prev, status: e.target.value as any }))}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:outline-none focus:border-vault-green/50"
-                >
-                  <option value="draft">Draft</option>
-                  <option value="active">Active</option>
-                  <option value="archived">Archived</option>
-                </select>
+                  onChange={(value) => setProgram(prev => ({ ...prev, status: value as any }))}
+                  options={[
+                    { value: 'draft', label: 'Draft' },
+                    { value: 'active', label: 'Active' },
+                    { value: 'archived', label: 'Archived' }
+                  ]}
+                  placeholder="Select Status"
+                />
               </div>
             </div>
 
@@ -468,7 +470,7 @@ export const ProgramEditor: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Name
                 </label>
-                <input
+                <VaultInput
                   type="text"
                   value={program.metadata?.name || ''}
                   onChange={(e) => setProgram(prev => ({ 
@@ -476,14 +478,13 @@ export const ProgramEditor: React.FC = () => {
                     metadata: { ...prev.metadata, name: e.target.value } 
                   }))}
                   placeholder="Program display name"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Description
                 </label>
-                <textarea
+                <VaultTextarea
                   value={program.metadata?.description || ''}
                   onChange={(e) => setProgram(prev => ({ 
                     ...prev, 
@@ -491,14 +492,13 @@ export const ProgramEditor: React.FC = () => {
                   }))}
                   placeholder="Program description"
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Base URL
                 </label>
-                <input
+                <VaultInput
                   type="text"
                   value={program.metadata?.base_url || ''}
                   onChange={(e) => setProgram(prev => ({ 
@@ -506,7 +506,6 @@ export const ProgramEditor: React.FC = () => {
                     metadata: { ...prev.metadata, base_url: e.target.value } 
                   }))}
                   placeholder="https://api.example.com/graphql"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-vault-green/50"
                 />
               </div>
             </div>
