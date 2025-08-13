@@ -139,7 +139,6 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
               <div
                 key={option.value}
                 onClick={() => {
-                  console.log('[Select] Option clicked:', option.value, 'disabled:', option.disabled);
                   if (!option.disabled) {
                     handleSelect(option.value);
                   }

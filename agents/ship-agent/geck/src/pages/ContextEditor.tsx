@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import { Save, Eye, FileJson, AlertCircle, Check, Plus, Trash2, Users, Target, Shield } from 'lucide-react';
+import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
 import { CustomerContext, Contact, UseCase, KPI, Milestone } from '../types';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent } from '../components/ui/Card';
 
 const defaultContext: CustomerContext = {
   name: '',
@@ -62,6 +65,7 @@ const defaultContext: CustomerContext = {
 export const ContextEditor: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [context, setContext] = useState<CustomerContext>(defaultContext);
   const [jsonContent, setJsonContent] = useState('');
   const [viewMode, setViewMode] = useState<'form' | 'json'>('form');
@@ -198,56 +202,96 @@ export const ContextEditor: React.FC = () => {
   return (
     <div>
       {/* Header */}
-      <div className="mb-6 border-2 border-vault-green/50 bg-vault-terminal p-4">
+      <div style={{
+        marginBottom: theme.spacing.lg,
+        border: `2px solid ${theme.colors.primaryBorder}`,
+        backgroundColor: theme.colors.surface,
+        padding: theme.spacing.md
+      }}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-terminal text-vault-green animate-flicker">
+            <h1 style={{
+              fontSize: theme.typography.fontSize['2xl'],
+              fontFamily: theme.typography.fontFamily.mono,
+              color: theme.colors.primary,
+              fontWeight: theme.typography.fontWeight.bold
+            }}>
               ▶ {id === 'new' ? 'NEW CONTEXT' : 'EDIT CONTEXT'}
             </h1>
             {context.name && (
-              <div className="text-xs text-vault-green/50 mt-1">{context.name}</div>
+              <div style={{
+                fontSize: theme.typography.fontSize.xs,
+                color: theme.colors.textMuted,
+                marginTop: theme.spacing.xs
+              }}>{context.name}</div>
             )}
           </div>
           <div className="flex items-center space-x-3">
-            <button
+            <Button
               onClick={() => setViewMode(viewMode === 'form' ? 'json' : 'form')}
-              className="vault-button px-4 py-2 bg-vault-surface border border-vault-green/50 text-vault-green font-mono text-sm hover:bg-vault-green/20 hover:border-vault-green transition-all flex items-center space-x-2"
+              variant="secondary"
+              size="sm"
+              icon={viewMode === 'form' ? <FileJson size={16} /> : <Eye size={16} />}
             >
-              {viewMode === 'form' ? <FileJson size={16} /> : <Eye size={16} />}
-              <span>{viewMode === 'form' ? 'JSON' : 'FORM'}</span>
-            </button>
-            <button
+              {viewMode === 'form' ? 'JSON' : 'FORM'}
+            </Button>
+            <Button
               onClick={handleSave}
               disabled={saving}
-              className="vault-button px-6 py-2 bg-vault-green/20 border border-vault-green text-vault-green font-mono text-sm hover:bg-vault-green/30 transition-all flex items-center space-x-2 disabled:opacity-50"
+              loading={saving}
+              variant="primary"
+              icon={<Save size={16} />}
             >
-              <Save size={16} />
-              <span>{saving ? 'SAVING...' : 'SAVE'}</span>
-            </button>
+              {saving ? 'SAVING...' : 'SAVE'}
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Messages */}
       {error && (
-        <div className="mb-4 p-3 bg-red-900/20 border border-red-500/50 text-red-400 flex items-center space-x-2">
+        <div style={{
+          marginBottom: theme.spacing.md,
+          padding: theme.spacing.sm,
+          backgroundColor: `${theme.colors.danger}20`,
+          border: `${theme.borders.width.thin} solid ${theme.colors.danger}`,
+          borderRadius: theme.borders.radius.md,
+          color: theme.colors.danger,
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.sm
+        }}>
           <AlertCircle size={16} />
-          <span className="text-sm font-mono">{error}</span>
+          <span style={{ fontSize: theme.typography.fontSize.sm, fontFamily: theme.typography.fontFamily.mono }}>{error}</span>
         </div>
       )}
       {success && (
-        <div className="mb-4 p-3 bg-vault-green/10 border border-vault-green/50 text-vault-green flex items-center space-x-2">
+        <div style={{
+          marginBottom: theme.spacing.md,
+          padding: theme.spacing.sm,
+          backgroundColor: `${theme.colors.success}20`,
+          border: `${theme.borders.width.thin} solid ${theme.colors.success}`,
+          borderRadius: theme.borders.radius.md,
+          color: theme.colors.success,
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.sm
+        }}>
           <Check size={16} />
-          <span className="text-sm font-mono">{success}</span>
+          <span style={{ fontSize: theme.typography.fontSize.sm, fontFamily: theme.typography.fontFamily.mono }}>{success}</span>
         </div>
       )}
 
       {/* Editor Content */}
-      <div className="border-2 border-vault-green/30 bg-vault-surface">
+      <Card variant="bordered" padding="none">
         {viewMode === 'form' ? (
           <div>
             {/* Tab Navigation */}
-            <div className="flex border-b border-vault-green/30 bg-vault-terminal">
+            <div style={{
+              display: 'flex',
+              borderBottom: `${theme.borders.width.thin} solid ${theme.colors.border}`,
+              backgroundColor: theme.colors.surface
+            }}>
               {[
                 { id: 'customer', label: 'CUSTOMER', icon: Users },
                 { id: 'business', label: 'BUSINESS', icon: Target },
@@ -926,7 +970,7 @@ export const ContextEditor: React.FC = () => {
             />
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 };

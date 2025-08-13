@@ -15,7 +15,6 @@ export const ThemeSettings: React.FC = () => {
   const [showPreview, setShowPreview] = useState(false);
 
   const handleThemeChange = (themeId: string) => {
-    console.log(themeId);
     setTheme(themeId);
   };
 

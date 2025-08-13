@@ -6,17 +6,23 @@ import {
   Package, Users, Upload, Download, Settings, Shield, 
   Zap, Globe, Book, ChevronDown, ChevronRight 
 } from 'lucide-react';
+import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
 import { ProgramConfig, Category, Operation, Workflow, Entity, CustomerContext } from '../types';
 import { VaultSelect, VaultSelectNative } from '../components/VaultSelect';
 import { VaultInput, VaultTextarea } from '../components/VaultInput';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent } from '../components/ui/Card';
+import { CapabilitiesSelector } from '../components/program/CapabilitiesSelector';
+import { CapabilityManager, CustomCapability } from '../components/program/CapabilityManager';
 import * as yaml from 'js-yaml';
 
-type TabType = 'general' | 'workflows' | 'operations' | 'compliance' | 'integration' | 'yaml';
+type TabType = 'general' | 'capabilities' | 'workflows' | 'operations' | 'compliance' | 'integration' | 'yaml';
 
 export const ProgramEditor: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('general');
   const [program, setProgram] = useState<ProgramConfig>({
     program_type: '',
@@ -48,6 +54,7 @@ export const ProgramEditor: React.FC = () => {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
   const [contexts, setContexts] = useState<CustomerContext[]>([]);
   const [templates, setTemplates] = useState<ProgramConfig[]>([]);
+  const [customCapabilities, setCustomCapabilities] = useState<CustomCapability[]>([]);
 
   useEffect(() => {
     fetchContextsAndTemplates();
@@ -57,6 +64,11 @@ export const ProgramEditor: React.FC = () => {
       updateYamlContent();
     }
   }, [id]);
+
+  // Update YAML whenever program state changes
+  useEffect(() => {
+    updateYamlContent();
+  }, [program, customCapabilities]);
 
   const fetchContextsAndTemplates = async () => {
     try {
@@ -84,7 +96,7 @@ export const ProgramEditor: React.FC = () => {
 
   const updateYamlContent = (programData = program) => {
     try {
-      const yamlObj = {
+      const yamlObj: any = {
         program_type: programData.program_type,
         vendor: programData.vendor,
         version: programData.version,
@@ -99,7 +111,22 @@ export const ProgramEditor: React.FC = () => {
         performance: programData.performance,
         resources: programData.resources,
       };
-      setYamlContent(yaml.dump(yamlObj, { indent: 2 }));
+      
+      // Add custom capabilities metadata if any exist
+      if (customCapabilities.length > 0) {
+        yamlObj.custom_capabilities = customCapabilities.map(cap => ({
+          id: cap.id,
+          name: cap.name,
+          description: cap.description,
+          category: cap.category,
+          requiredWorkflows: cap.requiredWorkflows,
+          suggestedWorkflows: cap.suggestedWorkflows,
+          requiredEntities: cap.requiredEntities,
+          dependencies: cap.dependencies
+        }));
+      }
+      
+      setYamlContent(yaml.dump(yamlObj, { indent: 2, noRefs: true }));
     } catch (err) {
       console.error('Failed to convert to YAML:', err);
     }
@@ -109,6 +136,17 @@ export const ProgramEditor: React.FC = () => {
     setYamlContent(value || '');
     try {
       const parsed = yaml.load(value || '') as any;
+      
+      // Extract custom capabilities if present
+      if (parsed.custom_capabilities) {
+        setCustomCapabilities(parsed.custom_capabilities.map((cap: any) => ({
+          ...cap,
+          isCustom: true
+        })));
+        // Remove from main program object to avoid conflicts
+        delete parsed.custom_capabilities;
+      }
+      
       setProgram(prev => ({
         ...prev,
         ...parsed,
@@ -147,24 +185,6 @@ export const ProgramEditor: React.FC = () => {
     }));
   };
 
-  const addCapability = () => {
-    const capability = prompt('Enter capability name:');
-    if (capability) {
-      setProgram(prev => ({
-        ...prev,
-        capabilities: [...(prev.capabilities || []), capability]
-      }));
-      updateYamlContent();
-    }
-  };
-
-  const removeCapability = (index: number) => {
-    setProgram(prev => ({
-      ...prev,
-      capabilities: prev.capabilities?.filter((_, i) => i !== index) || []
-    }));
-    updateYamlContent();
-  };
 
   const addWorkflow = () => {
     const name = prompt('Enter workflow key (e.g., card_issuance):');
@@ -181,7 +201,6 @@ export const ProgramEditor: React.FC = () => {
           }
         }
       }));
-      updateYamlContent();
     }
   };
 
@@ -201,7 +220,6 @@ export const ProgramEditor: React.FC = () => {
           }
         ]
       }));
-      updateYamlContent();
     }
   };
 
@@ -218,7 +236,6 @@ export const ProgramEditor: React.FC = () => {
         });
         return { ...prev, categories: newCategories };
       });
-      updateYamlContent();
     }
   };
 
@@ -227,10 +244,10 @@ export const ProgramEditor: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-vault-green terminal-glow">
+          <h1 style={{ color: theme.colors.primary, fontSize: theme.typography.fontSize['3xl'], fontWeight: theme.typography.fontWeight.bold }}>
             {id === 'new' ? 'Create Program' : 'Edit Program'}
           </h1>
-          <p className="text-sm text-vault-green/50 mt-2">
+          <p style={{ color: theme.colors.textMuted, fontSize: theme.typography.fontSize.sm, marginTop: theme.spacing.sm }}>
             {program.program_class === 'template' ? (
               <span className="flex items-center space-x-2">
                 <Package size={16} />
@@ -247,39 +264,72 @@ export const ProgramEditor: React.FC = () => {
           </p>
         </div>
         <div className="flex space-x-3">
-          <button
+          <Button
             onClick={() => navigate('/programs')}
-            className="px-4 py-2 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors"
+            variant="secondary"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center space-x-2 px-6 py-2 bg-vault-green/20 text-vault-green border border-vault-green/50 rounded-lg hover:bg-vault-green/30 transition-colors disabled:opacity-50"
+            loading={saving}
+            variant="primary"
+            icon={<Save size={20} />}
           >
-            <Save size={20} />
-            <span>{saving ? 'Saving...' : 'Save'}</span>
-          </button>
+            {saving ? 'Saving...' : 'Save'}
+          </Button>
         </div>
       </div>
 
       {/* Alerts */}
       {error && (
-        <div className="mb-6 p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-red-400 flex items-center space-x-2">
+        <div style={{ 
+          marginBottom: theme.spacing.lg, 
+          padding: theme.spacing.md, 
+          backgroundColor: `${theme.colors.danger}20`, 
+          borderColor: theme.colors.danger, 
+          borderWidth: theme.borders.width.thin,
+          borderStyle: 'solid',
+          borderRadius: theme.borders.radius.lg, 
+          color: theme.colors.danger,
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.sm
+        }}>
           <AlertCircle size={20} />
           <span>{error}</span>
         </div>
       )}
       {success && (
-        <div className="mb-6 p-4 bg-green-900/20 border border-green-500/50 rounded-lg text-green-400 flex items-center space-x-2">
+        <div style={{ 
+          marginBottom: theme.spacing.lg, 
+          padding: theme.spacing.md, 
+          backgroundColor: `${theme.colors.success}20`, 
+          borderColor: theme.colors.success, 
+          borderWidth: theme.borders.width.thin,
+          borderStyle: 'solid',
+          borderRadius: theme.borders.radius.lg, 
+          color: theme.colors.success,
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.sm
+        }}>
           <Check size={20} />
           <span>{success}</span>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex space-x-1 mb-6 bg-gray-900 p-1 rounded-lg w-fit">
+      <div style={{ 
+        display: 'flex', 
+        gap: theme.spacing.xs, 
+        marginBottom: theme.spacing.lg, 
+        backgroundColor: theme.colors.surface, 
+        padding: theme.spacing.xs, 
+        borderRadius: theme.borders.radius.lg,
+        width: 'fit-content'
+      }}>
         <button
           onClick={() => setActiveTab('general')}
           className={`px-4 py-2 rounded transition-colors flex items-center space-x-2 ${
@@ -290,6 +340,17 @@ export const ProgramEditor: React.FC = () => {
         >
           <Settings size={16} />
           <span>General</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('capabilities')}
+          className={`px-4 py-2 rounded transition-colors flex items-center space-x-2 ${
+            activeTab === 'capabilities'
+              ? 'bg-vault-green/20 text-vault-green'
+              : 'text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          <Package size={16} />
+          <span>Capabilities</span>
         </button>
         <button
           onClick={() => setActiveTab('workflows')}
@@ -349,7 +410,7 @@ export const ProgramEditor: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="bg-gray-900 rounded-lg border border-gray-800 p-6">
+      <Card variant="default" padding="lg">
         {activeTab === 'general' && (
           <div className="space-y-6">
             {/* Program Type Selection */}
@@ -510,37 +571,71 @@ export const ProgramEditor: React.FC = () => {
               </div>
             </div>
 
-            {/* Capabilities */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-vault-green">Capabilities</h3>
-                <button
-                  onClick={addCapability}
-                  className="flex items-center space-x-1 px-3 py-1 bg-vault-green/20 text-vault-green border border-vault-green/50 rounded hover:bg-vault-green/30 transition-colors text-sm"
-                >
-                  <Plus size={16} />
-                  <span>Add</span>
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {program.capabilities?.map((cap, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center space-x-2 px-3 py-1 bg-gray-800 rounded"
-                  >
-                    <span className="text-sm text-gray-300">{cap}</span>
-                    <button
-                      onClick={() => removeCapability(idx)}
-                      className="text-red-400 hover:text-red-300"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                ))}
-                {(!program.capabilities || program.capabilities.length === 0) && (
-                  <span className="text-gray-500 text-sm">No capabilities defined</span>
-                )}
-              </div>
+          </div>
+        )}
+
+        {activeTab === 'capabilities' && (
+          <div className="space-y-6">
+            {/* Capabilities Selector */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: theme.colors.text }}>
+                Select Capabilities
+              </h3>
+              <CapabilitiesSelector
+                selectedCapabilities={program.capabilities || []}
+                onChange={(capabilities) => {
+                  setProgram(prev => ({ ...prev, capabilities }));
+                }}
+                onWorkflowsGenerated={(workflows) => {
+                  // Optionally merge generated workflows with existing ones
+                  console.log('Generated workflows:', workflows);
+                }}
+                customCapabilities={customCapabilities}
+              />
+            </div>
+
+            {/* Divider */}
+            <div style={{ borderTop: `1px solid ${theme.colors.border}`, margin: '2rem 0' }} />
+
+            {/* Custom Capabilities Manager */}
+            <div>
+              <CapabilityManager
+                capabilities={customCapabilities}
+                onAdd={(capability) => {
+                  setCustomCapabilities(prev => [...prev, capability]);
+                  // Optionally auto-select the new capability
+                  setProgram(prev => ({
+                    ...prev,
+                    capabilities: [...(prev.capabilities || []), capability.id]
+                  }));
+                }}
+                onEdit={(id, capability) => {
+                  setCustomCapabilities(prev => 
+                    prev.map(cap => cap.id === id ? capability : cap)
+                  );
+                  // Update the capability ID in selected capabilities if it changed
+                  if (id !== capability.id && program.capabilities?.includes(id)) {
+                    setProgram(prev => ({
+                      ...prev,
+                      capabilities: prev.capabilities?.map(capId => 
+                        capId === id ? capability.id : capId
+                      )
+                    }));
+                  }
+                }}
+                onRemove={(id) => {
+                  setCustomCapabilities(prev => prev.filter(cap => cap.id !== id));
+                  // Remove from selected capabilities
+                  setProgram(prev => ({
+                    ...prev,
+                    capabilities: prev.capabilities?.filter(capId => capId !== id)
+                  }));
+                }}
+                existingCapabilityIds={[
+                  ...(program.capabilities || []),
+                  ...customCapabilities.map(c => c.id)
+                ]}
+              />
             </div>
           </div>
         )}
@@ -811,7 +906,7 @@ export const ProgramEditor: React.FC = () => {
             />
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 };

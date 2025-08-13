@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FileJson, Database, Activity, Clock, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
+import { useTheme } from '../themes/ThemeContext';
+import { Card, CardHeader, CardContent } from '../components/ui/Card';
 
 export const Dashboard: React.FC = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState({
@@ -48,32 +51,9 @@ export const Dashboard: React.FC = () => {
         systemHealth: data.systemHealth.database,
       });
       
-      // Format recent activity
-      const formattedActivity = data.recentActivity.map(item => {
-        const timestamp = new Date(item.timestamp);
-        const now = new Date();
-        const diffMs = now.getTime() - timestamp.getTime();
-        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-        const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-        
-        let timeStr = '';
-        if (diffHours > 0) {
-          timeStr = `${diffHours.toString().padStart(2, '0')}:${diffMins.toString().padStart(2, '0')}:00`;
-        } else {
-          const diffSecs = Math.floor((diffMs % (1000 * 60)) / 1000);
-          timeStr = `00:${diffMins.toString().padStart(2, '0')}:${diffSecs.toString().padStart(2, '0')}`;
-        }
-        
-        return {
-          ...item,
-          action: item.action.toUpperCase(),
-          time: timeStr,
-        };
-      });
-      
-      setRecentActivity(formattedActivity);
+      setRecentActivity(data.recentActivity || []);
       setLastRefresh(new Date());
-    } catch (err: any) {
+    } catch (err) {
       console.error('Failed to fetch dashboard data:', err);
       setError('Failed to load dashboard data');
     } finally {
@@ -83,166 +63,274 @@ export const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchDashboardData();
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchDashboardData, 30000);
+    
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(() => {
+      fetchDashboardData();
+    }, 30000);
+    
     return () => clearInterval(interval);
   }, []);
 
+  const handleRefresh = () => {
+    fetchDashboardData();
+  };
+
+  const getHealthIcon = (health: string) => {
+    if (health === 'connected' || health === 'healthy') {
+      return <CheckCircle size={20} style={{ color: theme.colors.success }} />;
+    } else if (health === 'checking...') {
+      return <RefreshCw size={20} className="animate-spin" style={{ color: theme.colors.warning }} />;
+    } else {
+      return <AlertCircle size={20} style={{ color: theme.colors.danger }} />;
+    }
+  };
+
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case 'context':
+        return <FileJson size={16} style={{ color: theme.colors.primary }} />;
+      case 'program':
+        return <Database size={16} style={{ color: theme.colors.info }} />;
+      case 'sync':
+        return <RefreshCw size={16} style={{ color: theme.colors.warning }} />;
+      default:
+        return <Activity size={16} style={{ color: theme.colors.primary }} />;
+    }
+  };
+
+  const statCardStyles: React.CSSProperties = {
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.surface,
+    border: `2px solid ${theme.colors.border}`,
+    borderRadius: theme.borders.radius.lg,
+    transition: theme.effects.transition.base,
+    textDecoration: 'none',
+    display: 'block',
+  };
+
+  const statCardHoverStyles: React.CSSProperties = {
+    backgroundColor: theme.colors.surfaceHover,
+    borderColor: theme.colors.primary,
+    transform: 'translateY(-2px)',
+    boxShadow: theme.effects.shadow.md,
+  };
+
   return (
     <div>
-      <div className="mb-8 border-2 border-vault-green/50 bg-vault-terminal p-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-terminal text-vault-green animate-flicker">
-              ▶ SYSTEM STATUS OVERVIEW
-            </h1>
-            <div className="text-xs text-vault-green/50 mt-1">
-              LAST UPDATE: {lastRefresh.toISOString()}
-            </div>
-          </div>
-          <button
-            onClick={fetchDashboardData}
-            disabled={loading}
-            className="px-4 py-2 bg-vault-surface border-2 border-vault-green/50 text-vault-green hover:bg-vault-green/20 transition-all flex items-center space-x-2"
-          >
-            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-            <span className="text-xs font-terminal">REFRESH</span>
-          </button>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-2" style={{ color: theme.colors.text }}>
+            System Dashboard
+          </h1>
+          <p style={{ color: theme.colors.textMuted }}>
+            Welcome to the GECK Configuration Manager
+          </p>
         </div>
+        <button
+          onClick={handleRefresh}
+          disabled={loading}
+          className={`flex items-center gap-2 px-4 py-2 rounded transition-all ${
+            loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+          }`}
+          style={{
+            backgroundColor: theme.colors.primaryBackground,
+            border: `2px solid ${theme.colors.primaryBorder}`,
+            color: theme.colors.primary,
+          }}
+        >
+          <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
+          <span>{loading ? 'Refreshing...' : 'Refresh'}</span>
+        </button>
       </div>
 
       {/* Error Alert */}
       {error && (
-        <div className="mb-6 p-4 bg-red-900/20 border-2 border-red-500/50 text-red-400">
-          <div className="flex items-center space-x-2">
-            <AlertCircle size={20} />
-            <span className="font-terminal">{error}</span>
-          </div>
+        <div 
+          className="mb-6 p-4 rounded flex items-center gap-3"
+          style={{
+            backgroundColor: `${theme.colors.danger}20`,
+            border: `1px solid ${theme.colors.danger}`,
+            color: theme.colors.danger,
+          }}
+        >
+          <AlertCircle size={20} />
+          <span>{error}</span>
         </div>
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-vault-surface border-2 border-vault-green/30 p-4 hover:border-vault-green transition-all hover:shadow-lg hover:shadow-vault-green/20">
-          <div className="text-xs text-vault-green/50 mb-2">[ CONTEXTS ]</div>
-          <div className="text-3xl font-terminal text-vault-green animate-flicker">{stats.contexts.toString().padStart(2, '0')}</div>
-          <div className="text-xs text-vault-green/70 mt-2">CUSTOMER PROFILES LOADED</div>
-        </div>
-
-        <div className="bg-vault-surface border-2 border-vault-green/30 p-4 hover:border-vault-green transition-all hover:shadow-lg hover:shadow-vault-green/20">
-          <div className="text-xs text-vault-green/50 mb-2">[ PROGRAMS ]</div>
-          <div className="text-3xl font-terminal text-vault-green animate-flicker">{stats.programs.toString().padStart(2, '0')}</div>
-          <div className="text-xs text-vault-green/70 mt-2">CONFIGURATIONS ACTIVE</div>
-        </div>
-
-        <div className="bg-vault-surface border-2 border-vault-green/30 p-4 hover:border-vault-green transition-all hover:shadow-lg hover:shadow-vault-green/20">
-          <div className="text-xs text-vault-green/50 mb-2">[ LAST SYNC ]</div>
-          <div className="text-xl font-terminal text-vault-green animate-flicker">{stats.recentSync.toUpperCase()}</div>
-          <div className="text-xs text-vault-green/70 mt-2">POSTMAN COLLECTIONS</div>
-        </div>
-
-        <div className={`bg-vault-surface border-2 p-4 transition-all hover:shadow-lg ${
-          stats.systemHealth === 'connected' 
-            ? 'border-vault-green/30 hover:border-vault-green hover:shadow-vault-green/20' 
-            : 'border-red-500/30 hover:border-red-500 hover:shadow-red-500/20'
-        }`}>
-          <div className={`text-xs mb-2 ${
-            stats.systemHealth === 'connected' ? 'text-vault-green/50' : 'text-red-500/50'
-          }`}>[ SYSTEM ]</div>
-          <div className={`flex items-center space-x-2 ${
-            stats.systemHealth === 'connected' ? 'text-vault-green' : 'text-red-500'
-          }`}>
-            {stats.systemHealth === 'connected' ? (
-              <CheckCircle size={24} className="animate-flicker" />
-            ) : (
-              <AlertCircle size={24} className="animate-pulse" />
-            )}
-            <span className="text-sm font-terminal uppercase">{stats.systemHealth}</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Link
+          to="/contexts"
+          style={statCardStyles}
+          onMouseEnter={(e) => Object.assign(e.currentTarget.style, statCardHoverStyles)}
+          onMouseLeave={(e) => Object.assign(e.currentTarget.style, statCardStyles)}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <FileJson size={32} style={{ color: theme.colors.primary }} />
+            <span 
+              className="text-2xl font-bold"
+              style={{ color: theme.colors.text }}
+            >
+              {loading ? '...' : stats.contexts}
+            </span>
           </div>
-          <div className={`text-xs mt-2 ${
-            stats.systemHealth === 'connected' ? 'text-vault-green/70' : 'text-red-500/70'
-          }`}>DATABASE STATUS</div>
-        </div>
-      </div>
+          <h3 className="font-semibold" style={{ color: theme.colors.text }}>
+            Contexts
+          </h3>
+          <p className="text-sm mt-1" style={{ color: theme.colors.textMuted }}>
+            Configuration contexts
+          </p>
+        </Link>
 
-      {/* Quick Actions */}
-      <div className="mb-8">
-        <div className="text-xs text-vault-green/50 mb-4 font-terminal">═══ QUICK ACTIONS ═══</div>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to="/contexts/new"
-            className="vault-button px-6 py-3 bg-vault-surface border-2 border-vault-green/50 text-vault-green font-mono text-sm hover:bg-vault-green/20 hover:border-vault-green transition-all hover:shadow-lg hover:shadow-vault-green/20"
-          >
-            [+] NEW CONTEXT
-          </Link>
-          <Link
-            to="/programs/new"
-            className="vault-button px-6 py-3 bg-vault-surface border-2 border-vault-green/50 text-vault-green font-mono text-sm hover:bg-vault-green/20 hover:border-vault-green transition-all hover:shadow-lg hover:shadow-vault-green/20"
-          >
-            [+] NEW PROGRAM
-          </Link>
-          <Link
-            to="/solution"
-            className="vault-button px-6 py-3 bg-vault-surface border-2 border-vault-blue/50 text-vault-blue font-mono text-sm hover:bg-vault-blue/20 hover:border-vault-blue transition-all hover:shadow-lg hover:shadow-vault-blue/20"
-          >
-            [▶] GENERATE
-          </Link>
-          <button
-            className="vault-button px-6 py-3 bg-vault-surface border-2 border-vault-amber/50 text-vault-amber font-mono text-sm hover:bg-vault-amber/20 hover:border-vault-amber transition-all hover:shadow-lg hover:shadow-vault-amber/20"
-          >
-            [⟲] SYNC DATA
-          </button>
+        <Link
+          to="/programs"
+          style={statCardStyles}
+          onMouseEnter={(e) => Object.assign(e.currentTarget.style, statCardHoverStyles)}
+          onMouseLeave={(e) => Object.assign(e.currentTarget.style, statCardStyles)}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <Database size={32} style={{ color: theme.colors.secondary }} />
+            <span 
+              className="text-2xl font-bold"
+              style={{ color: theme.colors.text }}
+            >
+              {loading ? '...' : stats.programs}
+            </span>
+          </div>
+          <h3 className="font-semibold" style={{ color: theme.colors.text }}>
+            Programs
+          </h3>
+          <p className="text-sm mt-1" style={{ color: theme.colors.textMuted }}>
+            Automation programs
+          </p>
+        </Link>
+
+        <Link
+          to="/sync"
+          style={statCardStyles}
+          onMouseEnter={(e) => Object.assign(e.currentTarget.style, statCardHoverStyles)}
+          onMouseLeave={(e) => Object.assign(e.currentTarget.style, statCardStyles)}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <Clock size={32} style={{ color: theme.colors.info }} />
+            <span 
+              className="text-sm font-medium"
+              style={{ color: theme.colors.text }}
+            >
+              {loading ? '...' : stats.recentSync}
+            </span>
+          </div>
+          <h3 className="font-semibold" style={{ color: theme.colors.text }}>
+            Last Sync
+          </h3>
+          <p className="text-sm mt-1" style={{ color: theme.colors.textMuted }}>
+            Postman synchronization
+          </p>
+        </Link>
+
+        <div style={statCardStyles}>
+          <div className="flex items-center justify-between mb-3">
+            {getHealthIcon(stats.systemHealth)}
+            <span 
+              className="text-sm font-medium"
+              style={{ 
+                color: stats.systemHealth === 'connected' ? theme.colors.success : theme.colors.warning 
+              }}
+            >
+              {loading ? 'Checking...' : stats.systemHealth}
+            </span>
+          </div>
+          <h3 className="font-semibold" style={{ color: theme.colors.text }}>
+            System Health
+          </h3>
+          <p className="text-sm mt-1" style={{ color: theme.colors.textMuted }}>
+            Database connection
+          </p>
         </div>
       </div>
 
       {/* Recent Activity */}
-      <div>
-        <div className="text-xs text-vault-green/50 mb-4 font-terminal">═══ ACTIVITY LOG ═══</div>
-        <div className="bg-vault-surface border-2 border-vault-green/30">
-          {loading && recentActivity.length === 0 ? (
-            <div className="p-8 text-center">
-              <RefreshCw className="animate-spin text-vault-green mx-auto mb-2" size={24} />
-              <p className="text-xs text-vault-green/50 font-terminal">LOADING ACTIVITY...</p>
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold" style={{ color: theme.colors.text }}>
+              Recent Activity
+            </h2>
+            <span className="text-sm" style={{ color: theme.colors.textMuted }}>
+              Last updated: {lastRefresh.toLocaleTimeString()}
+            </span>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="text-center py-8" style={{ color: theme.colors.textMuted }}>
+              <RefreshCw size={32} className="animate-spin mx-auto mb-3" />
+              <p>Loading activity...</p>
             </div>
           ) : recentActivity.length === 0 ? (
-            <div className="p-8 text-center">
-              <Activity className="text-vault-green/30 mx-auto mb-2" size={32} />
-              <p className="text-xs text-vault-green/50 font-terminal">NO RECENT ACTIVITY</p>
+            <div className="text-center py-8" style={{ color: theme.colors.textMuted }}>
+              <Activity size={32} className="mx-auto mb-3 opacity-50" />
+              <p>No recent activity</p>
             </div>
           ) : (
-            <div className="p-4 font-mono text-sm">
-              {recentActivity.map((item, index) => (
-                <div key={item._id || index} className="flex items-center justify-between py-2 border-b border-vault-green/20 last:border-0 hover:bg-vault-green/5 px-2 -mx-2">
-                  <div className="flex items-center space-x-4">
-                    <span className={`text-xs
-                      ${item.type === 'context' ? 'text-vault-amber' : ''}
-                      ${item.type === 'program' ? 'text-vault-blue' : ''}
-                      ${item.type === 'sync' ? 'text-vault-green' : ''}
-                      ${item.type === 'system' ? 'text-vault-yellow' : ''}
-                    `}>
-                      {item.type === 'context' && '[CTX]'}
-                      {item.type === 'program' && '[PRG]'}
-                      {item.type === 'sync' && '[SYN]'}
-                      {item.type === 'system' && '[SYS]'}
-                    </span>
-                    <span className="text-vault-green">{item.name}</span>
-                    <span className="text-vault-green/50">→</span>
-                    <span className={`text-vault-green/70 ${
-                      item.action === 'CREATED' ? 'text-vault-blue' : ''
-                    } ${
-                      item.action === 'DELETED' ? 'text-red-500' : ''
-                    }`}>{item.action}</span>
+            <div className="space-y-3">
+              {recentActivity.map((activity, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-3 rounded transition-all"
+                  style={{
+                    backgroundColor: theme.colors.surface,
+                    border: `1px solid ${theme.colors.border}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme.colors.surfaceHover;
+                    e.currentTarget.style.borderColor = theme.colors.borderHover;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme.colors.surface;
+                    e.currentTarget.style.borderColor = theme.colors.border;
+                  }}
+                >
+                  {getActivityIcon(activity.type)}
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-medium" style={{ color: theme.colors.text }}>
+                          {activity.name}
+                        </span>
+                        <span className="ml-2 text-sm" style={{ 
+                          color: activity.action === 'created' ? theme.colors.success :
+                                 activity.action === 'deleted' ? theme.colors.danger :
+                                 activity.action === 'synced' ? theme.colors.info :
+                                 theme.colors.textMuted 
+                        }}>
+                          {activity.action === 'created' ? '• Created' : 
+                           activity.action === 'modified' ? '• Modified' :
+                           activity.action === 'deleted' ? '• Deleted' :
+                           activity.action === 'synced' ? '• Synced' : `• ${activity.action}`}
+                        </span>
+                      </div>
+                      <span className="text-xs" style={{ color: theme.colors.textMuted }}>
+                        {new Date(activity.timestamp).toLocaleString()}
+                      </span>
+                    </div>
+                    {activity.type && (
+                      <div className="mt-1 text-sm" style={{ color: theme.colors.textSecondary }}>
+                        Type: {activity.type === 'context' ? 'Customer Context' : 
+                               activity.type === 'program' ? 'Program Configuration' :
+                               activity.type === 'sync' ? 'Synchronization' : activity.type}
+                      </div>
+                    )}
                   </div>
-                  <span className="text-xs text-vault-green/40 font-terminal">{item.time}</span>
                 </div>
               ))}
-              <div className="mt-4 pt-4 border-t border-vault-green/20 text-xs text-vault-green/40">
-                <span className="animate-pulse">▶</span> END OF LOG - {recentActivity.length} ENTRIES
-              </div>
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
