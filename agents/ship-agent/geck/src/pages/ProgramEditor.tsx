@@ -4,7 +4,7 @@ import Editor from '@monaco-editor/react';
 import { 
   Save, Eye, FileCode, AlertCircle, Check, Plus, Trash2, 
   Package, Users, Upload, Download, Settings, Shield, 
-  Zap, Globe, Book, ChevronDown, ChevronRight 
+  Zap, Globe, Book, ChevronDown, ChevronRight, Maximize2, Minimize2, Expand, X
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
@@ -15,6 +15,7 @@ import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
 import { CapabilitiesSelector } from '../components/program/CapabilitiesSelector';
 import { CapabilityManager, CustomCapability } from '../components/program/CapabilityManager';
+import { WorkflowManager } from '../components/program/WorkflowManager';
 import * as yaml from 'js-yaml';
 
 type TabType = 'general' | 'capabilities' | 'workflows' | 'operations' | 'compliance' | 'integration' | 'yaml';
@@ -55,6 +56,7 @@ export const ProgramEditor: React.FC = () => {
   const [contexts, setContexts] = useState<CustomerContext[]>([]);
   const [templates, setTemplates] = useState<ProgramConfig[]>([]);
   const [customCapabilities, setCustomCapabilities] = useState<CustomCapability[]>([]);
+  const [editorSize, setEditorSize] = useState<'normal' | 'large' | 'fullscreen'>('normal');
 
   useEffect(() => {
     fetchContextsAndTemplates();
@@ -64,6 +66,27 @@ export const ProgramEditor: React.FC = () => {
       updateYamlContent();
     }
   }, [id]);
+
+  // Handle ESC key to exit fullscreen
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && editorSize === 'fullscreen') {
+        setEditorSize('normal');
+      }
+    };
+
+    if (editorSize === 'fullscreen') {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [editorSize]);
 
   // Update YAML whenever program state changes
   useEffect(() => {
@@ -183,25 +206,6 @@ export const ProgramEditor: React.FC = () => {
       ...prev,
       [section]: !prev[section]
     }));
-  };
-
-
-  const addWorkflow = () => {
-    const name = prompt('Enter workflow key (e.g., card_issuance):');
-    if (name) {
-      setProgram(prev => ({
-        ...prev,
-        workflows: {
-          ...prev.workflows,
-          [name]: {
-            name: name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-            description: '',
-            required: false,
-            steps: []
-          }
-        }
-      }));
-    }
   };
 
   const addCategory = () => {
@@ -641,104 +645,19 @@ export const ProgramEditor: React.FC = () => {
         )}
 
         {activeTab === 'workflows' && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-vault-green">Workflows</h3>
-              <button
-                onClick={addWorkflow}
-                className="flex items-center space-x-1 px-3 py-1 bg-vault-green/20 text-vault-green border border-vault-green/50 rounded hover:bg-vault-green/30 transition-colors text-sm"
-              >
-                <Plus size={16} />
-                <span>Add Workflow</span>
-              </button>
-            </div>
-            
-            {Object.entries(program.workflows || {}).map(([key, workflow]) => (
-              <div key={key} className="border border-gray-700 rounded-lg p-4">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={workflow.name}
-                      onChange={(e) => {
-                        setProgram(prev => ({
-                          ...prev,
-                          workflows: {
-                            ...prev.workflows,
-                            [key]: { ...workflow, name: e.target.value }
-                          }
-                        }));
-                      }}
-                      className="text-lg font-medium bg-transparent border-b border-gray-700 focus:border-vault-green/50 outline-none text-gray-200 mb-2"
-                    />
-                    <textarea
-                      value={workflow.description}
-                      onChange={(e) => {
-                        setProgram(prev => ({
-                          ...prev,
-                          workflows: {
-                            ...prev.workflows,
-                            [key]: { ...workflow, description: e.target.value }
-                          }
-                        }));
-                      }}
-                      placeholder="Workflow description"
-                      rows={2}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-gray-300 text-sm"
-                    />
-                  </div>
-                  <label className="flex items-center space-x-2 ml-4">
-                    <input
-                      type="checkbox"
-                      checked={workflow.required}
-                      onChange={(e) => {
-                        setProgram(prev => ({
-                          ...prev,
-                          workflows: {
-                            ...prev.workflows,
-                            [key]: { ...workflow, required: e.target.checked }
-                          }
-                        }));
-                      }}
-                      className="rounded border-gray-700"
-                    />
-                    <span className="text-sm text-gray-400">Required</span>
-                  </label>
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="text-sm text-gray-400">Steps:</div>
-                  {workflow.steps?.map((step, idx) => (
-                    <div key={idx} className="flex items-center space-x-2 pl-4">
-                      <span className="text-sm text-gray-300">{idx + 1}.</span>
-                      <input
-                        type="text"
-                        value={step.operation}
-                        onChange={(e) => {
-                          const newSteps = [...(workflow.steps || [])];
-                          newSteps[idx] = { ...step, operation: e.target.value };
-                          setProgram(prev => ({
-                            ...prev,
-                            workflows: {
-                              ...prev.workflows,
-                              [key]: { ...workflow, steps: newSteps }
-                            }
-                          }));
-                        }}
-                        className="flex-1 px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm text-gray-300"
-                        placeholder="Operation name"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-            
-            {Object.keys(program.workflows || {}).length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                No workflows defined. Click "Add Workflow" to create one.
-              </div>
-            )}
+          <div>
+            <WorkflowManager
+              workflows={program.workflows || {}}
+              onChange={(workflows) => {
+                setProgram(prev => ({ ...prev, workflows }));
+              }}
+              operations={
+                // Get all operations from categories if available
+                program.categories?.flatMap(cat => 
+                  cat.operations?.map(op => op.name) || []
+                ) || []
+              }
+            />
           </div>
         )}
 
@@ -849,61 +768,185 @@ export const ProgramEditor: React.FC = () => {
         )}
 
         {activeTab === 'yaml' && (
-          <div>
+          <div className={editorSize === 'fullscreen' ? 'fixed inset-0 z-50 bg-gray-900 p-6' : ''}>
             <div className="mb-4 flex justify-between items-center">
-              <div className="text-sm text-gray-400">
+              <div className="text-sm" style={{ color: theme.colors.textMuted }}>
                 Edit the raw YAML configuration. Changes will be reflected in the form view.
               </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => {
-                    const blob = new Blob([yamlContent], { type: 'text/yaml' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `${program.program_type || 'program'}.yaml`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                  }}
-                  className="flex items-center space-x-1 px-3 py-1 bg-gray-800 text-gray-400 rounded hover:text-vault-green transition-colors text-sm"
-                >
-                  <Download size={14} />
-                  <span>Export</span>
-                </button>
-                <label className="flex items-center space-x-1 px-3 py-1 bg-gray-800 text-gray-400 rounded hover:text-vault-green transition-colors text-sm cursor-pointer">
-                  <Upload size={14} />
-                  <span>Import</span>
-                  <input
-                    type="file"
-                    accept=".yaml,.yml"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (evt) => {
-                          const content = evt.target?.result as string;
-                          handleYamlChange(content);
-                        };
-                        reader.readAsText(file);
-                      }
+              <div className="flex items-center gap-2">
+                {/* Size Toggle Buttons */}
+                <div className="flex items-center gap-1 p-1 rounded" style={{
+                  backgroundColor: theme.colors.surface,
+                  border: `1px solid ${theme.colors.border}`
+                }}>
+                  <button
+                    onClick={() => setEditorSize('normal')}
+                    className="px-2 py-1 rounded text-xs transition-colors flex items-center gap-1"
+                    style={{
+                      backgroundColor: editorSize === 'normal' ? theme.colors.primaryBackground : 'transparent',
+                      color: editorSize === 'normal' ? theme.colors.primary : theme.colors.textMuted
                     }}
-                  />
-                </label>
+                    title="Normal size (800px)"
+                  >
+                    <Minimize2 size={12} />
+                    <span>Normal</span>
+                  </button>
+                  <button
+                    onClick={() => setEditorSize('large')}
+                    className="px-2 py-1 rounded text-xs transition-colors flex items-center gap-1"
+                    style={{
+                      backgroundColor: editorSize === 'large' ? theme.colors.primaryBackground : 'transparent',
+                      color: editorSize === 'large' ? theme.colors.primary : theme.colors.textMuted
+                    }}
+                    title="Large size (1200px)"
+                  >
+                    <Expand size={12} />
+                    <span>Large</span>
+                  </button>
+                  <button
+                    onClick={() => setEditorSize('fullscreen')}
+                    className="px-2 py-1 rounded text-xs transition-colors flex items-center gap-1"
+                    style={{
+                      backgroundColor: editorSize === 'fullscreen' ? theme.colors.primaryBackground : 'transparent',
+                      color: editorSize === 'fullscreen' ? theme.colors.primary : theme.colors.textMuted
+                    }}
+                    title="Fullscreen"
+                  >
+                    <Maximize2 size={12} />
+                    <span>Full</span>
+                  </button>
+                </div>
+
+                {/* Export/Import Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      const blob = new Blob([yamlContent], { type: 'text/yaml' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `${program.program_type || 'program'}.yaml`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                    className="flex items-center gap-1 px-3 py-1 rounded transition-colors text-sm"
+                    style={{
+                      backgroundColor: theme.colors.surface,
+                      color: theme.colors.textMuted,
+                      border: `1px solid ${theme.colors.border}`
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = theme.colors.primary;
+                      e.currentTarget.style.borderColor = theme.colors.primaryBorder;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = theme.colors.textMuted;
+                      e.currentTarget.style.borderColor = theme.colors.border;
+                    }}
+                  >
+                    <Download size={14} />
+                    <span>Export</span>
+                  </button>
+                  <label 
+                    className="flex items-center gap-1 px-3 py-1 rounded transition-colors text-sm cursor-pointer"
+                    style={{
+                      backgroundColor: theme.colors.surface,
+                      color: theme.colors.textMuted,
+                      border: `1px solid ${theme.colors.border}`
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = theme.colors.primary;
+                      e.currentTarget.style.borderColor = theme.colors.primaryBorder;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = theme.colors.textMuted;
+                      e.currentTarget.style.borderColor = theme.colors.border;
+                    }}
+                  >
+                    <Upload size={14} />
+                    <span>Import</span>
+                    <input
+                      type="file"
+                      accept=".yaml,.yml"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (evt) => {
+                            const content = evt.target?.result as string;
+                            handleYamlChange(content);
+                          };
+                          reader.readAsText(file);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+
+                {/* Close button for fullscreen */}
+                {editorSize === 'fullscreen' && (
+                  <button
+                    onClick={() => setEditorSize('normal')}
+                    className="ml-2 p-2 rounded transition-colors"
+                    style={{
+                      backgroundColor: theme.colors.surface,
+                      color: theme.colors.textMuted,
+                      border: `1px solid ${theme.colors.border}`
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = theme.colors.danger;
+                      e.currentTarget.style.borderColor = theme.colors.danger;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = theme.colors.textMuted;
+                      e.currentTarget.style.borderColor = theme.colors.border;
+                    }}
+                    title="Exit fullscreen"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
               </div>
             </div>
-            <Editor
-              height="600px"
-              defaultLanguage="yaml"
-              value={yamlContent}
-              onChange={handleYamlChange}
-              theme="vs-dark"
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                wordWrap: 'on',
-              }}
-            />
+            
+            {/* Monaco Editor with dynamic height */}
+            <div style={{
+              border: `1px solid ${theme.colors.border}`,
+              borderRadius: theme.borders.radius.md,
+              overflow: 'hidden',
+              transition: 'all 0.3s ease-in-out'
+            }}>
+              <Editor
+                height={
+                  editorSize === 'fullscreen' 
+                    ? 'calc(100vh - 120px)' 
+                    : editorSize === 'large' 
+                      ? '1200px' 
+                      : '800px'
+                }
+                defaultLanguage="yaml"
+                value={yamlContent}
+                onChange={handleYamlChange}
+                theme="vs-dark"
+                options={{
+                  minimap: { enabled: editorSize === 'fullscreen' },
+                  fontSize: editorSize === 'fullscreen' ? 16 : 14,
+                  wordWrap: 'on',
+                  scrollBeyondLastLine: false,
+                  automaticLayout: true,
+                  lineNumbers: 'on',
+                  renderLineHighlight: 'all',
+                  scrollbar: {
+                    vertical: 'visible',
+                    horizontal: 'visible',
+                    useShadows: false,
+                    verticalScrollbarSize: 10,
+                    horizontalScrollbarSize: 10
+                  }
+                }}
+              />
+            </div>
           </div>
         )}
       </Card>

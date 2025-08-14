@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import { Select, SelectProps } from './ui/Select';
+import React from 'react';
+import { Select } from './ui/Select';
 
 // Convert old VaultSelect props to new Select props
 interface LegacyVaultSelectProps {

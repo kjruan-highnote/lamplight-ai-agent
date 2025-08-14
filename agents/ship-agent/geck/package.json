@@ -20,6 +20,7 @@
     "ajv": "^8.17.1",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.1",
     "js-yaml": "^4.1.0",
     "lucide-react": "^0.539.0",
     "monaco-editor": "^0.52.2",
@@ -40,10 +41,11 @@
     "start:functions": "netlify functions:serve --port 9000",
     "start:netlify": "netlify dev",
     "build": "craco build && npm run build:functions",
-    "build:functions": "netlify functions:build",
+    "build:functions": "netlify functions:build --src netlify/functions",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "logs:functions": "netlify functions:serve --port 9000 --debug"
+    "logs:functions": "netlify functions:serve --port 9000 --debug",
+    "import-programs": "ts-node scripts/import-programs.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +70,7 @@
     "concurrently": "^9.2.0",
     "netlify-cli": "^23.1.4",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2"
   }
 }

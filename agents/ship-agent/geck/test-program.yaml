@@ -1,0 +1,71 @@
+program_type: test_program
+vendor: Test Vendor
+version: 1.0.0
+api_type: graphql
+
+metadata:
+  name: "Test Program"
+  description: "A test program for verifying YAML import functionality"
+  base_url: "https://api.test.com/graphql"
+  authentication:
+    type: Bearer
+    header: Authorization
+
+capabilities:
+  - on_demand_funding
+  - real_time_webhooks
+  - card_controls
+
+workflows:
+  card_issuance:
+    name: "Card Issuance"
+    description: "Issue new cards to cardholders"
+    required: true
+    steps:
+      - operation: CreateCard
+      - operation: ActivateCard
+      - operation: SetCardLimits
+
+entities:
+  - Card
+  - Cardholder
+  - Transaction
+
+categories:
+  - name: card_management
+    display_name: "Card Management"
+    description: "Operations for managing cards"
+    order: 1
+    operations:
+      - name: CreateCard
+        type: mutation
+        required: true
+        description: "Create a new card"
+      - name: GetCard
+        type: query
+        required: true
+        description: "Retrieve card details"
+
+compliance:
+  standards:
+    - name: PCI_DSS
+      version: "4.0"
+      compliant: true
+
+integrations:
+  webhooks:
+    required: true
+    endpoints:
+      - event_type: card.created
+        url: "{{webhookUrl}}/card/created"
+      - event_type: card.activated
+        url: "{{webhookUrl}}/card/activated"
+
+performance:
+  rate_limits:
+    requests_per_second: 100
+    burst_size: 200
+
+resources:
+  documentation: "https://docs.test.com"
+  support: "support@test.com"

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { 
   Search, Plus, Edit, Copy, Trash2, FileCode, 
   RefreshCw, Filter, Package, Users, Archive,
-  ChevronRight, Download, Upload, Shield, Zap
+  ChevronRight, Download, Upload, Shield, Zap,
+  Check, AlertCircle
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { ProgramConfig } from '../types';
@@ -12,6 +13,7 @@ import { VaultSelect } from '../components/VaultSelect';
 import { VaultSearch } from '../components/VaultInput';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
+import { InputModal, ConfirmModal } from '../components/ui/Modal';
 
 export const ProgramsPage: React.FC = () => {
   const { theme } = useTheme();
@@ -22,6 +24,13 @@ export const ProgramsPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'all' | 'templates' | 'subscribers'>('all');
   const [selectedVendor, setSelectedVendor] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<any>(null);
+  
+  // Modal states
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState<ProgramConfig | null>(null);
 
   const fetchPrograms = async () => {
     setLoading(true);
@@ -67,32 +76,42 @@ export const ProgramsPage: React.FC = () => {
     return matchesSearch && matchesView && matchesVendor && matchesStatus;
   });
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this program?')) {
+  const handleDelete = async () => {
+    if (selectedProgram?._id) {
       try {
-        await api.programs.delete(id);
+        await api.programs.delete(selectedProgram._id);
         await fetchPrograms();
+        setDeleteModalOpen(false);
+        setSelectedProgram(null);
       } catch (err) {
         console.error('Failed to delete program:', err);
-        alert('Failed to delete program');
+        setError('Failed to delete program');
       }
     }
   };
 
-  const handleDuplicate = async (id: string) => {
-    const program = programs.find(p => p._id === id);
-    if (program) {
-      const newName = prompt('Enter name for duplicated program:', `${program.metadata?.name}_copy`);
-      if (newName) {
-        try {
-          await api.programs.duplicate(id, newName);
-          await fetchPrograms();
-        } catch (err) {
-          console.error('Failed to duplicate program:', err);
-          alert('Failed to duplicate program');
-        }
+  const handleDuplicate = async (newName: string) => {
+    if (selectedProgram?._id) {
+      try {
+        await api.programs.duplicate(selectedProgram._id, newName);
+        await fetchPrograms();
+        setCopyModalOpen(false);
+        setSelectedProgram(null);
+      } catch (err) {
+        console.error('Failed to duplicate program:', err);
+        setError('Failed to duplicate program');
       }
     }
+  };
+
+  const openCopyModal = (program: ProgramConfig) => {
+    setSelectedProgram(program);
+    setCopyModalOpen(true);
+  };
+
+  const openDeleteModal = (program: ProgramConfig) => {
+    setSelectedProgram(program);
+    setDeleteModalOpen(true);
   };
 
   const handleExportYAML = (program: ProgramConfig) => {
@@ -105,6 +124,27 @@ export const ProgramsPage: React.FC = () => {
     a.download = `${program.program_type}.yaml`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleImportFromYAML = async () => {
+    setImporting(true);
+    setImportResult(null);
+    setError(null);
+    
+    try {
+      const response = await api.programs.import();
+      setImportResult(response);
+      
+      if (response.success) {
+        // Refresh the programs list
+        await fetchPrograms();
+      }
+    } catch (err: any) {
+      console.error('Import failed:', err);
+      setError(err.message || 'Failed to import programs from YAML');
+    } finally {
+      setImporting(false);
+    }
   };
 
   // Helper function to convert program to YAML (simplified)
@@ -200,6 +240,15 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
         </div>
         <div className="flex gap-3">
           <Button
+            onClick={handleImportFromYAML}
+            disabled={importing}
+            variant="secondary"
+            icon={<Upload size={20} className={importing ? 'animate-spin' : ''} />}
+            title="Import all YAML files from ship-agent/data/programs directory"
+          >
+            {importing ? 'Importing...' : 'Bulk Import'}
+          </Button>
+          <Button
             onClick={fetchPrograms}
             disabled={loading}
             variant="secondary"
@@ -229,6 +278,78 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
           }}
         >
           {error}
+        </div>
+      )}
+
+      {/* Import Result */}
+      {importResult && (
+        <div 
+          className="mb-6 p-4 rounded-lg"
+          style={{
+            backgroundColor: importResult.success ? `${theme.colors.success}20` : `${theme.colors.warning}20`,
+            border: `1px solid ${importResult.success ? theme.colors.success : theme.colors.warning}`,
+            color: importResult.success ? theme.colors.success : theme.colors.warning,
+          }}
+        >
+          <div className="flex items-start gap-3">
+            {importResult.success ? (
+              <Check size={20} className="mt-0.5" />
+            ) : (
+              <AlertCircle size={20} className="mt-0.5" />
+            )}
+            <div className="flex-1">
+              <p className="font-semibold mb-2">Import Complete</p>
+              <div className="text-sm space-y-1">
+                {importResult.summary.total === 1 ? (
+                  <>
+                    {importResult.summary.imported > 0 && (
+                      <p>✅ Created new program: {importResult.details.imported[0]}</p>
+                    )}
+                    {importResult.summary.updated > 0 && (
+                      <p>🔄 Updated existing program: {importResult.details.updated[0]}</p>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p>Total files: {importResult.summary.total}</p>
+                    <p>✅ Imported: {importResult.summary.imported}</p>
+                    <p>🔄 Updated: {importResult.summary.updated}</p>
+                    {importResult.summary.failed > 0 && (
+                      <p>❌ Failed: {importResult.summary.failed}</p>
+                    )}
+                    {importResult.summary.skipped > 0 && (
+                      <p>⚠️ Skipped: {importResult.summary.skipped}</p>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={() => setImportResult(null)}
+              className="text-sm hover:opacity-75"
+              style={{ color: theme.colors.textMuted }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Import Help Text - only show if no programs */}
+      {programs.length === 0 && !loading && (
+        <div className="mb-4 p-3 rounded-lg flex items-start gap-3" style={{
+          backgroundColor: theme.colors.surface,
+          border: `1px solid ${theme.colors.border}`
+        }}>
+          <AlertCircle size={16} style={{ color: theme.colors.info, marginTop: '2px' }} />
+          <div className="text-sm" style={{ color: theme.colors.textSecondary }}>
+            <strong style={{ color: theme.colors.text }}>Getting Started:</strong>
+            <ul className="mt-1 space-y-1">
+              <li>• Use <strong>Bulk Import</strong> to import all YAML files from ship-agent/data/programs</li>
+              <li>• Use <strong>Upload YAML</strong> below to import individual files</li>
+              <li>• Or click <strong>New Program</strong> to create from scratch</li>
+            </ul>
+          </div>
         </div>
       )}
 
@@ -322,8 +443,52 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
           e.currentTarget.style.borderColor = theme.colors.border;
         }}>
           <Upload size={20} />
-          <span>Import YAML</span>
-          <input type="file" accept=".yaml,.yml" className="hidden" onChange={() => {}} />
+          <span>Upload YAML</span>
+          <input 
+            type="file" 
+            accept=".yaml,.yml" 
+            className="hidden" 
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = async (evt) => {
+                  const content = evt.target?.result as string;
+                  try {
+                    setImporting(true);
+                    const response = await api.programs.importYaml(content, file.name);
+                    if (response.success) {
+                      setImportResult({
+                        success: true,
+                        summary: {
+                          total: 1,
+                          imported: response.action === 'created' ? 1 : 0,
+                          updated: response.action === 'updated' ? 1 : 0,
+                          failed: 0,
+                          skipped: 0
+                        },
+                        details: {
+                          imported: response.action === 'created' ? [file.name] : [],
+                          updated: response.action === 'updated' ? [file.name] : [],
+                          failed: [],
+                          skipped: []
+                        }
+                      });
+                      await fetchPrograms();
+                    }
+                  } catch (err: any) {
+                    console.error('Failed to import YAML:', err);
+                    setError(err.message || 'Failed to import YAML file');
+                  } finally {
+                    setImporting(false);
+                    // Reset the input so the same file can be selected again
+                    e.target.value = '';
+                  }
+                };
+                reader.readAsText(file);
+              }
+            }} 
+          />
         </label>
       </div>
 
@@ -337,28 +502,31 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
           />
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredPrograms.map((program) => (
             <Card
               key={program._id}
               variant="bordered"
-              className="transition-all p-6"
+              className="transition-all p-4 hover:shadow-lg"
               style={{
                 borderColor: theme.colors.border
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = theme.colors.primaryBorder;
+                e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = theme.colors.border;
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               {/* Header */}
-              <div className="flex justify-between items-start mb-4">
-                {getProgramIcon(program)}
-                <div className="flex items-center space-x-2">
+              <div className="flex justify-between items-start mb-3">
+                <div className="flex items-center gap-2">
+                  {getProgramIcon(program)}
                   {getStatusBadge(program.status)}
-                  <div className="flex space-x-1">
+                </div>
+                <div className="flex -mr-1">
                     <Link
                       to={`/programs/${program._id}`}
                       className="p-2 rounded transition-all"
@@ -376,7 +544,7 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
                       <Edit size={16} />
                     </Link>
                     <button
-                      onClick={() => handleDuplicate(program._id!)}
+                      onClick={() => openCopyModal(program)}
                       className="p-2 rounded transition-all"
                       style={{ color: theme.colors.textMuted }}
                       onMouseEnter={(e) => {
@@ -408,7 +576,7 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
                       <Download size={16} />
                     </button>
                     <button
-                      onClick={() => handleDelete(program._id!)}
+                      onClick={() => openDeleteModal(program)}
                       className="p-2 rounded transition-all"
                       style={{ color: theme.colors.textMuted }}
                       onMouseEnter={(e) => {
@@ -424,67 +592,60 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
                       <Trash2 size={16} />
                     </button>
                   </div>
-                </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-lg font-semibold mb-2" style={{ color: theme.colors.text }}>
+              <h3 className="font-semibold mb-1 text-base" style={{ color: theme.colors.text }}>
                 {program.metadata?.name || 'Unnamed Program'}
               </h3>
-              <p className="text-sm mb-4 line-clamp-2" style={{ color: theme.colors.textSecondary }}>
+              <p className="text-xs mb-3 line-clamp-2" style={{ color: theme.colors.textSecondary }}>
                 {program.metadata?.description || 'No description available'}
               </p>
 
-              {/* Details */}
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span style={{ color: theme.colors.textMuted }}>Type:</span>
-                  <span style={{ color: theme.colors.textSecondary }}>{program.program_type}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span style={{ color: theme.colors.textMuted }}>Vendor:</span>
-                  <span style={{ color: theme.colors.textSecondary }}>{program.vendor}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span style={{ color: theme.colors.textMuted }}>API:</span>
-                  <span className="uppercase" style={{ color: theme.colors.textSecondary }}>{program.api_type}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span style={{ color: theme.colors.textMuted }}>Version:</span>
-                  <span style={{ color: theme.colors.textSecondary }}>{program.version}</span>
-                </div>
+              {/* Compact Details Grid */}
+              <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
+                <div style={{ color: theme.colors.textMuted }}>Type:</div>
+                <div className="truncate" style={{ color: theme.colors.textSecondary }}>{program.program_type}</div>
+                <div style={{ color: theme.colors.textMuted }}>Vendor:</div>
+                <div className="truncate" style={{ color: theme.colors.textSecondary }}>{program.vendor}</div>
+                <div style={{ color: theme.colors.textMuted }}>API:</div>
+                <div className="uppercase" style={{ color: theme.colors.textSecondary }}>{program.api_type}</div>
+                <div style={{ color: theme.colors.textMuted }}>Version:</div>
+                <div style={{ color: theme.colors.textSecondary }}>{program.version}</div>
               </div>
 
               {/* Features */}
               {program.capabilities && program.capabilities.length > 0 && (
-                <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${theme.colors.border}` }}>
-                  <div className="flex flex-wrap gap-2">
-                    {program.capabilities.slice(0, 3).map((cap, idx) => (
+                <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${theme.colors.border}` }}>
+                  <div className="flex flex-wrap gap-1">
+                    {program.capabilities.slice(0, 2).map((cap, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 text-xs rounded"
+                        className="px-1.5 py-0.5 text-xs rounded"
                         style={{
                           backgroundColor: theme.colors.secondaryBackground,
-                          color: theme.colors.textSecondary
+                          color: theme.colors.textSecondary,
+                          fontSize: '10px'
                         }}
                       >
                         {cap}
                       </span>
                     ))}
-                    {program.capabilities.length > 3 && (
-                      <span className="px-2 py-1 text-xs rounded" style={{
+                    {program.capabilities.length > 2 && (
+                      <span className="px-1.5 py-0.5 text-xs rounded" style={{
                         backgroundColor: theme.colors.secondaryBackground,
-                        color: theme.colors.textMuted
+                        color: theme.colors.textMuted,
+                        fontSize: '10px'
                       }}>
-                        +{program.capabilities.length - 3} more
+                        +{program.capabilities.length - 2}
                       </span>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* Compliance Indicators */}
-              <div className="mt-4 pt-4 flex items-center justify-between" style={{ borderTop: `1px solid ${theme.colors.border}` }}>
+              {/* Compact Footer */}
+              <div className="mt-3 pt-3 flex items-center justify-between" style={{ borderTop: `1px solid ${theme.colors.border}` }}>
                 <div className="flex items-center gap-3 text-xs">
                   {program.compliance?.standards?.some(s => s.name === 'PCI_DSS') && (
                     <div className="flex items-center gap-1" style={{ color: theme.colors.success }}>
@@ -534,6 +695,49 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
           </Link>
         </div>
       )}
+
+      {/* Copy Modal */}
+      <InputModal
+        isOpen={copyModalOpen}
+        onClose={() => {
+          setCopyModalOpen(false);
+          setSelectedProgram(null);
+        }}
+        onSubmit={handleDuplicate}
+        title="Duplicate Program"
+        message={`Create a copy of "${selectedProgram?.metadata?.name || selectedProgram?.program_type}"`}
+        placeholder="Enter name for the new program"
+        defaultValue={`${selectedProgram?.metadata?.name || selectedProgram?.program_type}_copy`}
+        submitText="Duplicate"
+        cancelText="Cancel"
+        validate={(value) => {
+          if (!value.trim()) {
+            return 'Program name is required';
+          }
+          if (value.length < 3) {
+            return 'Program name must be at least 3 characters';
+          }
+          if (programs.some(p => p.metadata?.name === value)) {
+            return 'A program with this name already exists';
+          }
+          return null;
+        }}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setSelectedProgram(null);
+        }}
+        onConfirm={handleDelete}
+        title="Delete Program"
+        message={`Are you sure you want to delete "${selectedProgram?.metadata?.name || selectedProgram?.program_type}"? This action cannot be undone.`}
+        confirmText="Delete Program"
+        cancelText="Cancel"
+        type="danger"
+      />
     </div>
   );
 };

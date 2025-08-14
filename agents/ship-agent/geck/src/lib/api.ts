@@ -91,6 +91,36 @@ class ApiClient {
         method: 'POST',
         body: JSON.stringify({ newName }),
       }),
+    
+    import: () =>
+      this.request<{
+        success: boolean;
+        summary: {
+          total: number;
+          imported: number;
+          updated: number;
+          failed: number;
+          skipped: number;
+        };
+        details: {
+          imported: string[];
+          updated: string[];
+          failed: { file: string; error: string }[];
+          skipped: { file: string; reason: string }[];
+        };
+      }>(`${API_BASE}/import`, {
+        method: 'POST',
+      }),
+    
+    importYaml: (yamlContent: string, fileName?: string) =>
+      this.request<{
+        success: boolean;
+        action: 'created' | 'updated';
+        program: ProgramConfig;
+      }>(`${API_BASE}/import`, {
+        method: 'POST',
+        body: JSON.stringify({ yamlContent, fileName }),
+      }),
   };
 
   // Solution generation
