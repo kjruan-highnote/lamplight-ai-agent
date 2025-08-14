@@ -132,6 +132,61 @@ export const OperationsPage: React.FC = () => {
     }
   };
 
+  // Generate example JSON for variables
+  const generateExampleJson = (variables?: Record<string, OperationVariable>) => {
+    if (!variables) return {};
+    
+    const example: Record<string, any> = {};
+    
+    Object.entries(variables).forEach(([key, variable]) => {
+      const varData = variable as OperationVariable;
+      const varName = varData.name || key;
+      
+      // Use default value if available
+      if (varData.defaultValue !== undefined) {
+        example[varName] = varData.defaultValue;
+        return;
+      }
+      
+      // Generate example based on type
+      const type = varData.type.replace('!', '').replace('[', '').replace(']', '');
+      
+      if (type === 'ID') {
+        example[varName] = 'example-id-123';
+      } else if (type === 'String') {
+        example[varName] = varData.name?.toLowerCase().includes('email') ? 'user@example.com' :
+                          varData.name?.toLowerCase().includes('phone') ? '+1234567890' :
+                          varData.name?.toLowerCase().includes('name') ? 'John Doe' :
+                          'example string';
+      } else if (type === 'Int' || type === 'Float' || type === 'Number') {
+        example[varName] = type === 'Float' ? 123.45 : 123;
+      } else if (type === 'Boolean') {
+        example[varName] = true;
+      } else if (type.includes('Input')) {
+        // For input types, create a nested object
+        example[varName] = {
+          // Add common fields for input types
+          ...(type.includes('Create') ? { name: 'Example Name' } : {}),
+          ...(type.includes('Update') ? { id: 'example-id' } : {}),
+          // Add placeholder for other fields
+          field1: 'value1',
+          field2: 'value2'
+        };
+      } else if (varData.type.includes('[')) {
+        // Array type
+        example[varName] = ['item1', 'item2'];
+      } else {
+        // Custom type - use object placeholder
+        example[varName] = { 
+          id: 'example-id',
+          value: 'example-value' 
+        };
+      }
+    });
+    
+    return example;
+  };
+
   // Find workflows that use a specific operation
   const findWorkflowsUsingOperation = (operationName: string) => {
     const workflows: Array<{ programName: string; workflowName: string }> = [];
@@ -272,6 +327,37 @@ export const OperationsPage: React.FC = () => {
       console.error('JSON Migration failed:', error);
       setDryRunResults({
         title: 'Migration Failed',
+        isError: true,
+        error: error
+      });
+      setDryRunModalOpen(true);
+    }
+  };
+
+  const handleEnhancedMigration = async () => {
+    try {
+      const result = await api.operations.migrateEnhanced();
+      console.log('Enhanced Migration result:', result);
+      
+      // Show success message with details
+      if (result.success) {
+        setDryRunResults({
+          title: 'Enhanced Migration Complete',
+          isSuccess: true,
+          message: result.message,
+          stats: result.stats,
+          details: result.details,
+          missingQueries: result.details.missingQueries
+        });
+        setDryRunModalOpen(true);
+      }
+      
+      await loadOperations();
+      setMigrateModalOpen(false);
+    } catch (error) {
+      console.error('Enhanced Migration failed:', error);
+      setDryRunResults({
+        title: 'Enhanced Migration Failed',
         isError: true,
         error: error
       });
@@ -665,7 +751,7 @@ export const OperationsPage: React.FC = () => {
                         {operation.tags && operation.tags.length > 0 && (
                           <div className="flex items-center gap-1">
                             <span style={{ color: theme.colors.textMuted, fontSize: '10px' }}>•</span>
-                            <div className="flex gap-1">
+                            <div className="flex items-center gap-1">
                               {operation.tags.slice(0, 2).map(tag => (
                                 <span 
                                   key={tag}
@@ -682,8 +768,14 @@ export const OperationsPage: React.FC = () => {
                               ))}
                               {operation.tags.length > 2 && (
                                 <span 
-                                  className="text-xs cursor-help"
-                                  style={{ color: theme.colors.textMuted, fontSize: '10px' }}
+                                  className="px-1 py-0.5 text-xs cursor-help"
+                                  style={{ 
+                                    color: theme.colors.textMuted, 
+                                    fontSize: '10px',
+                                    backgroundColor: theme.colors.background,
+                                    border: `1px solid ${theme.colors.border}`,
+                                    borderRadius: '0.25rem'
+                                  }}
                                   title={operation.tags.join(', ')}
                                 >
                                   +{operation.tags.length - 2}
@@ -895,60 +987,133 @@ export const OperationsPage: React.FC = () => {
                             <Variable size={14} />
                             Variables ({Object.keys(operation.variables).length})
                           </h4>
-                          <div className="grid gap-2">
-                            {Object.entries(operation.variables).map(([key, variable]) => {
-                              const varData = variable as OperationVariable;
-                              const typeColor = varData.type.includes('!') ? theme.colors.danger :
-                                              varData.type.includes('[') ? theme.colors.info :
-                                              varData.type === 'ID' ? theme.colors.warning :
-                                              varData.type === 'Boolean' ? theme.colors.success :
-                                              theme.colors.primary;
-                              
-                              return (
-                                <div 
-                                  key={key}
-                                  className="flex items-start gap-3 p-3 rounded"
-                                  style={{ 
-                                    backgroundColor: theme.colors.surface,
-                                    border: `1px solid ${theme.colors.border}`
-                                  }}
-                                >
-                                  <span className="font-mono text-sm font-semibold" style={{ color: theme.colors.primary }}>
-                                    ${varData.name || key}
-                                  </span>
-                                  <span 
-                                    className="px-2 py-0.5 text-xs font-mono rounded"
-                                    style={{
-                                      backgroundColor: `${typeColor}20`,
-                                      color: typeColor
-                                    }}
-                                  >
-                                    {varData.type}
-                                  </span>
-                                  {varData.required && (
-                                    <span 
-                                      className="px-1.5 py-0.5 text-xs rounded"
-                                      style={{
-                                        backgroundColor: `${theme.colors.warning}20`,
-                                        color: theme.colors.warning
+                          
+                          {/* Variables Table */}
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr style={{ borderBottom: `1px solid ${theme.colors.border}` }}>
+                                  <th className="text-left py-2 px-3" style={{ color: theme.colors.textSecondary, fontWeight: 500 }}>
+                                    Variable
+                                  </th>
+                                  <th className="text-left py-2 px-3" style={{ color: theme.colors.textSecondary, fontWeight: 500 }}>
+                                    Type
+                                  </th>
+                                  <th className="text-left py-2 px-3" style={{ color: theme.colors.textSecondary, fontWeight: 500 }}>
+                                    Required
+                                  </th>
+                                  <th className="text-left py-2 px-3" style={{ color: theme.colors.textSecondary, fontWeight: 500 }}>
+                                    Description
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {Object.entries(operation.variables).map(([key, variable]) => {
+                                  const varData = variable as OperationVariable;
+                                  const typeColor = varData.type.includes('[') ? theme.colors.info :
+                                                  varData.type === 'ID' ? theme.colors.warning :
+                                                  varData.type === 'Boolean' ? theme.colors.success :
+                                                  varData.type.includes('Input') ? theme.colors.danger :
+                                                  varData.type === 'String' ? theme.colors.primary :
+                                                  varData.type === 'Int' || varData.type === 'Float' ? theme.colors.info :
+                                                  theme.colors.textSecondary;
+                                  
+                                  return (
+                                    <tr 
+                                      key={key}
+                                      style={{ 
+                                        borderBottom: `1px solid ${theme.colors.border}`,
+                                        backgroundColor: theme.colors.surface
                                       }}
                                     >
-                                      Required
-                                    </span>
-                                  )}
-                                  {varData.description && (
-                                    <span className="text-sm flex-1" style={{ color: theme.colors.textSecondary }}>
-                                      {varData.description}
-                                    </span>
-                                  )}
-                                  {varData.defaultValue !== undefined && (
-                                    <span className="text-xs font-mono" style={{ color: theme.colors.textMuted }}>
-                                      Default: {JSON.stringify(varData.defaultValue)}
-                                    </span>
-                                  )}
-                                </div>
-                              );
-                            })}
+                                      <td className="py-2 px-3">
+                                        <code className="font-mono text-sm" style={{ color: theme.colors.primary }}>
+                                          ${varData.name || key}
+                                        </code>
+                                      </td>
+                                      <td className="py-2 px-3">
+                                        <span 
+                                          className="px-2 py-0.5 text-xs font-mono rounded inline-block"
+                                          style={{
+                                            backgroundColor: `${typeColor}10`,
+                                            color: typeColor,
+                                            border: `1px solid ${typeColor}30`
+                                          }}
+                                        >
+                                          {varData.type}
+                                        </span>
+                                      </td>
+                                      <td className="py-2 px-3">
+                                        {varData.required ? (
+                                          <span 
+                                            className="px-2 py-0.5 text-xs rounded"
+                                            style={{
+                                              backgroundColor: `${theme.colors.danger}20`,
+                                              color: theme.colors.danger
+                                            }}
+                                          >
+                                            Yes
+                                          </span>
+                                        ) : (
+                                          <span className="text-xs" style={{ color: theme.colors.textMuted }}>
+                                            No
+                                          </span>
+                                        )}
+                                      </td>
+                                      <td className="py-2 px-3">
+                                        <span className="text-xs truncate block" style={{ 
+                                          color: theme.colors.textSecondary,
+                                          maxWidth: '300px'
+                                        }}>
+                                          {varData.description || '-'}
+                                        </span>
+                                        {varData.defaultValue !== undefined && (
+                                          <span className="text-xs block mt-1" style={{ color: theme.colors.textMuted }}>
+                                            Default: <code>{JSON.stringify(varData.defaultValue)}</code>
+                                          </span>
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                          
+                          {/* Example Input JSON */}
+                          <div className="mt-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <h5 className="text-xs font-semibold" style={{ color: theme.colors.textSecondary }}>
+                                Example Input JSON
+                              </h5>
+                              <button
+                                onClick={() => {
+                                  const exampleJson = generateExampleJson(operation.variables);
+                                  navigator.clipboard.writeText(JSON.stringify(exampleJson, null, 2));
+                                }}
+                                className="text-xs px-2 py-1 rounded flex items-center gap-1"
+                                style={{
+                                  backgroundColor: theme.colors.primaryBackground,
+                                  color: theme.colors.primary,
+                                  border: `1px solid ${theme.colors.primaryBorder}`
+                                }}
+                              >
+                                <Copy size={12} />
+                                Copy
+                              </button>
+                            </div>
+                            <div 
+                              className="p-3 rounded overflow-x-auto"
+                              style={{ 
+                                backgroundColor: theme.colors.background,
+                                border: `1px solid ${theme.colors.border}`,
+                                maxHeight: '200px'
+                              }}
+                            >
+                              <pre className="text-xs font-mono" style={{ color: theme.colors.text, margin: 0 }}>
+                                {JSON.stringify(generateExampleJson(operation.variables), null, 2)}
+                              </pre>
+                            </div>
                           </div>
                         </div>
                       )}
@@ -1198,28 +1363,55 @@ export const OperationsPage: React.FC = () => {
           </p>
           
           <div className="space-y-4">
-            {/* JSON Operations Import */}
+            {/* Enhanced Migration - NEW */}
             <div className="p-4 rounded-lg border" style={{
-              borderColor: theme.colors.primary,
-              backgroundColor: `${theme.colors.primary}10`,
+              borderColor: theme.colors.success,
+              backgroundColor: `${theme.colors.success}10`,
               borderWidth: '2px'
             }}>
               <div className="flex items-start gap-3">
-                <Database size={24} style={{ color: theme.colors.primary, marginTop: 2 }} />
+                <GitMerge size={24} style={{ color: theme.colors.success, marginTop: 2 }} />
                 <div className="flex-1">
                   <h4 className="font-semibold mb-2" style={{ color: theme.colors.text }}>
-                    Import from Operations JSON Files (Recommended)
+                    Enhanced Migration with GraphQL Queries (Recommended)
                   </h4>
                   <p className="text-sm mb-3" style={{ color: theme.colors.textSecondary }}>
-                    Import all operations from the data/operations directory. This includes 51 JSON files with structured operation definitions.
+                    Combines operation metadata from JSON files with actual GraphQL queries from Postman collections. 
+                    This provides complete operation definitions with real queries and properly typed variables.
                   </p>
                   <Button
                     variant="primary"
                     size="sm"
+                    icon={<GitMerge size={16} />}
+                    onClick={handleEnhancedMigration}
+                  >
+                    Run Enhanced Migration
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* JSON Operations Import */}
+            <div className="p-4 rounded-lg border" style={{
+              borderColor: theme.colors.border,
+              backgroundColor: theme.colors.surface
+            }}>
+              <div className="flex items-start gap-3">
+                <Database size={24} style={{ color: theme.colors.textMuted, marginTop: 2 }} />
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-2" style={{ color: theme.colors.text }}>
+                    Basic JSON Import
+                  </h4>
+                  <p className="text-sm mb-3" style={{ color: theme.colors.textSecondary }}>
+                    Import operations from JSON files only. This creates basic templates without actual GraphQL queries.
+                  </p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     icon={<Database size={16} />}
                     onClick={handleMigrateJsonOperations}
                   >
-                    Import All Operations JSON
+                    Import JSON Only
                   </Button>
                 </div>
               </div>

@@ -262,6 +262,28 @@ class ApiClient {
         body: JSON.stringify({}),
       }),
     
+    migrateEnhanced: () =>
+      this.request<{
+        success: boolean;
+        message: string;
+        stats: {
+          filesProcessed: number;
+          totalOperations: number;
+          inserted: number;
+          updated: number;
+          failed: number;
+          missingQueries: number;
+        };
+        details: {
+          processed: string[];
+          failed: { file: string; error: string }[];
+          missingQueries: string[];
+        };
+      }>(`${API_BASE}/migrate-operations-enhanced`, {
+        method: 'POST',
+        body: JSON.stringify({}),
+      }),
+    
     analyzeDuplicates: () =>
       this.request<{
         success: boolean;
