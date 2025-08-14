@@ -168,12 +168,50 @@ export interface Category {
 }
 
 export interface Operation {
+  _id?: string;
   name: string;
   type: 'query' | 'mutation' | 'subscription';
+  category: string;
+  description?: string;
+  required?: boolean;
+  
+  // GraphQL specific fields
+  query: string; // The actual GraphQL query/mutation string
+  variables?: Record<string, OperationVariable>; // Variable definitions
+  
+  // Request/Response schemas
+  parameters?: Record<string, any>; // Legacy or additional params
+  response?: Record<string, any>; // Expected response structure
+  
+  // Metadata
+  tags?: string[];
+  vendor?: string; // Which vendor this operation belongs to
+  apiType?: 'graphql' | 'rest' | 'soap';
+  documentation?: string; // Markdown documentation
+  examples?: OperationExample[];
+  
+  // System fields
+  createdAt?: Date;
+  updatedAt?: Date;
+  createdBy?: string;
+  source?: 'postman' | 'manual' | 'import';
+  postmanId?: string; // Reference to original Postman item
+}
+
+export interface OperationVariable {
+  name: string;
+  type: string; // GraphQL type (String, Int, Boolean, ID, custom types)
   required: boolean;
   description?: string;
-  parameters?: Record<string, any>;
-  response?: Record<string, any>;
+  defaultValue?: any;
+  enumValues?: string[]; // If it's an enum type
+}
+
+export interface OperationExample {
+  name: string;
+  description?: string;
+  variables: Record<string, any>;
+  expectedResponse?: any;
 }
 
 export interface ComplianceConfig {

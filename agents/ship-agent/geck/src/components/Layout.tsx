@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Database, FileJson, Cpu, GitBranch, Settings, Home } from 'lucide-react';
+import { Database, FileJson, Cpu, GitBranch, Settings, Home, Code2 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 
 interface LayoutProps {
@@ -15,6 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/', icon: Home, label: 'DASHBOARD' },
     { path: '/contexts', icon: FileJson, label: 'CONTEXTS' },
     { path: '/programs', icon: Database, label: 'PROGRAMS' },
+    { path: '/operations', icon: Code2, label: 'OPERATIONS' },
     { path: '/solution', icon: Cpu, label: 'GENERATOR' },
     { path: '/sync', icon: GitBranch, label: 'SYNC' },
     { path: '/settings', icon: Settings, label: 'SETTINGS' },

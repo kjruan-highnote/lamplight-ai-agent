@@ -57,6 +57,7 @@ export const ProgramEditor: React.FC = () => {
   const [templates, setTemplates] = useState<ProgramConfig[]>([]);
   const [customCapabilities, setCustomCapabilities] = useState<CustomCapability[]>([]);
   const [editorSize, setEditorSize] = useState<'normal' | 'large' | 'fullscreen'>('normal');
+  const [availableOperations, setAvailableOperations] = useState<string[]>([]);
 
   useEffect(() => {
     fetchContextsAndTemplates();
@@ -95,12 +96,18 @@ export const ProgramEditor: React.FC = () => {
 
   const fetchContextsAndTemplates = async () => {
     try {
-      const [contextsData, programsData] = await Promise.all([
+      const [contextsData, programsData, operationsData] = await Promise.all([
         api.contexts.list(),
-        api.programs.list()
+        api.programs.list(),
+        api.operations.list()
       ]);
       setContexts(contextsData);
       setTemplates(programsData.filter(p => p.program_class === 'template'));
+      
+      // Extract operation names for the workflow manager
+      if (Array.isArray(operationsData)) {
+        setAvailableOperations(operationsData.map(op => op.name));
+      }
     } catch (err) {
       console.error('Failed to fetch data:', err);
     }
@@ -235,9 +242,11 @@ export const ProgramEditor: React.FC = () => {
         newCategories[categoryIndex].operations.push({
           name,
           type: 'query',
+          category: newCategories[categoryIndex].name,
+          query: '', // Required field for Operation type
           required: false,
           description: ''
-        });
+        } as Operation);
         return { ...prev, categories: newCategories };
       });
     }
@@ -652,10 +661,12 @@ export const ProgramEditor: React.FC = () => {
                 setProgram(prev => ({ ...prev, workflows }));
               }}
               operations={
-                // Get all operations from categories if available
-                program.categories?.flatMap(cat => 
-                  cat.operations?.map(op => op.name) || []
-                ) || []
+                // Use operations from database if available, fallback to program categories
+                availableOperations.length > 0 
+                  ? availableOperations
+                  : program.categories?.flatMap(cat => 
+                      cat.operations?.map(op => op.name) || []
+                    ) || []
               }
             />
           </div>

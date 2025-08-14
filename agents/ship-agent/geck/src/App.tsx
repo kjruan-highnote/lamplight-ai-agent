@@ -7,6 +7,7 @@ import { ContextsPage } from './pages/ContextsPage';
 import { ProgramsPage } from './pages/ProgramsPage';
 import { ContextEditor } from './pages/ContextEditor';
 import { ProgramEditor } from './pages/ProgramEditor';
+import { OperationsPage } from './pages/OperationsPage';
 import { SolutionGenerator } from './pages/SolutionGenerator';
 import { PostmanSync } from './pages/PostmanSync';
 import { Settings } from './pages/Settings';
@@ -36,6 +37,7 @@ function AppContent() {
         <Route path="/programs" element={<ProgramsPage />} />
         <Route path="/programs/new" element={<ProgramEditor />} />
         <Route path="/programs/:id" element={<ProgramEditor />} />
+        <Route path="/operations" element={<OperationsPage />} />
         <Route path="/solution" element={<SolutionGenerator />} />
         <Route path="/sync" element={<PostmanSync />} />
         <Route path="/settings" element={<Settings />} />

@@ -1,4 +1,4 @@
-import { CustomerContext, ProgramConfig } from '../types';
+import { CustomerContext, ProgramConfig, Operation } from '../types';
 
 // Use local functions port in development, otherwise use Netlify functions path
 const API_BASE = process.env.NODE_ENV === 'development' 
@@ -177,6 +177,57 @@ class ApiClient {
           lastCheck: Date;
         };
       }>(`${API_BASE}/dashboard`),
+  };
+
+  // Operations APIs
+  operations = {
+    list: (params?: { 
+      vendor?: string; 
+      category?: string; 
+      type?: string; 
+      tags?: string[];
+      groupBy?: 'category';
+    }) => 
+      this.request<Operation[] | Record<string, Operation[]>>(
+        `${API_BASE}/operations?${new URLSearchParams(params as any).toString()}`
+      ),
+    
+    get: (id: string) => 
+      this.request<Operation>(`${API_BASE}/operations/${id}`),
+    
+    create: (data: Omit<Operation, '_id'>) => 
+      this.request<Operation>(`${API_BASE}/operations`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+    
+    update: (id: string, data: Partial<Operation>) => 
+      this.request<Operation>(`${API_BASE}/operations/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    
+    delete: (id: string) => 
+      this.request<void>(`${API_BASE}/operations/${id}`, {
+        method: 'DELETE',
+      }),
+    
+    migrate: (postmanCollection?: any) =>
+      this.request<{
+        success: boolean;
+        message: string;
+        stats: {
+          total?: number;
+          inserted?: number;
+          updated?: number;
+          skipped?: number;
+          collections?: number;
+          totalOperations?: number;
+        };
+      }>(`${API_BASE}/migrate-operations`, {
+        method: 'POST',
+        body: JSON.stringify(postmanCollection ? { postmanCollection } : { scanDirectory: true }),
+      }),
   };
 }
 
