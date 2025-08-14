@@ -187,8 +187,21 @@ class ApiClient {
       type?: string; 
       tags?: string[];
       groupBy?: 'category';
+      search?: string;
+      page?: number;
+      pageSize?: number;
     }) => 
-      this.request<Operation[] | Record<string, Operation[]>>(
+      this.request<{
+        data: Operation[] | Record<string, Operation[]>;
+        pagination: {
+          page: number;
+          pageSize: number;
+          totalCount: number;
+          totalPages: number;
+          hasNext: boolean;
+          hasPrev: boolean;
+        };
+      } | Operation[]>(
         `${API_BASE}/operations?${new URLSearchParams(params as any).toString()}`
       ),
     
@@ -227,6 +240,67 @@ class ApiClient {
       }>(`${API_BASE}/migrate-operations`, {
         method: 'POST',
         body: JSON.stringify(postmanCollection ? { postmanCollection } : { scanDirectory: true }),
+      }),
+    
+    migrateJson: () =>
+      this.request<{
+        success: boolean;
+        message: string;
+        stats: {
+          filesProcessed: number;
+          totalOperations: number;
+          inserted: number;
+          updated: number;
+          failed: number;
+        };
+        details: {
+          processed: string[];
+          failed: { file: string; error: string }[];
+        };
+      }>(`${API_BASE}/migrate-operations-json`, {
+        method: 'POST',
+        body: JSON.stringify({}),
+      }),
+    
+    analyzeDuplicates: () =>
+      this.request<{
+        success: boolean;
+        stats: {
+          totalOperations: number;
+          totalDuplicates: number;
+          totalGroups: number;
+          percentDuplicated: string;
+        };
+        duplicateGroups: Array<{
+          key: string;
+          name: string;
+          vendor: string;
+          category: string;
+          count: number;
+          duplicates: number;
+          operations: any[];
+        }>;
+      }>(`${API_BASE}/dedup-operations?action=analyze`),
+    
+    deduplicate: (options?: { 
+      strategy?: 'keep-newest' | 'keep-oldest' | 'keep-import';
+      dryRun?: boolean;
+    }) =>
+      this.request<{
+        success: boolean;
+        dryRun: boolean;
+        strategy: string;
+        results: {
+          processed: number;
+          kept: number;
+          removed: number;
+          errors: number;
+          details: any[];
+        };
+        message: string;
+      }>(`${API_BASE}/dedup-operations?action=deduplicate`, {
+        method: 'POST',
+        body: JSON.stringify(options || { strategy: 'keep-newest', dryRun: false }),
       }),
   };
 }

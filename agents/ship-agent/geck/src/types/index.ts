@@ -167,6 +167,18 @@ export interface Category {
   operations: Operation[];
 }
 
+export interface OperationMetadata {
+  categories?: string[];
+  vendors?: string[];
+  sources?: Array<{
+    _id: string;
+    category?: string;
+    vendor?: string;
+    source?: string;
+    createdAt?: Date;
+  }>;
+}
+
 export interface Operation {
   _id?: string;
   name: string;
@@ -189,6 +201,7 @@ export interface Operation {
   apiType?: 'graphql' | 'rest' | 'soap';
   documentation?: string; // Markdown documentation
   examples?: OperationExample[];
+  metadata?: OperationMetadata; // Stores merged metadata from deduplication
   
   // System fields
   createdAt?: Date;

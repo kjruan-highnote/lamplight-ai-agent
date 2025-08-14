@@ -9,7 +9,7 @@ interface ModalProps {
   title: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -49,6 +49,8 @@ export const Modal: React.FC<ModalProps> = ({
         return '400px';
       case 'lg':
         return '800px';
+      case 'xl':
+        return '1200px';
       default:
         return '600px';
     }

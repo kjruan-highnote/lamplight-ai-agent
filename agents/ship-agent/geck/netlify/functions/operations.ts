@@ -39,16 +39,39 @@ export const handler: Handler = async (event, context) => {
             body: JSON.stringify(operation)
           };
         } else {
-          // Get all operations with optional filters
+          // Get all operations with optional filters and pagination
           const params = event.queryStringParameters || {};
           const filter: any = {};
           
+          // Filters
           if (params.vendor) filter.vendor = params.vendor;
           if (params.category) filter.category = params.category;
           if (params.type) filter.type = params.type;
           if (params.tags) filter.tags = { $in: params.tags.split(',') };
+          if (params.search) {
+            filter.$or = [
+              { name: { $regex: params.search, $options: 'i' } },
+              { description: { $regex: params.search, $options: 'i' } },
+              { tags: { $in: [new RegExp(params.search, 'i')] } }
+            ];
+          }
           
-          const operations = await collection.find(filter).toArray();
+          // Pagination
+          const page = parseInt(params.page || '1');
+          const pageSize = parseInt(params.pageSize || '50');
+          const skip = (page - 1) * pageSize;
+          
+          // Get total count for pagination
+          const totalCount = await collection.countDocuments(filter);
+          const totalPages = Math.ceil(totalCount / pageSize);
+          
+          // Get paginated results
+          const operations = await collection
+            .find(filter)
+            .sort({ name: 1, vendor: 1 })
+            .skip(skip)
+            .limit(pageSize)
+            .toArray();
           
           // Group by category if requested
           if (params.groupBy === 'category') {
@@ -62,14 +85,34 @@ export const handler: Handler = async (event, context) => {
             return {
               statusCode: 200,
               headers,
-              body: JSON.stringify(grouped)
+              body: JSON.stringify({
+                data: grouped,
+                pagination: {
+                  page,
+                  pageSize,
+                  totalCount,
+                  totalPages,
+                  hasNext: page < totalPages,
+                  hasPrev: page > 1
+                }
+              })
             };
           }
           
           return {
             statusCode: 200,
             headers,
-            body: JSON.stringify(operations)
+            body: JSON.stringify({
+              data: operations,
+              pagination: {
+                page,
+                pageSize,
+                totalCount,
+                totalPages,
+                hasNext: page < totalPages,
+                hasPrev: page > 1
+              }
+            })
           };
         }
 
