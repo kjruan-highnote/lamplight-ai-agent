@@ -20,6 +20,7 @@ import { CapabilitiesSelector } from '../components/program/CapabilitiesSelector
 import { CapabilityManager, CustomCapability } from '../components/program/CapabilityManager';
 import { WorkflowManager } from '../components/program/WorkflowManager';
 import * as yaml from 'js-yaml';
+import { sampleWorkflows } from '../data/sampleWorkflows';
 
 type TabType = 'general' | 'capabilities' | 'workflows' | 'operations' | 'compliance' | 'integration' | 'yaml';
 
@@ -44,7 +45,7 @@ export const ProgramEditor: React.FC = () => {
       },
     },
     capabilities: [],
-    workflows: {},
+    workflows: sampleWorkflows, // Initialize with sample workflows for testing
     entities: [],
     categories: [],
     tags: [],

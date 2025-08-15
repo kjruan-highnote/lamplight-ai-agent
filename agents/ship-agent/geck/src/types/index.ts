@@ -145,6 +145,12 @@ export interface Workflow {
   description: string;
   required: boolean;
   steps: WorkflowStep[];
+  diagram?: {
+    type: 'mermaid' | 'plantuml' | 'markdown' | 'image';
+    content?: string;
+    imageUrl?: string;
+    lastUpdated?: Date;
+  };
 }
 
 export interface WorkflowStep {

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useTheme } from '../../themes/ThemeContext';
 import { 
   Plus, Edit2, Trash2, Save, X, ChevronDown, ChevronRight,
-  GripVertical, GitBranch, Clock, Copy, FileText, Layers
+  GripVertical, GitBranch, Clock, Copy, FileText, Layers,
+  Image, Code2, Upload
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input, Textarea } from '../ui/Input';
@@ -10,6 +11,10 @@ import { Card } from '../ui/Card';
 import { Modal, ConfirmModal } from '../ui/Modal';
 import { Workflow, WorkflowStep } from '../../types';
 import { OperationSelector, OPERATION_TEMPLATES } from './OperationSelector';
+import { DiagramRenderer } from '../workflow/DiagramRenderer';
+import { Select } from '../ui/Select';
+import Editor from '@monaco-editor/react';
+import { ErrorBoundary } from '../ui/ErrorBoundary';
 
 // Extend the base types with additional properties we need for management
 interface ExtendedWorkflowStep extends WorkflowStep {
@@ -44,6 +49,8 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
   const [showTemplates, setShowTemplates] = useState(false);
   const [bulkAddStepsModal, setBulkAddStepsModal] = useState<{ workflowKey: string } | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
+  const [diagramEditModal, setDiagramEditModal] = useState<{ workflowKey: string } | null>(null);
+  const [showDiagrams, setShowDiagrams] = useState<Set<string>>(new Set());
   
   // Form states
   const [workflowForm, setWorkflowForm] = useState<Partial<ExtendedWorkflow>>({});
@@ -66,6 +73,15 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
     tags: ''
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [diagramForm, setDiagramForm] = useState<{
+    type: 'mermaid' | 'plantuml' | 'markdown' | 'image';
+    content: string;
+    imageUrl: string;
+  }>({
+    type: 'mermaid',
+    content: '',
+    imageUrl: ''
+  });
   
   // Drag and drop states
   const [draggedWorkflow, setDraggedWorkflow] = useState<string | null>(null);
@@ -88,6 +104,103 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
       newExpanded.add(key);
     }
     setExpandedWorkflows(newExpanded);
+  };
+
+  const toggleDiagram = (key: string) => {
+    const newShow = new Set(showDiagrams);
+    if (newShow.has(key)) {
+      newShow.delete(key);
+    } else {
+      newShow.add(key);
+    }
+    setShowDiagrams(newShow);
+  };
+
+  const openDiagramEditor = (workflowKey: string) => {
+    const workflow = workflows[workflowKey];
+    if (workflow.diagram) {
+      setDiagramForm({
+        type: workflow.diagram.type,
+        content: workflow.diagram.content || '',
+        imageUrl: workflow.diagram.imageUrl || ''
+      });
+    } else {
+      // Generate a default Mermaid sequence diagram from steps
+      const mermaidContent = generateMermaidFromSteps(workflow);
+      setDiagramForm({
+        type: 'mermaid',
+        content: mermaidContent,
+        imageUrl: ''
+      });
+    }
+    setDiagramEditModal({ workflowKey });
+  };
+
+  const generateMermaidFromSteps = (workflow: Workflow): string => {
+    // Helper to escape special characters for Mermaid
+    const escapeForMermaid = (text: string): string => {
+      return text
+        .replace(/[<>{}|\\]/g, '') // Remove problematic characters
+        .replace(/"/g, "'") // Replace quotes
+        .replace(/\n/g, ' ') // Replace newlines with spaces
+        .trim();
+    };
+
+    let mermaid = 'sequenceDiagram\n';
+    mermaid += '    participant User\n';
+    mermaid += '    participant System\n';
+    mermaid += '    participant API\n\n';
+    
+    workflow.steps.forEach((step, index) => {
+      const actor = index % 2 === 0 ? 'User' : 'System';
+      const target = index % 2 === 0 ? 'System' : 'API';
+      const operation = escapeForMermaid(step.operation || 'Operation');
+      mermaid += `    ${actor}->>${target}: ${operation}\n`;
+      if (step.description) {
+        const description = escapeForMermaid(step.description);
+        mermaid += `    Note over ${target}: ${description}\n`;
+      }
+    });
+    
+    return mermaid;
+  };
+
+  const saveDiagram = () => {
+    if (!diagramEditModal) return;
+    
+    const workflowKey = diagramEditModal.workflowKey;
+    const workflow = workflows[workflowKey];
+    
+    onChange({
+      ...workflows,
+      [workflowKey]: {
+        ...workflow,
+        diagram: {
+          type: diagramForm.type,
+          content: diagramForm.content,
+          imageUrl: diagramForm.imageUrl,
+          lastUpdated: new Date()
+        }
+      }
+    });
+    
+    setDiagramEditModal(null);
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        setDiagramForm(prev => ({
+          ...prev,
+          type: 'image',
+          imageUrl: dataUrl
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const validateWorkflowForm = (): boolean => {
@@ -573,6 +686,40 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                     ) : (
                       <>
                         <button
+                          onClick={() => openDiagramEditor(key)}
+                          className="p-2 rounded transition-all"
+                          style={{ color: theme.colors.textMuted }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = theme.colors.secondary;
+                            e.currentTarget.style.backgroundColor = `${theme.colors.secondary}20`;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = theme.colors.textMuted;
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }}
+                          title="Edit Diagram"
+                        >
+                          <Code2 size={16} />
+                        </button>
+                        {workflow.diagram && (
+                          <button
+                            onClick={() => toggleDiagram(key)}
+                            className="p-2 rounded transition-all"
+                            style={{ color: showDiagrams.has(key) ? theme.colors.primary : theme.colors.textMuted }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = theme.colors.primary;
+                              e.currentTarget.style.backgroundColor = theme.colors.primaryBackground;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = showDiagrams.has(key) ? theme.colors.primary : theme.colors.textMuted;
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                            }}
+                            title={showDiagrams.has(key) ? "Hide Diagram" : "Show Diagram"}
+                          >
+                            <Image size={16} />
+                          </button>
+                        )}
+                        <button
                           onClick={() => handleDuplicateWorkflow(key)}
                           className="p-2 rounded transition-all"
                           style={{ color: theme.colors.textMuted }}
@@ -624,6 +771,20 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                     )}
                   </div>
                 </div>
+
+                {/* Diagram Display */}
+                {showDiagrams.has(key) && workflow.diagram && (
+                  <div className="mt-4 ml-12">
+                    <ErrorBoundary>
+                      <DiagramRenderer
+                        type={workflow.diagram.type}
+                        content={workflow.diagram.content || ''}
+                        imageUrl={workflow.diagram.imageUrl}
+                        className="mb-4"
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
 
                 {/* Workflow Steps */}
                 {isExpanded && (
@@ -1244,6 +1405,278 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                 )}
               </div>
             </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Diagram Editor Modal */}
+      {diagramEditModal && (
+        <Modal
+          isOpen={true}
+          onClose={() => setDiagramEditModal(null)}
+          title={`Edit Diagram - ${workflows[diagramEditModal.workflowKey].name}`}
+          size="xl"
+          footer={
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="secondary"
+                onClick={() => setDiagramEditModal(null)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={saveDiagram}
+              >
+                Save Diagram
+              </Button>
+            </div>
+          }
+        >
+          <div className="space-y-4">
+            {/* Diagram Type Selection */}
+            <div>
+              <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                Diagram Type
+              </label>
+              <Select
+                value={diagramForm.type}
+                onChange={(value) => setDiagramForm({ ...diagramForm, type: value as any })}
+                options={[
+                  { value: 'mermaid', label: 'Mermaid Sequence Diagram' },
+                  { value: 'plantuml', label: 'PlantUML Diagram' },
+                  { value: 'markdown', label: 'Markdown with Diagrams' },
+                  { value: 'image', label: 'Upload Image' }
+                ]}
+              />
+            </div>
+
+            {/* Content Editor or Image Upload */}
+            {diagramForm.type === 'image' ? (
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                  Upload Diagram Image
+                </label>
+                <div className="border-2 border-dashed rounded-lg p-8 text-center" style={{
+                  borderColor: theme.colors.border,
+                  backgroundColor: theme.colors.surface
+                }}>
+                  <Upload size={48} className="mx-auto mb-4" style={{ color: theme.colors.textMuted }} />
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <Button variant="primary" size="sm">
+                      Choose Image
+                    </Button>
+                  </label>
+                  <p className="text-sm mt-2" style={{ color: theme.colors.textMuted }}>
+                    or drag and drop an image here
+                  </p>
+                  {diagramForm.imageUrl && (
+                    <div className="mt-4">
+                      <img 
+                        src={diagramForm.imageUrl} 
+                        alt="Preview" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '200px',
+                          margin: '0 auto',
+                          borderRadius: theme.borders.radius.md
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                  {diagramForm.type === 'mermaid' ? 'Mermaid Code' : 
+                   diagramForm.type === 'plantuml' ? 'PlantUML Code' : 
+                   'Markdown Content'}
+                </label>
+                <div style={{
+                  border: `1px solid ${theme.colors.border}`,
+                  borderRadius: theme.borders.radius.md,
+                  overflow: 'hidden'
+                }}>
+                  <Editor
+                    height="400px"
+                    language={
+                      diagramForm.type === 'mermaid' ? 'mermaid' : 
+                      diagramForm.type === 'plantuml' ? 'plantuml' : 
+                      'markdown'
+                    }
+                    value={diagramForm.content || (
+                      diagramForm.type === 'mermaid' ? 
+                      'sequenceDiagram\n    participant User\n    participant System\n    participant API\n    \n    User->>System: Send Request\n    System->>API: Process Data\n    API-->>System: Return Result\n    System-->>User: Send Response' :
+                      diagramForm.type === 'plantuml' ?
+                      '@startuml\nparticipant User\nparticipant System\nparticipant API\n\nUser -> System: Send Request\nSystem -> API: Process Data\nAPI --> System: Return Result\nSystem --> User: Send Response\n@enduml' :
+                      '# Workflow Description\n\nThis workflow demonstrates the interaction between components.\n\n## Sequence Diagram\n\n```mermaid\nsequenceDiagram\n    participant User\n    participant System\n    \n    User->>System: Request\n    System-->>User: Response\n```'
+                    )}
+                    onChange={(value) => setDiagramForm({ ...diagramForm, content: value || '' })}
+                    theme="vs-dark"
+                    options={{
+                      minimap: { enabled: false },
+                      fontSize: 14,
+                      wordWrap: 'on',
+                      formatOnPaste: true,
+                      formatOnType: true,
+                      automaticLayout: true,
+                      scrollBeyondLastLine: false,
+                      suggest: {
+                        showKeywords: true,
+                        showSnippets: true
+                      },
+                      quickSuggestions: {
+                        other: true,
+                        comments: false,
+                        strings: true
+                      }
+                    }}
+                    beforeMount={(monaco) => {
+                      // Register custom language for Mermaid
+                      if (!monaco.languages.getLanguages().some(lang => lang.id === 'mermaid')) {
+                        monaco.languages.register({ id: 'mermaid' });
+                        monaco.languages.setMonarchTokensProvider('mermaid', {
+                          tokenizer: {
+                            root: [
+                              [/sequenceDiagram/, 'keyword'],
+                              [/participant/, 'keyword'],
+                              [/activate/, 'keyword'],
+                              [/deactivate/, 'keyword'],
+                              [/Note/, 'keyword'],
+                              [/loop/, 'keyword'],
+                              [/alt/, 'keyword'],
+                              [/else/, 'keyword'],
+                              [/opt/, 'keyword'],
+                              [/par/, 'keyword'],
+                              [/rect/, 'keyword'],
+                              [/autonumber/, 'keyword'],
+                              [/graph/, 'keyword'],
+                              [/subgraph/, 'keyword'],
+                              [/end/, 'keyword'],
+                              [/flowchart/, 'keyword'],
+                              [/classDiagram/, 'keyword'],
+                              [/stateDiagram/, 'keyword'],
+                              [/erDiagram/, 'keyword'],
+                              [/journey/, 'keyword'],
+                              [/gantt/, 'keyword'],
+                              [/-->>/, 'operator'],
+                              [/-->/, 'operator'],
+                              [/->>/, 'operator'],
+                              [/->/, 'operator'],
+                              [/--x/, 'operator'],
+                              [/-x/, 'operator'],
+                              [/==/, 'operator'],
+                              [/%%.*$/, 'comment'],
+                              [/".*?"/, 'string'],
+                              [/'.*?'/, 'string'],
+                              [/:.*$/, 'string']
+                            ]
+                          }
+                        });
+                      }
+                      
+                      // Register custom language for PlantUML
+                      if (!monaco.languages.getLanguages().some(lang => lang.id === 'plantuml')) {
+                        monaco.languages.register({ id: 'plantuml' });
+                        monaco.languages.setMonarchTokensProvider('plantuml', {
+                          tokenizer: {
+                            root: [
+                              [/@startuml/, 'keyword.control'],
+                              [/@enduml/, 'keyword.control'],
+                              [/@startmindmap/, 'keyword.control'],
+                              [/@endmindmap/, 'keyword.control'],
+                              [/@startsalt/, 'keyword.control'],
+                              [/@endsalt/, 'keyword.control'],
+                              [/@startgantt/, 'keyword.control'],
+                              [/@endgantt/, 'keyword.control'],
+                              [/participant|actor|boundary|control|entity|database|collections|queue/, 'keyword'],
+                              [/activate|deactivate|destroy|create|note|ref|return|group|loop|alt|else|opt|break|par|critical|assert/, 'keyword'],
+                              [/-->/, 'operator'],
+                              [/->/, 'operator'],
+                              [/<--/, 'operator'],
+                              [/<-/, 'operator'],
+                              [/==>/, 'operator'],
+                              [/=>/, 'operator'],
+                              [/'.*$/, 'comment'],
+                              [/".*?"/, 'string'],
+                              [/\[.*?\]/, 'type'],
+                              [/\(.*?\)/, 'type'],
+                              [/#[0-9A-Fa-f]{6}/, 'number.hex']
+                            ]
+                          }
+                        });
+                      }
+                    }}
+                  />
+                </div>
+                {diagramForm.type === 'mermaid' && (
+                  <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+                    <a 
+                      href="https://mermaid.js.org/syntax/sequenceDiagram.html" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{ color: theme.colors.primary, textDecoration: 'underline' }}
+                    >
+                      Mermaid Sequence Diagram Documentation
+                    </a>
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Preview */}
+            {(diagramForm.type !== 'image' && diagramForm.content) || 
+             (diagramForm.type === 'image' && diagramForm.imageUrl) ? (
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                  Preview
+                </label>
+                <div className="border rounded-lg p-4" style={{
+                  borderColor: theme.colors.border,
+                  backgroundColor: theme.colors.background
+                }}>
+                  <ErrorBoundary>
+                    <DiagramRenderer
+                      type={diagramForm.type}
+                      content={diagramForm.content}
+                      imageUrl={diagramForm.imageUrl}
+                    />
+                  </ErrorBoundary>
+                </div>
+              </div>
+            ) : (
+              diagramForm.type === 'image' ? null : (
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                    Preview
+                  </label>
+                  <div className="border rounded-lg p-4" style={{
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.background,
+                    minHeight: '200px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <div style={{ textAlign: 'center', color: theme.colors.textMuted }}>
+                      <p className="text-sm">
+                        {diagramForm.type === 'mermaid' ? 'Enter Mermaid code above to see preview' :
+                         diagramForm.type === 'plantuml' ? 'Enter PlantUML code above to see preview' :
+                         diagramForm.type === 'markdown' ? 'Enter Markdown content above to see preview' :
+                         'Start typing to see preview'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </Modal>
       )}
