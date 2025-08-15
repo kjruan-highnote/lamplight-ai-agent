@@ -67,13 +67,12 @@ export const ProgramsPage: React.FC = () => {
       (viewMode === 'templates' && program.program_class === 'template') ||
       (viewMode === 'subscribers' && program.program_class === 'subscriber');
     
-    const matchesVendor = 
-      selectedVendor === 'all' || program.vendor === selectedVendor;
+    // Vendor filter removed - focusing on Highnote Inc. only
     
     const matchesStatus = 
       selectedStatus === 'all' || program.status === selectedStatus;
     
-    return matchesSearch && matchesView && matchesVendor && matchesStatus;
+    return matchesSearch && matchesView && matchesStatus;
   });
 
   const handleDelete = async () => {
@@ -403,16 +402,7 @@ ${program.capabilities?.map(cap => `  - ${cap}`).join('\n')}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        {/* Vendor Filter */}
-        <VaultSelect
-          value={selectedVendor}
-          onChange={setSelectedVendor}
-          options={[
-            { value: 'all', label: 'All Vendors' },
-            ...vendors.map(vendor => ({ value: vendor, label: vendor }))
-          ]}
-          placeholder="Select Vendor"
-        />
+        {/* Vendor Filter hidden - focusing on Highnote Inc. only */}
 
         {/* Status Filter */}
         <VaultSelect

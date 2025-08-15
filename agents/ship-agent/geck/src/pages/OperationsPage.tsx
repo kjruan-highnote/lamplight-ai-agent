@@ -64,7 +64,7 @@ export const OperationsPage: React.FC = () => {
     description: '',
     query: '',
     variables: {},
-    vendor: '',
+    vendor: 'Highnote Inc.',
     apiType: 'graphql',
     tags: []
   });
@@ -91,7 +91,7 @@ export const OperationsPage: React.FC = () => {
       if (searchTerm) params.search = searchTerm;
       if (selectedCategory !== 'all') params.category = selectedCategory;
       if (selectedType !== 'all') params.type = selectedType;
-      if (selectedVendor !== 'all') params.vendor = selectedVendor;
+      // Vendor filter removed - focusing on Highnote Inc. only
       
       const response = await api.operations.list(params);
       
@@ -112,7 +112,7 @@ export const OperationsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, pageSize, searchTerm, selectedCategory, selectedType, selectedVendor]);
+  }, [currentPage, pageSize, searchTerm, selectedCategory, selectedType]);
 
   // Load metadata for filters (categories and vendors)
   const loadMetadata = async () => {
@@ -241,7 +241,7 @@ export const OperationsPage: React.FC = () => {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, selectedCategory, selectedType, selectedVendor]);
+  }, [searchTerm, selectedCategory, selectedType]);
 
   const toggleOperation = (id: string) => {
     const newExpanded = new Set(expandedOperations);
@@ -325,7 +325,7 @@ export const OperationsPage: React.FC = () => {
       description: '',
       query: '',
       variables: {},
-      vendor: '',
+      vendor: 'Highnote Inc.',
       apiType: 'graphql',
       tags: []
     });
@@ -798,14 +798,7 @@ export const OperationsPage: React.FC = () => {
               ]}
             />
             
-            <Select
-              value={selectedVendor}
-              onChange={setSelectedVendor}
-              options={[
-                { value: 'all', label: 'All Vendors' },
-                ...vendors.map(vendor => ({ value: vendor, label: vendor }))
-              ]}
-            />
+            {/* Vendor filter hidden - focusing on Highnote Inc. only */}
           </div>
           
           <div className="flex justify-between items-center">
@@ -917,21 +910,7 @@ export const OperationsPage: React.FC = () => {
                               {operation.category}
                             </span>
                           )}
-                          {operation.vendor && (
-                            <>
-                              <span style={{ color: theme.colors.textMuted, fontSize: '10px' }}>•</span>
-                              <span 
-                                className="px-1.5 py-0.5 text-xs rounded"
-                                style={{
-                                  backgroundColor: theme.colors.surface,
-                                  color: theme.colors.textSecondary,
-                                  fontSize: '11px'
-                                }}
-                              >
-                                {operation.vendor}
-                              </span>
-                            </>
-                          )}
+                          {/* Vendor display hidden - focusing on Highnote Inc. only */}
                         </div>
                         
                         {/* Merged indicator - more compact */}
@@ -1677,16 +1656,7 @@ export const OperationsPage: React.FC = () => {
                 placeholder="e.g., card_management"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
-                Vendor
-              </label>
-              <Input
-                value={operationForm.vendor || ''}
-                onChange={(e) => setOperationForm({ ...operationForm, vendor: e.target.value })}
-                placeholder="e.g., Highnote"
-              />
-            </div>
+            {/* Vendor field hidden - defaulting to Highnote Inc. */}
           </div>
           
           <div>

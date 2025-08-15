@@ -30,7 +30,7 @@ export const ProgramEditor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('general');
   const [program, setProgram] = useState<ProgramConfig>({
     program_type: '',
-    vendor: '',
+    vendor: 'Highnote Inc.',
     version: '1.0.0',
     api_type: 'graphql',
     program_class: 'template',
@@ -81,6 +81,7 @@ export const ProgramEditor: React.FC = () => {
     required: false
   });
   const [operationSearch, setOperationSearch] = useState('');
+  const [operationsLoading, setOperationsLoading] = useState(false);
 
   useEffect(() => {
     fetchContextsAndTemplates();
@@ -119,21 +120,46 @@ export const ProgramEditor: React.FC = () => {
 
   const fetchContextsAndTemplates = async () => {
     try {
+      setOperationsLoading(true);
       const [contextsData, programsData, operationsData] = await Promise.all([
         api.contexts.list(),
         api.programs.list(),
-        api.operations.list()
+        api.operations.list({ pageSize: 1000 }) // Get a large number of operations
       ]);
       setContexts(contextsData);
       setTemplates(programsData.filter(p => p.program_class === 'template'));
       
       // Extract operation names for the workflow manager
-      if (Array.isArray(operationsData)) {
-        setFullOperationsData(operationsData);
-        setAvailableOperations(operationsData.map(op => op.name));
+      // Handle both paginated and non-paginated responses
+      let operations: Operation[] = [];
+      
+      console.log('Raw operations response:', operationsData);
+      
+      if (operationsData) {
+        if ('data' in operationsData && Array.isArray(operationsData.data)) {
+          // Paginated response
+          operations = operationsData.data as Operation[];
+          console.log('Using paginated data:', operations.length, 'operations');
+        } else if (Array.isArray(operationsData)) {
+          // Direct array response
+          operations = operationsData;
+          console.log('Using direct array:', operations.length, 'operations');
+        } else {
+          console.warn('Unexpected operations data format:', operationsData);
+        }
+        
+        console.log('Final operations to set:', operations);
+        setFullOperationsData(operations);
+        setAvailableOperations(operations.map(op => op.name));
+      } else {
+        console.warn('No operations data received');
       }
     } catch (err) {
       console.error('Failed to fetch data:', err);
+      setFullOperationsData([]);
+      setAvailableOperations([]);
+    } finally {
+      setOperationsLoading(false);
     }
   };
 
@@ -527,17 +553,7 @@ export const ProgramEditor: React.FC = () => {
                   placeholder="e.g., ap_automation"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Vendor
-                </label>
-                <VaultInput
-                  type="text"
-                  value={program.vendor}
-                  onChange={(e) => setProgram(prev => ({ ...prev, vendor: e.target.value }))}
-                  placeholder="e.g., Highnote Inc."
-                />
-              </div>
+              {/* Vendor field hidden - defaulting to Highnote Inc. */}
             </div>
 
             <div className="grid grid-cols-3 gap-6">
@@ -1152,9 +1168,17 @@ export const ProgramEditor: React.FC = () => {
                   }))
               ]}
             />
-            {fullOperationsData.length > 0 ? (
+            {operationsLoading ? (
+              <p className="text-xs mt-1" style={{ color: theme.colors.info }}>
+                Loading operations from database...
+              </p>
+            ) : fullOperationsData.length > 0 ? (
               <p className="text-xs mt-1" style={{ color: theme.colors.success }}>
-                {fullOperationsData.length} operations available from database
+                {fullOperationsData.filter(op => 
+                  operationSearch === '' || 
+                  op.name.toLowerCase().includes(operationSearch.toLowerCase()) ||
+                  op.category.toLowerCase().includes(operationSearch.toLowerCase())
+                ).length} of {fullOperationsData.length} operations shown
               </p>
             ) : (
               <p className="text-xs mt-1" style={{ color: theme.colors.warning }}>
