@@ -3,7 +3,7 @@ import {
   Search, Plus, Edit2, Trash2, Upload, Download, 
   Code2, Copy, Eye, Filter, Database, Zap, Info,
   ChevronDown, ChevronRight, RefreshCw, FileCode, GitMerge,
-  Variable, Workflow
+  Variable, Workflow, Sparkles
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
@@ -15,6 +15,8 @@ import { Modal, ConfirmModal } from '../components/ui/Modal';
 import { Select } from '../components/ui/Select';
 import { Pagination } from '../components/ui/Pagination';
 import { VariableManager } from '../components/operation/VariableManager';
+import { SchemaInputDisplay } from '../components/operation/SchemaInputDisplay';
+import { EnrichOperationsModal } from '../components/modals/EnrichOperationsModal';
 import Editor from '@monaco-editor/react';
 
 export const OperationsPage: React.FC = () => {
@@ -49,6 +51,10 @@ export const OperationsPage: React.FC = () => {
   const [deduplicating, setDeduplicating] = useState(false);
   const [dryRunResults, setDryRunResults] = useState<any>(null);
   const [dryRunModalOpen, setDryRunModalOpen] = useState(false);
+  
+  // Enrichment state - track which operations are being enriched
+  const [enrichingOperations, setEnrichingOperations] = useState<Set<string>>(new Set());
+  const [enrichModalOpen, setEnrichModalOpen] = useState(false);
   
   // Form state for new/edit operation
   const [operationForm, setOperationForm] = useState<Partial<Operation>>({
@@ -293,6 +299,176 @@ export const OperationsPage: React.FC = () => {
     }
   };
 
+  const handleEnrichOperation = async (operation: Operation) => {
+    const apiKey = localStorage.getItem('highnote_api_key');
+    if (!apiKey) {
+      alert('Please configure your Highnote API key in Settings > API Configuration');
+      return;
+    }
+
+    // Add operation to enriching set
+    const operationId = operation._id || '';
+    setEnrichingOperations(prev => new Set(prev).add(operationId));
+
+    try {
+      // First, try to extract the actual operation name from the GraphQL query
+      let operationNameFromQuery = operation.name;
+      
+      if (operation.query) {
+        // Try to extract the actual operation name from the query
+        // Match patterns like: query GetAccountHolder, mutation CreateCard, etc.
+        const queryMatch = operation.query.match(/(?:query|mutation|subscription)\s+(\w+)/);
+        if (queryMatch) {
+          operationNameFromQuery = queryMatch[1];
+          console.log(`Extracted operation name from query: ${operationNameFromQuery}`);
+        }
+      }
+      
+      // Introspect the schema for this specific operation
+      // Try with the extracted name first, then fall back to the stored name
+      let result = await api.schema.introspect(apiKey, operationNameFromQuery, operation.type);
+      
+      // If the first attempt didn't find the operation, try with the original name
+      if (!result.success || !result.inputs) {
+        console.log(`First attempt failed, trying with original name: ${operation.name}`);
+        result = await api.schema.introspect(apiKey, operation.name, operation.type);
+      }
+      
+      if (result.success && result.inputs && Object.keys(result.inputs).length > 0) {
+        console.log('Direct introspection successful:', result);
+        console.log('Inputs to save:', result.inputs);
+        
+        // Update the operation with schema-derived inputs
+        await api.operations.update(operation._id!, {
+          schemaInputs: result.inputs,
+          schemaVersion: new Date().toISOString(),
+          source: 'schema-introspection'
+        });
+        
+        // Update only this operation in the state
+        setOperations(prev => prev.map(op => 
+          op._id === operation._id 
+            ? { ...op, schemaInputs: result.inputs, schemaVersion: new Date().toISOString() }
+            : op
+        ));
+        
+        // Remove from enriching set
+        setEnrichingOperations(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(operationId);
+          return newSet;
+        });
+      } else {
+        // If direct introspection fails, try extracting types from the query itself
+        console.log('Direct introspection failed, attempting type-based enrichment');
+        
+        // Use the enrich-by-types endpoint if we have a query
+        if (operation.query) {
+          const API_BASE = process.env.NODE_ENV === 'development' 
+            ? 'http://localhost:9000/.netlify/functions'
+            : '/.netlify/functions';
+          
+          const enrichResult = await fetch(`${API_BASE}/enrich-by-types`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              apiKey,
+              operations: [operation]
+            })
+          });
+          
+          const enrichData = await enrichResult.json();
+          
+          if (enrichData.success && enrichData.enrichedOperations) {
+            const key = operation._id || operation.name;
+            const enrichedOp = enrichData.enrichedOperations[key];
+            
+            if (enrichedOp && enrichedOp.inputs) {
+              // Transform the enriched inputs to match our schema format
+              const schemaInputs: Record<string, any> = {};
+              
+              // The enriched inputs come as { TypeName: { fields: {...} } }
+              // We need to properly structure this for our schema
+              for (const [typeName, typeData] of Object.entries(enrichedOp.inputs)) {
+                if (typeof typeData === 'object' && typeData !== null) {
+                  const typeInfo = typeData as any;
+                  if (typeInfo.fields) {
+                    // Ensure all fields have proper structure
+                    const processedFields: Record<string, any> = {};
+                    for (const [fieldName, fieldData] of Object.entries(typeInfo.fields)) {
+                      if (typeof fieldData === 'object' && fieldData !== null) {
+                        const field = fieldData as any;
+                        // Ensure each field has at least name and type
+                        processedFields[fieldName] = {
+                          ...field,
+                          name: field.name || fieldName,
+                          type: field.type || 'String'
+                        };
+                      }
+                    }
+                    
+                    // Create a properly structured input parameter
+                    schemaInputs.input = {
+                      name: 'input',
+                      type: typeInfo.actualTypeName || typeName,
+                      required: true,
+                      description: typeInfo.description || `Input of type ${typeName}`,
+                      fields: processedFields
+                    };
+                    
+                    console.log('Created schemaInputs:', schemaInputs);
+                    console.log('Fields included:', Object.keys(processedFields));
+                  }
+                }
+              }
+              
+              if (Object.keys(schemaInputs).length > 0) {
+                await api.operations.update(operation._id!, {
+                  schemaInputs: schemaInputs,
+                  schemaVersion: new Date().toISOString(),
+                  source: 'schema-introspection'
+                });
+                
+                // Update only this operation in the state
+                setOperations(prev => prev.map(op => 
+                  op._id === operation._id 
+                    ? { ...op, schemaInputs: schemaInputs, schemaVersion: new Date().toISOString() }
+                    : op
+                ));
+                
+                // Remove from enriching set
+                setEnrichingOperations(prev => {
+                  const newSet = new Set(prev);
+                  newSet.delete(operationId);
+                  return newSet;
+                });
+                return;
+              }
+            }
+          }
+        }
+        
+        console.warn(`Could not find schema data for operation: ${operation.name}`);
+        // Remove from enriching set even on failure
+        setEnrichingOperations(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(operationId);
+          return newSet;
+        });
+      }
+    } catch (error) {
+      console.error('Failed to enrich operation:', error);
+      // Remove from enriching set on error
+      setEnrichingOperations(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(operationId);
+        return newSet;
+      });
+    }
+  };
+
   const handleMigrateOperations = async () => {
     try {
       const result = await api.operations.migrate();
@@ -468,6 +644,19 @@ export const OperationsPage: React.FC = () => {
           <Button
             variant="secondary"
             size="sm"
+            icon={<RefreshCw size={16} />}
+            onClick={() => setEnrichModalOpen(true)}
+            style={{ 
+              backgroundColor: `${theme.colors.warning}20`,
+              borderColor: theme.colors.warning,
+              color: theme.colors.warning
+            }}
+          >
+            Enrich All
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
             icon={<GitMerge size={16} />}
             onClick={() => {
               setDeduplicateModalOpen(true);
@@ -592,7 +781,15 @@ export const OperationsPage: React.FC = () => {
             const isExpanded = expandedOperations.has(operation._id || '');
             
             return (
-              <Card key={operation._id} variant="bordered">
+              <Card key={operation._id} variant="bordered" className={enrichingOperations.has(operation._id || '') ? 'relative' : ''}>
+                {enrichingOperations.has(operation._id || '') && (
+                  <div className="absolute inset-0 bg-black bg-opacity-10 rounded-lg flex items-center justify-center pointer-events-none" style={{ zIndex: 10 }}>
+                    <div className="bg-black bg-opacity-80 px-4 py-2 rounded-full flex items-center gap-2">
+                      <RefreshCw size={16} className="animate-spin" style={{ color: theme.colors.warning }} />
+                      <span className="text-sm" style={{ color: theme.colors.warning }}>Enriching...</span>
+                    </div>
+                  </div>
+                )}
                 <div className="p-4">
                   <div className="flex items-start gap-3">
                     {/* Expand/Collapse */}
@@ -789,6 +986,34 @@ export const OperationsPage: React.FC = () => {
                     
                     {/* Actions */}
                     <div className="flex gap-1">
+                      <button
+                        onClick={() => !enrichingOperations.has(operation._id || '') && handleEnrichOperation(operation)}
+                        className="p-2 rounded transition-all"
+                        style={{ 
+                          color: enrichingOperations.has(operation._id || '') ? theme.colors.warning : theme.colors.textMuted,
+                          cursor: enrichingOperations.has(operation._id || '') ? 'not-allowed' : 'pointer'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!enrichingOperations.has(operation._id || '')) {
+                            e.currentTarget.style.color = theme.colors.warning;
+                            e.currentTarget.style.backgroundColor = `${theme.colors.warning}20`;
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!enrichingOperations.has(operation._id || '')) {
+                            e.currentTarget.style.color = theme.colors.textMuted;
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }
+                        }}
+                        title={enrichingOperations.has(operation._id || '') ? "Enriching..." : "Enrich with Schema"}
+                        disabled={enrichingOperations.has(operation._id || '')}
+                      >
+                        {enrichingOperations.has(operation._id || '') ? (
+                          <RefreshCw size={16} className="animate-spin" />
+                        ) : (
+                          <Sparkles size={16} />
+                        )}
+                      </button>
                       <button
                         onClick={() => handleEditOperation(operation)}
                         className="p-2 rounded transition-all"
@@ -1010,12 +1235,13 @@ export const OperationsPage: React.FC = () => {
                               <tbody>
                                 {Object.entries(operation.variables).map(([key, variable]) => {
                                   const varData = variable as OperationVariable;
-                                  const typeColor = varData.type.includes('[') ? theme.colors.info :
-                                                  varData.type === 'ID' ? theme.colors.warning :
-                                                  varData.type === 'Boolean' ? theme.colors.success :
-                                                  varData.type.includes('Input') ? theme.colors.danger :
-                                                  varData.type === 'String' ? theme.colors.primary :
-                                                  varData.type === 'Int' || varData.type === 'Float' ? theme.colors.info :
+                                  const typeStr = typeof varData.type === 'string' ? varData.type : 'Object';
+                                  const typeColor = typeStr.includes('[') ? theme.colors.info :
+                                                  typeStr === 'ID' ? theme.colors.warning :
+                                                  typeStr === 'Boolean' ? theme.colors.success :
+                                                  typeStr.includes('Input') ? theme.colors.danger :
+                                                  typeStr === 'String' ? theme.colors.primary :
+                                                  typeStr === 'Int' || typeStr === 'Float' ? theme.colors.info :
                                                   theme.colors.textSecondary;
                                   
                                   return (
@@ -1040,7 +1266,7 @@ export const OperationsPage: React.FC = () => {
                                             border: `1px solid ${typeColor}30`
                                           }}
                                         >
-                                          {varData.type}
+                                          {typeStr}
                                         </span>
                                       </td>
                                       <td className="py-2 px-3">
@@ -1079,6 +1305,16 @@ export const OperationsPage: React.FC = () => {
                               </tbody>
                             </table>
                           </div>
+                          
+                          {/* Schema-Derived Inputs (if available) */}
+                          {operation.schemaInputs && Object.keys(operation.schemaInputs).length > 0 && (
+                            <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${theme.colors.border}` }}>
+                              <SchemaInputDisplay 
+                                inputs={operation.schemaInputs}
+                                title="Schema-Derived Input Structure"
+                              />
+                            </div>
+                          )}
                           
                           {/* Example Input JSON */}
                           <div className="mt-3">
@@ -1974,6 +2210,16 @@ export const OperationsPage: React.FC = () => {
           )}
         </div>
       </Modal>
+      
+      {/* Enrich Operations Modal */}
+      <EnrichOperationsModal
+        isOpen={enrichModalOpen}
+        onClose={() => setEnrichModalOpen(false)}
+        apiKey={localStorage.getItem('highnote_api_key') || ''}
+        onSuccess={() => {
+          loadOperations(); // Refresh the operations list after enrichment
+        }}
+      />
     </div>
   );
 };

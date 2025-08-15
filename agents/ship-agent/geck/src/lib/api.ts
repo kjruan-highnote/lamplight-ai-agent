@@ -179,6 +179,45 @@ class ApiClient {
       }>(`${API_BASE}/dashboard`),
   };
 
+  // Schema introspection
+  schema = {
+    introspect: (apiKey: string, operationName?: string, operationType?: 'query' | 'mutation' | 'subscription') =>
+      this.request<{
+        success: boolean;
+        operation?: string;
+        type?: string;
+        inputs?: Record<string, any>;
+        summary?: {
+          queries: Array<{ name: string; description?: string; deprecated?: boolean }>;
+          mutations: Array<{ name: string; description?: string; deprecated?: boolean }>;
+          subscriptions: Array<{ name: string; description?: string; deprecated?: boolean }>;
+        };
+        inputTypes?: Array<{
+          name: string;
+          description?: string;
+          fields?: Array<any>;
+        }>;
+        totalTypes?: number;
+      }>(`${API_BASE}/introspect-schema`, {
+        method: 'POST',
+        body: JSON.stringify({ 
+          apiKey, 
+          operationName, 
+          operationType,
+          endpoint: 'https://api.us.test.highnote.com/graphql'
+        }),
+      }),
+    
+    enrichOperation: (operationId: string, apiKey: string) =>
+      this.request<{
+        success: boolean;
+        operation: Operation;
+      }>(`${API_BASE}/operations/${operationId}/enrich`, {
+        method: 'POST',
+        body: JSON.stringify({ apiKey }),
+      }),
+  };
+
   // Operations APIs
   operations = {
     list: (params?: { 

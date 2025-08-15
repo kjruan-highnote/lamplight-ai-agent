@@ -190,6 +190,7 @@ export interface Operation {
   // GraphQL specific fields
   query: string; // The actual GraphQL query/mutation string
   variables?: Record<string, OperationVariable>; // Variable definitions
+  schemaInputs?: Record<string, OperationVariable>; // Schema-derived input types with full structure
   
   // Request/Response schemas
   parameters?: Record<string, any>; // Legacy or additional params
@@ -207,8 +208,9 @@ export interface Operation {
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;
-  source?: 'postman' | 'manual' | 'import';
+  source?: 'postman' | 'manual' | 'import' | 'schema-introspection';
   postmanId?: string; // Reference to original Postman item
+  schemaVersion?: string; // Version of schema this was introspected from
 }
 
 export interface OperationVariable {
@@ -218,6 +220,8 @@ export interface OperationVariable {
   description?: string;
   defaultValue?: any;
   enumValues?: string[]; // If it's an enum type
+  isList?: boolean; // If the type is a list
+  fields?: Record<string, OperationVariable>; // For input object types, nested fields
 }
 
 export interface OperationExample {

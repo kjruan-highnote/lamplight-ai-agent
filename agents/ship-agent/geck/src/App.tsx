@@ -12,6 +12,7 @@ import { SolutionGenerator } from './pages/SolutionGenerator';
 import { PostmanSync } from './pages/PostmanSync';
 import { Settings } from './pages/Settings';
 import { ThemeSettings } from './pages/settings/ThemeSettings';
+import { ApiSettings } from './pages/settings/ApiSettings';
 import { useTheme } from './themes/ThemeContext';
 
 function App() {
@@ -42,6 +43,7 @@ function AppContent() {
         <Route path="/sync" element={<PostmanSync />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/themes" element={<ThemeSettings />} />
+        <Route path="/settings/api" element={<ApiSettings />} />
       </Routes>
     </Layout>
   );

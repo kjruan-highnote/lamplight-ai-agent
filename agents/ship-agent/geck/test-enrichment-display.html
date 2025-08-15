@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enrichment Display</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .test-case {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        pre {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Enrichment Data Display</h1>
+    
+    <div class="test-case">
+        <h2>Test Data Structure</h2>
+        <p>This tests different data structures that might be saved as schemaInputs</p>
+        
+        <button onclick="testDirectStructure()">Test Direct Structure</button>
+        <button onclick="testNestedStructure()">Test Nested Structure</button>
+        <button onclick="testEmptyStructure()">Test Empty Structure</button>
+        
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        // Simulate the SchemaInputDisplay component's logic
+        function processInputs(inputs) {
+            console.log('Processing inputs:', inputs);
+            
+            let actualInputs = inputs;
+            
+            // Handle the case where inputs is { input: { fields... } }
+            if (inputs && inputs.input && typeof inputs.input === 'object' && 
+                !('name' in inputs.input) && !('type' in inputs.input)) {
+                actualInputs = inputs.input;
+                console.log('Using nested structure');
+            } else {
+                console.log('Using direct structure');
+            }
+            
+            // Check if empty
+            if (!inputs || Object.keys(inputs).length === 0) {
+                return { isEmpty: true, message: 'No input parameters defined' };
+            }
+            
+            // Check what will be rendered
+            const renderableItems = [];
+            for (const [key, variable] of Object.entries(actualInputs)) {
+                if (typeof variable === 'object' && variable !== null && 
+                    (variable.name || variable.type)) {
+                    renderableItems.push({ key, variable });
+                }
+            }
+            
+            return {
+                isEmpty: false,
+                actualInputs,
+                renderableItems,
+                willRender: renderableItems.length > 0
+            };
+        }
+        
+        function displayResult(title, data, result) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>${title}</h3>
+                <h4>Input Data:</h4>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+                <h4>Processing Result:</h4>
+                <pre class="${result.willRender ? 'success' : 'error'}">${JSON.stringify(result, null, 2)}</pre>
+                <p>Will render: <span class="${result.willRender ? 'success' : 'error'}">${result.willRender ? 'YES' : 'NO'}</span></p>
+            `;
+        }
+        
+        function testDirectStructure() {
+            // This is what we expect from direct introspection
+            const data = {
+                input: {
+                    name: 'input',
+                    type: 'ActivateCardProductCreditPlanInput',
+                    required: true,
+                    description: 'Input for activating credit plan',
+                    fields: {
+                        cardProductId: {
+                            name: 'cardProductId',
+                            type: 'ID',
+                            required: true,
+                            description: 'The card product ID'
+                        },
+                        creditLimit: {
+                            name: 'creditLimit',
+                            type: 'Int',
+                            required: false,
+                            description: 'Credit limit amount'
+                        }
+                    }
+                }
+            };
+            
+            const result = processInputs(data);
+            displayResult('Direct Structure Test', data, result);
+        }
+        
+        function testNestedStructure() {
+            // This is what might come from enrich-by-types
+            const data = {
+                ActivateCardProductCreditPlanInput: {
+                    actualTypeName: 'ActivateCardProductCreditPlanInput',
+                    description: 'Input for activation',
+                    fields: {
+                        cardProductId: {
+                            name: 'cardProductId',
+                            type: 'ID',
+                            required: true,
+                            description: 'The card product ID'
+                        }
+                    }
+                }
+            };
+            
+            const result = processInputs(data);
+            displayResult('Nested Structure Test', data, result);
+        }
+        
+        function testEmptyStructure() {
+            const data = {};
+            const result = processInputs(data);
+            displayResult('Empty Structure Test', data, result);
+        }
+        
+        // Run first test automatically
+        testDirectStructure();
+    </script>
+</body>
+</html>

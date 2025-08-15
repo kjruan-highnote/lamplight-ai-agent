@@ -51,10 +51,10 @@ export const Settings: React.FC = () => {
     {
       id: 'api',
       title: 'API & Integrations',
-      description: 'Configure Postman, webhooks, and external services',
+      description: 'Configure Highnote API, webhooks, and external services',
       icon: Globe,
       path: '/settings/api',
-      disabled: true,
+      disabled: false,
     },
     {
       id: 'security',
