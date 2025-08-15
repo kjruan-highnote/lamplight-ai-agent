@@ -13,6 +13,9 @@ import { VaultSelect, VaultSelectNative } from '../components/VaultSelect';
 import { VaultInput, VaultTextarea } from '../components/VaultInput';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
+import { Modal } from '../components/ui/Modal';
+import { Input, Textarea } from '../components/ui/Input';
+import { Select } from '../components/ui/Select';
 import { CapabilitiesSelector } from '../components/program/CapabilitiesSelector';
 import { CapabilityManager, CustomCapability } from '../components/program/CapabilityManager';
 import { WorkflowManager } from '../components/program/WorkflowManager';
@@ -58,6 +61,26 @@ export const ProgramEditor: React.FC = () => {
   const [customCapabilities, setCustomCapabilities] = useState<CustomCapability[]>([]);
   const [editorSize, setEditorSize] = useState<'normal' | 'large' | 'fullscreen'>('normal');
   const [availableOperations, setAvailableOperations] = useState<string[]>([]);
+  const [fullOperationsData, setFullOperationsData] = useState<Operation[]>([]);
+  
+  // Modal states
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [operationModalOpen, setOperationModalOpen] = useState(false);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number>(-1);
+  
+  // Form states for modals
+  const [newCategory, setNewCategory] = useState({
+    name: '',
+    display_name: '',
+    description: ''
+  });
+  
+  const [newOperation, setNewOperation] = useState({
+    name: '',
+    type: 'query' as 'query' | 'mutation' | 'subscription',
+    required: false
+  });
+  const [operationSearch, setOperationSearch] = useState('');
 
   useEffect(() => {
     fetchContextsAndTemplates();
@@ -106,6 +129,7 @@ export const ProgramEditor: React.FC = () => {
       
       // Extract operation names for the workflow manager
       if (Array.isArray(operationsData)) {
+        setFullOperationsData(operationsData);
         setAvailableOperations(operationsData.map(op => op.name));
       }
     } catch (err) {
@@ -215,40 +239,63 @@ export const ProgramEditor: React.FC = () => {
     }));
   };
 
-  const addCategory = () => {
-    const name = prompt('Enter category key (e.g., initialization):');
-    if (name) {
+  const openAddCategoryModal = () => {
+    setNewCategory({
+      name: '',
+      display_name: '',
+      description: ''
+    });
+    setCategoryModalOpen(true);
+  };
+
+  const handleAddCategory = () => {
+    if (newCategory.name) {
       setProgram(prev => ({
         ...prev,
         categories: [
           ...(prev.categories || []),
           {
-            name,
-            display_name: name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-            description: '',
+            name: newCategory.name,
+            display_name: newCategory.display_name || newCategory.name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            description: newCategory.description || '',
             order: (prev.categories?.length || 0) + 1,
             operations: []
           }
         ]
       }));
+      setCategoryModalOpen(false);
     }
   };
 
-  const addOperation = (categoryIndex: number) => {
-    const name = prompt('Enter operation name:');
-    if (name) {
+  const openAddOperationModal = (categoryIndex: number) => {
+    setSelectedCategoryIndex(categoryIndex);
+    setNewOperation({
+      name: '',
+      type: 'query',
+      required: false
+    });
+    setOperationSearch('');
+    setOperationModalOpen(true);
+  };
+
+  const handleAddOperation = () => {
+    if (newOperation.name && selectedCategoryIndex >= 0) {
+      // Check if this is an existing operation from the database
+      const existingOp = fullOperationsData.find(op => op.name === newOperation.name);
+      
       setProgram(prev => {
         const newCategories = [...(prev.categories || [])];
-        newCategories[categoryIndex].operations.push({
-          name,
-          type: 'query',
-          category: newCategories[categoryIndex].name,
-          query: '', // Required field for Operation type
-          required: false,
-          description: ''
+        newCategories[selectedCategoryIndex].operations.push({
+          name: newOperation.name,
+          type: existingOp?.type || newOperation.type,
+          category: newCategories[selectedCategoryIndex].name,
+          query: existingOp?.query || '',
+          required: newOperation.required,
+          description: existingOp?.description || ''
         } as Operation);
         return { ...prev, categories: newCategories };
       });
+      setOperationModalOpen(false);
     }
   };
 
@@ -677,7 +724,7 @@ export const ProgramEditor: React.FC = () => {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-vault-green">Operation Categories</h3>
               <button
-                onClick={addCategory}
+                onClick={openAddCategoryModal}
                 className="flex items-center space-x-1 px-3 py-1 bg-vault-green/20 text-vault-green border border-vault-green/50 rounded hover:bg-vault-green/30 transition-colors text-sm"
               >
                 <Plus size={16} />
@@ -702,7 +749,7 @@ export const ProgramEditor: React.FC = () => {
                     <span className="text-sm text-gray-500">Order: {category.order}</span>
                   </div>
                   <button
-                    onClick={() => addOperation(catIdx)}
+                    onClick={() => openAddOperationModal(catIdx)}
                     className="flex items-center space-x-1 px-2 py-1 bg-gray-800 text-gray-400 rounded hover:text-vault-green transition-colors text-sm"
                   >
                     <Plus size={14} />
@@ -718,17 +765,10 @@ export const ProgramEditor: React.FC = () => {
                       }`}>
                         {op.type.toUpperCase()}
                       </span>
-                      <input
-                        type="text"
-                        value={op.name}
-                        onChange={(e) => {
-                          const newCategories = [...(program.categories || [])];
-                          newCategories[catIdx].operations[opIdx] = { ...op, name: e.target.value };
-                          setProgram(prev => ({ ...prev, categories: newCategories }));
-                        }}
-                        className="flex-1 px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm text-gray-300"
-                      />
-                      <label className="flex items-center space-x-1">
+                      <span className="font-mono text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded border border-gray-700">
+                        {op.name}
+                      </span>
+                      <label className="flex items-center space-x-1 ml-auto">
                         <input
                           type="checkbox"
                           checked={op.required}
@@ -961,6 +1001,252 @@ export const ProgramEditor: React.FC = () => {
           </div>
         )}
       </Card>
+
+      {/* Add Category Modal */}
+      <Modal
+        isOpen={categoryModalOpen}
+        onClose={() => setCategoryModalOpen(false)}
+        title="Add Operation Category"
+        size="md"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              onClick={() => setCategoryModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleAddCategory}
+              disabled={!newCategory.name}
+            >
+              Add Category
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Category Key <span className="text-red-500">*</span>
+            </label>
+            <Input
+              value={newCategory.name}
+              onChange={(e) => {
+                const value = e.target.value;
+                setNewCategory(prev => ({
+                  ...prev,
+                  name: value,
+                  display_name: prev.display_name || value.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                }));
+              }}
+              placeholder="e.g., card_management, account_operations"
+              className="font-mono"
+            />
+            <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+              Use lowercase with underscores. This will be used as the technical identifier.
+            </p>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Display Name
+            </label>
+            <Input
+              value={newCategory.display_name}
+              onChange={(e) => setNewCategory(prev => ({ ...prev, display_name: e.target.value }))}
+              placeholder="e.g., Card Management, Account Operations"
+            />
+            <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+              Human-readable name. Will be auto-generated from key if left empty.
+            </p>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Description
+            </label>
+            <Textarea
+              value={newCategory.description}
+              onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
+              placeholder="Brief description of what operations in this category do..."
+              rows={3}
+            />
+          </div>
+        </div>
+      </Modal>
+
+      {/* Add Operation Modal */}
+      <Modal
+        isOpen={operationModalOpen}
+        onClose={() => setOperationModalOpen(false)}
+        title="Add Operation"
+        size="md"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              onClick={() => setOperationModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleAddOperation}
+              disabled={!newOperation.name}
+            >
+              Add Operation
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          {/* Quick search for operations */}
+          {fullOperationsData.length > 10 && (
+            <div>
+              <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+                Search Operations
+              </label>
+              <Input
+                value={operationSearch}
+                onChange={(e) => setOperationSearch(e.target.value)}
+                placeholder="Type to filter operations..."
+                className="mb-2"
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Select from Database <span className="text-red-500">*</span>
+            </label>
+            <Select
+              value={newOperation.name}
+              onChange={(value) => {
+                const existingOp = fullOperationsData.find(op => op.name === value);
+                setNewOperation(prev => ({
+                  ...prev,
+                  name: value,
+                  type: existingOp?.type || prev.type
+                }));
+              }}
+              options={[
+                { value: '', label: 'Select an existing operation...' },
+                ...fullOperationsData
+                  .filter(op => 
+                    operationSearch === '' || 
+                    op.name.toLowerCase().includes(operationSearch.toLowerCase()) ||
+                    op.category.toLowerCase().includes(operationSearch.toLowerCase())
+                  )
+                  .sort((a, b) => {
+                    // Sort by category first, then by name
+                    if (a.category !== b.category) {
+                      return a.category.localeCompare(b.category);
+                    }
+                    return a.name.localeCompare(b.name);
+                  })
+                  .map(op => ({ 
+                    value: op.name, 
+                    label: `${op.name} (${op.type}) - ${op.category}`
+                  }))
+              ]}
+            />
+            {fullOperationsData.length > 0 ? (
+              <p className="text-xs mt-1" style={{ color: theme.colors.success }}>
+                {fullOperationsData.length} operations available from database
+              </p>
+            ) : (
+              <p className="text-xs mt-1" style={{ color: theme.colors.warning }}>
+                No operations found in database. Enter a custom name below.
+              </p>
+            )}
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t" style={{ borderColor: theme.colors.border }}></div>
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="px-2" style={{ backgroundColor: theme.colors.background, color: theme.colors.textMuted }}>
+                OR
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Custom Operation Name
+            </label>
+            <Input
+              value={newOperation.name}
+              onChange={(e) => setNewOperation(prev => ({ ...prev, name: e.target.value }))}
+              placeholder="e.g., getCardDetails, updateAccountStatus"
+              className="font-mono"
+            />
+            <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+              Can't find what you need? Enter a custom operation name.
+            </p>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Operation Type
+            </label>
+            <Select
+              value={newOperation.type}
+              onChange={(value) => setNewOperation(prev => ({ ...prev, type: value as any }))}
+              options={[
+                { value: 'query', label: 'Query - Read data' },
+                { value: 'mutation', label: 'Mutation - Modify data' },
+                { value: 'subscription', label: 'Subscription - Real-time updates' }
+              ]}
+            />
+            {fullOperationsData.find(op => op.name === newOperation.name) && (
+              <p className="text-xs mt-1" style={{ color: theme.colors.info }}>
+                Type will be auto-detected from the existing operation.
+              </p>
+            )}
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="operation-required"
+              checked={newOperation.required}
+              onChange={(e) => setNewOperation(prev => ({ ...prev, required: e.target.checked }))}
+              className="rounded border-gray-700"
+            />
+            <label htmlFor="operation-required" className="text-sm" style={{ color: theme.colors.text }}>
+              Mark as required operation
+            </label>
+          </div>
+
+          {/* Show operation details if it exists in database */}
+          {fullOperationsData.find(op => op.name === newOperation.name) && (
+            <div className="p-3 rounded" style={{ 
+              backgroundColor: theme.colors.surface,
+              border: `1px solid ${theme.colors.border}`
+            }}>
+              <div className="text-xs font-semibold mb-2" style={{ color: theme.colors.textSecondary }}>
+                Operation Details
+              </div>
+              {(() => {
+                const op = fullOperationsData.find(op => op.name === newOperation.name);
+                return op ? (
+                  <div className="space-y-1 text-xs" style={{ color: theme.colors.textMuted }}>
+                    <div>Type: <span style={{ color: theme.colors.text }}>{op.type}</span></div>
+                    <div>Category: <span style={{ color: theme.colors.text }}>{op.category}</span></div>
+                    {op.description && (
+                      <div>Description: <span style={{ color: theme.colors.text }}>{op.description}</span></div>
+                    )}
+                  </div>
+                ) : null;
+              })()}
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };
