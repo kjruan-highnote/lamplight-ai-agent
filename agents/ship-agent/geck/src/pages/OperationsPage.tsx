@@ -3,7 +3,7 @@ import {
   Search, Plus, Edit2, Trash2, Upload, Download, 
   Code2, Copy, Eye, Filter, Database, Zap, Info,
   ChevronDown, ChevronRight, RefreshCw, FileCode, GitMerge,
-  Variable, Workflow, Sparkles
+  Variable, Workflow, Sparkles, Save, Check
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
@@ -68,6 +68,14 @@ export const OperationsPage: React.FC = () => {
     apiType: 'graphql',
     tags: []
   });
+
+  // State for expanded GraphQL queries
+  const [expandedQueries, setExpandedQueries] = useState<Set<string>>(new Set());
+  
+  // State for editing example JSON
+  const [editingExampleJson, setEditingExampleJson] = useState<{[key: string]: string}>({});
+  const [savedExampleJson, setSavedExampleJson] = useState<{[key: string]: any}>({});
+  const [jsonErrors, setJsonErrors] = useState<{[key: string]: string}>({});
 
   // Load operations with pagination and filters
   const loadOperations = useCallback(async () => {
@@ -222,6 +230,7 @@ export const OperationsPage: React.FC = () => {
   useEffect(() => {
     loadMetadata();
     loadPrograms();
+    loadSavedExampleJsons();
   }, []);
 
   // Load operations when filters or pagination changes
@@ -242,6 +251,70 @@ export const OperationsPage: React.FC = () => {
       newExpanded.add(id);
     }
     setExpandedOperations(newExpanded);
+  };
+
+  const toggleQueryExpansion = (id: string) => {
+    const newExpanded = new Set(expandedQueries);
+    if (newExpanded.has(id)) {
+      newExpanded.delete(id);
+    } else {
+      newExpanded.add(id);
+    }
+    setExpandedQueries(newExpanded);
+  };
+
+  const handleExampleJsonEdit = (operationId: string, value: string) => {
+    setEditingExampleJson(prev => ({ ...prev, [operationId]: value }));
+    
+    // Validate JSON
+    try {
+      JSON.parse(value);
+      setJsonErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[operationId];
+        return newErrors;
+      });
+    } catch (e) {
+      setJsonErrors(prev => ({ 
+        ...prev, 
+        [operationId]: e instanceof Error ? e.message : 'Invalid JSON' 
+      }));
+    }
+  };
+
+  const saveExampleJson = (operationId: string) => {
+    const jsonString = editingExampleJson[operationId];
+    if (!jsonString) return;
+    
+    try {
+      const parsed = JSON.parse(jsonString);
+      setSavedExampleJson(prev => ({ ...prev, [operationId]: parsed }));
+      
+      // Save to localStorage for persistence
+      const savedJsons = JSON.parse(localStorage.getItem('operation_example_jsons') || '{}');
+      savedJsons[operationId] = parsed;
+      localStorage.setItem('operation_example_jsons', JSON.stringify(savedJsons));
+      
+      // Clear editing state
+      setEditingExampleJson(prev => {
+        const newState = { ...prev };
+        delete newState[operationId];
+        return newState;
+      });
+    } catch (e) {
+      console.error('Failed to save JSON:', e);
+    }
+  };
+
+  const loadSavedExampleJsons = () => {
+    const saved = localStorage.getItem('operation_example_jsons');
+    if (saved) {
+      try {
+        setSavedExampleJson(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load saved example JSONs:', e);
+      }
+    }
   };
 
   const handleCreateOperation = () => {
@@ -1057,9 +1130,41 @@ export const OperationsPage: React.FC = () => {
                     <div className="mt-4 ml-12 space-y-4">
                       {/* GraphQL Query */}
                       <div>
-                        <h4 className="text-sm font-semibold mb-2" style={{ color: theme.colors.text }}>
-                          GraphQL Query
-                        </h4>
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="text-sm font-semibold flex items-center gap-2" style={{ color: theme.colors.text }}>
+                            <Code2 size={14} />
+                            GraphQL Query
+                          </h4>
+                          <button
+                            onClick={() => toggleQueryExpansion(operation._id || '')}
+                            className="px-2 py-1 text-xs rounded flex items-center gap-1 transition-colors"
+                            style={{
+                              backgroundColor: theme.colors.primaryBackground,
+                              color: theme.colors.primary,
+                              border: `1px solid ${theme.colors.primaryBorder}`
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = theme.colors.primary;
+                              e.currentTarget.style.color = theme.colors.background;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = theme.colors.primaryBackground;
+                              e.currentTarget.style.color = theme.colors.primary;
+                            }}
+                          >
+                            {expandedQueries.has(operation._id || '') ? (
+                              <>
+                                <ChevronDown size={12} />
+                                Collapse
+                              </>
+                            ) : (
+                              <>
+                                <ChevronRight size={12} />
+                                Expand Full Query
+                              </>
+                            )}
+                          </button>
+                        </div>
                         <div style={{
                           backgroundColor: theme.colors.background,
                           border: `1px solid ${theme.colors.border}`,
@@ -1067,7 +1172,7 @@ export const OperationsPage: React.FC = () => {
                           overflow: 'hidden'
                         }}>
                           <Editor
-                            height="200px"
+                            height={expandedQueries.has(operation._id || '') ? "400px" : "200px"}
                             language="graphql"
                             value={operation.query}
                             theme="vs-dark"
@@ -1075,7 +1180,10 @@ export const OperationsPage: React.FC = () => {
                               readOnly: true,
                               minimap: { enabled: false },
                               scrollBeyondLastLine: false,
-                              fontSize: 12
+                              fontSize: expandedQueries.has(operation._id || '') ? 14 : 12,
+                              wordWrap: expandedQueries.has(operation._id || '') ? 'on' : 'off',
+                              formatOnPaste: true,
+                              formatOnType: true
                             }}
                           />
                         </div>
@@ -1322,34 +1430,157 @@ export const OperationsPage: React.FC = () => {
                               <h5 className="text-xs font-semibold" style={{ color: theme.colors.textSecondary }}>
                                 Example Input JSON
                               </h5>
-                              <button
-                                onClick={() => {
-                                  const exampleJson = generateExampleJson(operation.variables);
-                                  navigator.clipboard.writeText(JSON.stringify(exampleJson, null, 2));
-                                }}
-                                className="text-xs px-2 py-1 rounded flex items-center gap-1"
-                                style={{
-                                  backgroundColor: theme.colors.primaryBackground,
-                                  color: theme.colors.primary,
-                                  border: `1px solid ${theme.colors.primaryBorder}`
+                              <div className="flex items-center gap-2">
+                                {jsonErrors[operation._id || ''] && (
+                                  <span className="text-xs px-2 py-1 rounded" style={{
+                                    backgroundColor: `${theme.colors.danger}20`,
+                                    color: theme.colors.danger
+                                  }}>
+                                    Invalid JSON
+                                  </span>
+                                )}
+                                {editingExampleJson[operation._id || ''] !== undefined ? (
+                                  <>
+                                    <button
+                                      onClick={() => saveExampleJson(operation._id || '')}
+                                      disabled={!!jsonErrors[operation._id || '']}
+                                      className="text-xs px-2 py-1 rounded flex items-center gap-1"
+                                      style={{
+                                        backgroundColor: jsonErrors[operation._id || ''] 
+                                          ? theme.colors.surface 
+                                          : `${theme.colors.success}20`,
+                                        color: jsonErrors[operation._id || ''] 
+                                          ? theme.colors.textMuted 
+                                          : theme.colors.success,
+                                        border: `1px solid ${jsonErrors[operation._id || ''] 
+                                          ? theme.colors.border 
+                                          : theme.colors.success}`,
+                                        cursor: jsonErrors[operation._id || ''] ? 'not-allowed' : 'pointer'
+                                      }}
+                                    >
+                                      <Save size={12} />
+                                      Save
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setEditingExampleJson(prev => {
+                                          const newState = { ...prev };
+                                          delete newState[operation._id || ''];
+                                          return newState;
+                                        });
+                                        setJsonErrors(prev => {
+                                          const newErrors = { ...prev };
+                                          delete newErrors[operation._id || ''];
+                                          return newErrors;
+                                        });
+                                      }}
+                                      className="text-xs px-2 py-1 rounded"
+                                      style={{
+                                        backgroundColor: theme.colors.surface,
+                                        color: theme.colors.textMuted,
+                                        border: `1px solid ${theme.colors.border}`
+                                      }}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button
+                                      onClick={() => {
+                                        const operationId = operation._id || '';
+                                        const exampleJson = savedExampleJson[operationId] || generateExampleJson(operation.variables);
+                                        setEditingExampleJson(prev => ({
+                                          ...prev,
+                                          [operationId]: JSON.stringify(exampleJson, null, 2)
+                                        }));
+                                      }}
+                                      className="text-xs px-2 py-1 rounded flex items-center gap-1"
+                                      style={{
+                                        backgroundColor: theme.colors.primaryBackground,
+                                        color: theme.colors.primary,
+                                        border: `1px solid ${theme.colors.primaryBorder}`
+                                      }}
+                                    >
+                                      <Edit2 size={12} />
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        const exampleJson = savedExampleJson[operation._id || ''] || generateExampleJson(operation.variables);
+                                        navigator.clipboard.writeText(JSON.stringify(exampleJson, null, 2));
+                                      }}
+                                      className="text-xs px-2 py-1 rounded flex items-center gap-1"
+                                      style={{
+                                        backgroundColor: theme.colors.primaryBackground,
+                                        color: theme.colors.primary,
+                                        border: `1px solid ${theme.colors.primaryBorder}`
+                                      }}
+                                    >
+                                      <Copy size={12} />
+                                      Copy
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {editingExampleJson[operation._id || ''] !== undefined ? (
+                              <div style={{
+                                border: `1px solid ${jsonErrors[operation._id || ''] ? theme.colors.danger : theme.colors.border}`,
+                                borderRadius: theme.borders.radius.md,
+                                overflow: 'hidden'
+                              }}>
+                                <Editor
+                                  height="250px"
+                                  language="json"
+                                  value={editingExampleJson[operation._id || '']}
+                                  onChange={(value) => handleExampleJsonEdit(operation._id || '', value || '')}
+                                  theme="vs-dark"
+                                  options={{
+                                    minimap: { enabled: false },
+                                    fontSize: 12,
+                                    wordWrap: 'on',
+                                    formatOnPaste: true,
+                                    formatOnType: true,
+                                    automaticLayout: true,
+                                    scrollBeyondLastLine: false,
+                                    suggest: {
+                                      showProperties: true,
+                                      showVariables: true,
+                                      showConstants: true
+                                    },
+                                    quickSuggestions: {
+                                      other: true,
+                                      comments: false,
+                                      strings: true
+                                    }
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              <div 
+                                className="p-3 rounded overflow-x-auto"
+                                style={{ 
+                                  backgroundColor: theme.colors.background,
+                                  border: `1px solid ${theme.colors.border}`,
+                                  maxHeight: '200px'
                                 }}
                               >
-                                <Copy size={12} />
-                                Copy
-                              </button>
-                            </div>
-                            <div 
-                              className="p-3 rounded overflow-x-auto"
-                              style={{ 
-                                backgroundColor: theme.colors.background,
-                                border: `1px solid ${theme.colors.border}`,
-                                maxHeight: '200px'
-                              }}
-                            >
-                              <pre className="text-xs font-mono" style={{ color: theme.colors.text, margin: 0 }}>
-                                {JSON.stringify(generateExampleJson(operation.variables), null, 2)}
-                              </pre>
-                            </div>
+                                <pre className="text-xs font-mono" style={{ color: theme.colors.text, margin: 0 }}>
+                                  {JSON.stringify(savedExampleJson[operation._id || ''] || generateExampleJson(operation.variables), null, 2)}
+                                </pre>
+                              </div>
+                            )}
+                            
+                            {savedExampleJson[operation._id || ''] && (
+                              <div className="mt-1 flex items-center gap-1">
+                                <Check size={12} style={{ color: theme.colors.success }} />
+                                <span className="text-xs" style={{ color: theme.colors.success }}>
+                                  Custom JSON saved
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       )}
