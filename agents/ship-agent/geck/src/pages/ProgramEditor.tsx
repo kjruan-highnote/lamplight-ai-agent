@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import { 
-  Save, Eye, FileCode, AlertCircle, Check, Plus, Trash2, 
+  Save, FileCode, AlertCircle, Check, Plus, 
   Package, Users, Upload, Download, Settings, Shield, 
-  Zap, Globe, Book, ChevronDown, ChevronRight, Maximize2, Minimize2, Expand, X
+  Zap, Globe, Maximize2, Minimize2, Expand, X
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
-import { ProgramConfig, Category, Operation, Workflow, Entity, CustomerContext } from '../types';
-import { VaultSelect, VaultSelectNative } from '../components/VaultSelect';
+import { ProgramConfig, Operation, CustomerContext } from '../types';
+import { VaultSelect } from '../components/VaultSelect';
 import { VaultInput, VaultTextarea } from '../components/VaultInput';
 import { Button } from '../components/ui/Button';
-import { Card, CardContent } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
 import { Input, Textarea } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
@@ -56,9 +56,7 @@ export const ProgramEditor: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
   const [contexts, setContexts] = useState<CustomerContext[]>([]);
-  const [templates, setTemplates] = useState<ProgramConfig[]>([]);
   const [customCapabilities, setCustomCapabilities] = useState<CustomCapability[]>([]);
   const [editorSize, setEditorSize] = useState<'normal' | 'large' | 'fullscreen'>('normal');
   const [availableOperations, setAvailableOperations] = useState<string[]>([]);
@@ -85,12 +83,13 @@ export const ProgramEditor: React.FC = () => {
   const [operationsLoading, setOperationsLoading] = useState(false);
 
   useEffect(() => {
-    fetchContextsAndTemplates();
+    fetchContextsAndOperations();
     if (id && id !== 'new') {
       loadProgram();
     } else {
       updateYamlContent();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // Handle ESC key to exit fullscreen
@@ -117,43 +116,33 @@ export const ProgramEditor: React.FC = () => {
   // Update YAML whenever program state changes
   useEffect(() => {
     updateYamlContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [program, customCapabilities]);
 
-  const fetchContextsAndTemplates = async () => {
+  const fetchContextsAndOperations = async () => {
     try {
       setOperationsLoading(true);
-      const [contextsData, programsData, operationsData] = await Promise.all([
+      const [contextsData, operationsData] = await Promise.all([
         api.contexts.list(),
-        api.programs.list(),
         api.operations.list({ pageSize: 1000 }) // Get a large number of operations
       ]);
       setContexts(contextsData);
-      setTemplates(programsData.filter(p => p.program_class === 'template'));
       
       // Extract operation names for the workflow manager
       // Handle both paginated and non-paginated responses
       let operations: Operation[] = [];
       
-      console.log('Raw operations response:', operationsData);
-      
       if (operationsData) {
         if ('data' in operationsData && Array.isArray(operationsData.data)) {
           // Paginated response
           operations = operationsData.data as Operation[];
-          console.log('Using paginated data:', operations.length, 'operations');
         } else if (Array.isArray(operationsData)) {
           // Direct array response
           operations = operationsData;
-          console.log('Using direct array:', operations.length, 'operations');
-        } else {
-          console.warn('Unexpected operations data format:', operationsData);
         }
         
-        console.log('Final operations to set:', operations);
         setFullOperationsData(operations);
         setAvailableOperations(operations.map(op => op.name));
-      } else {
-        console.warn('No operations data received');
       }
     } catch (err) {
       console.error('Failed to fetch data:', err);
@@ -257,13 +246,6 @@ export const ProgramEditor: React.FC = () => {
     } finally {
       setSaving(false);
     }
-  };
-
-  const toggleSection = (section: string) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
   };
 
   const openAddCategoryModal = () => {

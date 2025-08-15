@@ -146,7 +146,7 @@ export interface Workflow {
   required: boolean;
   steps: WorkflowStep[];
   diagram?: {
-    type: 'mermaid' | 'plantuml' | 'markdown' | 'image';
+    type: 'mermaid' | 'markdown' | 'image';
     content?: string;
     imageUrl?: string;
     lastUpdated?: Date;

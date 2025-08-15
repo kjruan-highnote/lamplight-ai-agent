@@ -7,7 +7,7 @@ import { AlertCircle, Loader2 } from 'lucide-react';
 
 interface DiagramRendererProps {
   content: string;
-  type: 'mermaid' | 'plantuml' | 'markdown' | 'image';
+  type: 'mermaid' | 'markdown' | 'image';
   imageUrl?: string;
   className?: string;
 }
@@ -192,89 +192,6 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
     };
   }, [content, type, isInitialized]);
 
-  // Encode PlantUML content using deflate compression
-  const encodePlantUML = (text: string): string => {
-    // For now, use a simple encoding. For production, you'd want to use
-    // the PlantUML text encoding format (deflate + custom base64)
-    try {
-      // Basic encoding for PlantUML server
-      const encoded = btoa(unescape(encodeURIComponent(text)));
-      return encoded;
-    } catch (err) {
-      console.error('Failed to encode PlantUML:', err);
-      return '';
-    }
-  };
-
-  // Render PlantUML diagram (requires server-side rendering or API)
-  const renderPlantUML = () => {
-    // PlantUML requires server-side processing
-    if (!content || !content.trim()) {
-      return (
-        <div className="text-center p-8" style={{ color: theme.colors.textMuted }}>
-          No PlantUML content to display
-        </div>
-      );
-    }
-
-    // Use the PlantUML web service
-    // Note: For production, consider hosting your own PlantUML server
-    const plantUmlServer = 'https://www.plantuml.com/plantuml';
-    
-    // PlantUML expects specific encoding
-    const encoded = encodePlantUML(content);
-    if (!encoded) {
-      return (
-        <div className="flex items-center gap-2 p-4 rounded" style={{
-          backgroundColor: `${theme.colors.warning}20`,
-          border: `1px solid ${theme.colors.warning}`,
-          color: theme.colors.warning
-        }}>
-          <AlertCircle size={16} />
-          <span className="text-sm">Failed to encode PlantUML diagram</span>
-        </div>
-      );
-    }
-    
-    // Use the image proxy URL format
-    const imageUrl = `${plantUmlServer}/svg/${encoded}`;
-    
-    return (
-      <div className="plantuml-container">
-        <img 
-          src={imageUrl} 
-          alt="PlantUML Diagram"
-          style={{ 
-            maxWidth: '100%', 
-            height: 'auto',
-            backgroundColor: theme.colors.surface,
-            borderRadius: theme.borders.radius.md
-          }}
-          onError={(e) => {
-            try {
-              // Only set error if we haven't already
-              if (!error) {
-                setError('Failed to load PlantUML diagram. Please check your PlantUML syntax or try again later.');
-              }
-            } catch (err) {
-              console.error('Error handling PlantUML load failure:', err);
-            }
-          }}
-          onLoad={() => {
-            try {
-              // Clear any previous errors when image loads successfully
-              if (error && error.includes('PlantUML')) {
-                setError(null);
-              }
-            } catch (err) {
-              console.error('Error handling PlantUML load success:', err);
-            }
-          }}
-        />
-      </div>
-    );
-  };
-
   // Render based on type
   const renderContent = () => {
     if (loading) {
@@ -302,9 +219,6 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
       case 'mermaid':
         // Mermaid is handled separately in the main render
         return null;
-
-      case 'plantuml':
-        return renderPlantUML();
 
       case 'markdown':
         return (

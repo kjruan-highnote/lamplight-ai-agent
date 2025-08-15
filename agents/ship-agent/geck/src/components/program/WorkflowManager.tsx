@@ -74,7 +74,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [diagramForm, setDiagramForm] = useState<{
-    type: 'mermaid' | 'plantuml' | 'markdown' | 'image';
+    type: 'mermaid' | 'markdown' | 'image';
     content: string;
     imageUrl: string;
   }>({
@@ -1444,7 +1444,6 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                 onChange={(value) => setDiagramForm({ ...diagramForm, type: value as any })}
                 options={[
                   { value: 'mermaid', label: 'Mermaid Sequence Diagram' },
-                  { value: 'plantuml', label: 'PlantUML Diagram' },
                   { value: 'markdown', label: 'Markdown with Diagrams' },
                   { value: 'image', label: 'Upload Image' }
                 ]}
@@ -1496,8 +1495,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
                   {diagramForm.type === 'mermaid' ? 'Mermaid Code' : 
-                   diagramForm.type === 'plantuml' ? 'PlantUML Code' : 
-                   'Markdown Content'}
+                    'Markdown Content'}
                 </label>
                 <div style={{
                   border: `1px solid ${theme.colors.border}`,
@@ -1507,15 +1505,11 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                   <Editor
                     height="400px"
                     language={
-                      diagramForm.type === 'mermaid' ? 'mermaid' : 
-                      diagramForm.type === 'plantuml' ? 'plantuml' : 
-                      'markdown'
+                      diagramForm.type === 'mermaid' ? 'mermaid' : 'markdown'
                     }
                     value={diagramForm.content || (
                       diagramForm.type === 'mermaid' ? 
                       'sequenceDiagram\n    participant User\n    participant System\n    participant API\n    \n    User->>System: Send Request\n    System->>API: Process Data\n    API-->>System: Return Result\n    System-->>User: Send Response' :
-                      diagramForm.type === 'plantuml' ?
-                      '@startuml\nparticipant User\nparticipant System\nparticipant API\n\nUser -> System: Send Request\nSystem -> API: Process Data\nAPI --> System: Return Result\nSystem --> User: Send Response\n@enduml' :
                       '# Workflow Description\n\nThis workflow demonstrates the interaction between components.\n\n## Sequence Diagram\n\n```mermaid\nsequenceDiagram\n    participant User\n    participant System\n    \n    User->>System: Request\n    System-->>User: Response\n```'
                     )}
                     onChange={(value) => setDiagramForm({ ...diagramForm, content: value || '' })}
@@ -1582,37 +1576,8 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                         });
                       }
                       
-                      // Register custom language for PlantUML
-                      if (!monaco.languages.getLanguages().some(lang => lang.id === 'plantuml')) {
-                        monaco.languages.register({ id: 'plantuml' });
-                        monaco.languages.setMonarchTokensProvider('plantuml', {
-                          tokenizer: {
-                            root: [
-                              [/@startuml/, 'keyword.control'],
-                              [/@enduml/, 'keyword.control'],
-                              [/@startmindmap/, 'keyword.control'],
-                              [/@endmindmap/, 'keyword.control'],
-                              [/@startsalt/, 'keyword.control'],
-                              [/@endsalt/, 'keyword.control'],
-                              [/@startgantt/, 'keyword.control'],
-                              [/@endgantt/, 'keyword.control'],
-                              [/participant|actor|boundary|control|entity|database|collections|queue/, 'keyword'],
-                              [/activate|deactivate|destroy|create|note|ref|return|group|loop|alt|else|opt|break|par|critical|assert/, 'keyword'],
-                              [/-->/, 'operator'],
-                              [/->/, 'operator'],
-                              [/<--/, 'operator'],
-                              [/<-/, 'operator'],
-                              [/==>/, 'operator'],
-                              [/=>/, 'operator'],
-                              [/'.*$/, 'comment'],
-                              [/".*?"/, 'string'],
-                              [/\[.*?\]/, 'type'],
-                              [/\(.*?\)/, 'type'],
-                              [/#[0-9A-Fa-f]{6}/, 'number.hex']
-                            ]
-                          }
-                        });
-                      }
+                      // PlantUML language support can be added later if needed
+                      // For now, use plain text mode for PlantUML
                     }}
                   />
                 </div>
@@ -1668,7 +1633,6 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                     <div style={{ textAlign: 'center', color: theme.colors.textMuted }}>
                       <p className="text-sm">
                         {diagramForm.type === 'mermaid' ? 'Enter Mermaid code above to see preview' :
-                         diagramForm.type === 'plantuml' ? 'Enter PlantUML code above to see preview' :
                          diagramForm.type === 'markdown' ? 'Enter Markdown content above to see preview' :
                          'Start typing to see preview'}
                       </p>
