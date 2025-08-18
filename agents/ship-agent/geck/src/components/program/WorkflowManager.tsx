@@ -3,7 +3,7 @@ import { useTheme } from '../../themes/ThemeContext';
 import { 
   Plus, Edit2, Trash2, Save, X, ChevronDown, ChevronRight,
   GripVertical, GitBranch, Clock, Copy, FileText, Layers,
-  Image, Code2, Upload
+  Image, Code2, Upload, Maximize2, Minimize2
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input, Textarea } from '../ui/Input';
@@ -82,6 +82,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
     content: '',
     imageUrl: ''
   });
+  const [isFullScreen, setIsFullScreen] = useState(false);
   
   // Drag and drop states
   const [draggedWorkflow, setDraggedWorkflow] = useState<string | null>(null);
@@ -143,6 +144,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
         .replace(/[<>{}|\\]/g, '') // Remove problematic characters
         .replace(/"/g, "'") // Replace quotes
         .replace(/\n/g, ' ') // Replace newlines with spaces
+        .replace(/\r/g, '') // Remove carriage returns
         .trim();
     };
 
@@ -158,7 +160,8 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
       mermaid += `    ${actor}->>${target}: ${operation}\n`;
       if (step.description) {
         const description = escapeForMermaid(step.description);
-        mermaid += `    Note over ${target}: ${description}\n`;
+        // Use lowercase 'note' instead of 'Note' for proper Mermaid syntax
+        mermaid += `    note over ${target}: ${description}\n`;
       }
     });
     
@@ -690,8 +693,8 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                           className="p-2 rounded transition-all"
                           style={{ color: theme.colors.textMuted }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.color = theme.colors.secondary;
-                            e.currentTarget.style.backgroundColor = `${theme.colors.secondary}20`;
+                            e.currentTarget.style.color = theme.colors.primary;
+                            e.currentTarget.style.backgroundColor = `${theme.colors.primaryBackground}`;
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.color = theme.colors.textMuted;
@@ -1413,45 +1416,214 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
       {diagramEditModal && (
         <Modal
           isOpen={true}
-          onClose={() => setDiagramEditModal(null)}
+          onClose={() => {
+            setDiagramEditModal(null);
+            setIsFullScreen(false);
+          }}
           title={`Edit Diagram - ${workflows[diagramEditModal.workflowKey].name}`}
-          size="xl"
+          size={isFullScreen ? "3xl" as any : "2xl"}
           footer={
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-between items-center w-full">
               <Button
                 variant="secondary"
-                onClick={() => setDiagramEditModal(null)}
+                size="sm"
+                icon={isFullScreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                onClick={() => setIsFullScreen(!isFullScreen)}
               >
-                Cancel
+                {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
               </Button>
-              <Button
-                variant="primary"
-                onClick={saveDiagram}
-              >
-                Save Diagram
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setDiagramEditModal(null);
+                    setIsFullScreen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={saveDiagram}
+                >
+                  Save Diagram
+                </Button>
+              </div>
             </div>
           }
         >
-          <div className="space-y-4">
-            {/* Diagram Type Selection */}
-            <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
-                Diagram Type
-              </label>
-              <Select
-                value={diagramForm.type}
-                onChange={(value) => setDiagramForm({ ...diagramForm, type: value as any })}
-                options={[
-                  { value: 'mermaid', label: 'Mermaid Sequence Diagram' },
-                  { value: 'markdown', label: 'Markdown with Diagrams' },
-                  { value: 'image', label: 'Upload Image' }
-                ]}
-              />
-            </div>
+          <div className={isFullScreen ? "" : "space-y-4"}>
+            {/* Full Screen Layout for non-image types */}
+            {isFullScreen && diagramForm.type !== 'image' ? (
+              <div className="flex gap-6" style={{ height: 'calc(84vh - 120px)' }}>  {/* Increased from 70vh (~20% larger) */}
+                {/* Editor Section */}
+                <div className="flex-1 flex flex-col">
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-medium" style={{ color: theme.colors.text }}>
+                      {diagramForm.type === 'mermaid' ? 'Mermaid Code' : 'Markdown Content'}
+                    </label>
+                    <Select
+                      value={diagramForm.type}
+                      onChange={(value) => setDiagramForm({ ...diagramForm, type: value as any })}
+                      options={[
+                        { value: 'mermaid', label: 'Mermaid' },
+                        { value: 'markdown', label: 'Markdown' }
+                      ]}
+                    />
+                  </div>
+                  <div className="flex-1" style={{
+                    border: `1px solid ${theme.colors.border}`,
+                    borderRadius: theme.borders.radius.md,
+                    overflow: 'hidden'
+                  }}>
+                    <Editor
+                      height="100%"
+                      language={
+                        diagramForm.type === 'mermaid' ? 'mermaid' : 'markdown'
+                      }
+                      value={diagramForm.content || (
+                        diagramForm.type === 'mermaid' ? 
+                        'sequenceDiagram\n    participant User\n    participant System\n    participant API\n    \n    User->>System: Send Request\n    System->>API: Process Data\n    API-->>System: Return Result\n    System-->>User: Send Response' :
+                        '# Workflow Description\n\nThis workflow demonstrates the interaction between components.\n\n## Sequence Diagram\n\n```mermaid\nsequenceDiagram\n    participant User\n    participant System\n    \n    User->>System: Request\n    System-->>User: Response\n```'
+                      )}
+                      onChange={(value) => setDiagramForm({ ...diagramForm, content: value || '' })}
+                      theme="vs-dark"
+                      options={{
+                        minimap: { enabled: false },
+                        fontSize: 14,
+                        wordWrap: 'on',
+                        formatOnPaste: true,
+                        formatOnType: true,
+                        automaticLayout: true,
+                        scrollBeyondLastLine: false,
+                        suggest: {
+                          showKeywords: true,
+                          showSnippets: true
+                        },
+                        quickSuggestions: {
+                          other: true,
+                          comments: false,
+                          strings: true
+                        }
+                      }}
+                      beforeMount={(monaco) => {
+                        // Register custom language for Mermaid
+                        if (!monaco.languages.getLanguages().some(lang => lang.id === 'mermaid')) {
+                          monaco.languages.register({ id: 'mermaid' });
+                          monaco.languages.setMonarchTokensProvider('mermaid', {
+                            tokenizer: {
+                              root: [
+                                [/sequenceDiagram/, 'keyword'],
+                                [/participant/, 'keyword'],
+                                [/activate/, 'keyword'],
+                                [/deactivate/, 'keyword'],
+                                [/Note/, 'keyword'],
+                                [/loop/, 'keyword'],
+                                [/alt/, 'keyword'],
+                                [/else/, 'keyword'],
+                                [/opt/, 'keyword'],
+                                [/par/, 'keyword'],
+                                [/rect/, 'keyword'],
+                                [/autonumber/, 'keyword'],
+                                [/graph/, 'keyword'],
+                                [/subgraph/, 'keyword'],
+                                [/end/, 'keyword'],
+                                [/flowchart/, 'keyword'],
+                                [/classDiagram/, 'keyword'],
+                                [/stateDiagram/, 'keyword'],
+                                [/erDiagram/, 'keyword'],
+                                [/journey/, 'keyword'],
+                                [/gantt/, 'keyword'],
+                                [/-->>/, 'operator'],
+                                [/-->/, 'operator'],
+                                [/->>/, 'operator'],
+                                [/->/, 'operator'],
+                                [/--x/, 'operator'],
+                                [/-x/, 'operator'],
+                                [/==/, 'operator'],
+                                [/%%.*$/, 'comment'],
+                                [/".*?"/, 'string'],
+                                [/'.*?'/, 'string'],
+                                [/:.*$/, 'string']
+                              ]
+                            }
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                  {diagramForm.type === 'mermaid' && (
+                    <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+                      <a 
+                        href="https://mermaid.js.org/syntax/sequenceDiagram.html" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: theme.colors.primary, textDecoration: 'underline' }}
+                      >
+                        Mermaid Documentation
+                      </a>
+                    </p>
+                  )}
+                </div>
 
-            {/* Content Editor or Image Upload */}
-            {diagramForm.type === 'image' ? (
+                {/* Preview Section */}
+                <div className="flex-1 flex flex-col">
+                  <label className="text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                    Live Preview
+                  </label>
+                  <div className="flex-1 border rounded-lg p-4" style={{
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.background,
+                    overflow: 'auto'
+                  }}>
+                    {diagramForm.content ? (
+                      <ErrorBoundary>
+                        <DiagramRenderer
+                          type={diagramForm.type}
+                          content={diagramForm.content}
+                          imageUrl={diagramForm.imageUrl}
+                        />
+                      </ErrorBoundary>
+                    ) : (
+                      <div style={{ 
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: theme.colors.textMuted 
+                      }}>
+                        <p className="text-sm">
+                          {diagramForm.type === 'mermaid' ? 'Enter Mermaid code to see preview' :
+                           'Enter Markdown content to see preview'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Original non-full-screen layout */
+              <>
+                {/* Diagram Type Selection - Show only when not in full screen */}
+                {!isFullScreen && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                      Diagram Type
+                    </label>
+                    <Select
+                      value={diagramForm.type}
+                      onChange={(value) => setDiagramForm({ ...diagramForm, type: value as any })}
+                      options={[
+                        { value: 'mermaid', label: 'Mermaid Sequence Diagram' },
+                        { value: 'markdown', label: 'Markdown with Diagrams' },
+                        { value: 'image', label: 'Upload Image' }
+                      ]}
+                    />
+                  </div>
+                )}
+
+                {/* Content Editor or Image Upload */}
+                {diagramForm.type === 'image' ? (
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
                   Upload Diagram Image
@@ -1503,7 +1675,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                   overflow: 'hidden'
                 }}>
                   <Editor
-                    height="400px"
+                    height="600px"
                     language={
                       diagramForm.type === 'mermaid' ? 'mermaid' : 'markdown'
                     }
@@ -1596,50 +1768,55 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
               </div>
             )}
 
-            {/* Preview */}
-            {(diagramForm.type !== 'image' && diagramForm.content) || 
-             (diagramForm.type === 'image' && diagramForm.imageUrl) ? (
-              <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
-                  Preview
-                </label>
-                <div className="border rounded-lg p-4" style={{
-                  borderColor: theme.colors.border,
-                  backgroundColor: theme.colors.background
-                }}>
-                  <ErrorBoundary>
-                    <DiagramRenderer
-                      type={diagramForm.type}
-                      content={diagramForm.content}
-                      imageUrl={diagramForm.imageUrl}
-                    />
-                  </ErrorBoundary>
-                </div>
-              </div>
-            ) : (
-              diagramForm.type === 'image' ? null : (
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
-                    Preview
-                  </label>
-                  <div className="border rounded-lg p-4" style={{
-                    borderColor: theme.colors.border,
-                    backgroundColor: theme.colors.background,
-                    minHeight: '200px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{ textAlign: 'center', color: theme.colors.textMuted }}>
-                      <p className="text-sm">
-                        {diagramForm.type === 'mermaid' ? 'Enter Mermaid code above to see preview' :
-                         diagramForm.type === 'markdown' ? 'Enter Markdown content above to see preview' :
-                         'Start typing to see preview'}
-                      </p>
+                {/* Preview - Only show in non-full-screen mode */}
+                {(diagramForm.type !== 'image' && diagramForm.content) || 
+                 (diagramForm.type === 'image' && diagramForm.imageUrl) ? (
+                  <div>
+                    <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                      Preview
+                    </label>
+                    <div className="border rounded-lg p-4" style={{
+                      borderColor: theme.colors.border,
+                      backgroundColor: theme.colors.background,
+                      minHeight: '600px',
+                      maxHeight: '600px',
+                      overflow: 'auto'
+                    }}>
+                      <ErrorBoundary>
+                        <DiagramRenderer
+                          type={diagramForm.type}
+                          content={diagramForm.content}
+                          imageUrl={diagramForm.imageUrl}
+                        />
+                      </ErrorBoundary>
                     </div>
                   </div>
-                </div>
-              )
+                ) : (
+                  diagramForm.type === 'image' ? null : (
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text }}>
+                        Preview
+                      </label>
+                      <div className="border rounded-lg p-4" style={{
+                        borderColor: theme.colors.border,
+                        backgroundColor: theme.colors.background,
+                        minHeight: '600px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <div style={{ textAlign: 'center', color: theme.colors.textMuted }}>
+                          <p className="text-sm">
+                            {diagramForm.type === 'mermaid' ? 'Enter Mermaid code above to see preview' :
+                             diagramForm.type === 'markdown' ? 'Enter Markdown content above to see preview' :
+                             'Start typing to see preview'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
+              </>
             )}
           </div>
         </Modal>

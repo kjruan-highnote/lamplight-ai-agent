@@ -4,7 +4,9 @@ import Editor from '@monaco-editor/react';
 import { 
   Save, FileCode, AlertCircle, Check, Plus, 
   Package, Users, Upload, Download, Settings, Shield, 
-  Zap, Globe, Maximize2, Minimize2, Expand, X
+  Zap, Globe, Maximize2, Minimize2, Expand, X,
+  Database, GitBranch, Activity, Clock, Tag,
+  CheckCircle, AlertTriangle, Code, Layers, Link, BarChart3
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
@@ -308,47 +310,326 @@ export const ProgramEditor: React.FC = () => {
     }
   };
 
+  // Calculate statistics for the program
+  const programStats = {
+    totalWorkflows: Object.keys(program.workflows || {}).length,
+    requiredWorkflows: Object.values(program.workflows || {}).filter(w => w.required).length,
+    totalSteps: Object.values(program.workflows || {}).reduce((acc, w) => acc + (w.steps?.length || 0), 0),
+    totalOperations: program.categories?.reduce((acc, cat) => acc + (cat.operations?.length || 0), 0) || 0,
+    totalCapabilities: (program.capabilities?.length || 0) + customCapabilities.length,
+    totalEntities: program.entities?.length || 0,
+    complianceStandards: program.compliance?.standards?.length || 0,
+    integrations: program.integrations ? 1 : 0,
+  };
+
+  // Determine program health status
+  const getProgramHealth = () => {
+    if (!program.program_type || !program.metadata?.name) return 'incomplete';
+    if (programStats.totalWorkflows === 0) return 'warning';
+    if (programStats.totalCapabilities === 0) return 'warning';
+    return 'healthy';
+  };
+
+  const health = getProgramHealth();
+
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 style={{ color: theme.colors.primary, fontSize: theme.typography.fontSize['3xl'], fontWeight: theme.typography.fontWeight.bold }}>
-            {id === 'new' ? 'Create Program' : 'Edit Program'}
-          </h1>
-          <p style={{ color: theme.colors.textMuted, fontSize: theme.typography.fontSize.sm, marginTop: theme.spacing.sm }}>
-            {program.program_class === 'template' ? (
-              <span className="flex items-center space-x-2">
-                <Package size={16} />
-                <span>Program Template</span>
-              </span>
-            ) : program.program_class === 'subscriber' ? (
-              <span className="flex items-center space-x-2">
-                <Users size={16} />
-                <span>Subscriber Implementation</span>
-              </span>
-            ) : (
-              'Configure program settings and operations'
+      {/* Enhanced Header with Program Details */}
+      <div className="mb-6">
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 style={{ color: theme.colors.primary, fontSize: theme.typography.fontSize['3xl'], fontWeight: theme.typography.fontWeight.bold }}>
+                {id === 'new' ? 'Create Program' : program.metadata?.name || 'Untitled Program'}
+              </h1>
+              {/* Health Status Badge */}
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full" style={{
+                backgroundColor: health === 'healthy' ? `${theme.colors.success}20` :
+                              health === 'warning' ? `${theme.colors.warning}20` :
+                              `${theme.colors.danger}20`,
+                border: `1px solid ${health === 'healthy' ? theme.colors.success :
+                                    health === 'warning' ? theme.colors.warning :
+                                    theme.colors.danger}`
+              }}>
+                {health === 'healthy' ? <CheckCircle size={14} /> :
+                 health === 'warning' ? <AlertTriangle size={14} /> :
+                 <AlertCircle size={14} />}
+                <span className="text-xs font-medium" style={{
+                  color: health === 'healthy' ? theme.colors.success :
+                        health === 'warning' ? theme.colors.warning :
+                        theme.colors.danger
+                }}>
+                  {health === 'healthy' ? 'Healthy' :
+                   health === 'warning' ? 'Needs Attention' :
+                   'Incomplete'}
+                </span>
+              </div>
+              {/* Status Badge */}
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full" style={{
+                backgroundColor: program.status === 'active' ? `${theme.colors.success}20` :
+                              program.status === 'archived' ? `${theme.colors.textMuted}20` :
+                              `${theme.colors.info}20`,
+                border: `1px solid ${program.status === 'active' ? theme.colors.success :
+                                    program.status === 'archived' ? theme.colors.textMuted :
+                                    theme.colors.info}`
+              }}>
+                <Activity size={14} />
+                <span className="text-xs font-medium capitalize" style={{
+                  color: program.status === 'active' ? theme.colors.success :
+                        program.status === 'archived' ? theme.colors.textMuted :
+                        theme.colors.info
+                }}>
+                  {program.status || 'draft'}
+                </span>
+              </div>
+            </div>
+            
+            {/* Program Metadata */}
+            <div className="flex items-center gap-4 text-sm" style={{ color: theme.colors.textMuted }}>
+              {program.program_class === 'template' ? (
+                <span className="flex items-center gap-1">
+                  <Package size={14} />
+                  <span>Template</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Users size={14} />
+                  <span>Subscriber</span>
+                </span>
+              )}
+              {program.program_type && (
+                <span className="flex items-center gap-1">
+                  <Tag size={14} />
+                  <span>{program.program_type}</span>
+                </span>
+              )}
+              {program.vendor && (
+                <span className="flex items-center gap-1">
+                  <Database size={14} />
+                  <span>{program.vendor}</span>
+                </span>
+              )}
+              {program.version && (
+                <span className="flex items-center gap-1">
+                  <Code size={14} />
+                  <span>v{program.version}</span>
+                </span>
+              )}
+              {program.api_type && (
+                <span className="flex items-center gap-1">
+                  <Link size={14} />
+                  <span className="uppercase">{program.api_type}</span>
+                </span>
+              )}
+              {program.updatedAt && (
+                <span className="flex items-center gap-1">
+                  <Clock size={14} />
+                  <span>Updated {new Date(program.updatedAt).toLocaleDateString()}</span>
+                </span>
+              )}
+            </div>
+
+            {/* Program Description */}
+            {program.metadata?.description && (
+              <p className="mt-2 text-sm" style={{ color: theme.colors.textSecondary }}>
+                {program.metadata.description}
+              </p>
             )}
-          </p>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex gap-3">
+            <Button
+              onClick={() => navigate('/programs')}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={saving}
+              loading={saving}
+              variant="primary"
+              icon={<Save size={20} />}
+            >
+              {saving ? 'Saving...' : 'Save'}
+            </Button>
+          </div>
         </div>
-        <div className="flex space-x-3">
-          <Button
-            onClick={() => navigate('/programs')}
-            variant="secondary"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            loading={saving}
-            variant="primary"
-            icon={<Save size={20} />}
-          >
-            {saving ? 'Saving...' : 'Save'}
-          </Button>
+
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+          {/* Workflows */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <GitBranch size={16} style={{ color: theme.colors.primary }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.totalWorkflows}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Workflows
+                </div>
+                {programStats.requiredWorkflows > 0 && (
+                  <div className="text-xs" style={{ color: theme.colors.warning }}>
+                    {programStats.requiredWorkflows} required
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+
+          {/* Steps */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Layers size={16} style={{ color: theme.colors.info }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.totalSteps}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Total Steps
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Operations */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Globe size={16} style={{ color: theme.colors.secondary }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.totalOperations}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Operations
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Capabilities */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Zap size={16} style={{ color: theme.colors.warning }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.totalCapabilities}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Capabilities
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Entities */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Database size={16} style={{ color: theme.colors.success }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.totalEntities}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Entities
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Compliance */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Shield size={16} style={{ color: theme.colors.danger }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.complianceStandards}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Standards
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Integrations */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <Link size={16} style={{ color: theme.colors.primaryBorder }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {programStats.integrations}
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Integrations
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Progress */}
+          <Card variant="bordered" padding="sm">
+            <div className="flex items-center gap-2">
+              <BarChart3 size={16} style={{ color: theme.colors.primary }} />
+              <div>
+                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
+                  {Math.round((
+                    (program.program_type ? 20 : 0) +
+                    (program.metadata?.name ? 20 : 0) +
+                    (programStats.totalWorkflows > 0 ? 20 : 0) +
+                    (programStats.totalCapabilities > 0 ? 20 : 0) +
+                    (programStats.totalEntities > 0 ? 20 : 0)
+                  ))}%
+                </div>
+                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                  Complete
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
+
+        {/* Quick Info Bar */}
+        {(program.customer_id || program.parent_template_id || (program.tags && program.tags.length > 0)) && (
+          <div className="mt-3 p-3 rounded-lg flex items-center gap-6" style={{
+            backgroundColor: theme.colors.surface,
+            border: `1px solid ${theme.colors.border}`
+          }}>
+            {program.customer_id && (
+              <div className="flex items-center gap-2">
+                <Users size={14} style={{ color: theme.colors.textMuted }} />
+                <span className="text-sm" style={{ color: theme.colors.textSecondary }}>
+                  Customer: <span style={{ color: theme.colors.text }}>{program.customer_id}</span>
+                </span>
+              </div>
+            )}
+            {program.parent_template_id && (
+              <div className="flex items-center gap-2">
+                <Package size={14} style={{ color: theme.colors.textMuted }} />
+                <span className="text-sm" style={{ color: theme.colors.textSecondary }}>
+                  Template: <span style={{ color: theme.colors.text }}>{program.parent_template_id}</span>
+                </span>
+              </div>
+            )}
+            {program.tags && program.tags.length > 0 && (
+              <div className="flex items-center gap-2">
+                <Tag size={14} style={{ color: theme.colors.textMuted }} />
+                <div className="flex gap-1">
+                  {program.tags.map(tag => (
+                    <span key={tag} className="px-2 py-0.5 text-xs rounded" style={{
+                      backgroundColor: theme.colors.primaryBackground,
+                      color: theme.colors.primary
+                    }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Alerts */}
@@ -647,7 +928,7 @@ export const ProgramEditor: React.FC = () => {
                 }}
                 onWorkflowsGenerated={(workflows) => {
                   // Optionally merge generated workflows with existing ones
-                  console.log('Generated workflows:', workflows);
+                  // Removed console.log to prevent memory leak
                 }}
                 customCapabilities={customCapabilities}
               />

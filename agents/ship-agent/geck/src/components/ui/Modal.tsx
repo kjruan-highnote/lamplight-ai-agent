@@ -9,7 +9,7 @@ interface ModalProps {
   title: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -51,6 +51,10 @@ export const Modal: React.FC<ModalProps> = ({
         return '800px';
       case 'xl':
         return '1200px';
+      case '2xl':
+        return '1920px';  // Increased from 1600px (~20% larger)
+      case '3xl':
+        return '95vw';  // Almost full width for maximum space
       default:
         return '600px';
     }
@@ -127,7 +131,7 @@ export const Modal: React.FC<ModalProps> = ({
             className="p-6"
             style={{
               color: theme.colors.text,
-              maxHeight: '60vh',
+              maxHeight: '84vh',  // Increased from 70vh (~20% larger)
               overflowY: 'auto'
             }}
           >

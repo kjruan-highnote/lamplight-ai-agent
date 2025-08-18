@@ -5,6 +5,9 @@ import remarkGfm from 'remark-gfm';
 import { useTheme } from '../../themes/ThemeContext';
 import { AlertCircle, Loader2 } from 'lucide-react';
 
+// Global flag to track if mermaid has been initialized
+let globalMermaidInitialized = false;
+
 interface DiagramRendererProps {
   content: string;
   type: 'mermaid' | 'markdown' | 'image';
@@ -24,8 +27,42 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [debouncedContent, setDebouncedContent] = useState(content);
+  const [isTyping, setIsTyping] = useState(false);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Clear error and mermaid content when type or content changes
+  // Debounce content changes for Mermaid diagrams
+  useEffect(() => {
+    if (type === 'mermaid') {
+      setIsTyping(true);
+      
+      // Clear existing timer
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = null;
+      }
+      
+      // Set new timer
+      debounceTimer.current = setTimeout(() => {
+        setDebouncedContent(content);
+        setIsTyping(false);
+        debounceTimer.current = null;
+      }, 1500); // Increased to 1.5 seconds for more relaxed editing
+      
+      return () => {
+        if (debounceTimer.current) {
+          clearTimeout(debounceTimer.current);
+          debounceTimer.current = null;
+        }
+      };
+    } else {
+      // For non-mermaid types, update immediately
+      setDebouncedContent(content);
+      setIsTyping(false);
+    }
+  }, [content, type]);
+
+  // Clear error and mermaid content when type changes
   useEffect(() => {
     try {
       setError(null);
@@ -37,9 +74,9 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
     } catch (err) {
       console.error('Error clearing diagram state:', err);
     }
-  }, [type, content]);
+  }, [type]);
 
-  // Memoize mermaid config to avoid re-initialization
+  // Memoize mermaid config to avoid re-initialization - use JSON.stringify for deep comparison
   const mermaidConfig = useMemo(() => ({
     startOnLoad: false,
     theme: 'dark' as const,
@@ -75,31 +112,30 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
       wrap: true,
       wrapPadding: 10
     }
-  }), [theme]);
+  }), [JSON.stringify(theme.colors)]); // Use JSON.stringify for stable dependency
 
-  // Initialize mermaid once
+  // Initialize mermaid once globally
   useEffect(() => {
-    if (!isInitialized) {
+    if (!globalMermaidInitialized && typeof mermaid !== 'undefined' && mermaid.initialize) {
       try {
-        // Ensure mermaid is available
-        if (typeof mermaid !== 'undefined' && mermaid.initialize) {
-          mermaid.initialize(mermaidConfig);
-          setIsInitialized(true);
-        } else {
-          console.warn('Mermaid library not fully loaded yet');
-        }
+        mermaid.initialize(mermaidConfig);
+        globalMermaidInitialized = true;
+        setIsInitialized(true);
       } catch (err) {
         console.error('Failed to initialize mermaid:', err);
-        // Don't throw, just log the error
       }
+    } else if (globalMermaidInitialized) {
+      setIsInitialized(true);
     }
-  }, [mermaidConfig, isInitialized]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - initialize only once
 
-  // Render Mermaid diagram
+  // Render Mermaid diagram with proper cleanup
   useEffect(() => {
     let mounted = true;
+    let renderTimeout: NodeJS.Timeout | null = null;
     
-    if (type === 'mermaid' && content && mermaidRef.current && isInitialized) {
+    if (type === 'mermaid' && debouncedContent && mermaidRef.current && isInitialized && !isTyping) {
       const renderMermaid = async () => {
         if (!mounted) return;
         
@@ -107,16 +143,18 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
         setError(null);
         
         try {
-          // Validate content is not empty
-          if (!content.trim()) {
-            setError('Diagram content is empty');
+          // Allow empty content - just don't render
+          if (!debouncedContent.trim()) {
             setLoading(false);
             return;
           }
 
-          // Ensure the container is clean
-          if (mermaidRef.current) {
-            mermaidRef.current.innerHTML = '';
+          // Ensure the container is clean - remove all children
+          if (mermaidRef.current && mounted) {
+            // Remove all existing mermaid elements
+            while (mermaidRef.current.firstChild) {
+              mermaidRef.current.removeChild(mermaidRef.current.firstChild);
+            }
             mermaidRef.current.removeAttribute('data-processed');
             mermaidRef.current.style.display = 'block';
           }
@@ -128,51 +166,90 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
           const preElement = document.createElement('pre');
           preElement.id = id;
           preElement.className = 'mermaid';
-          preElement.textContent = content;
+          preElement.textContent = debouncedContent;
           
           if (mermaidRef.current && mounted) {
             mermaidRef.current.appendChild(preElement);
             
-            // Try different methods based on what's available
-            if (typeof mermaid.run === 'function') {
-              // Use mermaid.run() for newer versions
-              await mermaid.run({
-                querySelector: `#${id}`,
-                suppressErrors: false
+            // Add a small delay to ensure DOM is ready
+            renderTimeout = setTimeout(() => {
+              if (!mounted || !mermaidRef.current) return;
+              
+              // Wrap in Promise to catch all errors
+              Promise.resolve().then(async () => {
+                try {
+                  // Try different methods based on what's available
+                  if (typeof mermaid.run === 'function') {
+                    // Use mermaid.run() for newer versions
+                    await mermaid.run({
+                      querySelector: `#${id}`,
+                      suppressErrors: true  // Changed to suppress errors
+                    });
+                  } else if (typeof mermaid.init === 'function') {
+                    // Use mermaid.init() for older versions
+                    const element = document.getElementById(id);
+                    if (element) {
+                      mermaid.init(undefined, element);
+                    }
+                  } else {
+                    // Fallback to contentLoaded
+                    await mermaid.contentLoaded();
+                  }
+                } catch (renderErr) {
+                  // Silently handle the error
+                  if (mounted && mermaidRef.current) {
+                    // Remove the failed render attempt
+                    const failedElement = document.getElementById(id);
+                    if (failedElement && failedElement.parentNode === mermaidRef.current) {
+                      mermaidRef.current.removeChild(failedElement);
+                    }
+                    // Show the raw code instead
+                    const lines = debouncedContent.split('\n');
+                    const numberedLines = lines.map((line, i) => 
+                      `<span style="color: #666; margin-right: 1em; user-select: none;">${(i + 1).toString().padStart(2, ' ')}</span>${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}`
+                    ).join('\n');
+                    
+                    mermaidRef.current.innerHTML = `
+                      <div style="position: relative;">
+                        <div style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; background: rgba(255, 150, 0, 0.1); color: #ffa500; border-radius: 4px; font-size: 11px; font-weight: 500;">
+                          Editing Mode - Diagram will render when syntax is valid
+                        </div>
+                        <pre style="color: #aaa; padding: 1rem; background: #1a1a1a; border-radius: 4px; overflow: auto; font-family: 'Monaco', 'Menlo', monospace; font-size: 13px; line-height: 1.5; border: 1px solid #333;">${numberedLines}</pre>
+                      </div>
+                    `;
+                  }
+                }
+              }).catch(() => {
+                // Catch any remaining promise rejections silently
               });
-            } else if (typeof mermaid.init === 'function') {
-              // Use mermaid.init() for older versions
-              mermaid.init(undefined, preElement);
-            } else {
-              // Fallback to contentLoaded
-              await mermaid.contentLoaded();
-            }
+            }, 50);
           }
         } catch (err: any) {
-          console.error('Mermaid rendering error:', err);
+          // Silently handle errors during editing - don't log to console
           
           if (!mounted) return;
           
-          let errorMessage = 'Failed to render diagram';
-          
-          // Extract meaningful error message
-          if (err?.message) {
-            if (err.message.includes('Syntax error') || err.message.includes('getBBox')) {
-              errorMessage = 'Syntax error in Mermaid diagram. Please check your syntax.';
-            } else if (err.message.includes('Parse error')) {
-              errorMessage = 'Parse error in diagram. Please check the diagram syntax.';
-            } else {
-              errorMessage = err.message.substring(0, 200); // Limit error message length
-            }
-          }
-          
-          setError(errorMessage);
-          
-          // Show the raw content if there's an error
+          // Don't show errors at all - just show the raw content
+          // This allows users to continue typing without distracting error messages
           if (mermaidRef.current) {
-            const escapedContent = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            mermaidRef.current.innerHTML = `<pre style="color: #888; padding: 1rem; background: #222; border-radius: 4px; overflow: auto; font-family: monospace; font-size: 12px;">${escapedContent}</pre>`;
+            // Show the raw content in a nice code block format
+            const lines = debouncedContent.split('\n');
+            const numberedLines = lines.map((line, i) => 
+              `<span style="color: #666; margin-right: 1em; user-select: none;">${(i + 1).toString().padStart(2, ' ')}</span>${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}`
+            ).join('\n');
+            
+            mermaidRef.current.innerHTML = `
+              <div style="position: relative;">
+                <div style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; background: rgba(255, 150, 0, 0.1); color: #ffa500; border-radius: 4px; font-size: 11px; font-weight: 500;">
+                  Editing Mode - Diagram will render when syntax is valid
+                </div>
+                <pre style="color: #aaa; padding: 1rem; background: #1a1a1a; border-radius: 4px; overflow: auto; font-family: 'Monaco', 'Menlo', monospace; font-size: 13px; line-height: 1.5; border: 1px solid #333;">${numberedLines}</pre>
+              </div>
+            `;
           }
+          
+          // Clear any previous error state
+          setError(null);
         } finally {
           if (mounted) {
             setLoading(false);
@@ -189,11 +266,26 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
     
     return () => {
       mounted = false;
+      // Clean up timeout if it exists
+      if (renderTimeout) {
+        clearTimeout(renderTimeout);
+      }
+      // Clean up mermaid container
+      if (mermaidRef.current) {
+        while (mermaidRef.current.firstChild) {
+          mermaidRef.current.removeChild(mermaidRef.current.firstChild);
+        }
+      }
     };
-  }, [content, type, isInitialized]);
+  }, [debouncedContent, type, isInitialized, isTyping]);
 
   // Render based on type
   const renderContent = () => {
+    if (loading && type === 'mermaid') {
+      // Don't show loading spinner for Mermaid - it's too distracting while typing
+      return null;
+    }
+    
     if (loading) {
       return (
         <div className="flex items-center justify-center p-8">
@@ -202,7 +294,8 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
       );
     }
 
-    if (error) {
+    // Don't show error messages for Mermaid - handled in the mermaid container
+    if (error && type !== 'mermaid') {
       return (
         <div className="flex items-center gap-2 p-4 rounded" style={{
           backgroundColor: `${theme.colors.danger}20`,
@@ -326,7 +419,7 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
   };
 
   return (
-    <div ref={containerRef} className={`diagram-renderer ${className}`}>
+    <div ref={containerRef} className={`diagram-renderer ${className}`} style={{ position: 'relative' }}>
       {/* Always render mermaid container but only show when type is mermaid */}
       <div 
         ref={mermaidRef}
@@ -344,8 +437,34 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
       {/* Render other content based on type */}
       {type !== 'mermaid' && renderContent()}
       
-      {/* Show loading/error states for mermaid */}
-      {type === 'mermaid' && (loading || error) && renderContent()}
+      {/* Show typing indicator for mermaid */}
+      {type === 'mermaid' && isTyping && (
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          padding: '4px 8px',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          color: '#3b82f6',
+          borderRadius: theme.borders.radius.sm,
+          fontSize: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          zIndex: 10,
+          backdropFilter: 'blur(4px)'
+        }}>
+          <div className="animate-pulse" style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            backgroundColor: '#3b82f6'
+          }} />
+          Typing...
+        </div>
+      )}
+      
+      {/* Don't show loading/error states for mermaid - they're handled in the container */}
     </div>
   );
 };
