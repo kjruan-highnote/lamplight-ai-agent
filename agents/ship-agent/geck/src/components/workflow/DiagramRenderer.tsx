@@ -29,6 +29,7 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const [debouncedContent, setDebouncedContent] = useState(content);
   const [isTyping, setIsTyping] = useState(false);
+  const [lastValidContent, setLastValidContent] = useState<string>('');
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Debounce content changes for Mermaid diagrams
@@ -130,6 +131,45 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array - initialize only once
 
+  // Simple validation to check if Mermaid syntax is likely valid
+  const validateMermaidSyntax = (content: string): boolean => {
+    if (!content.trim()) return false;
+    
+    const lines = content.trim().split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('%%'));
+    if (lines.length === 0) return false;
+    
+    // Check for basic diagram type declaration
+    const firstLine = lines[0].toLowerCase();
+    const validTypes = ['sequencediagram', 'flowchart', 'graph', 'classDiagram', 'stateDiagram', 'erDiagram', 'journey', 'gantt', 'pie', 'gitgraph'];
+    const hasValidType = validTypes.some(type => firstLine.includes(type.toLowerCase()));
+    
+    if (!hasValidType) return false;
+    
+    // For sequence diagrams, check for basic structure
+    if (firstLine.includes('sequencediagram')) {
+      // Check for incomplete arrows or messages
+      for (const line of lines.slice(1)) {
+        // Skip participant declarations and notes
+        if (line.startsWith('participant') || line.startsWith('note')) continue;
+        
+        // Check for incomplete arrow syntax
+        if (line.includes('->') || line.includes('->>') || line.includes('-->>') || line.includes('--x')) {
+          // Check if there's text after the arrow
+          const arrowMatch = line.match(/(->|-->>|->>|--x|->x|-x)/);
+          if (arrowMatch) {
+            const afterArrow = line.substring(line.indexOf(arrowMatch[0]) + arrowMatch[0].length).trim();
+            // If line ends with arrow or only has partial actor name, it's incomplete
+            if (!afterArrow || afterArrow.endsWith(':') || !afterArrow.includes(':')) {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    
+    return true;
+  };
+
   // Render Mermaid diagram with proper cleanup
   useEffect(() => {
     let mounted = true;
@@ -145,6 +185,30 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
         try {
           // Allow empty content - just don't render
           if (!debouncedContent.trim()) {
+            setLoading(false);
+            return;
+          }
+
+          // Validate syntax before attempting to render
+          const isValid = validateMermaidSyntax(debouncedContent);
+          
+          if (!isValid) {
+            // Show the raw code without attempting to render
+            if (mermaidRef.current) {
+              const lines = debouncedContent.split('\n');
+              const numberedLines = lines.map((line, i) => 
+                `<span style="color: #666; margin-right: 1em; user-select: none;">${(i + 1).toString().padStart(2, ' ')}</span>${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}`
+              ).join('\n');
+              
+              mermaidRef.current.innerHTML = `
+                <div style="position: relative;">
+                  <div style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 4px; font-size: 11px; font-weight: 500;">
+                    Editing - Continue typing...
+                  </div>
+                  <pre style="color: #aaa; padding: 1rem; background: #1a1a1a; border-radius: 4px; overflow: auto; font-family: 'Monaco', 'Menlo', monospace; font-size: 13px; line-height: 1.5; border: 1px solid #333;">${numberedLines}</pre>
+                </div>
+              `;
+            }
             setLoading(false);
             return;
           }
@@ -178,22 +242,34 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
               // Wrap in Promise to catch all errors
               Promise.resolve().then(async () => {
                 try {
-                  // Try different methods based on what's available
-                  if (typeof mermaid.run === 'function') {
-                    // Use mermaid.run() for newer versions
-                    await mermaid.run({
-                      querySelector: `#${id}`,
-                      suppressErrors: true  // Changed to suppress errors
-                    });
-                  } else if (typeof mermaid.init === 'function') {
-                    // Use mermaid.init() for older versions
-                    const element = document.getElementById(id);
-                    if (element) {
-                      mermaid.init(undefined, element);
+                  // Temporarily override console.error to suppress SVG errors
+                  const originalError = console.error;
+                  console.error = () => {};
+                  
+                  try {
+                    // Try different methods based on what's available
+                    if (typeof mermaid.run === 'function') {
+                      // Use mermaid.run() for newer versions
+                      await mermaid.run({
+                        querySelector: `#${id}`,
+                        suppressErrors: true  // Changed to suppress errors
+                      });
+                    } else if (typeof mermaid.init === 'function') {
+                      // Use mermaid.init() for older versions
+                      const element = document.getElementById(id);
+                      if (element) {
+                        mermaid.init(undefined, element);
+                      }
+                    } else {
+                      // Fallback to contentLoaded
+                      await mermaid.contentLoaded();
                     }
-                  } else {
-                    // Fallback to contentLoaded
-                    await mermaid.contentLoaded();
+                    
+                    // If successful, save as last valid content
+                    setLastValidContent(debouncedContent);
+                  } finally {
+                    // Restore console.error
+                    console.error = originalError;
                   }
                 } catch (renderErr) {
                   // Silently handle the error
@@ -212,7 +288,7 @@ const DiagramRendererInternal: React.FC<DiagramRendererProps> = ({
                     mermaidRef.current.innerHTML = `
                       <div style="position: relative;">
                         <div style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; background: rgba(255, 150, 0, 0.1); color: #ffa500; border-radius: 4px; font-size: 11px; font-weight: 500;">
-                          Editing Mode - Diagram will render when syntax is valid
+                          Syntax Error - Check your diagram
                         </div>
                         <pre style="color: #aaa; padding: 1rem; background: #1a1a1a; border-radius: 4px; overflow: auto; font-family: 'Monaco', 'Menlo', monospace; font-size: 13px; line-height: 1.5; border: 1px solid #333;">${numberedLines}</pre>
                       </div>

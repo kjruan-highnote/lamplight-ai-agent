@@ -5,8 +5,8 @@ import {
   Save, FileCode, AlertCircle, Check, Plus, 
   Package, Users, Upload, Download, Settings, Shield, 
   Zap, Globe, Maximize2, Minimize2, Expand, X,
-  Database, GitBranch, Activity, Clock, Tag,
-  CheckCircle, AlertTriangle, Code, Layers, Link, BarChart3
+  Database, GitBranch, Clock, Tag,
+  Code, Layers, Link, BarChart3
 } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { api } from '../lib/api';
@@ -322,15 +322,6 @@ export const ProgramEditor: React.FC = () => {
     integrations: program.integrations ? 1 : 0,
   };
 
-  // Determine program health status
-  const getProgramHealth = () => {
-    if (!program.program_type || !program.metadata?.name) return 'incomplete';
-    if (programStats.totalWorkflows === 0) return 'warning';
-    if (programStats.totalCapabilities === 0) return 'warning';
-    return 'healthy';
-  };
-
-  const health = getProgramHealth();
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -342,46 +333,6 @@ export const ProgramEditor: React.FC = () => {
               <h1 style={{ color: theme.colors.primary, fontSize: theme.typography.fontSize['3xl'], fontWeight: theme.typography.fontWeight.bold }}>
                 {id === 'new' ? 'Create Program' : program.metadata?.name || 'Untitled Program'}
               </h1>
-              {/* Health Status Badge */}
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full" style={{
-                backgroundColor: health === 'healthy' ? `${theme.colors.success}20` :
-                              health === 'warning' ? `${theme.colors.warning}20` :
-                              `${theme.colors.danger}20`,
-                border: `1px solid ${health === 'healthy' ? theme.colors.success :
-                                    health === 'warning' ? theme.colors.warning :
-                                    theme.colors.danger}`
-              }}>
-                {health === 'healthy' ? <CheckCircle size={14} /> :
-                 health === 'warning' ? <AlertTriangle size={14} /> :
-                 <AlertCircle size={14} />}
-                <span className="text-xs font-medium" style={{
-                  color: health === 'healthy' ? theme.colors.success :
-                        health === 'warning' ? theme.colors.warning :
-                        theme.colors.danger
-                }}>
-                  {health === 'healthy' ? 'Healthy' :
-                   health === 'warning' ? 'Needs Attention' :
-                   'Incomplete'}
-                </span>
-              </div>
-              {/* Status Badge */}
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full" style={{
-                backgroundColor: program.status === 'active' ? `${theme.colors.success}20` :
-                              program.status === 'archived' ? `${theme.colors.textMuted}20` :
-                              `${theme.colors.info}20`,
-                border: `1px solid ${program.status === 'active' ? theme.colors.success :
-                                    program.status === 'archived' ? theme.colors.textMuted :
-                                    theme.colors.info}`
-              }}>
-                <Activity size={14} />
-                <span className="text-xs font-medium capitalize" style={{
-                  color: program.status === 'active' ? theme.colors.success :
-                        program.status === 'archived' ? theme.colors.textMuted :
-                        theme.colors.info
-                }}>
-                  {program.status || 'draft'}
-                </span>
-              </div>
             </div>
             
             {/* Program Metadata */}
@@ -974,6 +925,49 @@ export const ProgramEditor: React.FC = () => {
                       cat.operations?.map(op => op.name) || []
                     ) || []
               }
+              programOperations={
+                // Operations that are part of this program
+                program.categories?.flatMap(cat => 
+                  cat.operations?.map(op => op.name) || []
+                ) || []
+              }
+              onAddToProgramOperations={(operationName) => {
+                // Add the operation to the program
+                const updatedCategories = [...(program.categories || [])];
+                
+                // Find or create a default category for workflow operations
+                let workflowCategory = updatedCategories.find(cat => cat.name === 'workflow_operations');
+                
+                if (!workflowCategory) {
+                  // Create a new category for workflow operations
+                  workflowCategory = {
+                    name: 'workflow_operations',
+                    display_name: 'Workflow Operations',
+                    description: 'Operations used in workflows',
+                    order: updatedCategories.length,
+                    operations: []
+                  };
+                  updatedCategories.push(workflowCategory);
+                }
+                
+                // Add the operation if it doesn't exist
+                const existsInCategory = workflowCategory.operations.some(op => op.name === operationName);
+                if (!existsInCategory) {
+                  workflowCategory.operations.push({
+                    name: operationName,
+                    type: 'query', // Default to query, user can change later
+                    required: false,
+                    category: 'workflow_operations',
+                    query: `# TODO: Define the GraphQL query for ${operationName}`
+                  });
+                }
+                
+                setProgram(prev => ({ ...prev, categories: updatedCategories }));
+                
+                // Show success message
+                setSuccess(`Added operation "${operationName}" to program operations`);
+                setTimeout(() => setSuccess(''), 3000);
+              }}
             />
           </div>
         )}

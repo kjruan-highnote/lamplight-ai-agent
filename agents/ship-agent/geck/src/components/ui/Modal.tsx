@@ -98,9 +98,10 @@ export const Modal: React.FC<ModalProps> = ({
             }}
           >
             <h2
-              className="text-xl font-semibold"
+              className="font-semibold"
               style={{ 
                 color: theme.colors.text,
+                fontSize: theme.typography.fontSize.lg,
                 textShadow: theme.id === 'vault-tec' ? theme.effects.customEffects?.textGlow : 'none'
               }}
             >
@@ -131,6 +132,7 @@ export const Modal: React.FC<ModalProps> = ({
             className="p-6"
             style={{
               color: theme.colors.text,
+              fontSize: theme.typography.fontSize.base,
               maxHeight: '84vh',  // Increased from 70vh (~20% larger)
               overflowY: 'auto'
             }}

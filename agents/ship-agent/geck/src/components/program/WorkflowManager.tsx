@@ -33,12 +33,16 @@ interface WorkflowManagerProps {
   workflows: Record<string, Workflow>;
   onChange: (workflows: Record<string, Workflow>) => void;
   operations?: string[]; // Available operations for steps
+  programOperations?: string[]; // Operations that are part of the program
+  onAddToProgramOperations?: (operation: string) => void; // Callback to add operation to program
 }
 
 export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
   workflows,
   onChange,
-  operations = []
+  operations = [],
+  programOperations = [],
+  onAddToProgramOperations
 }) => {
   const { theme } = useTheme();
   const [expandedWorkflows, setExpandedWorkflows] = useState<Set<string>>(new Set());
@@ -51,6 +55,7 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
   const [diagramEditModal, setDiagramEditModal] = useState<{ workflowKey: string } | null>(null);
   const [showDiagrams, setShowDiagrams] = useState<Set<string>>(new Set());
+  const [operationPromptModal, setOperationPromptModal] = useState<{ operation: string; workflowKey: string; stepIndex?: number } | null>(null);
   
   // Form states
   const [workflowForm, setWorkflowForm] = useState<Partial<ExtendedWorkflow>>({});
@@ -356,6 +361,24 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
     });
   };
 
+  // Check if an operation needs to be added to program
+  const checkAndPromptForOperation = (operation: string, callback: () => void) => {
+    if (operation && !programOperations.includes(operation)) {
+      if (onAddToProgramOperations) {
+        setOperationPromptModal({ 
+          operation, 
+          workflowKey: '',
+          stepIndex: -1
+        });
+        // Store callback to execute after user decision
+        (window as any).__pendingOperationCallback = callback;
+        return false;
+      }
+    }
+    callback();
+    return true;
+  };
+
   const handleEditStep = (workflowKey: string, stepIndex: number) => {
     setStepForm(workflows[workflowKey].steps[stepIndex]);
     setEditingStep({ workflowKey, stepIndex });
@@ -366,6 +389,20 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
     
     const { workflowKey, stepIndex } = editingStep;
     const workflow = workflows[workflowKey];
+    
+    // Check if the operation exists in program operations
+    if (stepForm.operation && !programOperations.includes(stepForm.operation)) {
+      // If callback exists, prompt user to add it
+      if (onAddToProgramOperations) {
+        setOperationPromptModal({ 
+          operation: stepForm.operation, 
+          workflowKey,
+          stepIndex 
+        });
+        return;
+      }
+    }
+    
     const newSteps = [...workflow.steps];
     newSteps[stepIndex] = {
       ...newSteps[stepIndex],
@@ -842,7 +879,13 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                                     <OperationSelector
                                       operations={operations}
                                       value={stepForm.operation || ''}
-                                      onChange={(value) => setStepForm({ ...stepForm, operation: value })}
+                                      onChange={(value) => {
+                                        setStepForm({ ...stepForm, operation: value });
+                                        // Show indicator if operation is not in program
+                                        if (value && !programOperations.includes(value) && !operations.includes(value)) {
+                                          // Custom operation that's not in the system
+                                        }
+                                      }}
                                       placeholder="Search or type operation name..."
                                       allowCustom={true}
                                     />
@@ -874,6 +917,19 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                                   <span className="font-medium" style={{ color: theme.colors.text }}>
                                     {step.operation || 'Unnamed step'}
                                   </span>
+                                  {step.operation && !programOperations.includes(step.operation) && (
+                                    <span 
+                                      className="px-1.5 py-0.5 text-xs rounded"
+                                      style={{
+                                        backgroundColor: `${theme.colors.warning}20`,
+                                        color: theme.colors.warning,
+                                        fontSize: '10px'
+                                      }}
+                                      title="Operation not in program - click to add"
+                                    >
+                                      Not in Program
+                                    </span>
+                                  )}
                                   {step.required && (
                                     <span 
                                       className="px-1.5 py-0.5 text-xs rounded"
@@ -1818,6 +1874,149 @@ export const WorkflowManager: React.FC<WorkflowManagerProps> = ({
                 )}
               </>
             )}
+          </div>
+        </Modal>
+      )}
+
+      {/* Operation Not in Program Modal */}
+      {operationPromptModal && (
+        <Modal
+          isOpen={true}
+          onClose={() => {
+            setOperationPromptModal(null);
+            // Clear pending callback
+            if ((window as any).__pendingOperationCallback) {
+              delete (window as any).__pendingOperationCallback;
+            }
+          }}
+          title="Operation Not in Program"
+          size="md"
+          footer={
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setOperationPromptModal(null);
+                  // Clear the step form if needed
+                  if (editingStep) {
+                    setStepForm({ ...stepForm, operation: '' });
+                  }
+                  // Clear pending callback
+                  if ((window as any).__pendingOperationCallback) {
+                    delete (window as any).__pendingOperationCallback;
+                  }
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  // Continue without adding to program
+                  const { workflowKey, stepIndex } = operationPromptModal;
+                  
+                  if (stepIndex !== undefined && stepIndex >= 0) {
+                    // Saving an edited step
+                    const workflow = workflows[workflowKey];
+                    const newSteps = [...workflow.steps];
+                    newSteps[stepIndex] = {
+                      ...newSteps[stepIndex],
+                      ...stepForm
+                    };
+                    
+                    onChange({
+                      ...workflows,
+                      [workflowKey]: {
+                        ...workflow,
+                        steps: newSteps
+                      }
+                    });
+                    
+                    setEditingStep(null);
+                    setStepForm({});
+                  }
+                  
+                  // Execute pending callback if exists
+                  if ((window as any).__pendingOperationCallback) {
+                    (window as any).__pendingOperationCallback();
+                    delete (window as any).__pendingOperationCallback;
+                  }
+                  
+                  setOperationPromptModal(null);
+                }}
+              >
+                Use Anyway
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  // Add to program operations
+                  if (onAddToProgramOperations) {
+                    onAddToProgramOperations(operationPromptModal.operation);
+                  }
+                  
+                  // Then save the step
+                  const { workflowKey, stepIndex } = operationPromptModal;
+                  
+                  if (stepIndex !== undefined && stepIndex >= 0) {
+                    // Saving an edited step
+                    const workflow = workflows[workflowKey];
+                    const newSteps = [...workflow.steps];
+                    newSteps[stepIndex] = {
+                      ...newSteps[stepIndex],
+                      ...stepForm
+                    };
+                    
+                    onChange({
+                      ...workflows,
+                      [workflowKey]: {
+                        ...workflow,
+                        steps: newSteps
+                      }
+                    });
+                    
+                    setEditingStep(null);
+                    setStepForm({});
+                  }
+                  
+                  // Execute pending callback if exists
+                  if ((window as any).__pendingOperationCallback) {
+                    (window as any).__pendingOperationCallback();
+                    delete (window as any).__pendingOperationCallback;
+                  }
+                  
+                  setOperationPromptModal(null);
+                }}
+                icon={<Plus size={16} />}
+              >
+                Add to Program
+              </Button>
+            </div>
+          }
+        >
+          <div className="space-y-4">
+            <div className="p-4 rounded-lg" style={{
+              backgroundColor: `${theme.colors.warning}20`,
+              border: `1px solid ${theme.colors.warning}50`
+            }}>
+              <p className="text-sm" style={{ color: theme.colors.text }}>
+                The operation <strong style={{ color: theme.colors.warning }}>"{operationPromptModal.operation}"</strong> is not currently part of this program's operations.
+              </p>
+              <p className="text-sm mt-2" style={{ color: theme.colors.textMuted }}>
+                Would you like to add it to the program operations to ensure consistency?
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <p className="text-xs font-medium" style={{ color: theme.colors.textMuted }}>
+                Options:
+              </p>
+              <ul className="text-xs space-y-1 ml-4" style={{ color: theme.colors.textSecondary }}>
+                <li>• <strong>Add to Program:</strong> Include this operation in the program's official operation set</li>
+                <li>• <strong>Use Anyway:</strong> Use the operation in this workflow without adding it to the program</li>
+                <li>• <strong>Cancel:</strong> Choose a different operation</li>
+              </ul>
+            </div>
           </div>
         </Modal>
       )}
