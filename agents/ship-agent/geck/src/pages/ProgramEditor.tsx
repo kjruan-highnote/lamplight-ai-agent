@@ -458,7 +458,7 @@ export const ProgramEditor: React.FC = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
           {/* Workflows */}
           <Card variant="bordered" padding="sm">
             <div className="flex items-center gap-2">
@@ -564,27 +564,6 @@ export const ProgramEditor: React.FC = () => {
                 </div>
                 <div className="text-xs" style={{ color: theme.colors.textMuted }}>
                   Integrations
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Progress */}
-          <Card variant="bordered" padding="sm">
-            <div className="flex items-center gap-2">
-              <BarChart3 size={16} style={{ color: theme.colors.primary }} />
-              <div>
-                <div className="text-lg font-semibold" style={{ color: theme.colors.text }}>
-                  {Math.round((
-                    (program.program_type ? 20 : 0) +
-                    (program.metadata?.name ? 20 : 0) +
-                    (programStats.totalWorkflows > 0 ? 20 : 0) +
-                    (programStats.totalCapabilities > 0 ? 20 : 0) +
-                    (programStats.totalEntities > 0 ? 20 : 0)
-                  ))}%
-                </div>
-                <div className="text-xs" style={{ color: theme.colors.textMuted }}>
-                  Complete
                 </div>
               </div>
             </div>
