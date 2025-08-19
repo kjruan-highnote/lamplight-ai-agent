@@ -4,6 +4,63 @@
 
 GECK (Garden of Eden Creation Kit) is a sophisticated configuration management system for API integrations, inspired by the Fallout universe aesthetic. The application provides a comprehensive platform for managing customer contexts, API program configurations, and operations with a unique retro-futuristic terminal interface.
 
+## User Roles & Permissions
+
+The application implements a role-based access control (RBAC) system with three primary user roles:
+
+### 1. Technical Implementation Engineer
+**Primary Users**: Engineers responsible for implementing and configuring API integrations
+**Permissions**:
+- **Contexts**: Full CRUD operations (Create, Read, Update, Delete, Duplicate)
+- **Programs**: Full management including import capabilities
+- **Operations**: Complete control including migration and deduplication
+- **System**: Can sync Postman collections, generate solutions, access dashboard
+- **Restrictions**: Cannot manage other users
+
+### 2. Solutions Engineer
+**Primary Users**: Engineers focused on solution architecture and client implementations
+**Permissions**: Identical to Technical Implementation Engineer
+- Full access to contexts, programs, and operations
+- Can perform all technical operations
+- Cannot manage users
+- Designed for engineers who need complete technical access
+
+### 3. System Administrator
+**Primary Users**: System administrators and team leads
+**Permissions**: Full system access including:
+- All Technical Implementation Engineer permissions
+- User management capabilities
+- System configuration control
+- Complete administrative access
+
+### Authentication Flow
+
+1. **Login**: Users authenticate with email/password
+2. **Token Management**: JWT tokens stored in localStorage
+3. **Session Persistence**: Tokens verified on app load
+4. **Protected Routes**: Each route checks specific permissions
+5. **Automatic Logout**: On token expiration or 401 responses
+
+### Permission Structure
+
+```typescript
+interface UserPermissions {
+  contexts: {
+    view, create, edit, delete, duplicate
+  };
+  programs: {
+    view, create, edit, delete, duplicate, import
+  };
+  operations: {
+    view, create, edit, delete, migrate, deduplicate
+  };
+  system: {
+    syncPostman, generateSolutions, manageUsers, 
+    viewDashboard, configureSettings
+  };
+}
+```
+
 ## Architecture
 
 ### Technology Stack

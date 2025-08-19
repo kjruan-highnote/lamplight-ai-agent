@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Database, FileJson, Cpu, GitBranch, Settings, Home, Code2 } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Database, FileJson, Cpu, GitBranch, Settings, Home, Code2, LogOut, User } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,7 +10,9 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { theme } = useTheme();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { path: '/', icon: Home, label: 'DASHBOARD' },
@@ -97,9 +100,68 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 CONFIGURATION SYSTEM v2.77
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-xs" style={{ color: theme.colors.textMuted }}>
-              <span>STATUS: </span>
-              <span style={{ color: theme.colors.success }} className="animate-pulse">● ONLINE</span>
+            <div className="flex items-center space-x-4">
+              {/* User Info */}
+              {user && (
+                <div className="flex items-center space-x-3">
+                  <div className="text-right">
+                    <div className="text-sm" style={{ color: theme.colors.text }}>
+                      {user.name}
+                    </div>
+                    <div className="text-xs" style={{ color: theme.colors.textMuted }}>
+                      {user.role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                    </div>
+                  </div>
+                  <div 
+                    className="flex items-center justify-center"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: theme.borders.radius.full || '50%',
+                      backgroundColor: theme.colors.primaryBackground,
+                      border: `2px solid ${theme.colors.primary}`,
+                      color: theme.colors.primary,
+                    }}
+                  >
+                    <User size={20} />
+                  </div>
+                  <button
+                    onClick={async () => {
+                      await logout();
+                      navigate('/login');
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: theme.spacing.xs,
+                      padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${theme.colors.danger}`,
+                      borderRadius: theme.borders.radius.md,
+                      color: theme.colors.danger,
+                      fontSize: theme.typography.fontSize.xs,
+                      fontFamily: theme.typography.fontFamily.mono,
+                      cursor: 'pointer',
+                      transition: theme.effects.transition.base,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = `${theme.colors.danger}20`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <LogOut size={14} />
+                    LOGOUT
+                  </button>
+                </div>
+              )}
+              
+              {/* Status */}
+              <div className="flex items-center space-x-2 text-xs" style={{ color: theme.colors.textMuted }}>
+                <span>STATUS: </span>
+                <span style={{ color: theme.colors.success }} className="animate-pulse">● ONLINE</span>
+              </div>
             </div>
           </div>
         </div>
@@ -163,9 +225,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="text-xs space-y-1" style={{ color: theme.colors.textMuted }}>
               <div>{theme.id === 'vault-tec' ? 'VAULT 111' : theme.name.toUpperCase()}</div>
               <div>TERMINAL {theme.id === 'vault-tec' ? '42' : '01'}</div>
-              <div style={{ fontFamily: theme.typography.fontFamily.display }}>
-                USER: {theme.id === 'vault-tec' ? 'OVERSEER' : 'ADMIN'}
-              </div>
+              {user && (
+                <div style={{ fontFamily: theme.typography.fontFamily.display }}>
+                  USER: {user.name.toUpperCase()}
+                </div>
+              )}
             </div>
           </div>
         </nav>

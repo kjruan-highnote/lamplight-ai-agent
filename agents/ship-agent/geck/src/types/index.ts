@@ -294,3 +294,173 @@ export interface ResourceLink {
   name: string;
   url?: string;
 }
+
+// User Management Types
+export type UserRole = 'technical_implementation_engineer' | 'solutions_engineer' | 'admin';
+
+export interface User {
+  _id?: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  avatar?: string;
+  department?: string;
+  isActive: boolean;
+  permissions: UserPermissions;
+  preferences?: UserPreferences;
+  lastLogin?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface UserPermissions {
+  // Context permissions
+  contexts: {
+    view: boolean;
+    create: boolean;
+    edit: boolean;
+    delete: boolean;
+    duplicate: boolean;
+  };
+  // Program permissions
+  programs: {
+    view: boolean;
+    create: boolean;
+    edit: boolean;
+    delete: boolean;
+    duplicate: boolean;
+    import: boolean;
+  };
+  // Operations permissions
+  operations: {
+    view: boolean;
+    create: boolean;
+    edit: boolean;
+    delete: boolean;
+    migrate: boolean;
+    deduplicate: boolean;
+  };
+  // System permissions
+  system: {
+    syncPostman: boolean;
+    generateSolutions: boolean;
+    manageUsers: boolean;
+    viewDashboard: boolean;
+    configureSettings: boolean;
+  };
+}
+
+export interface UserPreferences {
+  theme?: string;
+  defaultView?: 'grid' | 'list';
+  recentContexts?: string[];
+  recentPrograms?: string[];
+  emailNotifications?: boolean;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+// Role permission presets
+export const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
+  technical_implementation_engineer: {
+    contexts: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+    },
+    programs: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+      import: true,
+    },
+    operations: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      migrate: true,
+      deduplicate: true,
+    },
+    system: {
+      syncPostman: true,
+      generateSolutions: true,
+      manageUsers: false,
+      viewDashboard: true,
+      configureSettings: true,
+    },
+  },
+  solutions_engineer: {
+    contexts: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+    },
+    programs: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+      import: true,
+    },
+    operations: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      migrate: true,
+      deduplicate: true,
+    },
+    system: {
+      syncPostman: true,
+      generateSolutions: true,
+      manageUsers: false,
+      viewDashboard: true,
+      configureSettings: true,
+    },
+  },
+  admin: {
+    contexts: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+    },
+    programs: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      duplicate: true,
+      import: true,
+    },
+    operations: {
+      view: true,
+      create: true,
+      edit: true,
+      delete: true,
+      migrate: true,
+      deduplicate: true,
+    },
+    system: {
+      syncPostman: true,
+      generateSolutions: true,
+      manageUsers: true,
+      viewDashboard: true,
+      configureSettings: true,
+    },
+  },
+};

@@ -48,7 +48,23 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "logs:functions": "netlify functions:serve --port 9000 --debug",
-    "import-programs": "ts-node scripts/import-programs.ts"
+    "import-programs": "ts-node scripts/import-programs.ts",
+    "// Development Auth Modes //": "Various authentication modes for development",
+    "dev": "cross-env REACT_APP_USE_DEV_AUTH=true npm start",
+    "dev:engineer": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=engineer npm start",
+    "dev:solutions": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=solutions npm start",
+    "dev:admin": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=admin npm start",
+    "dev:noauth": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_SKIP_AUTH=true npm start",
+    "dev:prod": "cross-env REACT_APP_USE_DEV_AUTH=false npm start",
+    "// Development App Only Modes //": "Run only the React app with different auth modes",
+    "app:dev": "cross-env REACT_APP_USE_DEV_AUTH=true npm run start:app",
+    "app:engineer": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=engineer npm run start:app",
+    "app:solutions": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=solutions npm run start:app",
+    "app:admin": "cross-env REACT_APP_USE_DEV_AUTH=true REACT_APP_DEV_AUTO_LOGIN=admin npm run start:app",
+    "// Quick Access //": "Shortcuts for common development scenarios",
+    "quick": "npm run dev:engineer",
+    "demo": "npm run dev:admin",
+    "test:permissions": "npm run dev"
   },
   "eslintConfig": {
     "extends": [
@@ -71,6 +87,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0",
     "netlify-cli": "^23.1.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",

@@ -82,6 +82,7 @@ geck/
 
 ### Available Scripts
 
+#### Standard Scripts
 - `npm start` - Run both React app and Netlify Functions with enhanced logging
 - `npm run start:app` - Run React development server only
 - `npm run start:functions` - Run Netlify Functions only  
@@ -89,6 +90,27 @@ geck/
 - `npm run build` - Build both app and functions for production
 - `npm run logs:functions` - Run functions with debug logging
 - `netlify deploy` - Deploy to Netlify
+
+#### Development Auth Scripts
+Quick development modes with mock authentication:
+
+**Full Stack with Auto-Login:**
+- `npm run dev:engineer` - Auto-login as Technical Implementation Engineer
+- `npm run dev:solutions` - Auto-login as Solutions Engineer  
+- `npm run dev:admin` - Auto-login as System Administrator
+- `npm run dev` - Mock auth enabled, manual login required
+- `npm run dev:prod` - Use real production authentication
+
+**Frontend Only (No Backend):**
+- `npm run app:engineer` - Frontend only, auto-login as engineer
+- `npm run app:solutions` - Frontend only, auto-login as solutions
+- `npm run app:admin` - Frontend only, auto-login as admin
+- `npm run app:dev` - Frontend only, manual login
+
+**Quick Access Shortcuts:**
+- `npm run quick` - Fastest development start (engineer role)
+- `npm run demo` - Demo mode with admin access
+- `npm run test:permissions` - Test different role permissions
 
 ### API Endpoints
 

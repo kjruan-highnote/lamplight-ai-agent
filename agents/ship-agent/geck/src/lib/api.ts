@@ -1,4 +1,4 @@
-import { CustomerContext, ProgramConfig, Operation } from '../types';
+import { CustomerContext, ProgramConfig, Operation, User } from '../types';
 
 // Use local functions port in development, otherwise use Netlify functions path
 const API_BASE = process.env.NODE_ENV === 'development' 
@@ -6,6 +6,11 @@ const API_BASE = process.env.NODE_ENV === 'development'
   : '/.netlify/functions';
 
 class ApiClient {
+  private getAuthHeaders(): HeadersInit {
+    const token = localStorage.getItem('geck-auth-token');
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+  }
+
   private async request<T>(
     url: string, 
     options: RequestInit = {}
@@ -14,16 +19,91 @@ class ApiClient {
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
         ...options.headers,
       },
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        // Clear token and redirect to login
+        localStorage.removeItem('geck-auth-token');
+        window.location.href = '/login';
+      }
       throw new Error(`API Error: ${response.statusText}`);
     }
 
     return response.json();
   }
+
+  // Authentication APIs
+  auth = {
+    login: (email: string, password: string) =>
+      this.request<{ user: User; token: string }>(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      }),
+
+    logout: () =>
+      this.request<void>(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+      }),
+
+    verifyToken: (token: string) =>
+      this.request<User>(`${API_BASE}/auth/verify`, {
+        method: 'POST',
+        body: JSON.stringify({ token }),
+      }),
+
+    register: (userData: Omit<User, '_id' | 'createdAt' | 'updatedAt' | 'lastLogin'> & { password: string }) =>
+      this.request<{ user: User; token: string }>(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+      }),
+
+    updateProfile: (userId: string, updates: Partial<User>) =>
+      this.request<User>(`${API_BASE}/auth/users/${userId}`, {
+        method: 'PUT',
+        body: JSON.stringify(updates),
+      }),
+
+    changePassword: (oldPassword: string, newPassword: string) =>
+      this.request<{ message: string }>(`${API_BASE}/auth/change-password`, {
+        method: 'POST',
+        body: JSON.stringify({ oldPassword, newPassword }),
+      }),
+  };
+
+  // User management APIs (admin only)
+  users = {
+    list: () =>
+      this.request<User[]>(`${API_BASE}/users`),
+
+    get: (id: string) =>
+      this.request<User>(`${API_BASE}/users/${id}`),
+
+    create: (userData: Omit<User, '_id' | 'createdAt' | 'updatedAt'> & { password: string }) =>
+      this.request<User>(`${API_BASE}/users`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+      }),
+
+    update: (id: string, updates: Partial<User>) =>
+      this.request<User>(`${API_BASE}/users/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(updates),
+      }),
+
+    delete: (id: string) =>
+      this.request<void>(`${API_BASE}/users/${id}`, {
+        method: 'DELETE',
+      }),
+
+    toggleActive: (id: string) =>
+      this.request<User>(`${API_BASE}/users/${id}/toggle-active`, {
+        method: 'POST',
+      }),
+  };
 
   // Context APIs
   contexts = {
