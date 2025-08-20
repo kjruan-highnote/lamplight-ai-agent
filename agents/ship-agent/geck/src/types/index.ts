@@ -394,7 +394,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
     system: {
       syncPostman: true,
       generateSolutions: true,
-      manageUsers: false,
+      manageUsers: true,
       viewDashboard: true,
       configureSettings: true,
     },
@@ -426,7 +426,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
     system: {
       syncPostman: true,
       generateSolutions: true,
-      manageUsers: false,
+      manageUsers: true,
       viewDashboard: true,
       configureSettings: true,
     },

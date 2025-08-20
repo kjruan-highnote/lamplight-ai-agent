@@ -25,10 +25,10 @@ function formatLog(prefix, color, message) {
   return `${colors.dim}[${timestamp}]${colors.reset} ${color}[${prefix}]${colors.reset} ${message}`;
 }
 
-function startProcess(command, args, prefix, color) {
+function startProcess(command, args, prefix, color, envVars = {}) {
   const proc = spawn(command, args, {
     shell: true,
-    env: { ...process.env, FORCE_COLOR: '1' }
+    env: { ...process.env, FORCE_COLOR: '1', ...envVars }
   });
 
   // Handle stdout
@@ -83,8 +83,8 @@ ${colors.cyan}Starting development servers...${colors.reset}
 // Start the React app
 const reactApp = startProcess('npm', ['run', 'start:app'], 'REACT', colors.cyan);
 
-// Start Netlify Functions
-const netlifyFunctions = startProcess('netlify', ['functions:serve', '--port', '9000'], 'FUNCTIONS', colors.magenta);
+// Start Netlify Functions with NODE_ENV=development
+const netlifyFunctions = startProcess('netlify', ['functions:serve', '--port', '9000'], 'FUNCTIONS', colors.magenta, { NODE_ENV: 'development' });
 
 console.log(`
 ${colors.green}✓${colors.reset} React App:        ${colors.bright}http://localhost:3000${colors.reset}

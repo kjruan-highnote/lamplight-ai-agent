@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Database, FileJson, Cpu, GitBranch, Settings, Home, Code2, LogOut, User } from 'lucide-react';
+import { Database, FileJson, Cpu, GitBranch, Settings, Home, Code2, LogOut, User, Users } from 'lucide-react';
 import { useTheme } from '../themes/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -8,37 +8,50 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+// Memoize Layout component to prevent unnecessary re-renders
+export const Layout = memo<LayoutProps>(({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission } = useAuth();
 
-  const navItems = [
-    { path: '/', icon: Home, label: 'DASHBOARD' },
-    { path: '/contexts', icon: FileJson, label: 'CONTEXTS' },
-    { path: '/programs', icon: Database, label: 'PROGRAMS' },
-    { path: '/operations', icon: Code2, label: 'OPERATIONS' },
-    { path: '/solution', icon: Cpu, label: 'GENERATOR' },
-    { path: '/sync', icon: GitBranch, label: 'SYNC' },
-    { path: '/settings', icon: Settings, label: 'SETTINGS' },
-  ];
+  // Memoize nav items to prevent recreation on every render
+  const navItems = useMemo(() => {
+    const items = [
+      { path: '/', icon: Home, label: 'DASHBOARD' },
+      { path: '/contexts', icon: FileJson, label: 'CONTEXTS' },
+      { path: '/programs', icon: Database, label: 'PROGRAMS' },
+      { path: '/operations', icon: Code2, label: 'OPERATIONS' },
+      { path: '/solution', icon: Cpu, label: 'GENERATOR' },
+      { path: '/sync', icon: GitBranch, label: 'SYNC' },
+    ];
+    
+    // Add Users link for users with manage permission
+    if (hasPermission('system', 'manageUsers')) {
+      items.push({ path: '/users', icon: Users, label: 'USERS' });
+    }
+    
+    items.push({ path: '/settings', icon: Settings, label: 'SETTINGS' });
+    
+    return items;
+  }, [hasPermission]);
 
-  const layoutStyles: React.CSSProperties = {
+  // Memoize styles to prevent recreation on every render
+  const layoutStyles = useMemo<React.CSSProperties>(() => ({
     minHeight: '100vh',
     backgroundColor: theme.colors.background,
     color: theme.colors.text,
     fontFamily: theme.typography.fontFamily.mono,
-  };
+  }), [theme]);
 
-  const headerStyles: React.CSSProperties = {
+  const headerStyles = useMemo<React.CSSProperties>(() => ({
     backgroundColor: theme.colors.surface,
     borderBottom: `2px solid ${theme.colors.border}`,
     position: 'relative' as const,
     overflow: 'hidden',
-  };
+  }), [theme]);
 
-  const sidebarStyles: React.CSSProperties = {
+  const sidebarStyles = useMemo<React.CSSProperties>(() => ({
     width: '16rem',
     backgroundColor: theme.colors.surface,
     borderRight: `2px solid ${theme.colors.border}`,
@@ -46,7 +59,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     position: 'relative' as const,
     display: 'flex',
     flexDirection: 'column' as const,
-  };
+  }), [theme]);
 
   const navButtonStyles = (isActive: boolean): React.CSSProperties => ({
     display: 'flex',
@@ -246,4 +259,6 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
     </div>
   );
-};
+});
+
+Layout.displayName = 'Layout';

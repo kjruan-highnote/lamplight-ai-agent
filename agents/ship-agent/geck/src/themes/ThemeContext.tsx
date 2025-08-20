@@ -56,8 +56,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Apply theme CSS variables to root
     if (theme) {
       applyThemeToDOM(theme);
-      // Notify all components that theme has changed
-      window.dispatchEvent(new Event('themechange'));
+      // Remove the window event dispatch that causes unnecessary re-renders
+      // Components that need to react to theme changes already do so via context
     }
   }, [theme]);
 
@@ -65,8 +65,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const newTheme = allThemes.find(t => t.id === themeId);
     if (newTheme) {
       setCurrentThemeId(themeId);
-      // Immediately apply the new theme
-      applyThemeToDOM(newTheme);
+      // Theme will be applied via useEffect to avoid double application
     }
   };
 

@@ -16,7 +16,8 @@ import { PostmanSync } from './pages/PostmanSync';
 import { Settings } from './pages/Settings';
 import { ThemeSettings } from './pages/settings/ThemeSettings';
 import { ApiSettings } from './pages/settings/ApiSettings';
-import { useTheme } from './themes/ThemeContext';
+import { DatabaseSettings } from './pages/settings/DatabaseSettings';
+import { UsersPage } from './pages/UsersPage';
 
 function App() {
   return (
@@ -31,97 +32,109 @@ function App() {
 }
 
 function AppContent() {
-  const { theme } = useTheme();
   const { isAuthenticated } = useAuth();
   
+  if (!isAuthenticated) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
+  }
+  
   return (
-    <Routes>
-      {/* Public route */}
-      <Route path="/login" element={
-        isAuthenticated ? <Navigate to="/" replace /> : <Login />
-      } />
-      
-      {/* Protected routes */}
-      <Route element={
-        <ProtectedRoute>
-          <Layout key={theme.id}>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              
-              {/* Context routes */}
-              <Route path="/contexts" element={
-                <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'view' }}>
-                  <ContextsPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/contexts/new" element={
-                <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'create' }}>
-                  <ContextEditor />
-                </ProtectedRoute>
-              } />
-              <Route path="/contexts/:id" element={
-                <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'edit' }}>
-                  <ContextEditor />
-                </ProtectedRoute>
-              } />
-              
-              {/* Program routes */}
-              <Route path="/programs" element={
-                <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'view' }}>
-                  <ProgramsPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/programs/new" element={
-                <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'create' }}>
-                  <ProgramEditor />
-                </ProtectedRoute>
-              } />
-              <Route path="/programs/:id" element={
-                <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'edit' }}>
-                  <ProgramEditor />
-                </ProtectedRoute>
-              } />
-              
-              {/* Operations routes */}
-              <Route path="/operations" element={
-                <ProtectedRoute requiredPermission={{ resource: 'operations', action: 'view' }}>
-                  <OperationsPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* System routes */}
-              <Route path="/solution" element={
-                <ProtectedRoute requiredPermission={{ resource: 'system', action: 'generateSolutions' }}>
-                  <SolutionGenerator />
-                </ProtectedRoute>
-              } />
-              <Route path="/sync" element={
-                <ProtectedRoute requiredPermission={{ resource: 'system', action: 'syncPostman' }}>
-                  <PostmanSync />
-                </ProtectedRoute>
-              } />
-              <Route path="/settings" element={
-                <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
-                  <Settings />
-                </ProtectedRoute>
-              } />
-              <Route path="/settings/themes" element={
-                <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
-                  <ThemeSettings />
-                </ProtectedRoute>
-              } />
-              <Route path="/settings/api" element={
-                <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
-                  <ApiSettings />
-                </ProtectedRoute>
-              } />
-            </Routes>
-          </Layout>
-        </ProtectedRoute>
-      }>
+    <Layout>
+      <Routes>
+        <Route path="/login" element={<Navigate to="/" replace />} />
+        
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        
+        {/* Context routes */}
+        <Route path="/contexts" element={
+          <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'view' }}>
+            <ContextsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/contexts/new" element={
+          <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'create' }}>
+            <ContextEditor />
+          </ProtectedRoute>
+        } />
+        <Route path="/contexts/:id" element={
+          <ProtectedRoute requiredPermission={{ resource: 'contexts', action: 'edit' }}>
+            <ContextEditor />
+          </ProtectedRoute>
+        } />
+        
+        {/* Program routes */}
+        <Route path="/programs" element={
+          <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'view' }}>
+            <ProgramsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/programs/new" element={
+          <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'create' }}>
+            <ProgramEditor />
+          </ProtectedRoute>
+        } />
+        <Route path="/programs/:id" element={
+          <ProtectedRoute requiredPermission={{ resource: 'programs', action: 'edit' }}>
+            <ProgramEditor />
+          </ProtectedRoute>
+        } />
+        
+        {/* Operations routes */}
+        <Route path="/operations" element={
+          <ProtectedRoute requiredPermission={{ resource: 'operations', action: 'view' }}>
+            <OperationsPage />
+          </ProtectedRoute>
+        } />
+        
+        {/* System routes */}
+        <Route path="/solution" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'generateSolutions' }}>
+            <SolutionGenerator />
+          </ProtectedRoute>
+        } />
+        <Route path="/sync" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'syncPostman' }}>
+            <PostmanSync />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
+            <Settings />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings/themes" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
+            <ThemeSettings />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings/api" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
+            <ApiSettings />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings/database" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'configureSettings' }}>
+            <DatabaseSettings />
+          </ProtectedRoute>
+        } />
+        <Route path="/users" element={
+          <ProtectedRoute requiredPermission={{ resource: 'system', action: 'manageUsers' }}>
+            <UsersPage />
+          </ProtectedRoute>
+        } />
+        
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </Layout>
   );
 }
 

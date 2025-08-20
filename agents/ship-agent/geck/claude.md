@@ -322,6 +322,17 @@ npm install
 npm start  # Runs both React app and Netlify Functions
 ```
 
+#### Local MongoDB Support
+
+The application automatically uses a local MongoDB instance when running in development mode:
+
+- **Automatic Detection**: Detects development environment and connects to `mongodb://localhost:27017`
+- **Fallback Logic**: If local MongoDB is unavailable, falls back to configured `MONGODB_URI`
+- **Dev Authentication**: Use `REACT_APP_USE_DEV_AUTH=true` for mock authentication
+- **Auto-login Options**: Can auto-login as engineer, solutions, or admin roles
+
+See `docs/LOCAL_MONGODB_SETUP.md` for detailed setup instructions.
+
 ### Production Build
 
 ```bash

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../themes/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent } from '../components/ui/Card';
 import { 
   Settings as SettingsIcon, 
@@ -29,6 +30,10 @@ interface SettingCategory {
 
 export const Settings: React.FC = () => {
   const { theme } = useTheme();
+  const { user } = useAuth();
+
+  // Check if user is admin only
+  const canAccessDatabase = user?.role === 'admin';
 
   const settingsCategories: SettingCategory[] = [
     {
@@ -46,7 +51,7 @@ export const Settings: React.FC = () => {
       description: 'MongoDB connection settings and performance tuning',
       icon: Database,
       path: '/settings/database',
-      disabled: true,
+      disabled: !canAccessDatabase,
     },
     {
       id: 'api',
@@ -77,8 +82,9 @@ export const Settings: React.FC = () => {
       title: 'User Management',
       description: 'Manage users, roles, and permissions',
       icon: Users,
-      path: '/settings/users',
-      disabled: true,
+      path: '/users',
+      badge: 'Active',
+      disabled: false,
     },
     {
       id: 'automation',
