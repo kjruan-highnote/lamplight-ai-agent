@@ -52,6 +52,36 @@ export const ProgramEditor: React.FC = () => {
     categories: [],
     tags: [],
     status: 'draft',
+    // Initialize with common payment card issuer compliance standards
+    compliance: {
+      standards: [
+        { name: 'PCI_DSS', level: 1, required: true },
+        { name: 'VISA_MERCHANT_AGREEMENT', required: true },
+        { name: 'MASTERCARD_RULES', required: true },
+        { name: 'AMEX_MERCHANT_AGREEMENT', required: false },
+        { name: 'DISCOVER_NETWORK_COMPLIANCE', required: false }
+      ],
+      regulations: [
+        { name: 'CARD_BRAND_RULES', description: 'Compliance with all applicable card brand rules and regulations' },
+        { name: 'CHARGEBACK_MANAGEMENT', description: 'Procedures for handling chargebacks and disputes' },
+        { name: 'FRAUD_MONITORING', description: 'Real-time fraud detection and prevention measures' }
+      ],
+      security: {
+        encryption: {
+          in_transit: 'TLS 1.2+',
+          at_rest: 'AES-256'
+        },
+        authentication: [
+          { type: 'api_key', rotation_days: 90 },
+          { type: 'bearer_token' }
+        ],
+        data_retention: {
+          'transaction_data': '7 years',
+          'card_data': 'tokenized',
+          'audit_logs': '2 years'
+        }
+      }
+    }
   });
   
   const [yamlContent, setYamlContent] = useState('');
@@ -68,6 +98,8 @@ export const ProgramEditor: React.FC = () => {
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [operationModalOpen, setOperationModalOpen] = useState(false);
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number>(-1);
+  const [complianceModalOpen, setComplianceModalOpen] = useState(false);
+  const [regulationModalOpen, setRegulationModalOpen] = useState(false);
   
   // Form states for modals
   const [newCategory, setNewCategory] = useState({
@@ -83,6 +115,18 @@ export const ProgramEditor: React.FC = () => {
   });
   const [operationSearch, setOperationSearch] = useState('');
   const [operationsLoading, setOperationsLoading] = useState(false);
+  
+  // Compliance form states
+  const [newComplianceStandard, setNewComplianceStandard] = useState({
+    name: '',
+    level: undefined as number | undefined,
+    required: false
+  });
+  
+  const [newRegulation, setNewRegulation] = useState({
+    name: '',
+    description: ''
+  });
 
   useEffect(() => {
     fetchContextsAndOperations();
@@ -308,6 +352,230 @@ export const ProgramEditor: React.FC = () => {
       });
       setOperationModalOpen(false);
     }
+  };
+
+  // Compliance handlers
+  const handleAddComplianceStandard = () => {
+    if (newComplianceStandard.name) {
+      setProgram(prev => ({
+        ...prev,
+        compliance: {
+          standards: [
+            ...(prev.compliance?.standards || []),
+            {
+              name: newComplianceStandard.name,
+              level: newComplianceStandard.level,
+              required: newComplianceStandard.required
+            }
+          ],
+          regulations: prev.compliance?.regulations || [],
+          security: prev.compliance?.security || {
+            encryption: { in_transit: '', at_rest: '' },
+            authentication: [],
+            data_retention: {}
+          }
+        }
+      }));
+      setComplianceModalOpen(false);
+      setNewComplianceStandard({ name: '', level: undefined, required: false });
+    }
+  };
+
+  const removeComplianceStandard = (index: number) => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: prev.compliance ? {
+        ...prev.compliance,
+        standards: prev.compliance.standards.filter((_, i) => i !== index)
+      } : undefined
+    }));
+  };
+
+  const handleAddRegulation = () => {
+    if (newRegulation.name) {
+      setProgram(prev => ({
+        ...prev,
+        compliance: {
+          standards: prev.compliance?.standards || [],
+          regulations: [
+            ...(prev.compliance?.regulations || []),
+            {
+              name: newRegulation.name,
+              description: newRegulation.description
+            }
+          ],
+          security: prev.compliance?.security || {
+            encryption: { in_transit: '', at_rest: '' },
+            authentication: [],
+            data_retention: {}
+          }
+        }
+      }));
+      setRegulationModalOpen(false);
+      setNewRegulation({ name: '', description: '' });
+    }
+  };
+
+  const removeRegulation = (index: number) => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: prev.compliance ? {
+        ...prev.compliance,
+        regulations: prev.compliance.regulations.filter((_, i) => i !== index)
+      } : undefined
+    }));
+  };
+
+  const updateSecuritySetting = (category: string, field: string, value: string) => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: {
+        standards: prev.compliance?.standards || [],
+        regulations: prev.compliance?.regulations || [],
+        security: {
+          ...prev.compliance?.security || {
+            encryption: { in_transit: '', at_rest: '' },
+            authentication: [],
+            data_retention: {}
+          },
+          [category]: {
+            ...(prev.compliance?.security as any)?.[category] || {},
+            [field]: value
+          }
+        }
+      }
+    }));
+  };
+
+  const addAuthenticationMethod = () => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: {
+        standards: prev.compliance?.standards || [],
+        regulations: prev.compliance?.regulations || [],
+        security: {
+          encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+          authentication: [
+            ...(prev.compliance?.security?.authentication || []),
+            { type: '', rotation_days: undefined }
+          ],
+          data_retention: prev.compliance?.security?.data_retention || {}
+        }
+      }
+    }));
+  };
+
+  const updateAuthenticationMethod = (index: number, field: string, value: any) => {
+    setProgram(prev => {
+      const auth = [...(prev.compliance?.security?.authentication || [])];
+      auth[index] = { ...auth[index], [field]: value };
+      return {
+        ...prev,
+        compliance: {
+          standards: prev.compliance?.standards || [],
+          regulations: prev.compliance?.regulations || [],
+          security: {
+            encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+            authentication: auth,
+            data_retention: prev.compliance?.security?.data_retention || {}
+          }
+        }
+      };
+    });
+  };
+
+  const removeAuthenticationMethod = (index: number) => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: prev.compliance ? {
+        ...prev.compliance,
+        security: prev.compliance.security ? {
+          ...prev.compliance.security,
+          authentication: prev.compliance.security.authentication.filter((_, i) => i !== index)
+        } : {
+          encryption: { in_transit: '', at_rest: '' },
+          authentication: [],
+          data_retention: {}
+        }
+      } : undefined
+    }));
+  };
+
+  const addDataRetentionPolicy = () => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: {
+        standards: prev.compliance?.standards || [],
+        regulations: prev.compliance?.regulations || [],
+        security: {
+          encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+          authentication: prev.compliance?.security?.authentication || [],
+          data_retention: {
+            ...prev.compliance?.security?.data_retention || {},
+            '': ''
+          }
+        }
+      }
+    }));
+  };
+
+  const updateDataRetentionKey = (oldKey: string, newKey: string) => {
+    setProgram(prev => {
+      const retention = { ...prev.compliance?.security?.data_retention || {} };
+      if (oldKey !== newKey) {
+        retention[newKey] = retention[oldKey];
+        delete retention[oldKey];
+      }
+      return {
+        ...prev,
+        compliance: {
+          standards: prev.compliance?.standards || [],
+          regulations: prev.compliance?.regulations || [],
+          security: {
+            encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+            authentication: prev.compliance?.security?.authentication || [],
+            data_retention: retention
+          }
+        }
+      };
+    });
+  };
+
+  const updateDataRetentionValue = (key: string, value: string) => {
+    setProgram(prev => ({
+      ...prev,
+      compliance: {
+        standards: prev.compliance?.standards || [],
+        regulations: prev.compliance?.regulations || [],
+        security: {
+          encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+          authentication: prev.compliance?.security?.authentication || [],
+          data_retention: {
+            ...prev.compliance?.security?.data_retention || {},
+            [key]: value
+          }
+        }
+      }
+    }));
+  };
+
+  const removeDataRetentionPolicy = (key: string) => {
+    setProgram(prev => {
+      const retention = { ...prev.compliance?.security?.data_retention || {} };
+      delete retention[key];
+      return {
+        ...prev,
+        compliance: {
+          standards: prev.compliance?.standards || [],
+          regulations: prev.compliance?.regulations || [],
+          security: {
+            encryption: prev.compliance?.security?.encryption || { in_transit: '', at_rest: '' },
+            authentication: prev.compliance?.security?.authentication || [],
+            data_retention: retention
+          }
+        }
+      };
+    });
   };
 
   // Calculate statistics for the program
@@ -1053,11 +1321,257 @@ export const ProgramEditor: React.FC = () => {
 
         {activeTab === 'compliance' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-vault-green">Compliance & Security</h3>
-            <div className="text-gray-400 text-sm">
-              Configure compliance standards, regulations, and security requirements for this program.
+            {/* Compliance Standards */}
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold" style={{ color: theme.colors.primary }}>
+                  Compliance Standards
+                </h3>
+                <Button
+                  onClick={() => setComplianceModalOpen(true)}
+                  variant="primary"
+                  size="sm"
+                  icon={<Plus size={16} />}
+                >
+                  Add Standard
+                </Button>
+              </div>
+              
+              {program.compliance?.standards && program.compliance.standards.length > 0 ? (
+                <div className="space-y-2">
+                  {program.compliance.standards.map((standard, idx) => (
+                    <Card key={idx} variant="bordered" padding="sm">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <Shield size={20} style={{ color: standard.required ? theme.colors.danger : theme.colors.warning }} />
+                          <div>
+                            <div className="font-medium" style={{ color: theme.colors.text }}>
+                              {standard.name}
+                            </div>
+                            {standard.level && (
+                              <div className="text-sm" style={{ color: theme.colors.textMuted }}>
+                                Level {standard.level}
+                              </div>
+                            )}
+                          </div>
+                          {standard.required && (
+                            <span className="px-2 py-1 text-xs rounded" style={{
+                              backgroundColor: `${theme.colors.danger}20`,
+                              color: theme.colors.danger
+                            }}>
+                              Required
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => removeComplianceStandard(idx)}
+                          className="p-1 rounded hover:bg-gray-800 transition-colors"
+                          style={{ color: theme.colors.textMuted }}
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card variant="bordered" padding="lg">
+                  <div className="text-center" style={{ color: theme.colors.textMuted }}>
+                    <Shield size={48} className="mx-auto mb-3 opacity-50" />
+                    <p>No compliance standards defined</p>
+                    <p className="text-sm mt-1">Click "Add Standard" to configure compliance requirements</p>
+                  </div>
+                </Card>
+              )}
             </div>
-            {/* Add compliance configuration UI here */}
+
+            {/* Regulations */}
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold" style={{ color: theme.colors.primary }}>
+                  Regulatory Requirements
+                </h3>
+                <Button
+                  onClick={() => setRegulationModalOpen(true)}
+                  variant="primary"
+                  size="sm"
+                  icon={<Plus size={16} />}
+                >
+                  Add Regulation
+                </Button>
+              </div>
+              
+              {program.compliance?.regulations && program.compliance.regulations.length > 0 ? (
+                <div className="space-y-2">
+                  {program.compliance.regulations.map((regulation, idx) => (
+                    <Card key={idx} variant="bordered" padding="sm">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="font-medium" style={{ color: theme.colors.text }}>
+                            {regulation.name}
+                          </div>
+                          {regulation.description && (
+                            <div className="text-sm mt-1" style={{ color: theme.colors.textSecondary }}>
+                              {regulation.description}
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => removeRegulation(idx)}
+                          className="p-1 rounded hover:bg-gray-800 transition-colors ml-4"
+                          style={{ color: theme.colors.textMuted }}
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card variant="bordered" padding="lg">
+                  <div className="text-center" style={{ color: theme.colors.textMuted }}>
+                    <BarChart3 size={48} className="mx-auto mb-3 opacity-50" />
+                    <p>No regulatory requirements defined</p>
+                    <p className="text-sm mt-1">Click "Add Regulation" to configure regulatory compliance</p>
+                  </div>
+                </Card>
+              )}
+            </div>
+
+            {/* Security Settings */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: theme.colors.primary }}>
+                Security Requirements
+              </h3>
+              
+              <div className="space-y-4">
+                {/* Encryption */}
+                <Card variant="bordered" padding="md">
+                  <h4 className="font-medium mb-3" style={{ color: theme.colors.text }}>
+                    Encryption Standards
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.textSecondary }}>
+                        In Transit
+                      </label>
+                      <Input
+                        value={program.compliance?.security?.encryption?.in_transit || ''}
+                        onChange={(e) => updateSecuritySetting('encryption', 'in_transit', e.target.value)}
+                        placeholder="e.g., TLS 1.2+"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.textSecondary }}>
+                        At Rest
+                      </label>
+                      <Input
+                        value={program.compliance?.security?.encryption?.at_rest || ''}
+                        onChange={(e) => updateSecuritySetting('encryption', 'at_rest', e.target.value)}
+                        placeholder="e.g., AES-256"
+                      />
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Authentication */}
+                <Card variant="bordered" padding="md">
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium" style={{ color: theme.colors.text }}>
+                      Authentication Methods
+                    </h4>
+                    <Button
+                      onClick={() => addAuthenticationMethod()}
+                      variant="ghost"
+                      size="sm"
+                      icon={<Plus size={14} />}
+                    >
+                      Add Method
+                    </Button>
+                  </div>
+                  {program.compliance?.security?.authentication && program.compliance.security.authentication.length > 0 ? (
+                    <div className="space-y-2">
+                      {program.compliance.security.authentication.map((auth, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <Input
+                            value={auth.type}
+                            onChange={(e) => updateAuthenticationMethod(idx, 'type', e.target.value)}
+                            placeholder="Auth type (e.g., api_key)"
+                            className="flex-1"
+                          />
+                          <Input
+                            value={auth.rotation_days || ''}
+                            onChange={(e) => updateAuthenticationMethod(idx, 'rotation_days', e.target.value ? parseInt(e.target.value) : undefined)}
+                            placeholder="Rotation days"
+                            type="number"
+                            className="w-32"
+                          />
+                          <button
+                            onClick={() => removeAuthenticationMethod(idx)}
+                            className="p-1 rounded hover:bg-gray-800 transition-colors"
+                            style={{ color: theme.colors.textMuted }}
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm" style={{ color: theme.colors.textMuted }}>
+                      No authentication methods configured
+                    </p>
+                  )}
+                </Card>
+
+                {/* Data Retention */}
+                <Card variant="bordered" padding="md">
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium" style={{ color: theme.colors.text }}>
+                      Data Retention Policies
+                    </h4>
+                    <Button
+                      onClick={() => addDataRetentionPolicy()}
+                      variant="ghost"
+                      size="sm"
+                      icon={<Plus size={14} />}
+                    >
+                      Add Policy
+                    </Button>
+                  </div>
+                  {program.compliance?.security?.data_retention && Object.keys(program.compliance.security.data_retention).length > 0 ? (
+                    <div className="space-y-2">
+                      {Object.entries(program.compliance.security.data_retention).map(([key, value], idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <Input
+                            value={key}
+                            onChange={(e) => updateDataRetentionKey(key, e.target.value)}
+                            placeholder="Data type"
+                            className="flex-1"
+                          />
+                          <Input
+                            value={value}
+                            onChange={(e) => updateDataRetentionValue(key, e.target.value)}
+                            placeholder="Retention period"
+                            className="flex-1"
+                          />
+                          <button
+                            onClick={() => removeDataRetentionPolicy(key)}
+                            className="p-1 rounded hover:bg-gray-800 transition-colors"
+                            style={{ color: theme.colors.textMuted }}
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm" style={{ color: theme.colors.textMuted }}>
+                      No data retention policies configured
+                    </p>
+                  )}
+                </Card>
+              </div>
+            </div>
           </div>
         )}
 
@@ -1506,6 +2020,187 @@ export const ProgramEditor: React.FC = () => {
               })()}
             </div>
           )}
+        </div>
+      </Modal>
+
+      {/* Add Compliance Standard Modal */}
+      <Modal
+        isOpen={complianceModalOpen}
+        onClose={() => setComplianceModalOpen(false)}
+        title="Add Compliance Standard"
+        size="md"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              onClick={() => setComplianceModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleAddComplianceStandard}
+              disabled={!newComplianceStandard.name}
+            >
+              Add Standard
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Standard Name <span className="text-red-500">*</span>
+            </label>
+            <Select
+              value={newComplianceStandard.name}
+              onChange={(value) => setNewComplianceStandard(prev => ({ ...prev, name: value }))}
+              options={[
+                { value: '', label: 'Select a compliance standard...' },
+                { value: 'PCI_DSS', label: 'PCI DSS - Payment Card Industry Data Security Standard' },
+                { value: 'PCI_3DS', label: 'PCI 3DS - 3D Secure Standard' },
+                { value: 'VISA_MERCHANT_AGREEMENT', label: 'Visa Merchant Agreement' },
+                { value: 'VISA_ACQUIRER_RISK_PROGRAM', label: 'Visa Acquirer Risk Program (VARP)' },
+                { value: 'MASTERCARD_RULES', label: 'Mastercard Rules and Regulations' },
+                { value: 'MASTERCARD_SDP', label: 'Mastercard Site Data Protection (SDP)' },
+                { value: 'AMEX_MERCHANT_AGREEMENT', label: 'American Express Merchant Agreement' },
+                { value: 'AMEX_ESA', label: 'American Express Enhanced Security Agreement' },
+                { value: 'DISCOVER_NETWORK_COMPLIANCE', label: 'Discover Network Compliance' },
+                { value: 'JCB_COMPLIANCE', label: 'JCB International Compliance' },
+                { value: 'UNIONPAY_REQUIREMENTS', label: 'UnionPay Requirements' },
+                { value: 'EMV_COMPLIANCE', label: 'EMV Chip Card Standards' },
+                { value: 'PA_DSS', label: 'PA-DSS - Payment Application Data Security Standard' },
+                { value: 'SOC2_TYPE2', label: 'SOC 2 Type II Certification' },
+                { value: 'ISO_27001', label: 'ISO 27001 Information Security' },
+                { value: 'GDPR', label: 'GDPR - General Data Protection Regulation' },
+                { value: 'CCPA', label: 'CCPA - California Consumer Privacy Act' },
+                { value: 'NACHA', label: 'NACHA - ACH Network Rules' },
+                { value: 'CUSTOM', label: 'Custom Standard' }
+              ]}
+            />
+            {newComplianceStandard.name === 'CUSTOM' && (
+              <Input
+                value={newComplianceStandard.name}
+                onChange={(e) => setNewComplianceStandard(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Enter custom standard name"
+                className="mt-2"
+              />
+            )}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Compliance Level
+            </label>
+            <Select
+              value={newComplianceStandard.level?.toString() || ''}
+              onChange={(value) => setNewComplianceStandard(prev => ({ 
+                ...prev, 
+                level: value ? parseInt(value) : undefined 
+              }))}
+              options={[
+                { value: '', label: 'No specific level' },
+                { value: '1', label: 'Level 1 - Highest' },
+                { value: '2', label: 'Level 2' },
+                { value: '3', label: 'Level 3' },
+                { value: '4', label: 'Level 4 - Lowest' }
+              ]}
+            />
+            <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+              Applicable for standards like PCI DSS that have compliance levels
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="standard-required"
+              checked={newComplianceStandard.required}
+              onChange={(e) => setNewComplianceStandard(prev => ({ ...prev, required: e.target.checked }))}
+              className="rounded border-gray-700"
+            />
+            <label htmlFor="standard-required" className="text-sm" style={{ color: theme.colors.text }}>
+              Mark as required compliance standard
+            </label>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Add Regulation Modal */}
+      <Modal
+        isOpen={regulationModalOpen}
+        onClose={() => setRegulationModalOpen(false)}
+        title="Add Regulatory Requirement"
+        size="md"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              onClick={() => setRegulationModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleAddRegulation}
+              disabled={!newRegulation.name}
+            >
+              Add Regulation
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Regulation Name <span className="text-red-500">*</span>
+            </label>
+            <Select
+              value={newRegulation.name}
+              onChange={(value) => setNewRegulation(prev => ({ ...prev, name: value }))}
+              options={[
+                { value: '', label: 'Select a regulation...' },
+                { value: 'CARD_BRAND_RULES', label: 'Card Brand Rules Compliance' },
+                { value: 'CHARGEBACK_MANAGEMENT', label: 'Chargeback Management Requirements' },
+                { value: 'FRAUD_MONITORING', label: 'Fraud Monitoring and Prevention' },
+                { value: 'KYC_AML', label: 'KYC/AML - Know Your Customer / Anti-Money Laundering' },
+                { value: 'USA_PATRIOT_ACT', label: 'USA PATRIOT Act' },
+                { value: 'OFAC', label: 'OFAC Sanctions Screening' },
+                { value: 'REG_E', label: 'Regulation E - Electronic Fund Transfers' },
+                { value: 'REG_Z', label: 'Regulation Z - Truth in Lending' },
+                { value: 'FAIR_LENDING', label: 'Fair Lending Practices' },
+                { value: 'FCRA', label: 'FCRA - Fair Credit Reporting Act' },
+                { value: 'BSA', label: 'BSA - Bank Secrecy Act' },
+                { value: 'DISPUTE_RESOLUTION', label: 'Dispute Resolution Procedures' },
+                { value: 'DATA_BREACH_NOTIFICATION', label: 'Data Breach Notification Requirements' },
+                { value: 'CROSS_BORDER_COMPLIANCE', label: 'Cross-Border Transaction Compliance' },
+                { value: 'CUSTOM', label: 'Custom Regulation' }
+              ]}
+            />
+            {newRegulation.name === 'CUSTOM' && (
+              <Input
+                value={newRegulation.name}
+                onChange={(e) => setNewRegulation(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Enter custom regulation name"
+                className="mt-2"
+              />
+            )}
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: theme.colors.text }}>
+              Description
+            </label>
+            <Textarea
+              value={newRegulation.description}
+              onChange={(e) => setNewRegulation(prev => ({ ...prev, description: e.target.value }))}
+              placeholder="Describe the regulatory requirement and its implications..."
+              rows={4}
+            />
+            <p className="text-xs mt-1" style={{ color: theme.colors.textMuted }}>
+              Provide details about what this regulation requires and how it affects the program
+            </p>
+          </div>
         </div>
       </Modal>
     </div>
