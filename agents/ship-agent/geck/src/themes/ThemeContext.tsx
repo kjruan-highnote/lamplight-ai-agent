@@ -5,6 +5,8 @@ import { Theme } from './types';
 import vaultTecTheme from './presets/vault-tec.json';
 import corporateTheme from './presets/corporate.json';
 import cyberpunkTheme from './presets/cyberpunk.json';
+import highnoteTheme from './presets/highnote.json';
+import highnoteDarkTheme from './presets/highnote-dark.json';
 
 interface ThemeContextType {
   theme: Theme;
@@ -24,6 +26,8 @@ const defaultThemes: Theme[] = [
   vaultTecTheme as Theme,
   corporateTheme as Theme,
   cyberpunkTheme as Theme,
+  highnoteTheme as Theme,
+  highnoteDarkTheme as Theme,
 ];
 
 
