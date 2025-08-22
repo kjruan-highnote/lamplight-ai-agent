@@ -114,9 +114,11 @@ export const ContextEditor: React.FC = () => {
       if (id && id !== 'new') {
         await api.contexts.update(id, saveData);
         setSuccess('Context updated successfully');
+        setTimeout(() => setSuccess(''), 3000);
       } else {
         const result = await api.contexts.create(saveData);
         setSuccess('Context created successfully');
+        setTimeout(() => setSuccess(''), 3000);
         navigate(`/contexts/${result._id}`, { replace: true });
       }
     } catch (err) {

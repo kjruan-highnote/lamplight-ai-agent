@@ -108,6 +108,7 @@ export const SolutionGenerator: React.FC = () => {
       
       setGeneratedDocument(result);
       setSuccessMessage('Document generated successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       await loadGeneratorHistory(); // Refresh history
     } catch (error: any) {
       console.error('Generation failed:', error);
@@ -124,6 +125,7 @@ export const SolutionGenerator: React.FC = () => {
     try {
       await api.generators.export(generatedDocument.id, format);
       setSuccessMessage(`Document exported as ${String(format || 'unknown').toUpperCase()} successfully!`);
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error: any) {
       console.error('Export failed:', error);
       setError(error.message || 'Failed to export document. Please try again.');

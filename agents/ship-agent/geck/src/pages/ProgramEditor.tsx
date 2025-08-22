@@ -282,9 +282,11 @@ export const ProgramEditor: React.FC = () => {
       if (id && id !== 'new') {
         await api.programs.update(id, program);
         setSuccess('Program updated successfully');
+        setTimeout(() => setSuccess(''), 3000);
       } else {
         const result = await api.programs.create(program);
         setSuccess('Program created successfully');
+        setTimeout(() => setSuccess(''), 3000);
         setTimeout(() => navigate(`/programs/${result._id}`), 2000);
       }
     } catch (err: any) {
