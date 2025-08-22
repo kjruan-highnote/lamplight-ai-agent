@@ -4,6 +4,7 @@ import { ThemeProvider } from './themes/ThemeContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { GlobalErrorBoundary } from './components/GlobalErrorBoundary';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { ContextsPage } from './pages/ContextsPage';
@@ -21,13 +22,15 @@ import { UsersPage } from './pages/UsersPage';
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <GlobalErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+    </GlobalErrorBoundary>
   );
 }
 

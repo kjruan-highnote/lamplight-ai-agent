@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Generator Page</title>
+</head>
+<body>
+    <h1>Testing Generator Page</h1>
+    <p>Click the link below to test if the generator page loads without redirecting:</p>
+    <a href="http://localhost:3000/solution" target="_blank">Open Generator Page</a>
+    
+    <h2>Instructions:</h2>
+    <ol>
+        <li>Make sure the dev server is running (npm start)</li>
+        <li>Login with dev credentials if needed</li>
+        <li>Click the link above or navigate to http://localhost:3000/solution</li>
+        <li>The generator page should load without redirecting back to dashboard</li>
+    </ol>
+    
+    <h2>What was fixed:</h2>
+    <ul>
+        <li>Removed dependency on external Python service (http://localhost:8001)</li>
+        <li>Implemented self-contained document generation in TypeScript</li>
+        <li>Generator now creates documents directly in the Netlify function</li>
+        <li>Added support for solution documents, workflow diagrams, and ERD diagrams</li>
+    </ul>
+</body>
+</html>

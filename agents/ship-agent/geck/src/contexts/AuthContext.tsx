@@ -63,8 +63,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // In dev mode with dev auth, auto-login if configured
       const autoLoginRole = process.env.REACT_APP_DEV_AUTO_LOGIN;
       if (autoLoginRole && DEV_USERS[autoLoginRole]) {
+        const devUser = DEV_USERS[autoLoginRole];
+        // Generate a dev token for API calls
+        const devToken = btoa(JSON.stringify({ 
+          id: devUser._id, 
+          email: devUser.email,
+          role: devUser.role 
+        }));
+        localStorage.setItem('geck-auth-token', devToken);
+        
         setAuthState({
-          user: DEV_USERS[autoLoginRole],
+          user: devUser,
           isAuthenticated: true,
           isLoading: false,
           error: null,
@@ -120,6 +129,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user = DEV_USERS.engineer; // Default to engineer
       }
       
+      // Generate a dev token for API calls
+      const devToken = btoa(JSON.stringify({ 
+        id: user._id, 
+        email: user.email,
+        role: user.role 
+      }));
+      localStorage.setItem('geck-auth-token', devToken);
+      
       setAuthState({
         user,
         isAuthenticated: true,
@@ -164,6 +181,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userKey = role === 'technical_implementation_engineer' ? 'engineer' : 
                     role === 'solutions_engineer' ? 'solutions' : 'admin';
     const user = DEV_USERS[userKey];
+    
+    // Generate a dev token for API calls
+    const devToken = btoa(JSON.stringify({ 
+      id: user._id, 
+      email: user.email,
+      role: user.role 
+    }));
+    localStorage.setItem('geck-auth-token', devToken);
     
     setAuthState({
       user,

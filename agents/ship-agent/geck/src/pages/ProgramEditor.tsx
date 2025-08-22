@@ -1284,7 +1284,7 @@ export const ProgramEditor: React.FC = () => {
                       <span className={`text-xs px-2 py-1 rounded ${
                         op.type === 'mutation' ? 'bg-vault-amber/20 text-vault-amber' : 'bg-vault-blue/20 text-vault-blue'
                       }`}>
-                        {op.type.toUpperCase()}
+                        {op.type ? op.type.toUpperCase() : 'UNKNOWN'}
                       </span>
                       <span className="font-mono text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded border border-gray-700">
                         {op.name}

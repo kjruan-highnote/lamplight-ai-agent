@@ -414,3 +414,182 @@ This codebase prioritizes developer experience, maintainability, and user experi
 - Serverless architecture
 
 When contributing, maintain these principles and patterns for consistency across the application.
+
+## Megaton Integration Plan
+
+**Related Project**: Megaton is located at `/Users/kevinruan/Documents/workspace/ts/megaton`
+
+### Integration Overview
+This plan outlines the integration of GECK into the Megaton platform - a comprehensive implementation management and customer success platform. Megaton currently uses Next.js, Context API for state management, and Google OAuth for authentication. This integration will bring GECK's advanced features to Megaton while preserving critical Megaton requirements.
+
+### Megaton Overview
+**Technology Stack:**
+- Framework: Next.js 15.3.3 with React 19.1.0
+- State Management: Context API with custom reducers
+- Authentication: Google OAuth 2.0 (required)
+- Styling: Tailwind CSS 3.0.24
+- Backend: Netlify Functions + MongoDB Atlas
+
+### Why This Integration?
+
+**Megaton's Requirements:**
+- Must maintain Google OAuth authentication
+- Existing implementation projects and customer data must remain intact
+- Current users should experience minimal disruption
+
+**GECK Advantages to Bring:**
+- **Zustand vs Context API:**
+  - Simpler API with no providers, reducers, or action types
+  - Better performance through selective subscriptions
+  - Built-in DevTools integration
+  - Easier testing with isolated stores
+  - Eliminates provider hell
+- **Advanced Theming**: Runtime switching with comprehensive customization
+- **Enhanced RBAC**: More granular permission control
+- **Modern Patterns**: Better TypeScript support and component architecture
+
+### Integration Phases
+
+#### Phase 1: Project Structure Setup (Week 1)
+- Create `/features/geck/` directory in Megaton for GECK components
+- Move GECK components preserving folder structure
+- Create shared `/lib/geck/` for GECK's API client and utilities
+- Set up module aliases for clean imports
+
+#### Phase 2: Authentication Integration (Week 1-2)
+- **Keep Google OAuth** as primary authentication (Megaton requirement)
+- Enhance with GECK's RBAC system:
+  - Map Google users to GECK roles post-authentication
+  - Store role mappings in MongoDB
+  - Create permission middleware combining both systems
+- Unified user session structure:
+```typescript
+interface UnifiedUser {
+  googleAuth: GoogleUserInfo;
+  geckRole: 'tech_impl' | 'solutions' | 'admin';
+  permissions: GeckPermissions;
+}
+```
+
+#### Phase 3: State Management Migration (Week 2-3)
+- Install Zustand in Megaton
+- Create hybrid approach:
+  - Keep GlobalStateContext for legacy Megaton features (temporary)
+  - Use Zustand for new GECK features
+  - Gradually migrate Megaton features to Zustand
+- Benefits of migration:
+  - Reduce re-renders and improve performance
+  - Simplify state management code
+  - Better developer experience
+
+#### Phase 4: Theme System Evolution (Week 3)
+- Start with Megaton's simple light/dark theme
+- Create theme migration path:
+  - Add GECK theme engine as opt-in feature
+  - Support both theme systems during transition
+  - Provide theme converter utilities
+- Eventually adopt GECK's comprehensive theme system
+
+#### Phase 5: Database & API Integration (Week 3-4)
+- Shared MongoDB connection for both systems
+- Namespace collections:
+  - `megaton_*` for existing data
+  - `geck_*` for GECK data
+- Unified Netlify Functions structure
+- Create data bridge for cross-system queries
+
+#### Phase 6: Routing & Navigation (Week 4)
+- Add GECK routes under `/geck/*` namespace
+- Update navigation to include GECK sections
+- Implement permission-based route guards
+- Create seamless navigation between systems
+
+#### Phase 7: Component Library Unification (Week 5)
+- Create shared UI component library
+- Standardize design tokens
+- Implement consistent error/loading states
+- Unify form handling patterns
+
+### Key Design Decisions
+
+#### User Management
+- **Authentication**: Google OAuth (Megaton requirement - non-negotiable)
+- **Authorization**: GECK's RBAC system layered on top
+- **Session**: Unified token with both Google and GECK claims
+
+#### State Management Strategy
+- **Phase 1**: Dual system (Context API + Zustand)
+- **Phase 2**: Gradual migration of features to Zustand
+- **Phase 3**: Full Zustand adoption
+- **Rationale**: Zustand's performance and DX benefits justify migration
+
+#### Theming Approach
+- **Initial**: Keep Megaton's theme for compatibility
+- **Progressive**: Introduce GECK features gradually
+- **Future**: Full GECK theme system adoption
+
+#### Data Architecture
+- **Database**: Shared MongoDB Atlas instance
+- **Collections**: Namespaced for clarity and separation
+- **APIs**: Unified Netlify Functions structure
+
+### Target File Structure
+```
+megaton/
+├── components/          # Existing Megaton components
+├── features/
+│   ├── geck/           # GECK module
+│   │   ├── contexts/   # Customer contexts
+│   │   ├── programs/   # API programs
+│   │   ├── operations/ # Operations
+│   │   └── ui/        # GECK UI components
+│   └── shared/        # Shared features
+├── lib/
+│   ├── api/          # Unified API client
+│   ├── geck/         # GECK utilities
+│   └── auth/         # Auth integration
+└── pages/
+    ├── geck/         # GECK routes
+    └── ...          # Existing routes
+```
+
+### Migration Path from Context API to Zustand
+
+**Current Megaton State Management Issues:**
+- Complex reducer boilerplate in GlobalStateContextProvider
+- All consumers re-render on any state change
+- Difficult to test in isolation
+- Multiple nested providers causing "provider hell"
+
+**Zustand Migration Benefits:**
+```typescript
+// Before (Context API)
+const [state, dispatch] = useReducer(dataFetchReducer, initialState);
+dispatch({ type: FETCH_ACTION, payload: data });
+
+// After (Zustand)
+const data = useStore(state => state.data);
+const fetchData = useStore(state => state.fetchData);
+```
+
+### Benefits of This Integration
+- **Non-disruptive**: Megaton continues functioning normally
+- **Progressive**: Teams adopt GECK features at their pace
+- **Performance**: Zustand improves app performance
+- **Maintainable**: Clear separation of concerns
+- **Scalable**: Foundation for future consolidation
+
+### Critical Success Factors
+1. Preserve Google OAuth requirement
+2. Maintain backward compatibility
+3. Document all breaking changes
+4. Provide clear migration guides
+5. Use feature flags for gradual rollout
+6. Test thoroughly at each phase
+
+### Notes for Implementation
+- Start with non-critical features to validate approach
+- Create adapters for bridging Context API and Zustand
+- Maintain comprehensive test coverage during migration
+- Set up monitoring to track performance improvements
+- Regular team sync meetings to address concerns

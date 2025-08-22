@@ -46,6 +46,8 @@
     "start:concurrent": "concurrently --kill-others -n \"APP,FUNC\" -c \"cyan,magenta\" \"npm run start:app\" \"npm run start:functions\"",
     "start:app": "craco start",
     "start:functions": "netlify functions:serve --port 9000",
+    "start:generator": "cd .. && ./scripts/start-generator-service.sh",
+    "start:all": "concurrently --kill-others -n \"APP,FUNC,GEN\" -c \"cyan,magenta,yellow\" \"npm run start:app\" \"npm run start:functions\" \"npm run start:generator\"",
     "start:netlify": "netlify dev",
     "build": "craco build && npm run build:functions",
     "build:functions": "netlify functions:build --src netlify/functions",

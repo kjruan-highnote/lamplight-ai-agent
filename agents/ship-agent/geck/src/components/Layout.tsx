@@ -122,7 +122,7 @@ export const Layout = memo<LayoutProps>(({ children }) => {
                       {user.name}
                     </div>
                     <div className="text-xs" style={{ color: theme.colors.textMuted }}>
-                      {user.role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                      {user.role ? user.role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Unknown Role'}
                     </div>
                   </div>
                   <div 
@@ -240,7 +240,7 @@ export const Layout = memo<LayoutProps>(({ children }) => {
               <div>TERMINAL {theme.id === 'vault-tec' ? '42' : '01'}</div>
               {user && (
                 <div style={{ fontFamily: theme.typography.fontFamily.display }}>
-                  USER: {user.name.toUpperCase()}
+                  USER: {user.name ? user.name.toUpperCase() : 'UNKNOWN'}
                 </div>
               )}
             </div>

@@ -237,6 +237,37 @@ class ApiClient {
       }>(`${API_BASE}/postman-sync`),
   };
 
+  // Generators API
+  generators = {
+    // Generate a document
+    generate: (request: import('./generators/types').GeneratorRequest) =>
+      this.request<import('./generators/types').GeneratedDocument>(`${API_BASE}/generators`, {
+        method: 'POST',
+        body: JSON.stringify(request),
+      }),
+    
+    // Get generation status
+    getStatus: (id: string) =>
+      this.request<import('./generators/types').GeneratorResponse>(`${API_BASE}/generators/${id}`),
+    
+    // Get generation history
+    getHistory: (params?: { type?: string; limit?: number }) =>
+      this.request<import('./generators/types').GeneratorHistoryItem[]>(
+        `${API_BASE}/generators/history?${new URLSearchParams(params as any).toString()}`
+      ),
+    
+    // Export document in specific format
+    export: (documentId: string, format: import('./generators/types').ExportFormat) =>
+      this.request<{ url: string; format: string }>(`${API_BASE}/generators/${documentId}/export`, {
+        method: 'POST',
+        body: JSON.stringify({ format }),
+      }),
+    
+    // List available generator types
+    getTypes: () =>
+      this.request<import('./generators/types').GeneratorMetadata[]>(`${API_BASE}/generators/types`),
+  };
+
   // Dashboard
   dashboard = {
     getStats: () =>

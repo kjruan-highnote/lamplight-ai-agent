@@ -108,7 +108,7 @@ export const handler: Handler = async (event, context) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'POST, OPTIONS'
       },
       body: ''
@@ -121,7 +121,7 @@ export const handler: Handler = async (event, context) => {
       statusCode: 405,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'POST, OPTIONS'
       },
       body: JSON.stringify({ error: 'Method not allowed' })
@@ -145,7 +145,7 @@ export const handler: Handler = async (event, context) => {
             statusCode: 400,
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers': 'Content-Type'
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization'
             },
             body: JSON.stringify({ 
               error: 'Invalid YAML: Missing required fields (program_type or vendor)' 
@@ -203,7 +203,7 @@ export const handler: Handler = async (event, context) => {
             statusCode: 200,
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers': 'Content-Type',
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -220,7 +220,7 @@ export const handler: Handler = async (event, context) => {
             statusCode: 200,
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers': 'Content-Type',
+              'Access-Control-Allow-Headers': 'Content-Type, Authorization',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -235,7 +235,7 @@ export const handler: Handler = async (event, context) => {
           statusCode: 400,
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type'
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization'
           },
           body: JSON.stringify({ 
             error: 'Failed to parse YAML',
@@ -253,7 +253,7 @@ export const handler: Handler = async (event, context) => {
         statusCode: 404,
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Content-Type'
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
         },
         body: JSON.stringify({ 
           error: 'Programs directory not found',
@@ -362,7 +362,7 @@ export const handler: Handler = async (event, context) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -384,7 +384,7 @@ export const handler: Handler = async (event, context) => {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       },
       body: JSON.stringify({ 
         error: 'Import failed',

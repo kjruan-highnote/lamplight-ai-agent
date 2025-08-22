@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Test</title>
+</head>
+<body>
+    <h1>Dashboard Test</h1>
+    <p>Open browser console (F12) and navigate to <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
+    
+    <h2>Check for:</h2>
+    <ul>
+        <li>Any console errors when dashboard loads</li>
+        <li>Check localStorage for 'geck-auth-token'</li>
+        <li>Check Network tab for dashboard API call</li>
+    </ul>
+    
+    <h2>Manual Test:</h2>
+    <button onclick="testDashboard()">Test Dashboard API</button>
+    <div id="result"></div>
+    
+    <script>
+        async function testDashboard() {
+            const token = localStorage.getItem('geck-auth-token');
+            document.getElementById('result').innerHTML = 'Testing...';
+            
+            if (!token) {
+                document.getElementById('result').innerHTML = 'No token found in localStorage!';
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:9000/.netlify/functions/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <pre>Success! Dashboard data:
+${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

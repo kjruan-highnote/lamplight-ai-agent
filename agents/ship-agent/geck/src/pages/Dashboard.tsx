@@ -45,10 +45,10 @@ export const Dashboard: React.FC = () => {
       }
       
       setStats({
-        contexts: data.contexts,
-        programs: data.programs,
-        recentSync: syncTime,
-        systemHealth: data.systemHealth.database,
+        contexts: data?.contexts || 0,
+        programs: data?.programs || 0,
+        recentSync: syncTime || 'Never',
+        systemHealth: data?.systemHealth?.database || 'unknown',
       });
       
       setRecentActivity(data.recentActivity || []);

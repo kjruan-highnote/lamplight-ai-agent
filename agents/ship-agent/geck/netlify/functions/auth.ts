@@ -23,6 +23,20 @@ const generateToken = (user: any) => {
 
 // Verify JWT token
 const verifyToken = (token: string) => {
+  // Check if it's a dev token (base64 encoded JSON) in dev mode
+  if (process.env.NODE_ENV === 'development' || process.env.REACT_APP_USE_DEV_AUTH === 'true') {
+    try {
+      // Try to decode as base64 JSON (dev token)
+      const decoded = Buffer.from(token, 'base64').toString('utf-8');
+      const user = JSON.parse(decoded);
+      if (user.id && user.email) {
+        return user;
+      }
+    } catch (e) {
+      // Not a dev token, try JWT
+    }
+  }
+  
   try {
     return jwt.verify(token, JWT_SECRET) as any;
   } catch (error) {
@@ -149,7 +163,37 @@ export const handler: Handler = async (event, context) => {
         try {
           const decoded = verifyToken(tokenToVerify);
           
-          // Get fresh user data
+          // Check if this is a dev token (has role in decoded data)
+          if (decoded.role && (process.env.NODE_ENV === 'development' || process.env.REACT_APP_USE_DEV_AUTH === 'true')) {
+            // Return mock user data for dev tokens
+            const devUser = {
+              _id: decoded.id,
+              email: decoded.email,
+              name: decoded.name || 'Dev User',
+              role: decoded.role,
+              isActive: true,
+              permissions: {
+                contexts: { view: true, create: true, edit: true, delete: true, duplicate: true },
+                programs: { view: true, create: true, edit: true, delete: true, duplicate: true, import: true },
+                operations: { view: true, create: true, edit: true, delete: true, migrate: true, deduplicate: true },
+                system: { 
+                  syncPostman: true, 
+                  generateSolutions: true, 
+                  manageUsers: decoded.role === 'admin',
+                  viewDashboard: true,
+                  configureSettings: true
+                }
+              }
+            };
+            
+            return {
+              statusCode: 200,
+              headers,
+              body: JSON.stringify(devUser),
+            };
+          }
+          
+          // Get fresh user data for real tokens
           const currentUser = await collection.findOne(
             { _id: new ObjectId(decoded.id) },
             { projection: { password: 0 } }
